@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app="regApp" lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -16,46 +16,49 @@
   <link href="css/sb-admin.css" rel="stylesheet">
 </head>
 
-<body class="bg-dark">
+<body ng-controller="regController" class="">
   <div class="container">
     <div class="card card-register mx-auto mt-5">
-      <div class="card-header">Register an Account</div>
+      <div class="card-header">Add User:</div>
       <div class="card-body">
         <form>
           <div class="form-group">
             <div class="form-row">
-              <div class="col-md-6">
-                <label for="exampleInputName">First name</label>
-                <input class="form-control" id="exampleInputName" type="text" aria-describedby="nameHelp" placeholder="Enter first name">
-              </div>
-              <div class="col-md-6">
-                <label for="exampleInputLastName">Last name</label>
-                <input class="form-control" id="exampleInputLastName" type="text" aria-describedby="nameHelp" placeholder="Enter last name">
-              </div>
             </div>
           </div>
           <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp" placeholder="Enter email">
+            <label for="fname">First Name</label>
+            <input class="form-control" type="text" placeholder="Enter your first name" ng-model="fname" >
+          </div>
+          <div class="form-group">
+            <label for="lname">Last Name</label>
+            <input class="form-control" type="text" placeholder="Enter your last name" ng-model="lname" >
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input class="form-control" type="text" placeholder="Enter your phone" ng-model="phone" >
+          </div>
+          <div class="form-group">
+            <label for="addredd">Address</label>
+            <input class="form-control" type="text" placeholder="Enter your address" ng-model="address" >
+          </div>
+          <div class="form-group">
+            <label for="username">User Name</label>
+            <input class="form-control" type="text" placeholder="Enter your user name" ng-model="username" >
           </div>
           <div class="form-group">
             <div class="form-row">
               <div class="col-md-6">
-                <label for="exampleInputPassword1">Password</label>
-                <input class="form-control" id="exampleInputPassword1" type="password" placeholder="Password">
+                <label for="password">Password</label>
+                <input class="form-control" type="password" placeholder="Password" ng-model="password" required>
               </div>
-              <div class="col-md-6">
-                <label for="exampleConfirmPassword">Confirm password</label>
-                <input class="form-control" id="exampleConfirmPassword" type="password" placeholder="Confirm password">
-              </div>
+            <div class="col-md-12">
+              <label></label>
+              <input class="btn btn-primary btn-block" type="submit" ng-click="insertData()" value="Save" >
             </div>
           </div>
-          <a class="btn btn-primary btn-block" href="login.html">Register</a>
+
         </form>
-        <div class="text-center">
-          <a class="d-block small mt-3" href="login.html">Login Page</a>
-          <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
-        </div>
       </div>
     </div>
   </div>
@@ -64,6 +67,10 @@
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- Core plugin JavaScript-->
   <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <!-- Angularjs core -->
+  <!-- <script src="vendor/angularjs/angular-route.js"></script> -->
+  <script src="vendor/angularjs/angular.js"></script>
+  <script src="js/addUser.js"></script>
 </body>
 
 </html>
