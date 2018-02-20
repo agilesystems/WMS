@@ -13,7 +13,7 @@ import java.util.Date;
 
 /**
  *
- * 
+ *
  * @author Muhammad
  */
 public interface AccountService {
@@ -44,7 +44,7 @@ public interface AccountService {
     /**
      * this method to get All Accounts .
      *
-     * @return  a collection of accounts
+     * @return a collection of accounts
      */
     Collection<Account> getAll();
 

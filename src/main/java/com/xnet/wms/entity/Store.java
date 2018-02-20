@@ -217,5 +217,5 @@ public class Store implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.Store[ id=" + id + " ]";
     }
-    
+
 }

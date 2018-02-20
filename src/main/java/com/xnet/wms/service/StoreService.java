@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
  *
  * @author Muhammad
  */
-
 public interface StoreService {
 
     /**

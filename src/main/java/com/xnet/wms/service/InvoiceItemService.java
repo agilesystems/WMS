@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
  *
  * @author Muhammad
  */
-
 public interface InvoiceItemService {
 
     /**
@@ -28,7 +27,7 @@ public interface InvoiceItemService {
      * This method for soft deleted the invoice items , just update the deleted
      * field with value(1
      *
-     * @param invoiceitem 
+     * @param invoiceitem
      * @return true if the update successfully Or false if not updated
      */
     boolean delete(InvoiceItem invoiceitem);

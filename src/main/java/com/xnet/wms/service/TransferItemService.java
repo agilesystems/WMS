@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
  *
  * @author Muhammad
  */
-
 public interface TransferItemService {
 
     boolean save(TransferItem TransferItem);

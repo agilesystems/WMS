@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
  *
  * @author Muhammad
  */
-
 @Repository
 public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
 

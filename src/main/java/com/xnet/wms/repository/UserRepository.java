@@ -15,9 +15,9 @@ import org.springframework.stereotype.Repository;
  *
  * @author ramy
  */
-
 @Repository
 public interface UserRepository extends JpaRepository<User, Serializable> {
 
     User findByUsernameAndPassword(String username, String password);
+    User findByUsername(String username);
 }

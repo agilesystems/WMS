@@ -324,5 +324,5 @@ public class Item implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.Item[ id=" + id + " ]";
     }
-    
+
 }

@@ -242,5 +242,5 @@ public class Account implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.Account[ id=" + id + " ]";
     }
-    
+
 }

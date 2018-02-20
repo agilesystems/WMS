@@ -340,5 +340,5 @@ public class Invoice implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.Invoice[ id=" + id + " ]";
     }
-    
+
 }

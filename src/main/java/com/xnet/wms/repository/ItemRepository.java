@@ -17,7 +17,6 @@ import org.springframework.stereotype.Repository;
  *
  * @author Muhammad
  */
-
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Integer> {
 
@@ -34,8 +33,8 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
     @Query("Select item From Item item Where item.expiredate = :date  AND item.deleted <> 1 ")
     Item findByExbiredate(@Param("date") Date date);
-    
+
     @Query("Select item From Item item Where item.deleted <> 1")
-    Collection<Item> getAll ();
+    Collection<Item> getAll();
 
 }

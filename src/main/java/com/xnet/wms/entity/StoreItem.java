@@ -172,5 +172,5 @@ public class StoreItem implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.StoreItem[ id=" + id + " ]";
     }
-    
+
 }

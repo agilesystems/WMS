@@ -164,5 +164,5 @@ public class UserMenu implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.Menu[ id=" + id + " ]";
     }
-    
+
 }

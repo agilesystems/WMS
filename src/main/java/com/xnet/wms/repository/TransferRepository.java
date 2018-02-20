@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
  *
  * @author Muhammad
  */
-
 @Repository
 public interface TransferRepository extends JpaRepository<Transfer, Integer> {
 

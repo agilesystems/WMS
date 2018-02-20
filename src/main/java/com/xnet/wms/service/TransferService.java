@@ -24,6 +24,6 @@ public interface TransferService {
     Collection<Transfer> getAll();
 
     Collection<Transfer> getByStoreid(Store from, Store to);
-    
-    Collection<Transfer> getBydate(Date from , Date to);
+
+    Collection<Transfer> getBydate(Date from, Date to);
 }

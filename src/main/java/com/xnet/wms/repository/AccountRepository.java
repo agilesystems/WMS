@@ -13,8 +13,6 @@ import org.springframework.stereotype.Repository;
  *
  * @author Muhammad
  */
-
-
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 

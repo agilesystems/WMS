@@ -185,5 +185,5 @@ public class Transfer implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.Transfer[ id=" + id + " ]";
     }
-    
+
 }

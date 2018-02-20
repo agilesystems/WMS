@@ -216,5 +216,5 @@ public class Transaction implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.Transaction[ id=" + id + " ]";
     }
-    
+
 }

@@ -61,7 +61,7 @@ public class User implements Serializable {
     private String username;
     @Column(name = "employee_id")
     private Integer employeeId;
-    @ManyToMany(mappedBy = "userCollection",fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER)
     private Collection<UserMenu> userMenuCollection;
     @OneToMany(mappedBy = "createdby")
     private Collection<Item> itemCollection;
@@ -245,5 +245,5 @@ public class User implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.User[ id=" + id + " ]";
     }
-    
+
 }

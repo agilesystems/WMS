@@ -156,5 +156,5 @@ public class Lookup implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.Lookup[ id=" + id + " ]";
     }
-    
+
 }

@@ -17,9 +17,8 @@ import org.springframework.stereotype.Service;
  *
  * @author Muhammad
  */
-
 @Service
-public class AccountServiceImp implements AccountService{
+public class AccountServiceImp implements AccountService {
 
     @Override
     public boolean save(Account account) {
@@ -50,5 +49,5 @@ public class AccountServiceImp implements AccountService{
     public Account findById(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

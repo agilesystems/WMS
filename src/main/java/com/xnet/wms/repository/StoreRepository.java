@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
  *
  * @author Muhammad
  */
-
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Integer> {
 
