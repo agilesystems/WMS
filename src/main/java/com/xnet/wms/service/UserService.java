@@ -14,4 +14,6 @@ import com.xnet.wms.entity.User;
 public interface UserService {
 
     User authenticated(String username, String password);
+    
+    boolean save(User user);
 }
