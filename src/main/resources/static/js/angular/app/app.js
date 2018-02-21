@@ -1,5 +1,6 @@
 
-var app = angular.module('wms', ['ui.router']);
+var app = angular.module('wms', ['ngRoute']);
+var $routeProviderReference;  
 var server = "http://localhost:8080";
 // Creating the Angular Service for storing logged user details
 app.service('AuthService', function () {
@@ -8,5 +9,6 @@ app.service('AuthService', function () {
     };
 });
 
-app.config(function ($stateProvider, $urlRouterProvider) {
+app.config(function ($routeProvider) {
+    $routeProviderReference = $routeProvider;
 });

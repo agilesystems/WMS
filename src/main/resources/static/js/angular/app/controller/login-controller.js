@@ -1,6 +1,6 @@
-/* global app, server, $localStorage, $scope */
+/* global app, server, $localStorage, $scope, $routeProviderReference, $route */
 
-app.controller('login-controller', function ($http, $scope,$rootScope,$stateProvider) {
+app.controller('login-controller', function ($http, $scope, $rootScope, $route) {
 
     // method for login
     $scope.login = function () {
@@ -21,22 +21,15 @@ app.controller('login-controller', function ($http, $scope,$rootScope,$stateProv
                 $http.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
                 $rootScope.user = res.data.user;
                 $rootScope.user.menus.forEach(function (m) {
-                    
-                    app.config(function ($stateProvider, $urlRouterProvider) {
 
-                        $stateProvider.state(m.title, {
-                            parent: 'nav',
-                            url: '/'+m.url,
-                            views: {
-                                'content@': {
-                                    templateUrl: 'views/'+m.url
-                                }
-                            }
-                        });
+                    $routeProviderReference.when(m.title, {
+                        templateUrl: m.url
                     });
 
+                });
+                $route.reload();
 
-              });
+
 
 
                 console.log('user>>>>' + $scope.user);
