@@ -7,8 +7,8 @@ package com.xnet.wms.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,10 +21,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Muhammad
+ * @author ramy
  */
 @Entity
-@Table(catalog = "inventory", schema = "")
+@Table(name = "invoice_item")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "InvoiceItem.findAll", query = "SELECT i FROM InvoiceItem i")
@@ -40,19 +40,25 @@ public class InvoiceItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @Column(name = "id")
     private Integer id;
+    @Column(name = "quantity")
     private Integer quantity;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "price")
     private Float price;
+    @Column(name = "discountpr")
     private Integer discountpr;
+    @Column(name = "discountvalue")
     private Float discountvalue;
+    @Column(name = "total")
     private Float total;
-    @JoinColumn(name = "invoiceid", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Invoice invoiceid;
-    @JoinColumn(name = "itemid", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Item itemid;
+    @JoinColumn(name = "invoice", referencedColumnName = "id")
+    @ManyToOne
+    private Invoice invoice;
+    @JoinColumn(name = "store_item", referencedColumnName = "id")
+    @ManyToOne
+    private StoreItem storeItem;
 
     public InvoiceItem() {
     }
@@ -109,20 +115,20 @@ public class InvoiceItem implements Serializable {
         this.total = total;
     }
 
-    public Invoice getInvoiceid() {
-        return invoiceid;
+    public Invoice getInvoice() {
+        return invoice;
     }
 
-    public void setInvoiceid(Invoice invoiceid) {
-        this.invoiceid = invoiceid;
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 
-    public Item getItemid() {
-        return itemid;
+    public StoreItem getStoreItem() {
+        return storeItem;
     }
 
-    public void setItemid(Item itemid) {
-        this.itemid = itemid;
+    public void setStoreItem(StoreItem storeItem) {
+        this.storeItem = storeItem;
     }
 
     @Override
@@ -147,7 +153,7 @@ public class InvoiceItem implements Serializable {
 
     @Override
     public String toString() {
-        return "com.xnet.wms.entity.Invoiceitem[ id=" + id + " ]";
+        return "com.xnet.wms.entity.InvoiceItem[ id=" + id + " ]";
     }
-
+    
 }

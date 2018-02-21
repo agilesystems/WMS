@@ -22,6 +22,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,8 +31,16 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "transfer")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Transfer.findAll", query = "SELECT t FROM Transfer t")})
+    @NamedQuery(name = "Transfer.findAll", query = "SELECT t FROM Transfer t")
+    , @NamedQuery(name = "Transfer.findById", query = "SELECT t FROM Transfer t WHERE t.id = :id")
+    , @NamedQuery(name = "Transfer.findByTransferdate", query = "SELECT t FROM Transfer t WHERE t.transferdate = :transferdate")
+    , @NamedQuery(name = "Transfer.findByCreatedat", query = "SELECT t FROM Transfer t WHERE t.createdat = :createdat")
+    , @NamedQuery(name = "Transfer.findByUpdatedby", query = "SELECT t FROM Transfer t WHERE t.updatedby = :updatedby")
+    , @NamedQuery(name = "Transfer.findByUpdatedat", query = "SELECT t FROM Transfer t WHERE t.updatedat = :updatedat")
+    , @NamedQuery(name = "Transfer.findByDeleted", query = "SELECT t FROM Transfer t WHERE t.deleted = :deleted")
+    , @NamedQuery(name = "Transfer.findByDeletedby", query = "SELECT t FROM Transfer t WHERE t.deletedby = :deletedby")})
 public class Transfer implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,17 +64,20 @@ public class Transfer implements Serializable {
     private Boolean deleted;
     @Column(name = "deletedby")
     private Integer deletedby;
-    @JoinColumn(name = "storeidfrom", referencedColumnName = "id")
+    @JoinColumn(name = "store_from", referencedColumnName = "id")
     @ManyToOne
-    private Store storeidfrom;
-    @JoinColumn(name = "storeidto", referencedColumnName = "id")
+    private Store storeFrom;
+    @JoinColumn(name = "store_to", referencedColumnName = "id")
     @ManyToOne
-    private Store storeidto;
+    private Store storeTo;
     @JoinColumn(name = "createdby", referencedColumnName = "id")
     @ManyToOne
     private User createdby;
-    @OneToMany(mappedBy = "transferid")
-    private Collection<TransferItem> TransferItemCollection;
+    @JoinColumn(name = "branch", referencedColumnName = "id")
+    @ManyToOne
+    private Branch branch;
+    @OneToMany(mappedBy = "transfer")
+    private Collection<TransferItem> transferItemCollection;
 
     public Transfer() {
     }
@@ -129,20 +142,20 @@ public class Transfer implements Serializable {
         this.deletedby = deletedby;
     }
 
-    public Store getStoreidfrom() {
-        return storeidfrom;
+    public Store getStoreFrom() {
+        return storeFrom;
     }
 
-    public void setStoreidfrom(Store storeidfrom) {
-        this.storeidfrom = storeidfrom;
+    public void setStoreFrom(Store storeFrom) {
+        this.storeFrom = storeFrom;
     }
 
-    public Store getStoreidto() {
-        return storeidto;
+    public Store getStoreTo() {
+        return storeTo;
     }
 
-    public void setStoreidto(Store storeidto) {
-        this.storeidto = storeidto;
+    public void setStoreTo(Store storeTo) {
+        this.storeTo = storeTo;
     }
 
     public User getCreatedby() {
@@ -153,12 +166,21 @@ public class Transfer implements Serializable {
         this.createdby = createdby;
     }
 
-    public Collection<TransferItem> getTransferItemCollection() {
-        return TransferItemCollection;
+    public Branch getBranch() {
+        return branch;
     }
 
-    public void setTransferItemCollection(Collection<TransferItem> TransferItemCollection) {
-        this.TransferItemCollection = TransferItemCollection;
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
+
+    @XmlTransient
+    public Collection<TransferItem> getTransferItemCollection() {
+        return transferItemCollection;
+    }
+
+    public void setTransferItemCollection(Collection<TransferItem> transferItemCollection) {
+        this.transferItemCollection = transferItemCollection;
     }
 
     @Override
@@ -185,5 +207,5 @@ public class Transfer implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.Transfer[ id=" + id + " ]";
     }
-
+    
 }

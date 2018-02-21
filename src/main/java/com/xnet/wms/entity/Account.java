@@ -23,6 +23,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,8 +32,21 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "account")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a")})
+    @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a")
+    , @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a WHERE a.id = :id")
+    , @NamedQuery(name = "Account.findByName", query = "SELECT a FROM Account a WHERE a.name = :name")
+    , @NamedQuery(name = "Account.findByPhone", query = "SELECT a FROM Account a WHERE a.phone = :phone")
+    , @NamedQuery(name = "Account.findByEmail", query = "SELECT a FROM Account a WHERE a.email = :email")
+    , @NamedQuery(name = "Account.findByAddress", query = "SELECT a FROM Account a WHERE a.address = :address")
+    , @NamedQuery(name = "Account.findByCode", query = "SELECT a FROM Account a WHERE a.code = :code")
+    , @NamedQuery(name = "Account.findByExtrainfo", query = "SELECT a FROM Account a WHERE a.extrainfo = :extrainfo")
+    , @NamedQuery(name = "Account.findByCreatedat", query = "SELECT a FROM Account a WHERE a.createdat = :createdat")
+    , @NamedQuery(name = "Account.findByUpdatedby", query = "SELECT a FROM Account a WHERE a.updatedby = :updatedby")
+    , @NamedQuery(name = "Account.findByUpdatedat", query = "SELECT a FROM Account a WHERE a.updatedat = :updatedat")
+    , @NamedQuery(name = "Account.findByDeleted", query = "SELECT a FROM Account a WHERE a.deleted = :deleted")
+    , @NamedQuery(name = "Account.findByDeletedby", query = "SELECT a FROM Account a WHERE a.deletedby = :deletedby")})
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -72,15 +87,15 @@ public class Account implements Serializable {
     private Boolean deleted;
     @Column(name = "deletedby")
     private Integer deletedby;
-    @OneToMany(mappedBy = "accountid")
+    @OneToMany(mappedBy = "account")
     private Collection<Invoice> invoiceCollection;
-    @JoinColumn(name = "typeid", referencedColumnName = "id")
+    @JoinColumn(name = "type", referencedColumnName = "id")
     @ManyToOne
-    private Lookup typeid;
+    private AccountType type;
     @JoinColumn(name = "createdby", referencedColumnName = "id")
     @ManyToOne
     private User createdby;
-    @OneToMany(mappedBy = "accountid")
+    @OneToMany(mappedBy = "account")
     private Collection<Transaction> transactionCollection;
 
     public Account() {
@@ -186,6 +201,7 @@ public class Account implements Serializable {
         this.deletedby = deletedby;
     }
 
+    @XmlTransient
     public Collection<Invoice> getInvoiceCollection() {
         return invoiceCollection;
     }
@@ -194,12 +210,12 @@ public class Account implements Serializable {
         this.invoiceCollection = invoiceCollection;
     }
 
-    public Lookup getTypeid() {
-        return typeid;
+    public AccountType getType() {
+        return type;
     }
 
-    public void setTypeid(Lookup typeid) {
-        this.typeid = typeid;
+    public void setType(AccountType type) {
+        this.type = type;
     }
 
     public User getCreatedby() {
@@ -210,6 +226,7 @@ public class Account implements Serializable {
         this.createdby = createdby;
     }
 
+    @XmlTransient
     public Collection<Transaction> getTransactionCollection() {
         return transactionCollection;
     }
@@ -242,5 +259,5 @@ public class Account implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.Account[ id=" + id + " ]";
     }
-
+    
 }

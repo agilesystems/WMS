@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.x-net.wms_WMS_jar_0.0.1PU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.xnet.wms.entity.Branch</class>
+    <class>com.xnet.wms.entity.Itemgroup</class>
+    <class>com.xnet.wms.entity.Unit</class>
+    <class>com.xnet.wms.entity.TransferItem_1</class>
+    <class>com.xnet.wms.entity.RoleMenu</class>
+    <class>com.xnet.wms.entity.InvoiceItem_1</class>
+    <class>com.xnet.wms.entity.Cashtype</class>
+    <class>com.xnet.wms.entity.Accounttype</class>
+    <class>com.xnet.wms.entity.Invoicetype</class>
+    <class>com.xnet.wms.entity.Role</class>
+    <class>com.xnet.wms.entity.Store</class>
+    <class>com.xnet.wms.entity.UserMenu</class>
+    <class>com.xnet.wms.entity.Transfer</class>
+    <class>com.xnet.wms.entity.TransferItem</class>
+    <class>com.xnet.wms.entity.Lookup</class>
+    <class>com.xnet.wms.entity.InvoiceItem</class>
+    <class>com.xnet.wms.entity.Transaction</class>
+    <class>com.xnet.wms.entity.Account</class>
+    <class>com.xnet.wms.entity.Invoice</class>
+    <class>com.xnet.wms.entity.Item</class>
+    <class>com.xnet.wms.entity.StoreItem</class>
+    <class>com.xnet.wms.entity.User</class>
+    <class>com.xnet.wms.entity.ItemGroup</class>
+    <class>com.xnet.wms.entity.InvoiceType</class>
+    <class>com.xnet.wms.entity.AccountType</class>
+    <class>com.xnet.wms.entity.CashType</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/inventory?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="123456"/>
+    </properties>
+  </persistence-unit>
+</persistence>

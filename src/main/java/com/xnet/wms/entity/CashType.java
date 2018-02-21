@@ -6,6 +6,7 @@
 package com.xnet.wms.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,23 +15,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author ramy
  */
 @Entity
-@Table(name = "lookup")
+@Table(name = "cash_type")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Lookup.findAll", query = "SELECT l FROM Lookup l")
-    , @NamedQuery(name = "Lookup.findById", query = "SELECT l FROM Lookup l WHERE l.id = :id")
-    , @NamedQuery(name = "Lookup.findByParent", query = "SELECT l FROM Lookup l WHERE l.parent = :parent")
-    , @NamedQuery(name = "Lookup.findByName", query = "SELECT l FROM Lookup l WHERE l.name = :name")})
-public class Lookup implements Serializable {
+    @NamedQuery(name = "CashType.findAll", query = "SELECT c FROM CashType c")
+    , @NamedQuery(name = "CashType.findById", query = "SELECT c FROM CashType c WHERE c.id = :id")
+    , @NamedQuery(name = "CashType.findByName", query = "SELECT c FROM CashType c WHERE c.name = :name")
+    , @NamedQuery(name = "CashType.findByNotes", query = "SELECT c FROM CashType c WHERE c.notes = :notes")})
+public class CashType implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,16 +41,19 @@ public class Lookup implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "parent")
-    private Integer parent;
     @Size(max = 255)
     @Column(name = "name")
     private String name;
+    @Size(max = 255)
+    @Column(name = "notes")
+    private String notes;
+    @OneToMany(mappedBy = "cachType")
+    private Collection<Invoice> invoiceCollection;
 
-    public Lookup() {
+    public CashType() {
     }
 
-    public Lookup(Integer id) {
+    public CashType(Integer id) {
         this.id = id;
     }
 
@@ -59,20 +65,29 @@ public class Lookup implements Serializable {
         this.id = id;
     }
 
-    public Integer getParent() {
-        return parent;
-    }
-
-    public void setParent(Integer parent) {
-        this.parent = parent;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    @XmlTransient
+    public Collection<Invoice> getInvoiceCollection() {
+        return invoiceCollection;
+    }
+
+    public void setInvoiceCollection(Collection<Invoice> invoiceCollection) {
+        this.invoiceCollection = invoiceCollection;
     }
 
     @Override
@@ -85,10 +100,10 @@ public class Lookup implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Lookup)) {
+        if (!(object instanceof CashType)) {
             return false;
         }
-        Lookup other = (Lookup) object;
+        CashType other = (CashType) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -97,7 +112,7 @@ public class Lookup implements Serializable {
 
     @Override
     public String toString() {
-        return "com.xnet.wms.entity.Lookup[ id=" + id + " ]";
+        return "com.xnet.wms.entity.CashType[ id=" + id + " ]";
     }
     
 }

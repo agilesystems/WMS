@@ -5,6 +5,7 @@
  */
 package com.xnet.wms.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -23,6 +24,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,8 +33,14 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "menu")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "UserMenu.findAll", query = "SELECT m FROM UserMenu m")})
+    @NamedQuery(name = "UserMenu.findAll", query = "SELECT u FROM UserMenu u")
+    , @NamedQuery(name = "UserMenu.findById", query = "SELECT u FROM UserMenu u WHERE u.id = :id")
+    , @NamedQuery(name = "UserMenu.findByTitle", query = "SELECT u FROM UserMenu u WHERE u.title = :title")
+    , @NamedQuery(name = "UserMenu.findByVeiwOrder", query = "SELECT u FROM UserMenu u WHERE u.veiwOrder = :veiwOrder")
+    , @NamedQuery(name = "UserMenu.findByUrl", query = "SELECT u FROM UserMenu u WHERE u.url = :url")
+    , @NamedQuery(name = "UserMenu.findByIcon", query = "SELECT u FROM UserMenu u WHERE u.icon = :icon")})
 public class UserMenu implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,8 +57,8 @@ public class UserMenu implements Serializable {
     @Column(name = "veiw_order")
     private Integer veiwOrder;
     @Size(max = 45)
-    @Column(name = "fxml")
-    private String fxml;
+    @Column(name = "url")
+    private String url;
     @Size(max = 45)
     @Column(name = "icon")
     private String icon;
@@ -58,8 +67,10 @@ public class UserMenu implements Serializable {
         @JoinColumn(name = "user", referencedColumnName = "id")})
     @ManyToMany
     private Collection<User> userCollection;
+    @OneToMany(mappedBy = "menuId")
+    private Collection<RoleMenu> roleMenuCollection;
     @OneToMany(mappedBy = "parent")
-    private Collection<UserMenu> menuCollection;
+    private Collection<UserMenu> userMenuCollection;
     @JoinColumn(name = "parent", referencedColumnName = "id")
     @ManyToOne
     private UserMenu parent;
@@ -100,12 +111,12 @@ public class UserMenu implements Serializable {
         this.veiwOrder = veiwOrder;
     }
 
-    public String getFxml() {
-        return fxml;
+    public String getUrl() {
+        return url;
     }
 
-    public void setFxml(String fxml) {
-        this.fxml = fxml;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getIcon() {
@@ -116,6 +127,8 @@ public class UserMenu implements Serializable {
         this.icon = icon;
     }
 
+    @JsonIgnore
+    @XmlTransient
     public Collection<User> getUserCollection() {
         return userCollection;
     }
@@ -124,14 +137,25 @@ public class UserMenu implements Serializable {
         this.userCollection = userCollection;
     }
 
-    public Collection<UserMenu> getMenuCollection() {
-        return menuCollection;
+    @XmlTransient
+    public Collection<RoleMenu> getRoleMenuCollection() {
+        return roleMenuCollection;
     }
 
-    public void setMenuCollection(Collection<UserMenu> menuCollection) {
-        this.menuCollection = menuCollection;
+    public void setRoleMenuCollection(Collection<RoleMenu> roleMenuCollection) {
+        this.roleMenuCollection = roleMenuCollection;
     }
 
+    @XmlTransient
+    public Collection<UserMenu> getUserMenuCollection() {
+        return userMenuCollection;
+    }
+
+    public void setUserMenuCollection(Collection<UserMenu> userMenuCollection) {
+        this.userMenuCollection = userMenuCollection;
+    }
+
+    @JsonIgnore
     public UserMenu getParent() {
         return parent;
     }
@@ -162,7 +186,7 @@ public class UserMenu implements Serializable {
 
     @Override
     public String toString() {
-        return "com.xnet.wms.entity.Menu[ id=" + id + " ]";
+        return "com.xnet.wms.entity.UserMenu[ id=" + id + " ]";
     }
 
 }

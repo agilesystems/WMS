@@ -10,16 +10,19 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,8 +30,18 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "user")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")})
+    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
+    , @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id")
+    , @NamedQuery(name = "User.findByAddress", query = "SELECT u FROM User u WHERE u.address = :address")
+    , @NamedQuery(name = "User.findByFirstname", query = "SELECT u FROM User u WHERE u.firstname = :firstname")
+    , @NamedQuery(name = "User.findByLastname", query = "SELECT u FROM User u WHERE u.lastname = :lastname")
+    , @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password")
+    , @NamedQuery(name = "User.findByPhone", query = "SELECT u FROM User u WHERE u.phone = :phone")
+    , @NamedQuery(name = "User.findByType", query = "SELECT u FROM User u WHERE u.type = :type")
+    , @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username")
+    , @NamedQuery(name = "User.findByEmployeeId", query = "SELECT u FROM User u WHERE u.employeeId = :employeeId")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -61,16 +74,23 @@ public class User implements Serializable {
     private String username;
     @Column(name = "employee_id")
     private Integer employeeId;
-    @ManyToMany(mappedBy = "userCollection", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "userCollection")
     private Collection<UserMenu> userMenuCollection;
     @OneToMany(mappedBy = "createdby")
     private Collection<Item> itemCollection;
     @OneToMany(mappedBy = "createdby")
-    private Collection<Transfer> transferCollection;
+    private Collection<Role> roleCollection;
     @OneToMany(mappedBy = "createdby")
     private Collection<Store> storeCollection;
     @OneToMany(mappedBy = "createdby")
+    private Collection<Branch> branchCollection;
+    @OneToMany(mappedBy = "createdby")
+    private Collection<Transfer> transferCollection;
+    @OneToMany(mappedBy = "createdby")
     private Collection<Invoice> invoiceCollection;
+    @JoinColumn(name = "branch_id", referencedColumnName = "id")
+    @ManyToOne
+    private Branch branchId;
     @OneToMany(mappedBy = "createdby")
     private Collection<Account> accountCollection;
     @OneToMany(mappedBy = "createdby")
@@ -157,6 +177,7 @@ public class User implements Serializable {
         this.employeeId = employeeId;
     }
 
+    @XmlTransient
     public Collection<UserMenu> getUserMenuCollection() {
         return userMenuCollection;
     }
@@ -165,6 +186,7 @@ public class User implements Serializable {
         this.userMenuCollection = userMenuCollection;
     }
 
+    @XmlTransient
     public Collection<Item> getItemCollection() {
         return itemCollection;
     }
@@ -173,14 +195,16 @@ public class User implements Serializable {
         this.itemCollection = itemCollection;
     }
 
-    public Collection<Transfer> getTransferCollection() {
-        return transferCollection;
+    @XmlTransient
+    public Collection<Role> getRoleCollection() {
+        return roleCollection;
     }
 
-    public void setTransferCollection(Collection<Transfer> transferCollection) {
-        this.transferCollection = transferCollection;
+    public void setRoleCollection(Collection<Role> roleCollection) {
+        this.roleCollection = roleCollection;
     }
 
+    @XmlTransient
     public Collection<Store> getStoreCollection() {
         return storeCollection;
     }
@@ -189,6 +213,25 @@ public class User implements Serializable {
         this.storeCollection = storeCollection;
     }
 
+    @XmlTransient
+    public Collection<Branch> getBranchCollection() {
+        return branchCollection;
+    }
+
+    public void setBranchCollection(Collection<Branch> branchCollection) {
+        this.branchCollection = branchCollection;
+    }
+
+    @XmlTransient
+    public Collection<Transfer> getTransferCollection() {
+        return transferCollection;
+    }
+
+    public void setTransferCollection(Collection<Transfer> transferCollection) {
+        this.transferCollection = transferCollection;
+    }
+
+    @XmlTransient
     public Collection<Invoice> getInvoiceCollection() {
         return invoiceCollection;
     }
@@ -197,6 +240,15 @@ public class User implements Serializable {
         this.invoiceCollection = invoiceCollection;
     }
 
+    public Branch getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(Branch branchId) {
+        this.branchId = branchId;
+    }
+
+    @XmlTransient
     public Collection<Account> getAccountCollection() {
         return accountCollection;
     }
@@ -205,6 +257,7 @@ public class User implements Serializable {
         this.accountCollection = accountCollection;
     }
 
+    @XmlTransient
     public Collection<Transaction> getTransactionCollection() {
         return transactionCollection;
     }
@@ -213,6 +266,7 @@ public class User implements Serializable {
         this.transactionCollection = transactionCollection;
     }
 
+    @XmlTransient
     public Collection<StoreItem> getStoreItemCollection() {
         return storeItemCollection;
     }
@@ -245,5 +299,5 @@ public class User implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.User[ id=" + id + " ]";
     }
-
+    
 }

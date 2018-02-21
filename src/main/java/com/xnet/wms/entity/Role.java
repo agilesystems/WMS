@@ -6,83 +6,74 @@
 package com.xnet.wms.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author ramy
  */
 @Entity
-@Table(name = "item")
+@Table(name = "role")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Item.findAll", query = "SELECT i FROM Item i")
-    , @NamedQuery(name = "Item.findById", query = "SELECT i FROM Item i WHERE i.id = :id")
-    , @NamedQuery(name = "Item.findByName", query = "SELECT i FROM Item i WHERE i.name = :name")
-    , @NamedQuery(name = "Item.findByBarcode", query = "SELECT i FROM Item i WHERE i.barcode = :barcode")
-    , @NamedQuery(name = "Item.findByGlobalcode", query = "SELECT i FROM Item i WHERE i.globalcode = :globalcode")
-    , @NamedQuery(name = "Item.findByCreatedat", query = "SELECT i FROM Item i WHERE i.createdat = :createdat")
-    , @NamedQuery(name = "Item.findByUpdatedby", query = "SELECT i FROM Item i WHERE i.updatedby = :updatedby")
-    , @NamedQuery(name = "Item.findByUpdatedat", query = "SELECT i FROM Item i WHERE i.updatedat = :updatedat")
-    , @NamedQuery(name = "Item.findByDeleted", query = "SELECT i FROM Item i WHERE i.deleted = :deleted")
-    , @NamedQuery(name = "Item.findByDeletedby", query = "SELECT i FROM Item i WHERE i.deletedby = :deletedby")})
-public class Item implements Serializable {
+    @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")
+    , @NamedQuery(name = "Role.findById", query = "SELECT r FROM Role r WHERE r.id = :id")
+    , @NamedQuery(name = "Role.findByName", query = "SELECT r FROM Role r WHERE r.name = :name")
+    , @NamedQuery(name = "Role.findByCreatedat", query = "SELECT r FROM Role r WHERE r.createdat = :createdat")
+    , @NamedQuery(name = "Role.findByUpdatedby", query = "SELECT r FROM Role r WHERE r.updatedby = :updatedby")
+    , @NamedQuery(name = "Role.findByUpdatedat", query = "SELECT r FROM Role r WHERE r.updatedat = :updatedat")
+    , @NamedQuery(name = "Role.findByDeleted", query = "SELECT r FROM Role r WHERE r.deleted = :deleted")
+    , @NamedQuery(name = "Role.findByDeletedat", query = "SELECT r FROM Role r WHERE r.deletedat = :deletedat")})
+public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Size(max = 255)
     @Column(name = "name")
     private String name;
-    @Size(max = 255)
-    @Column(name = "barcode")
-    private String barcode;
-    @Size(max = 255)
-    @Column(name = "globalcode")
-    private String globalcode;
     @Column(name = "createdat")
     @Temporal(TemporalType.DATE)
     private Date createdat;
     @Column(name = "updatedby")
     private Integer updatedby;
     @Column(name = "updatedat")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date updatedat;
     @Column(name = "deleted")
-    private Boolean deleted;
-    @Column(name = "deletedby")
-    private Integer deletedby;
+    private Integer deleted;
+    @Column(name = "deletedat")
+    @Temporal(TemporalType.DATE)
+    private Date deletedat;
     @JoinColumn(name = "createdby", referencedColumnName = "id")
     @ManyToOne
     private User createdby;
-    @OneToMany(mappedBy = "item")
-    private Collection<StoreItem> storeItemCollection;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "role")
+    private RoleMenu roleMenu;
 
-    public Item() {
+    public Role() {
     }
 
-    public Item(Integer id) {
+    public Role(Integer id) {
         this.id = id;
     }
 
@@ -100,22 +91,6 @@ public class Item implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getBarcode() {
-        return barcode;
-    }
-
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
-    }
-
-    public String getGlobalcode() {
-        return globalcode;
-    }
-
-    public void setGlobalcode(String globalcode) {
-        this.globalcode = globalcode;
     }
 
     public Date getCreatedat() {
@@ -142,20 +117,20 @@ public class Item implements Serializable {
         this.updatedat = updatedat;
     }
 
-    public Boolean getDeleted() {
+    public Integer getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(Boolean deleted) {
+    public void setDeleted(Integer deleted) {
         this.deleted = deleted;
     }
 
-    public Integer getDeletedby() {
-        return deletedby;
+    public Date getDeletedat() {
+        return deletedat;
     }
 
-    public void setDeletedby(Integer deletedby) {
-        this.deletedby = deletedby;
+    public void setDeletedat(Date deletedat) {
+        this.deletedat = deletedat;
     }
 
     public User getCreatedby() {
@@ -166,13 +141,12 @@ public class Item implements Serializable {
         this.createdby = createdby;
     }
 
-    @XmlTransient
-    public Collection<StoreItem> getStoreItemCollection() {
-        return storeItemCollection;
+    public RoleMenu getRoleMenu() {
+        return roleMenu;
     }
 
-    public void setStoreItemCollection(Collection<StoreItem> storeItemCollection) {
-        this.storeItemCollection = storeItemCollection;
+    public void setRoleMenu(RoleMenu roleMenu) {
+        this.roleMenu = roleMenu;
     }
 
     @Override
@@ -185,10 +159,10 @@ public class Item implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Item)) {
+        if (!(object instanceof Role)) {
             return false;
         }
-        Item other = (Item) object;
+        Role other = (Role) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -197,7 +171,7 @@ public class Item implements Serializable {
 
     @Override
     public String toString() {
-        return "com.xnet.wms.entity.Item[ id=" + id + " ]";
+        return "com.xnet.wms.entity.Role[ id=" + id + " ]";
     }
     
 }

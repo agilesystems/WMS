@@ -23,6 +23,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,8 +32,29 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "invoice")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Invoice.findAll", query = "SELECT i FROM Invoice i")})
+    @NamedQuery(name = "Invoice.findAll", query = "SELECT i FROM Invoice i")
+    , @NamedQuery(name = "Invoice.findById", query = "SELECT i FROM Invoice i WHERE i.id = :id")
+    , @NamedQuery(name = "Invoice.findByRefrence", query = "SELECT i FROM Invoice i WHERE i.refrence = :refrence")
+    , @NamedQuery(name = "Invoice.findByTransactionDate", query = "SELECT i FROM Invoice i WHERE i.transactionDate = :transactionDate")
+    , @NamedQuery(name = "Invoice.findByDiscountper", query = "SELECT i FROM Invoice i WHERE i.discountper = :discountper")
+    , @NamedQuery(name = "Invoice.findByDiscountValue", query = "SELECT i FROM Invoice i WHERE i.discountValue = :discountValue")
+    , @NamedQuery(name = "Invoice.findByTax1per", query = "SELECT i FROM Invoice i WHERE i.tax1per = :tax1per")
+    , @NamedQuery(name = "Invoice.findByTax1val", query = "SELECT i FROM Invoice i WHERE i.tax1val = :tax1val")
+    , @NamedQuery(name = "Invoice.findByTax2per", query = "SELECT i FROM Invoice i WHERE i.tax2per = :tax2per")
+    , @NamedQuery(name = "Invoice.findByTax2val", query = "SELECT i FROM Invoice i WHERE i.tax2val = :tax2val")
+    , @NamedQuery(name = "Invoice.findByTax3per", query = "SELECT i FROM Invoice i WHERE i.tax3per = :tax3per")
+    , @NamedQuery(name = "Invoice.findByTax3val", query = "SELECT i FROM Invoice i WHERE i.tax3val = :tax3val")
+    , @NamedQuery(name = "Invoice.findByTotal", query = "SELECT i FROM Invoice i WHERE i.total = :total")
+    , @NamedQuery(name = "Invoice.findByPaied", query = "SELECT i FROM Invoice i WHERE i.paied = :paied")
+    , @NamedQuery(name = "Invoice.findByNet", query = "SELECT i FROM Invoice i WHERE i.net = :net")
+    , @NamedQuery(name = "Invoice.findByOutstanding", query = "SELECT i FROM Invoice i WHERE i.outstanding = :outstanding")
+    , @NamedQuery(name = "Invoice.findByCreatedat", query = "SELECT i FROM Invoice i WHERE i.createdat = :createdat")
+    , @NamedQuery(name = "Invoice.findByUpdatedby", query = "SELECT i FROM Invoice i WHERE i.updatedby = :updatedby")
+    , @NamedQuery(name = "Invoice.findByUpdatedat", query = "SELECT i FROM Invoice i WHERE i.updatedat = :updatedat")
+    , @NamedQuery(name = "Invoice.findByDeleted", query = "SELECT i FROM Invoice i WHERE i.deleted = :deleted")
+    , @NamedQuery(name = "Invoice.findByDeletedby", query = "SELECT i FROM Invoice i WHERE i.deletedby = :deletedby")})
 public class Invoice implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,14 +66,14 @@ public class Invoice implements Serializable {
     @Size(max = 255)
     @Column(name = "refrence")
     private String refrence;
-    @Column(name = "transactiondate")
+    @Column(name = "transaction_date")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date transactiondate;
+    private Date transactionDate;
     @Column(name = "discountper")
     private Integer discountper;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "discountvalue")
-    private Float discountvalue;
+    @Column(name = "discount_value")
+    private Float discountValue;
     @Column(name = "tax1per")
     private Integer tax1per;
     @Column(name = "tax1val")
@@ -83,23 +106,26 @@ public class Invoice implements Serializable {
     private Boolean deleted;
     @Column(name = "deletedby")
     private Integer deletedby;
-    @OneToMany(mappedBy = "invoiceid")
+    @OneToMany(mappedBy = "invoice")
     private Collection<InvoiceItem> invoiceItemCollection;
-    @JoinColumn(name = "storeid", referencedColumnName = "id")
+    @JoinColumn(name = "store", referencedColumnName = "id")
     @ManyToOne
-    private Store storeid;
-    @JoinColumn(name = "accountid", referencedColumnName = "id")
+    private Store store;
+    @JoinColumn(name = "account", referencedColumnName = "id")
     @ManyToOne
-    private Account accountid;
-    @JoinColumn(name = "typeid", referencedColumnName = "id")
+    private Account account;
+    @JoinColumn(name = "invoice_type", referencedColumnName = "id")
     @ManyToOne
-    private Lookup typeid;
-    @JoinColumn(name = "cachtype", referencedColumnName = "id")
+    private InvoiceType invoiceType;
+    @JoinColumn(name = "cach_type", referencedColumnName = "id")
     @ManyToOne
-    private Lookup cachtype;
+    private CashType cachType;
     @JoinColumn(name = "createdby", referencedColumnName = "id")
     @ManyToOne
     private User createdby;
+    @JoinColumn(name = "branch", referencedColumnName = "id")
+    @ManyToOne
+    private Branch branch;
 
     public Invoice() {
     }
@@ -124,12 +150,12 @@ public class Invoice implements Serializable {
         this.refrence = refrence;
     }
 
-    public Date getTransactiondate() {
-        return transactiondate;
+    public Date getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setTransactiondate(Date transactiondate) {
-        this.transactiondate = transactiondate;
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
     }
 
     public Integer getDiscountper() {
@@ -140,12 +166,12 @@ public class Invoice implements Serializable {
         this.discountper = discountper;
     }
 
-    public Float getDiscountvalue() {
-        return discountvalue;
+    public Float getDiscountValue() {
+        return discountValue;
     }
 
-    public void setDiscountvalue(Float discountvalue) {
-        this.discountvalue = discountvalue;
+    public void setDiscountValue(Float discountValue) {
+        this.discountValue = discountValue;
     }
 
     public Integer getTax1per() {
@@ -268,6 +294,7 @@ public class Invoice implements Serializable {
         this.deletedby = deletedby;
     }
 
+    @XmlTransient
     public Collection<InvoiceItem> getInvoiceItemCollection() {
         return invoiceItemCollection;
     }
@@ -276,36 +303,36 @@ public class Invoice implements Serializable {
         this.invoiceItemCollection = invoiceItemCollection;
     }
 
-    public Store getStoreid() {
-        return storeid;
+    public Store getStore() {
+        return store;
     }
 
-    public void setStoreid(Store storeid) {
-        this.storeid = storeid;
+    public void setStore(Store store) {
+        this.store = store;
     }
 
-    public Account getAccountid() {
-        return accountid;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setAccountid(Account accountid) {
-        this.accountid = accountid;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public Lookup getTypeid() {
-        return typeid;
+    public InvoiceType getInvoiceType() {
+        return invoiceType;
     }
 
-    public void setTypeid(Lookup typeid) {
-        this.typeid = typeid;
+    public void setInvoiceType(InvoiceType invoiceType) {
+        this.invoiceType = invoiceType;
     }
 
-    public Lookup getCachtype() {
-        return cachtype;
+    public CashType getCachType() {
+        return cachType;
     }
 
-    public void setCachtype(Lookup cachtype) {
-        this.cachtype = cachtype;
+    public void setCachType(CashType cachType) {
+        this.cachType = cachType;
     }
 
     public User getCreatedby() {
@@ -314,6 +341,14 @@ public class Invoice implements Serializable {
 
     public void setCreatedby(User createdby) {
         this.createdby = createdby;
+    }
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
     }
 
     @Override
@@ -340,5 +375,5 @@ public class Invoice implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.Invoice[ id=" + id + " ]";
     }
-
+    
 }

@@ -7,8 +7,8 @@ package com.xnet.wms.entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,10 +21,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Muhammad
+ * @author ramy
  */
 @Entity
-@Table(catalog = "inventory", schema = "")
+@Table(name = "transfer_item")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TransferItem.findAll", query = "SELECT t FROM TransferItem t")
@@ -37,16 +37,19 @@ public class TransferItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @Column(name = "id")
     private Integer id;
+    @Column(name = "quantity")
     private Integer quantity;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "price")
     private Float price;
-    @JoinColumn(name = "transferid", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Transfer transferid;
-    @JoinColumn(name = "itemid", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Item itemid;
+    @JoinColumn(name = "transfer", referencedColumnName = "id")
+    @ManyToOne
+    private Transfer transfer;
+    @JoinColumn(name = "item", referencedColumnName = "id")
+    @ManyToOne
+    private StoreItem item;
 
     public TransferItem() {
     }
@@ -79,20 +82,20 @@ public class TransferItem implements Serializable {
         this.price = price;
     }
 
-    public Transfer getTransferid() {
-        return transferid;
+    public Transfer getTransfer() {
+        return transfer;
     }
 
-    public void setTransferid(Transfer transferid) {
-        this.transferid = transferid;
+    public void setTransfer(Transfer transfer) {
+        this.transfer = transfer;
     }
 
-    public Item getItemid() {
-        return itemid;
+    public StoreItem getItem() {
+        return item;
     }
 
-    public void setItemid(Item itemid) {
-        this.itemid = itemid;
+    public void setItem(StoreItem item) {
+        this.item = item;
     }
 
     @Override
@@ -119,5 +122,5 @@ public class TransferItem implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.TransferItem[ id=" + id + " ]";
     }
-
+    
 }

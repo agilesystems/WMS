@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
             return false;
         }
         for (UserMenu userMenu : user.getUserMenuCollection()) {
-            if (url.equals(userMenu.getFxml())) {
+            if (url.equals(userMenu.getUrl())) {
                 return true;
             }
         }

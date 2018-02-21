@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -34,6 +35,7 @@ public class LoginController {
     UserService userService;
 
     @PostMapping("/authenticate")
+    @ResponseBody
     public ResponseEntity<Map<String, Object>> login(@RequestParam String username, @RequestParam String password,
             HttpServletResponse response) throws IOException {
 
@@ -57,10 +59,10 @@ public class LoginController {
                     .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
             tokenMap.put("token", token);
             tokenMap.put("user", u);
-            return new ResponseEntity<Map<String, Object>>(tokenMap, HttpStatus.OK);
+            return new ResponseEntity<>(tokenMap, HttpStatus.OK);
         } else {
             tokenMap.put("token", null);
-            return new ResponseEntity<Map<String, Object>>(tokenMap, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(tokenMap, HttpStatus.UNAUTHORIZED);
         }
 
     }

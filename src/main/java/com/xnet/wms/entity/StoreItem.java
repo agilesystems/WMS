@@ -6,6 +6,8 @@
 package com.xnet.wms.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,9 +19,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -27,8 +34,25 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "store_item")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "StoreItem.findAll", query = "SELECT s FROM StoreItem s")})
+    @NamedQuery(name = "StoreItem.findAll", query = "SELECT s FROM StoreItem s")
+    , @NamedQuery(name = "StoreItem.findById", query = "SELECT s FROM StoreItem s WHERE s.id = :id")
+    , @NamedQuery(name = "StoreItem.findByQuantity", query = "SELECT s FROM StoreItem s WHERE s.quantity = :quantity")
+    , @NamedQuery(name = "StoreItem.findBySalprice", query = "SELECT s FROM StoreItem s WHERE s.salprice = :salprice")
+    , @NamedQuery(name = "StoreItem.findByBuyprice", query = "SELECT s FROM StoreItem s WHERE s.buyprice = :buyprice")
+    , @NamedQuery(name = "StoreItem.findByLocalcode", query = "SELECT s FROM StoreItem s WHERE s.localcode = :localcode")
+    , @NamedQuery(name = "StoreItem.findByLowestprice", query = "SELECT s FROM StoreItem s WHERE s.lowestprice = :lowestprice")
+    , @NamedQuery(name = "StoreItem.findByLowestquantity", query = "SELECT s FROM StoreItem s WHERE s.lowestquantity = :lowestquantity")
+    , @NamedQuery(name = "StoreItem.findByIsdead", query = "SELECT s FROM StoreItem s WHERE s.isdead = :isdead")
+    , @NamedQuery(name = "StoreItem.findByExtrainfo", query = "SELECT s FROM StoreItem s WHERE s.extrainfo = :extrainfo")
+    , @NamedQuery(name = "StoreItem.findByPhotopath", query = "SELECT s FROM StoreItem s WHERE s.photopath = :photopath")
+    , @NamedQuery(name = "StoreItem.findByExpiredate", query = "SELECT s FROM StoreItem s WHERE s.expiredate = :expiredate")
+    , @NamedQuery(name = "StoreItem.findByCreatedat", query = "SELECT s FROM StoreItem s WHERE s.createdat = :createdat")
+    , @NamedQuery(name = "StoreItem.findByUpdatedby", query = "SELECT s FROM StoreItem s WHERE s.updatedby = :updatedby")
+    , @NamedQuery(name = "StoreItem.findByUpdatedat", query = "SELECT s FROM StoreItem s WHERE s.updatedat = :updatedat")
+    , @NamedQuery(name = "StoreItem.findByDeleted", query = "SELECT s FROM StoreItem s WHERE s.deleted = :deleted")
+    , @NamedQuery(name = "StoreItem.findByDeletedby", query = "SELECT s FROM StoreItem s WHERE s.deletedby = :deletedby")})
 public class StoreItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,6 +63,31 @@ public class StoreItem implements Serializable {
     private Integer id;
     @Column(name = "quantity")
     private Integer quantity;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "salprice")
+    private BigDecimal salprice;
+    @Column(name = "buyprice")
+    private BigDecimal buyprice;
+    @Size(max = 255)
+    @Column(name = "localcode")
+    private String localcode;
+    @Column(name = "lowestprice")
+    private BigDecimal lowestprice;
+    @Column(name = "lowestquantity")
+    private Integer lowestquantity;
+    @Column(name = "isdead")
+    private Boolean isdead;
+    @Size(max = 255)
+    @Column(name = "extrainfo")
+    private String extrainfo;
+    @Size(max = 255)
+    @Column(name = "photopath")
+    private String photopath;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "expiredate")
+    @Temporal(TemporalType.DATE)
+    private Date expiredate;
     @Column(name = "createdat")
     @Temporal(TemporalType.DATE)
     private Date createdat;
@@ -51,12 +100,25 @@ public class StoreItem implements Serializable {
     private Boolean deleted;
     @Column(name = "deletedby")
     private Integer deletedby;
-    @JoinColumn(name = "storeid", referencedColumnName = "id")
+    @OneToMany(mappedBy = "storeItem")
+    private Collection<InvoiceItem> invoiceItemCollection;
+    @OneToMany(mappedBy = "item")
+    private Collection<TransferItem> transferItemCollection;
+    @JoinColumn(name = "item", referencedColumnName = "id")
     @ManyToOne
-    private Store storeid;
-    @JoinColumn(name = "itemid", referencedColumnName = "id")
+    private Item item;
+    @JoinColumn(name = "branch", referencedColumnName = "id")
     @ManyToOne
-    private Item itemid;
+    private Branch branch;
+    @JoinColumn(name = "store", referencedColumnName = "id")
+    @ManyToOne
+    private Store store;
+    @JoinColumn(name = "unit", referencedColumnName = "id")
+    @ManyToOne
+    private Unit unit;
+    @JoinColumn(name = "group", referencedColumnName = "id")
+    @ManyToOne
+    private ItemGroup group1;
     @JoinColumn(name = "createdby", referencedColumnName = "id")
     @ManyToOne
     private User createdby;
@@ -66,6 +128,11 @@ public class StoreItem implements Serializable {
 
     public StoreItem(Integer id) {
         this.id = id;
+    }
+
+    public StoreItem(Integer id, Date expiredate) {
+        this.id = id;
+        this.expiredate = expiredate;
     }
 
     public Integer getId() {
@@ -82,6 +149,78 @@ public class StoreItem implements Serializable {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public BigDecimal getSalprice() {
+        return salprice;
+    }
+
+    public void setSalprice(BigDecimal salprice) {
+        this.salprice = salprice;
+    }
+
+    public BigDecimal getBuyprice() {
+        return buyprice;
+    }
+
+    public void setBuyprice(BigDecimal buyprice) {
+        this.buyprice = buyprice;
+    }
+
+    public String getLocalcode() {
+        return localcode;
+    }
+
+    public void setLocalcode(String localcode) {
+        this.localcode = localcode;
+    }
+
+    public BigDecimal getLowestprice() {
+        return lowestprice;
+    }
+
+    public void setLowestprice(BigDecimal lowestprice) {
+        this.lowestprice = lowestprice;
+    }
+
+    public Integer getLowestquantity() {
+        return lowestquantity;
+    }
+
+    public void setLowestquantity(Integer lowestquantity) {
+        this.lowestquantity = lowestquantity;
+    }
+
+    public Boolean getIsdead() {
+        return isdead;
+    }
+
+    public void setIsdead(Boolean isdead) {
+        this.isdead = isdead;
+    }
+
+    public String getExtrainfo() {
+        return extrainfo;
+    }
+
+    public void setExtrainfo(String extrainfo) {
+        this.extrainfo = extrainfo;
+    }
+
+    public String getPhotopath() {
+        return photopath;
+    }
+
+    public void setPhotopath(String photopath) {
+        this.photopath = photopath;
+    }
+
+    public Date getExpiredate() {
+        return expiredate;
+    }
+
+    public void setExpiredate(Date expiredate) {
+        this.expiredate = expiredate;
     }
 
     public Date getCreatedat() {
@@ -124,20 +263,62 @@ public class StoreItem implements Serializable {
         this.deletedby = deletedby;
     }
 
-    public Store getStoreid() {
-        return storeid;
+    @XmlTransient
+    public Collection<InvoiceItem> getInvoiceItemCollection() {
+        return invoiceItemCollection;
     }
 
-    public void setStoreid(Store storeid) {
-        this.storeid = storeid;
+    public void setInvoiceItemCollection(Collection<InvoiceItem> invoiceItemCollection) {
+        this.invoiceItemCollection = invoiceItemCollection;
     }
 
-    public Item getItemid() {
-        return itemid;
+    @XmlTransient
+    public Collection<TransferItem> getTransferItemCollection() {
+        return transferItemCollection;
     }
 
-    public void setItemid(Item itemid) {
-        this.itemid = itemid;
+    public void setTransferItemCollection(Collection<TransferItem> transferItemCollection) {
+        this.transferItemCollection = transferItemCollection;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public ItemGroup getGroup1() {
+        return group1;
+    }
+
+    public void setGroup1(ItemGroup group1) {
+        this.group1 = group1;
     }
 
     public User getCreatedby() {
@@ -172,5 +353,5 @@ public class StoreItem implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.StoreItem[ id=" + id + " ]";
     }
-
+    
 }

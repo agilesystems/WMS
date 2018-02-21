@@ -35,6 +35,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // "/favicon.ico"
                 ///	.antMatchers("/","/privilege", "/index.html", "/app/**", "/register", "/authenticate", "/favicon.ico");
                 .antMatchers("/",
+                        "/vendor/**",
+                        "/js/**",
+                        "/css/**",
                         "/privilege",
                         "/index.html",
                         "/login.html",
@@ -42,13 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/app/assets/**",
                         "/register",
                         "/app/asset/vendors/**",
-                        "/admission/register",
                         "/app/*",
-                        "/app/controllers/*",
-                        "/app/views/nav.html",
-                        "/app/views/login.html",
-                        "/app/views/register",
-                        "/app/services/*",
                         "/authenticate",
                         "/lookup/all",
                         "/favicon.ico",
@@ -60,7 +57,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                
                 // starts authorizing configurations
                 .authorizeRequests()
                 // authenticate all remaining URLS

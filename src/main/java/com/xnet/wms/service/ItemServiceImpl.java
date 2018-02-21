@@ -44,11 +44,12 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Collection<Item> findByGroupid(int groupid) {
-        if (!itemRepository.findByGroupid(groupid).isEmpty()) {
-            return itemRepository.findByGroupid(groupid);
-        } else {
-            return null;
-        }
+//        if (!itemRepository.findByGroupid(groupid).isEmpty()) {
+//            return itemRepository.findByGroupid(groupid);
+//        } else {
+//            return null;
+//        }
+        return null;
     }
 
     @Override
@@ -85,11 +86,12 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item findByExbiredate(Date date) {
 
-        if (itemRepository.findByExbiredate(date) != null) {
-            return itemRepository.findByExbiredate(date);
-        } else {
-            return null;
-        }
+//        if (itemRepository.findByExbiredate(date) != null) {
+//            return itemRepository.findByExbiredate(date);
+//        } else {
+//            return null;
+//        }
+        return null;
 
     }
 

@@ -6,6 +6,7 @@
 package com.xnet.wms.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,23 +15,26 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author ramy
  */
 @Entity
-@Table(name = "lookup")
+@Table(name = "account_type")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Lookup.findAll", query = "SELECT l FROM Lookup l")
-    , @NamedQuery(name = "Lookup.findById", query = "SELECT l FROM Lookup l WHERE l.id = :id")
-    , @NamedQuery(name = "Lookup.findByParent", query = "SELECT l FROM Lookup l WHERE l.parent = :parent")
-    , @NamedQuery(name = "Lookup.findByName", query = "SELECT l FROM Lookup l WHERE l.name = :name")})
-public class Lookup implements Serializable {
+    @NamedQuery(name = "AccountType.findAll", query = "SELECT a FROM AccountType a")
+    , @NamedQuery(name = "AccountType.findById", query = "SELECT a FROM AccountType a WHERE a.id = :id")
+    , @NamedQuery(name = "AccountType.findByName", query = "SELECT a FROM AccountType a WHERE a.name = :name")
+    , @NamedQuery(name = "AccountType.findByNotes", query = "SELECT a FROM AccountType a WHERE a.notes = :notes")})
+public class AccountType implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,17 +42,27 @@ public class Lookup implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "parent")
-    private Integer parent;
-    @Size(max = 255)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
+    @Size(max = 255)
+    @Column(name = "notes")
+    private String notes;
+    @OneToMany(mappedBy = "type")
+    private Collection<Account> accountCollection;
 
-    public Lookup() {
+    public AccountType() {
     }
 
-    public Lookup(Integer id) {
+    public AccountType(Integer id) {
         this.id = id;
+    }
+
+    public AccountType(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -59,20 +73,29 @@ public class Lookup implements Serializable {
         this.id = id;
     }
 
-    public Integer getParent() {
-        return parent;
-    }
-
-    public void setParent(Integer parent) {
-        this.parent = parent;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    @XmlTransient
+    public Collection<Account> getAccountCollection() {
+        return accountCollection;
+    }
+
+    public void setAccountCollection(Collection<Account> accountCollection) {
+        this.accountCollection = accountCollection;
     }
 
     @Override
@@ -85,10 +108,10 @@ public class Lookup implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Lookup)) {
+        if (!(object instanceof AccountType)) {
             return false;
         }
-        Lookup other = (Lookup) object;
+        AccountType other = (AccountType) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -97,7 +120,7 @@ public class Lookup implements Serializable {
 
     @Override
     public String toString() {
-        return "com.xnet.wms.entity.Lookup[ id=" + id + " ]";
+        return "com.xnet.wms.entity.AccountType[ id=" + id + " ]";
     }
     
 }

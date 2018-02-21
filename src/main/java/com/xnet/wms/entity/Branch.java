@@ -31,20 +31,20 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ramy
  */
 @Entity
-@Table(name = "store")
+@Table(name = "branch")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Store.findAll", query = "SELECT s FROM Store s")
-    , @NamedQuery(name = "Store.findById", query = "SELECT s FROM Store s WHERE s.id = :id")
-    , @NamedQuery(name = "Store.findByName", query = "SELECT s FROM Store s WHERE s.name = :name")
-    , @NamedQuery(name = "Store.findByAddress", query = "SELECT s FROM Store s WHERE s.address = :address")
-    , @NamedQuery(name = "Store.findByPhone", query = "SELECT s FROM Store s WHERE s.phone = :phone")
-    , @NamedQuery(name = "Store.findByCreatedat", query = "SELECT s FROM Store s WHERE s.createdat = :createdat")
-    , @NamedQuery(name = "Store.findByUpdatedby", query = "SELECT s FROM Store s WHERE s.updatedby = :updatedby")
-    , @NamedQuery(name = "Store.findByUpdatedat", query = "SELECT s FROM Store s WHERE s.updatedat = :updatedat")
-    , @NamedQuery(name = "Store.findByDeleted", query = "SELECT s FROM Store s WHERE s.deleted = :deleted")
-    , @NamedQuery(name = "Store.findByDeletedby", query = "SELECT s FROM Store s WHERE s.deletedby = :deletedby")})
-public class Store implements Serializable {
+    @NamedQuery(name = "Branch.findAll", query = "SELECT b FROM Branch b")
+    , @NamedQuery(name = "Branch.findById", query = "SELECT b FROM Branch b WHERE b.id = :id")
+    , @NamedQuery(name = "Branch.findByName", query = "SELECT b FROM Branch b WHERE b.name = :name")
+    , @NamedQuery(name = "Branch.findByAddress", query = "SELECT b FROM Branch b WHERE b.address = :address")
+    , @NamedQuery(name = "Branch.findByPhone", query = "SELECT b FROM Branch b WHERE b.phone = :phone")
+    , @NamedQuery(name = "Branch.findByCreatedat", query = "SELECT b FROM Branch b WHERE b.createdat = :createdat")
+    , @NamedQuery(name = "Branch.findByUpdatedby", query = "SELECT b FROM Branch b WHERE b.updatedby = :updatedby")
+    , @NamedQuery(name = "Branch.findByUpdatedat", query = "SELECT b FROM Branch b WHERE b.updatedat = :updatedat")
+    , @NamedQuery(name = "Branch.findByDeleted", query = "SELECT b FROM Branch b WHERE b.deleted = :deleted")
+    , @NamedQuery(name = "Branch.findByDeletedby", query = "SELECT b FROM Branch b WHERE b.deletedby = :deletedby")})
+public class Branch implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -74,25 +74,24 @@ public class Store implements Serializable {
     private Boolean deleted;
     @Column(name = "deletedby")
     private Integer deletedby;
+    @OneToMany(mappedBy = "branch")
+    private Collection<Store> storeCollection;
     @JoinColumn(name = "createdby", referencedColumnName = "id")
     @ManyToOne
     private User createdby;
-    @JoinColumn(name = "branch", referencedColumnName = "id")
-    @ManyToOne
-    private Branch branch;
-    @OneToMany(mappedBy = "storeFrom")
+    @OneToMany(mappedBy = "branch")
     private Collection<Transfer> transferCollection;
-    @OneToMany(mappedBy = "storeTo")
-    private Collection<Transfer> transferCollection1;
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "branch")
     private Collection<Invoice> invoiceCollection;
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "branchId")
+    private Collection<User> userCollection;
+    @OneToMany(mappedBy = "branch")
     private Collection<StoreItem> storeItemCollection;
 
-    public Store() {
+    public Branch() {
     }
 
-    public Store(Integer id) {
+    public Branch(Integer id) {
         this.id = id;
     }
 
@@ -168,20 +167,21 @@ public class Store implements Serializable {
         this.deletedby = deletedby;
     }
 
+    @XmlTransient
+    public Collection<Store> getStoreCollection() {
+        return storeCollection;
+    }
+
+    public void setStoreCollection(Collection<Store> storeCollection) {
+        this.storeCollection = storeCollection;
+    }
+
     public User getCreatedby() {
         return createdby;
     }
 
     public void setCreatedby(User createdby) {
         this.createdby = createdby;
-    }
-
-    public Branch getBranch() {
-        return branch;
-    }
-
-    public void setBranch(Branch branch) {
-        this.branch = branch;
     }
 
     @XmlTransient
@@ -194,21 +194,21 @@ public class Store implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Transfer> getTransferCollection1() {
-        return transferCollection1;
-    }
-
-    public void setTransferCollection1(Collection<Transfer> transferCollection1) {
-        this.transferCollection1 = transferCollection1;
-    }
-
-    @XmlTransient
     public Collection<Invoice> getInvoiceCollection() {
         return invoiceCollection;
     }
 
     public void setInvoiceCollection(Collection<Invoice> invoiceCollection) {
         this.invoiceCollection = invoiceCollection;
+    }
+
+    @XmlTransient
+    public Collection<User> getUserCollection() {
+        return userCollection;
+    }
+
+    public void setUserCollection(Collection<User> userCollection) {
+        this.userCollection = userCollection;
     }
 
     @XmlTransient
@@ -230,10 +230,10 @@ public class Store implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Store)) {
+        if (!(object instanceof Branch)) {
             return false;
         }
-        Store other = (Store) object;
+        Branch other = (Branch) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -242,7 +242,7 @@ public class Store implements Serializable {
 
     @Override
     public String toString() {
-        return "com.xnet.wms.entity.Store[ id=" + id + " ]";
+        return "com.xnet.wms.entity.Branch[ id=" + id + " ]";
     }
     
 }

@@ -21,6 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -28,8 +29,19 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "transaction")
+@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Transaction.findAll", query = "SELECT t FROM Transaction t")})
+    @NamedQuery(name = "Transaction.findAll", query = "SELECT t FROM Transaction t")
+    , @NamedQuery(name = "Transaction.findById", query = "SELECT t FROM Transaction t WHERE t.id = :id")
+    , @NamedQuery(name = "Transaction.findByInvoice", query = "SELECT t FROM Transaction t WHERE t.invoice = :invoice")
+    , @NamedQuery(name = "Transaction.findByTransactionDate", query = "SELECT t FROM Transaction t WHERE t.transactionDate = :transactionDate")
+    , @NamedQuery(name = "Transaction.findByValue", query = "SELECT t FROM Transaction t WHERE t.value = :value")
+    , @NamedQuery(name = "Transaction.findByNote", query = "SELECT t FROM Transaction t WHERE t.note = :note")
+    , @NamedQuery(name = "Transaction.findByCreatedat", query = "SELECT t FROM Transaction t WHERE t.createdat = :createdat")
+    , @NamedQuery(name = "Transaction.findByUpdatedby", query = "SELECT t FROM Transaction t WHERE t.updatedby = :updatedby")
+    , @NamedQuery(name = "Transaction.findByUpdatedat", query = "SELECT t FROM Transaction t WHERE t.updatedat = :updatedat")
+    , @NamedQuery(name = "Transaction.findByDeleted", query = "SELECT t FROM Transaction t WHERE t.deleted = :deleted")
+    , @NamedQuery(name = "Transaction.findByDeletedby", query = "SELECT t FROM Transaction t WHERE t.deletedby = :deletedby")})
 public class Transaction implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,16 +50,14 @@ public class Transaction implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "invoiceid")
-    private Integer invoiceid;
-    @Column(name = "transactiondate")
+    @Column(name = "invoice")
+    private Integer invoice;
+    @Column(name = "transaction_date")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date transactiondate;
+    private Date transactionDate;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "value")
     private Float value;
-    @Column(name = "valuetype")
-    private Integer valuetype;
     @Size(max = 255)
     @Column(name = " note")
     private String note;
@@ -63,12 +73,12 @@ public class Transaction implements Serializable {
     private Boolean deleted;
     @Column(name = "deletedby")
     private Integer deletedby;
-    @JoinColumn(name = "typeid", referencedColumnName = "id")
+    @JoinColumn(name = "invoice_type", referencedColumnName = "id")
     @ManyToOne
-    private Lookup typeid;
-    @JoinColumn(name = "accountid", referencedColumnName = "id")
+    private InvoiceType invoiceType;
+    @JoinColumn(name = "account", referencedColumnName = "id")
     @ManyToOne
-    private Account accountid;
+    private Account account;
     @JoinColumn(name = "createdby", referencedColumnName = "id")
     @ManyToOne
     private User createdby;
@@ -88,20 +98,20 @@ public class Transaction implements Serializable {
         this.id = id;
     }
 
-    public Integer getInvoiceid() {
-        return invoiceid;
+    public Integer getInvoice() {
+        return invoice;
     }
 
-    public void setInvoiceid(Integer invoiceid) {
-        this.invoiceid = invoiceid;
+    public void setInvoice(Integer invoice) {
+        this.invoice = invoice;
     }
 
-    public Date getTransactiondate() {
-        return transactiondate;
+    public Date getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setTransactiondate(Date transactiondate) {
-        this.transactiondate = transactiondate;
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
     }
 
     public Float getValue() {
@@ -110,14 +120,6 @@ public class Transaction implements Serializable {
 
     public void setValue(Float value) {
         this.value = value;
-    }
-
-    public Integer getValuetype() {
-        return valuetype;
-    }
-
-    public void setValuetype(Integer valuetype) {
-        this.valuetype = valuetype;
     }
 
     public String getNote() {
@@ -168,20 +170,20 @@ public class Transaction implements Serializable {
         this.deletedby = deletedby;
     }
 
-    public Lookup getTypeid() {
-        return typeid;
+    public InvoiceType getInvoiceType() {
+        return invoiceType;
     }
 
-    public void setTypeid(Lookup typeid) {
-        this.typeid = typeid;
+    public void setInvoiceType(InvoiceType invoiceType) {
+        this.invoiceType = invoiceType;
     }
 
-    public Account getAccountid() {
-        return accountid;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setAccountid(Account accountid) {
-        this.accountid = accountid;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public User getCreatedby() {
@@ -216,5 +218,5 @@ public class Transaction implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.Transaction[ id=" + id + " ]";
     }
-
+    
 }
