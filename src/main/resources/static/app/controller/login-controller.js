@@ -1,6 +1,11 @@
 /* global app, server, $localStorage, $scope, $routeProviderReference, $route */
 
-app.controller('login-controller', function ($http, $scope, $rootScope, $route) {
+app.controller('login-controller', function ($http, $scope,$rootScope, AuthService, $state) {
+
+    $scope.test = function () {
+
+        console.log('test test');
+    }
 
     // method for login
     $scope.login = function () {
@@ -19,25 +24,20 @@ app.controller('login-controller', function ($http, $scope, $rootScope, $route) 
                 $scope.message = '';
                 // setting the Authorization Bearer token with JWT token
                 $http.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
-                $rootScope.user = res.data.user;
-                $rootScope.user.menus.forEach(function (m) {
+                AuthService.user = res.data.user;
+                $rootScope.currentUser = AuthService.user;
 
-                    $routeProviderReference.when(m.title, {
-                        templateUrl: m.url
-                    });
+                // configure the routes based on the user menus
+//                AuthService.user.menus.forEach(function (m) {
+//                    addState(m.title, m.url);
+//                });
 
-                });
-                $route.reload();
-
-
-
-
-                console.log('user>>>>' + $scope.user);
-//                        $rootScope.$broadcast('LoginSuccessful');
+                //go to home page
+                $state.go('home');
+//                $window.location.href = '/index.html';
+//                 $location.path('/index.html');
 
 
-                // going to the home page
-//                        $state.go('home');
             } else {
                 // if the token is not present in the response then the
                 // authentication was not successful. Setting the error message.

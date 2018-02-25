@@ -6,6 +6,7 @@
 package com.xnet.wms.security;
 
 import com.xnet.wms.service.UserService;
+import com.xnet.wms.service.UserServiceImpl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,11 @@ import org.springframework.web.filter.GenericFilterBean;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 /**
  * A generic filter for security. I will check token present in the header.
@@ -35,17 +40,24 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Sarath Muraleedharan
  *
  */
+//@Component
 public class JWTFilter extends GenericFilterBean {
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String AUTHORITIES_KEY = "roles";
 
+  
+
+   
+
     @Autowired
     UserService userService;
+//= new UserServiceImpl();
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain)
             throws IOException, ServletException {
+//        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this); 
         HttpServletRequest request = (HttpServletRequest) req;
         String url = request.getRequestURL().toString();
         System.out.println("Http Request come to " + url);
@@ -60,10 +72,13 @@ public class JWTFilter extends GenericFilterBean {
                 Claims claims = Jwts.parser().setSigningKey("secretkey").parseClaimsJws(token).getBody();
                 request.setAttribute("claims", claims);
                 SecurityContextHolder.getContext().setAuthentication(getAuthentication(claims));
-//                if (userService.hasAccess(userService., url)) {
-//                    filterChain.doFilter(req, res);
-//                    return;
-//                }
+                String username = claims.get("sub").toString();
+                System.out.println("ssssssssssssss" + username);
+                if (new UserServiceImpl().hasAccess(username, "index_.html")) {
+                    System.out.println(username + "ssssssssssssss");
+                    filterChain.doFilter(req, res);
+                    return;
+                }
             } catch (SignatureException e) {
                 ((HttpServletResponse) res).sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
             }
@@ -79,8 +94,10 @@ public class JWTFilter extends GenericFilterBean {
      * @return
      */
     public Authentication getAuthentication(Claims claims) {
+        String username = claims.get("sub").toString();
+        System.out.println(username);
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(claims.get(AUTHORITIES_KEY).toString()));
+//        authorities.add(new SimpleGrantedAuthority(claims.get(AUTHORITIES_KEY).toString()));
         User principal;
         System.out.println(claims);
         principal = new User(claims.getSubject(), "", authorities);

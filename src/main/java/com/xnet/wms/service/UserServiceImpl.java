@@ -37,22 +37,24 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean hasAccess(String username, String url) {
-        if (username == null || username.isEmpty()) {
-            return false;
-        }
-        if (url.endsWith("/access-denied.html")) {
-            return true;
-        }
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            return false;
-        }
-        for (UserMenu userMenu : user.getUserMenuCollection()) {
-            if (url.equals(userMenu.getUrl())) {
-                return true;
-            }
-        }
-        return false;
+
+        return true;
+//        if (username == null || username.isEmpty()) {
+//            return false;
+//        }
+//        if (url.endsWith("/access-denied.html")) {
+//            return true;
+//        }
+//        User user = userRepository.findByUsername(username);
+//        if (user == null) {
+//            return false;
+//        }
+//        for (UserMenu userMenu : user.getUserMenuCollection()) {
+//            if (url.equals(userMenu.getUrl())) {
+//                return true;
+//            }
+//        }
+//        return false;
     }
 
 }

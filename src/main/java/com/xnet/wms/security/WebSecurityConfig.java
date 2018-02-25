@@ -5,13 +5,22 @@
  */
 package com.xnet.wms.security;
 
+import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 /**
  * Spring Web security configuration class
@@ -21,12 +30,27 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configurable
 @EnableWebSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 // Modifying or overriding the default spring boot security.
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    
+   
 
     // This method is for overriding some configuration of the WebSecurity
     // If you want to ignore some request or request patterns then you can
     // specify that inside this method
+//    @Autowired
+//    private JWTFilter jwtFilter;
+
+//    @Bean
+//    public FilterRegistrationBean myFilterRegistrationBean() {
+//        FilterRegistrationBean regBean = new FilterRegistrationBean();
+//        regBean.setFilter(jwtFilter);
+//        regBean.setOrder(1);
+//        
+//        return regBean;
+//    }
     @Override
     public void configure(WebSecurity web) throws Exception {
 
@@ -36,18 +60,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 ///	.antMatchers("/","/privilege", "/index.html", "/app/**", "/register", "/authenticate", "/favicon.ico");
                 .antMatchers("/",
                         "/vendor/**",
+                        "/lib/*",
+                        "/app/**",
                         "/js/**",
                         "/css/**",
-                        "/privilege",
                         "/index.html",
-                        "/login.html",
-                        "/app/views/public/*",
-                        "/app/assets/**",
-                        "/register",
-                        "/app/asset/vendors/**",
-                        "/app/*",
+                        "/views/login.html",
                         "/authenticate",
-                        "/lookup/all",
+                        "/menu/all",
                         "/favicon.ico",
                         "/nav");
     }
@@ -59,6 +79,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 // starts authorizing configurations
                 .authorizeRequests()
+                
+//                 .antMatchers("/",
+//                        "/vendor/**",
+//                        "/lib/*",
+//                        "/app/**",
+//                        "/js/**",
+//                        "/css/**",
+//                        "/index.html",
+//                        "/login.html",
+//                        "/authenticate",
+//                        "/menu/all",
+//                        "/favicon.ico",
+//                        "/nav").permitAll()
                 // authenticate all remaining URLS
                 .anyRequest().fullyAuthenticated().and()
                 // adding JWT filter

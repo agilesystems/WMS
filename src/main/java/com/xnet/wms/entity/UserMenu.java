@@ -62,6 +62,7 @@ public class UserMenu implements Serializable {
     @Size(max = 45)
     @Column(name = "icon")
     private String icon;
+
     @JoinTable(name = "user_menu", joinColumns = {
         @JoinColumn(name = "menu", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "user", referencedColumnName = "id")})
