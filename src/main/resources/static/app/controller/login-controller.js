@@ -1,6 +1,6 @@
 /* global app, server, $localStorage, $scope, $routeProviderReference, $route */
 
-app.controller('login-controller', function ($http, $scope,$rootScope, AuthService, $state) {
+app.controller('login-controller', function ($http, $scope,$rootScope, $state) {
 
     $scope.test = function () {
 
@@ -24,18 +24,11 @@ app.controller('login-controller', function ($http, $scope,$rootScope, AuthServi
                 $scope.message = '';
                 // setting the Authorization Bearer token with JWT token
                 $http.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
-                AuthService.user = res.data.user;
-                $rootScope.currentUser = AuthService.user;
-
-                // configure the routes based on the user menus
-//                AuthService.user.menus.forEach(function (m) {
-//                    addState(m.title, m.url);
-//                });
+               // AuthService.user = res.data.user;
+                $rootScope.currentUser = res.data.user;
 
                 //go to home page
                 $state.go('home');
-//                $window.location.href = '/index.html';
-//                 $location.path('/index.html');
 
 
             } else {

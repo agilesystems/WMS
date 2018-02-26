@@ -3,13 +3,14 @@ var app = angular.module('wms', ['ui.router']);
 var $routeProviderReference;
 
 // Creating the Angular Service for storing logged user details
-app.service('AuthService', function () {
-    return {
-        user: null
-    };
-});
+//app.service('AuthService', function () {
+//    return {
+//        user: null
+//    };
+//});
 
 app.config(function ($stateProvider, $urlRouterProvider, $qProvider) {
+    
     $qProvider.errorOnUnhandledRejections(false);
     $stateProviderRefrence = $stateProvider;
     $urlRouterProvider.otherwise('/');    
@@ -43,7 +44,7 @@ var addState = function (name, url) {
     });
 };
 
-app.run(function (AuthService, $rootScope, $state, $http) {
+app.run(function ( $rootScope, $state, $http) {
 
     // For implementing the authentication with ui-router we need to listen the
     // state change. For every state change the ui-router module will broadcast
@@ -60,7 +61,7 @@ app.run(function (AuthService, $rootScope, $state, $http) {
     $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         console.log("state changed!!!!!!");
         // checking the user is logged in or not
-        if (!AuthService.user) {
+        if (!$rootScope.currentUser) {
             // To avoiding the infinite looping of state change we have to add a
             // if condition.
             if (toState.name !== 'login' && toState.name !== 'register') {
