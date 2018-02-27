@@ -31,9 +31,11 @@ app.config(function ($stateProvider, $urlRouterProvider, $qProvider) {
 });
 
 var addState = function (name, url) {
+     console.log(name+' '+ url);
     if (name === null || name === '' || url === null || url === '') {
         return;
     }
+   
     $stateProviderRefrence.state(name, {
         url: '/' + name,
         views: {
@@ -53,7 +55,8 @@ app.run(function ( $rootScope, $state, $http) {
     $http.get(server+'menu/all').then(function (res) {
         if (res.data) {
             res.data.forEach(function (m) {
-                addState(m.title, m.url);
+                addState('state_'+m.id, m.url);
+                
             });
         }
     });

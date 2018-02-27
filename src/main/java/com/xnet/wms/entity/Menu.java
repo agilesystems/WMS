@@ -5,6 +5,7 @@
  */
 package com.xnet.wms.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
@@ -127,6 +128,7 @@ public class Menu implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<User> getUserCollection() {
         return userCollection;
     }
@@ -153,6 +155,7 @@ public class Menu implements Serializable {
         this.menuCollection = menuCollection;
     }
 
+    @JsonIgnore
     public Menu getParent() {
         return parent;
     }
@@ -185,5 +188,5 @@ public class Menu implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.Menu[ id=" + id + " ]";
     }
-    
+
 }
