@@ -5,8 +5,8 @@
  */
 package com.xnet.wms.service;
 
-import com.xnet.wms.entity.Menu;
-import com.xnet.wms.repository.MenuRepository;
+import com.xnet.wms.entity.UserMenu;
+import com.xnet.wms.repository.UserMenuRepository;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
  * @author ramy
  */
 @Service
-public class MenuServiceImp implements MenuService {
+public class UserMenuServiceImp implements UserMenuService {
 
     @Autowired
-    MenuRepository menuRepository;
+    UserMenuRepository menuRepository;
 
     @Override
-    public Collection<Menu> findAll() {
+    public Collection<UserMenu> findAll() {
         return menuRepository.findAll();
     }
 

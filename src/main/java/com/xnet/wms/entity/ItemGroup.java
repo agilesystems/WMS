@@ -26,14 +26,14 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ramy
  */
 @Entity
-@Table(name = "unit")
+@Table(name = "item_group")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Unit.findAll", query = "SELECT u FROM Unit u")
-    , @NamedQuery(name = "Unit.findById", query = "SELECT u FROM Unit u WHERE u.id = :id")
-    , @NamedQuery(name = "Unit.findByName", query = "SELECT u FROM Unit u WHERE u.name = :name")
-    , @NamedQuery(name = "Unit.findByNotes", query = "SELECT u FROM Unit u WHERE u.notes = :notes")})
-public class Unit implements Serializable {
+    @NamedQuery(name = "ItemGroup.findAll", query = "SELECT i FROM ItemGroup i")
+    , @NamedQuery(name = "ItemGroup.findById", query = "SELECT i FROM ItemGroup i WHERE i.id = :id")
+    , @NamedQuery(name = "ItemGroup.findByName", query = "SELECT i FROM ItemGroup i WHERE i.name = :name")
+    , @NamedQuery(name = "ItemGroup.findByNotes", query = "SELECT i FROM ItemGroup i WHERE i.notes = :notes")})
+public class ItemGroup implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,13 +47,13 @@ public class Unit implements Serializable {
     @Size(max = 255)
     @Column(name = "notes")
     private String notes;
-    @OneToMany(mappedBy = "unit")
+    @OneToMany(mappedBy = "group1")
     private Collection<StoreItem> storeItemCollection;
 
-    public Unit() {
+    public ItemGroup() {
     }
 
-    public Unit(Integer id) {
+    public ItemGroup(Integer id) {
         this.id = id;
     }
 
@@ -100,10 +100,10 @@ public class Unit implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Unit)) {
+        if (!(object instanceof ItemGroup)) {
             return false;
         }
-        Unit other = (Unit) object;
+        ItemGroup other = (ItemGroup) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -112,7 +112,7 @@ public class Unit implements Serializable {
 
     @Override
     public String toString() {
-        return "com.xnet.wms.entity.Unit[ id=" + id + " ]";
+        return "com.xnet.wms.entity.ItemGroup[ id=" + id + " ]";
     }
     
 }
