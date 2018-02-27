@@ -47,8 +47,8 @@ public class UserServiceImpl implements UserService {
 //        if (user == null) {
 //            return false;
 //        }
-//        for (UserMenu userMenu : user.getUserMenuCollection()) {
-//            if (url.equals(userMenu.getUrl())) {
+//        for (Menu Menu : user.getMenuCollection()) {
+//            if (url.equals(Menu.getUrl())) {
 //                return true;
 //            }
 //        }

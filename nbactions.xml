@@ -1,3 +1,5 @@
+
+
 <?xml version="1.0" encoding="UTF-8"?>
 <actions>
     <action>
@@ -9,9 +11,10 @@
             <goal>spring-boot:run</goal>
         </goals>
         <properties>
-            <run.jvmArguments>-noverify -XX:TieredStopAtLevel=1 </run.jvmArguments>
-            <run.mainClass>com.agilesys.xnet.wms.WMSApplication</run.mainClass>
+            <run.jvmArguments>-noverify -XX:TieredStopAtLevel=1 -Xms64m</run.jvmArguments>
+            <run.mainClass>com.xnet.wms.WmsApplication</run.mainClass>
             <Env.SPRING_OUTPUT_ANSI_ENABLED>always</Env.SPRING_OUTPUT_ANSI_ENABLED>
+            <Env.SPRING_DEVTOOLS_RESTART_TRIGGER_FILE>.nbRestartTrigger</Env.SPRING_DEVTOOLS_RESTART_TRIGGER_FILE>
         </properties>
     </action>
     <action>
@@ -23,9 +26,10 @@
             <goal>spring-boot:run</goal>
         </goals>
         <properties>
-            <run.jvmArguments>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -noverify -XX:TieredStopAtLevel=1 </run.jvmArguments>
-            <run.mainClass>com.agilesys.xnet.wms.WMSApplication</run.mainClass>
+            <run.jvmArguments>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -noverify -XX:TieredStopAtLevel=1 -Xms64m</run.jvmArguments>
+            <run.mainClass>com.xnet.wms.WmsApplication</run.mainClass>
             <Env.SPRING_OUTPUT_ANSI_ENABLED>always</Env.SPRING_OUTPUT_ANSI_ENABLED>
+            <Env.SPRING_DEVTOOLS_RESTART_TRIGGER_FILE>.nbRestartTrigger</Env.SPRING_DEVTOOLS_RESTART_TRIGGER_FILE>
             <jpda.listen>true</jpda.listen>
         </properties>
     </action>
@@ -39,7 +43,7 @@
             <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
         </goals>
         <properties>
-            <exec.args>-classpath %classpath com.agilesys.xnet.wms.WMSApplication</exec.args>
+            <exec.args>-classpath %classpath com.xnet.wms.WmsApplication</exec.args>
             <exec.executable>java</exec.executable>
         </properties>
     </action>
