@@ -1,7 +1,7 @@
 
 var app = angular.module('wms', ['ui.router']);
 var $routeProviderReference;
-
+var server='http://localhost:8080/';
 // Creating the Angular Service for storing logged user details
 //app.service('AuthService', function () {
 //    return {
@@ -50,7 +50,7 @@ app.run(function ( $rootScope, $state, $http) {
     // state change. For every state change the ui-router module will broadcast
     // the '$stateChangeStart'.
     // 
-    $http.get('menu/all').then(function (res) {
+    $http.get(server+'menu/all').then(function (res) {
         if (res.data) {
             res.data.forEach(function (m) {
                 addState(m.title, m.url);

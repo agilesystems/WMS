@@ -6,11 +6,9 @@
 package com.xnet.wms.service;
 
 import com.xnet.wms.entity.User;
-import com.xnet.wms.entity.UserMenu;
 import com.xnet.wms.repository.UserRepository;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 /**

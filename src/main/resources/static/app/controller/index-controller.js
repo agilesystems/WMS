@@ -6,9 +6,9 @@ app.controller('index-controller', function ($http, $scope, $rootScope, $state) 
     if (!$rootScope.currentUser) {
         $state.go("login");
     }
-
-$scope.parentMenuFilter = function (item) { 
-    console.log(item);
-    return item.userMenuCollection.length>0 || item.url!==null; 
-};
+    ;
+//    $scope.parentMenuFilter = function (item) {
+//        console.log(item);
+//        return item.userMenuCollection.length > 0 || item.url !== null;
+//    };
 });

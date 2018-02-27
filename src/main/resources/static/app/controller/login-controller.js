@@ -5,13 +5,13 @@ app.controller('login-controller', function ($http, $scope,$rootScope, $state) {
     $scope.test = function () {
 
         console.log('test test');
-    }
+    };
 
     // method for login
     $scope.login = function () {
         // requesting the token by usename and passoword
         $http({
-            url: 'authenticate',
+            url: server+'authenticate',
             method: "POST",
             params: {
                 username: $scope.username,
