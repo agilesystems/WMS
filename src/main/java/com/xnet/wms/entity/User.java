@@ -75,7 +75,7 @@ public class User implements Serializable {
     @Column(name = "employee_id")
     private Integer employeeId;
     @ManyToMany(mappedBy = "userCollection")
-    private Collection<UserMenu> userMenuCollection;
+    private Collection<Menu> MenuCollection;
     @OneToMany(mappedBy = "createdby")
     private Collection<Item> itemCollection;
     @OneToMany(mappedBy = "createdby")
@@ -178,12 +178,12 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public Collection<UserMenu> getUserMenuCollection() {
-        return userMenuCollection;
+    public Collection<Menu> getMenuCollection() {
+        return MenuCollection;
     }
 
-    public void setUserMenuCollection(Collection<UserMenu> userMenuCollection) {
-        this.userMenuCollection = userMenuCollection;
+    public void setMenuCollection(Collection<Menu> MenuCollection) {
+        this.MenuCollection = MenuCollection;
     }
 
     @XmlTransient

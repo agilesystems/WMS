@@ -42,7 +42,7 @@ public class RoleMenu implements Serializable {
     private Role role;
     @JoinColumn(name = "menu_id", referencedColumnName = "id")
     @ManyToOne
-    private UserMenu menuId;
+    private Menu menuId;
 
     public RoleMenu() {
     }
@@ -67,11 +67,11 @@ public class RoleMenu implements Serializable {
         this.role = role;
     }
 
-    public UserMenu getMenuId() {
+    public Menu getMenuId() {
         return menuId;
     }
 
-    public void setMenuId(UserMenu menuId) {
+    public void setMenuId(Menu menuId) {
         this.menuId = menuId;
     }
 

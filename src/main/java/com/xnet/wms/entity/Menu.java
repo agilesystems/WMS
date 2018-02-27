@@ -35,13 +35,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "menu")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "UserMenu.findAll", query = "SELECT u FROM UserMenu u")
-    , @NamedQuery(name = "UserMenu.findById", query = "SELECT u FROM UserMenu u WHERE u.id = :id")
-    , @NamedQuery(name = "UserMenu.findByTitle", query = "SELECT u FROM UserMenu u WHERE u.title = :title")
-    , @NamedQuery(name = "UserMenu.findByVeiwOrder", query = "SELECT u FROM UserMenu u WHERE u.veiwOrder = :veiwOrder")
-    , @NamedQuery(name = "UserMenu.findByUrl", query = "SELECT u FROM UserMenu u WHERE u.url = :url")
-    , @NamedQuery(name = "UserMenu.findByIcon", query = "SELECT u FROM UserMenu u WHERE u.icon = :icon")})
-public class UserMenu implements Serializable {
+    @NamedQuery(name = "Menu.findAll", query = "SELECT u FROM Menu u")
+    , @NamedQuery(name = "Menu.findById", query = "SELECT u FROM Menu u WHERE u.id = :id")
+    , @NamedQuery(name = "Menu.findByTitle", query = "SELECT u FROM Menu u WHERE u.title = :title")
+    , @NamedQuery(name = "Menu.findByVeiwOrder", query = "SELECT u FROM Menu u WHERE u.veiwOrder = :veiwOrder")
+    , @NamedQuery(name = "Menu.findByUrl", query = "SELECT u FROM Menu u WHERE u.url = :url")
+    , @NamedQuery(name = "Menu.findByIcon", query = "SELECT u FROM Menu u WHERE u.icon = :icon")})
+public class Menu implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -71,19 +71,19 @@ public class UserMenu implements Serializable {
     @OneToMany(mappedBy = "menuId")
     private Collection<RoleMenu> roleMenuCollection;
     @OneToMany(mappedBy = "parent")
-    private Collection<UserMenu> userMenuCollection;
+    private Collection<Menu> MenuCollection;
     @JoinColumn(name = "parent", referencedColumnName = "id")
     @ManyToOne
-    private UserMenu parent;
+    private Menu parent;
 
-    public UserMenu() {
+    public Menu() {
     }
 
-    public UserMenu(Integer id) {
+    public Menu(Integer id) {
         this.id = id;
     }
 
-    public UserMenu(Integer id, String title) {
+    public Menu(Integer id, String title) {
         this.id = id;
         this.title = title;
     }
@@ -148,20 +148,20 @@ public class UserMenu implements Serializable {
     }
 
     @XmlTransient
-    public Collection<UserMenu> getUserMenuCollection() {
-        return userMenuCollection;
+    public Collection<Menu> getMenuCollection() {
+        return MenuCollection;
     }
 
-    public void setUserMenuCollection(Collection<UserMenu> userMenuCollection) {
-        this.userMenuCollection = userMenuCollection;
+    public void setMenuCollection(Collection<Menu> MenuCollection) {
+        this.MenuCollection = MenuCollection;
     }
 
     @JsonIgnore
-    public UserMenu getParent() {
+    public Menu getParent() {
         return parent;
     }
 
-    public void setParent(UserMenu parent) {
+    public void setParent(Menu parent) {
         this.parent = parent;
     }
 
@@ -175,10 +175,10 @@ public class UserMenu implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof UserMenu)) {
+        if (!(object instanceof Menu)) {
             return false;
         }
-        UserMenu other = (UserMenu) object;
+        Menu other = (Menu) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -187,7 +187,7 @@ public class UserMenu implements Serializable {
 
     @Override
     public String toString() {
-        return "com.xnet.wms.entity.UserMenu[ id=" + id + " ]";
+        return "com.xnet.wms.entity.Menu[ id=" + id + " ]";
     }
 
 }
