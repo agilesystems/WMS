@@ -21,10 +21,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Muhammad
+ * @author ramy
  */
 @Entity
-@Table(name = "invoice_item", catalog = "inventory", schema = "")
+@Table(name = "invoice_item")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "InvoiceItem.findAll", query = "SELECT i FROM InvoiceItem i")

@@ -17,6 +17,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -26,14 +27,14 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ramy
  */
 @Entity
-@Table(name = "unit")
+@Table(name = "account_type")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Unit.findAll", query = "SELECT u FROM Unit u")
-    , @NamedQuery(name = "Unit.findById", query = "SELECT u FROM Unit u WHERE u.id = :id")
-    , @NamedQuery(name = "Unit.findByName", query = "SELECT u FROM Unit u WHERE u.name = :name")
-    , @NamedQuery(name = "Unit.findByNotes", query = "SELECT u FROM Unit u WHERE u.notes = :notes")})
-public class Unit implements Serializable {
+    @NamedQuery(name = "AccountType.findAll", query = "SELECT a FROM AccountType a")
+    , @NamedQuery(name = "AccountType.findById", query = "SELECT a FROM AccountType a WHERE a.id = :id")
+    , @NamedQuery(name = "AccountType.findByName", query = "SELECT a FROM AccountType a WHERE a.name = :name")
+    , @NamedQuery(name = "AccountType.findByNotes", query = "SELECT a FROM AccountType a WHERE a.notes = :notes")})
+public class AccountType implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,20 +42,27 @@ public class Unit implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 255)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
     @Size(max = 255)
     @Column(name = "notes")
     private String notes;
-    @OneToMany(mappedBy = "unit")
-    private Collection<StoreItem> storeItemCollection;
+    @OneToMany(mappedBy = "type")
+    private Collection<Account> accountCollection;
 
-    public Unit() {
+    public AccountType() {
     }
 
-    public Unit(Integer id) {
+    public AccountType(Integer id) {
         this.id = id;
+    }
+
+    public AccountType(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -82,12 +90,12 @@ public class Unit implements Serializable {
     }
 
     @XmlTransient
-    public Collection<StoreItem> getStoreItemCollection() {
-        return storeItemCollection;
+    public Collection<Account> getAccountCollection() {
+        return accountCollection;
     }
 
-    public void setStoreItemCollection(Collection<StoreItem> storeItemCollection) {
-        this.storeItemCollection = storeItemCollection;
+    public void setAccountCollection(Collection<Account> accountCollection) {
+        this.accountCollection = accountCollection;
     }
 
     @Override
@@ -100,10 +108,10 @@ public class Unit implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Unit)) {
+        if (!(object instanceof AccountType)) {
             return false;
         }
-        Unit other = (Unit) object;
+        AccountType other = (AccountType) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -112,7 +120,7 @@ public class Unit implements Serializable {
 
     @Override
     public String toString() {
-        return "com.xnet.wms.entity.Unit[ id=" + id + " ]";
+        return "com.xnet.wms.entity.AccountType[ id=" + id + " ]";
     }
     
 }

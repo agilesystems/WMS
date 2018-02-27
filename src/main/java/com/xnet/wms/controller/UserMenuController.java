@@ -5,8 +5,8 @@
  */
 package com.xnet.wms.controller;
 
-import com.xnet.wms.entity.Menu;
-import com.xnet.wms.service.MenuService;
+import com.xnet.wms.entity.UserMenu;
+import com.xnet.wms.service.UserMenuService;
 import java.util.Collection;
 import jdk.nashorn.internal.objects.annotations.Getter;
 import org.apache.catalina.mbeans.UserMBean;
@@ -21,13 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/menu")
-public class MenuController {
+public class UserMenuController {
 
     @Autowired
-    MenuService menuService;
+    UserMenuService menuService;
 
     @GetMapping("/all")
-    Collection<Menu> getAll() {
+    Collection<UserMenu> getAll() {
         return menuService.findAll();
     }
 }

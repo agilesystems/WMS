@@ -26,14 +26,14 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ramy
  */
 @Entity
-@Table(name = "unit")
+@Table(name = "cash_type")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Unit.findAll", query = "SELECT u FROM Unit u")
-    , @NamedQuery(name = "Unit.findById", query = "SELECT u FROM Unit u WHERE u.id = :id")
-    , @NamedQuery(name = "Unit.findByName", query = "SELECT u FROM Unit u WHERE u.name = :name")
-    , @NamedQuery(name = "Unit.findByNotes", query = "SELECT u FROM Unit u WHERE u.notes = :notes")})
-public class Unit implements Serializable {
+    @NamedQuery(name = "CashType.findAll", query = "SELECT c FROM CashType c")
+    , @NamedQuery(name = "CashType.findById", query = "SELECT c FROM CashType c WHERE c.id = :id")
+    , @NamedQuery(name = "CashType.findByName", query = "SELECT c FROM CashType c WHERE c.name = :name")
+    , @NamedQuery(name = "CashType.findByNotes", query = "SELECT c FROM CashType c WHERE c.notes = :notes")})
+public class CashType implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,13 +47,13 @@ public class Unit implements Serializable {
     @Size(max = 255)
     @Column(name = "notes")
     private String notes;
-    @OneToMany(mappedBy = "unit")
-    private Collection<StoreItem> storeItemCollection;
+    @OneToMany(mappedBy = "cachType")
+    private Collection<Invoice> invoiceCollection;
 
-    public Unit() {
+    public CashType() {
     }
 
-    public Unit(Integer id) {
+    public CashType(Integer id) {
         this.id = id;
     }
 
@@ -82,12 +82,12 @@ public class Unit implements Serializable {
     }
 
     @XmlTransient
-    public Collection<StoreItem> getStoreItemCollection() {
-        return storeItemCollection;
+    public Collection<Invoice> getInvoiceCollection() {
+        return invoiceCollection;
     }
 
-    public void setStoreItemCollection(Collection<StoreItem> storeItemCollection) {
-        this.storeItemCollection = storeItemCollection;
+    public void setInvoiceCollection(Collection<Invoice> invoiceCollection) {
+        this.invoiceCollection = invoiceCollection;
     }
 
     @Override
@@ -100,10 +100,10 @@ public class Unit implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Unit)) {
+        if (!(object instanceof CashType)) {
             return false;
         }
-        Unit other = (Unit) object;
+        CashType other = (CashType) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -112,7 +112,7 @@ public class Unit implements Serializable {
 
     @Override
     public String toString() {
-        return "com.xnet.wms.entity.Unit[ id=" + id + " ]";
+        return "com.xnet.wms.entity.CashType[ id=" + id + " ]";
     }
     
 }

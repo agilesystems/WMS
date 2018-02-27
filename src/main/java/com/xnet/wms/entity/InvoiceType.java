@@ -17,6 +17,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -26,14 +27,14 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ramy
  */
 @Entity
-@Table(name = "unit")
+@Table(name = "invoice_type")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Unit.findAll", query = "SELECT u FROM Unit u")
-    , @NamedQuery(name = "Unit.findById", query = "SELECT u FROM Unit u WHERE u.id = :id")
-    , @NamedQuery(name = "Unit.findByName", query = "SELECT u FROM Unit u WHERE u.name = :name")
-    , @NamedQuery(name = "Unit.findByNotes", query = "SELECT u FROM Unit u WHERE u.notes = :notes")})
-public class Unit implements Serializable {
+    @NamedQuery(name = "InvoiceType.findAll", query = "SELECT i FROM InvoiceType i")
+    , @NamedQuery(name = "InvoiceType.findById", query = "SELECT i FROM InvoiceType i WHERE i.id = :id")
+    , @NamedQuery(name = "InvoiceType.findByName", query = "SELECT i FROM InvoiceType i WHERE i.name = :name")
+    , @NamedQuery(name = "InvoiceType.findByNotes", query = "SELECT i FROM InvoiceType i WHERE i.notes = :notes")})
+public class InvoiceType implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,20 +42,29 @@ public class Unit implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 255)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "name")
     private String name;
     @Size(max = 255)
     @Column(name = "notes")
     private String notes;
-    @OneToMany(mappedBy = "unit")
-    private Collection<StoreItem> storeItemCollection;
+    @OneToMany(mappedBy = "invoiceType")
+    private Collection<Invoice> invoiceCollection;
+    @OneToMany(mappedBy = "invoiceType")
+    private Collection<Transaction> transactionCollection;
 
-    public Unit() {
+    public InvoiceType() {
     }
 
-    public Unit(Integer id) {
+    public InvoiceType(Integer id) {
         this.id = id;
+    }
+
+    public InvoiceType(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Integer getId() {
@@ -82,12 +92,21 @@ public class Unit implements Serializable {
     }
 
     @XmlTransient
-    public Collection<StoreItem> getStoreItemCollection() {
-        return storeItemCollection;
+    public Collection<Invoice> getInvoiceCollection() {
+        return invoiceCollection;
     }
 
-    public void setStoreItemCollection(Collection<StoreItem> storeItemCollection) {
-        this.storeItemCollection = storeItemCollection;
+    public void setInvoiceCollection(Collection<Invoice> invoiceCollection) {
+        this.invoiceCollection = invoiceCollection;
+    }
+
+    @XmlTransient
+    public Collection<Transaction> getTransactionCollection() {
+        return transactionCollection;
+    }
+
+    public void setTransactionCollection(Collection<Transaction> transactionCollection) {
+        this.transactionCollection = transactionCollection;
     }
 
     @Override
@@ -100,10 +119,10 @@ public class Unit implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Unit)) {
+        if (!(object instanceof InvoiceType)) {
             return false;
         }
-        Unit other = (Unit) object;
+        InvoiceType other = (InvoiceType) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -112,7 +131,7 @@ public class Unit implements Serializable {
 
     @Override
     public String toString() {
-        return "com.xnet.wms.entity.Unit[ id=" + id + " ]";
+        return "com.xnet.wms.entity.InvoiceType[ id=" + id + " ]";
     }
     
 }

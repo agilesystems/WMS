@@ -5,7 +5,7 @@
  */
 package com.xnet.wms.repository;
 
-import com.xnet.wms.entity.Menu;
+import com.xnet.wms.entity.UserMenu;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @author ramy
  */
 @Repository
-public interface MenuRepository extends JpaRepository<Menu, Integer> {
+public interface UserMenuRepository extends JpaRepository<UserMenu, Integer> {
     
 }
