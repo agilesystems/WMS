@@ -26,10 +26,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ramy
+ * @author Muhammad
  */
 @Entity
-@Table(name = "user")
+@Table(name = "user", catalog = "inventory", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
@@ -75,7 +75,7 @@ public class User implements Serializable {
     @Column(name = "employee_id")
     private Integer employeeId;
     @ManyToMany(mappedBy = "userCollection")
-    private Collection<UserMenu> userMenuCollection;
+    private Collection<Menu> menuCollection;
     @OneToMany(mappedBy = "createdby")
     private Collection<Item> itemCollection;
     @OneToMany(mappedBy = "createdby")
@@ -178,12 +178,12 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public Collection<UserMenu> getUserMenuCollection() {
-        return userMenuCollection;
+    public Collection<Menu> getMenuCollection() {
+        return menuCollection;
     }
 
-    public void setUserMenuCollection(Collection<UserMenu> userMenuCollection) {
-        this.userMenuCollection = userMenuCollection;
+    public void setMenuCollection(Collection<Menu> menuCollection) {
+        this.menuCollection = menuCollection;
     }
 
     @XmlTransient

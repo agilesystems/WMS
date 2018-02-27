@@ -5,14 +5,14 @@
  */
 package com.xnet.wms.service;
 
-import com.xnet.wms.entity.UserMenu;
+import com.xnet.wms.entity.Menu;
 import java.util.Collection;
 
 /**
  *
  * @author ramy
  */
-public interface UserMenuService {
+public interface MenuService {
 
-    Collection<UserMenu> findAll();
+    Collection<Menu> findAll();
 }

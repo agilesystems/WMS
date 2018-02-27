@@ -28,7 +28,7 @@
                                                            <span class="nav-link-text">{{m.title}}</span>
                                    </a>                
                                    <ul                 class="sidenav-second-level collapse " id="collapse+{{m.id}}"  >
-                                                           <li ng-repeat="sm in m.userMenuCollection" >
+                                                           <li ng-repeat="sm in m.MenuCollection" >
                                                                <a ng-sref="{{sm.title}}">{{sm.title}}</a>
                                                            </li>
                 
@@ -45,7 +45,7 @@
                                                                                                        <i class="fa fa-fw fa-area-chart"></i>
                                                                                                        <span class="nav-link-text">{{m.title}}</span>
                                                                                                    </a>
-                                                                                                       <ul class="sidenav-second-level collapse"  ng-repeat=" sm in m.userMenuCollection" id="collapseComponents">
+                                                                                                       <ul class="sidenav-second-level collapse"  ng-repeat=" sm in m.MenuCollection" id="collapseComponents">
                                                                                                            {{sm}}
                                                                                                        <li>
                                                                                                            <a ng-sref="{{sm.title}}">{{sm.title}}</a>
