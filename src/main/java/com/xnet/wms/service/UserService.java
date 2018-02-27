@@ -6,6 +6,7 @@
 package com.xnet.wms.service;
 
 import com.xnet.wms.entity.User;
+import java.util.Collection;
 
 /**
  *
@@ -16,4 +17,9 @@ public interface UserService {
     User authenticated(String username, String password);
 
     public boolean hasAccess(String username,String url);
+    
+    public boolean save(User user);
+    public User findByUsernameAndBranchid(String username, Integer branchid);
+    public User getById(Integer id);
+    Collection<User> findAll();
 }

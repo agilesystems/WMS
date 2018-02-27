@@ -7,6 +7,7 @@ package com.xnet.wms.service;
 
 import com.xnet.wms.entity.User;
 import com.xnet.wms.repository.UserRepository;
+import java.util.Collection;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,32 @@ public class UserServiceImpl implements UserService {
 //            }
 //        }
 //        return false;
+    }
+
+    @Override
+    public boolean save(User user) {
+       user.setPassword(DigestUtils.sha1Hex(user.getPassword()));
+        if (userRepository.findByUsernameAndBranchId(user.getUsername(), user.getBranchId().getId()) == null) {
+            return userRepository.save(user) != null;
+        } else {
+            return false;
+        }
+
+    }
+
+    @Override
+    public User findByUsernameAndBranchid(String username, Integer branchid) {
+        return userRepository.findByUsernameAndBranchId(username, branchid);
+    }
+
+    @Override
+    public User getById(Integer id) {
+         return userRepository.findOne(id);
+    }
+
+    @Override
+    public Collection<User> findAll() {
+        return userRepository.findAll();
     }
 
 }

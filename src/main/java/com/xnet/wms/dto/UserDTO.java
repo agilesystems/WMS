@@ -5,6 +5,7 @@
  */
 package com.xnet.wms.dto;
 
+import com.xnet.wms.entity.Branch;
 import com.xnet.wms.entity.User;
 import com.xnet.wms.entity.Menu;
 import java.util.Collection;
@@ -32,5 +33,7 @@ public class UserDTO {
         this.userName = user.getUsername();
         menus = user.getMenuCollection();
     }
+
+    
 
 }
