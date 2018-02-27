@@ -6,27 +6,30 @@
 package com.xnet.wms.entity;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ramy
+ * @author Muhammad
  */
 @Entity
 @Table(name = "role")
@@ -44,8 +47,8 @@ public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Size(max = 255)
@@ -64,11 +67,14 @@ public class Role implements Serializable {
     @Column(name = "deletedat")
     @Temporal(TemporalType.DATE)
     private Date deletedat;
+    @JoinTable(name = "role_menu", joinColumns = {
+        @JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "menu_id", referencedColumnName = "id")})
+    @ManyToMany
+    private Collection<Menu> menuCollection;
     @JoinColumn(name = "createdby", referencedColumnName = "id")
     @ManyToOne
     private User createdby;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "role")
-    private RoleMenu roleMenu;
 
     public Role() {
     }
@@ -133,20 +139,21 @@ public class Role implements Serializable {
         this.deletedat = deletedat;
     }
 
+    @XmlTransient
+    public Collection<Menu> getMenuCollection() {
+        return menuCollection;
+    }
+
+    public void setMenuCollection(Collection<Menu> menuCollection) {
+        this.menuCollection = menuCollection;
+    }
+
     public User getCreatedby() {
         return createdby;
     }
 
     public void setCreatedby(User createdby) {
         this.createdby = createdby;
-    }
-
-    public RoleMenu getRoleMenu() {
-        return roleMenu;
-    }
-
-    public void setRoleMenu(RoleMenu roleMenu) {
-        this.roleMenu = roleMenu;
     }
 
     @Override
