@@ -1,86 +1,86 @@
 
-    <div class="card card-register mx-auto mt-5" ng-controller="user-controller">
-      <div class="card-header">Add User:</div>
-      <div class="card-body">
+<div class="card card-register mx-auto mt-5" ng-controller="user-controller">
+    <div class="card-header">Add User:</div>
+    <div class="card-body">
         <form>
-          <div class="form-group">
-            <div class="form-row">
+            <div class="form-group">
+                <div class="form-row">
+                </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label for="fname">First Name</label>
-              <input class="form-control" type="text" placeholder="Enter your first name" ng-model="fname">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="fname">First Name</label>
+                    <input class="form-control" type="text" placeholder="Enter your first name" ng-model="fname">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="lname">Last Name</label>
+                    <input class="form-control" type="text" placeholder="Enter your last name" ng-model="lname">
+                </div>
             </div>
-            <div class="form-group col-md-6">
-              <label for="lname">Last Name</label>
-              <input class="form-control" type="text" placeholder="Enter your last name" ng-model="lname">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="phone">Phone</label>
+                    <input class="form-control" type="text" placeholder="Enter your phone" ng-model="phone">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="addredd">Address</label>
+                    <input class="form-control" type="text" placeholder="Enter your address" ng-model="address">
+                </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label for="phone">Phone</label>
-              <input class="form-control" type="text" placeholder="Enter your phone" ng-model="phone">
-            </div>
-            <div class="form-group col-md-6">
-              <label for="addredd">Address</label>
-              <input class="form-control" type="text" placeholder="Enter your address" ng-model="address">
-            </div>
-          </div>
 
 
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label for="username">User Name</label>
-              <input class="form-control" type="text" placeholder="Enter your user name" ng-model="username">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="username">User Name</label>
+                    <input class="form-control" type="text" placeholder="Enter your user name" ng-model="username">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <input class="form-control" type="password" placeholder="Password" ng-model="password" required>
+                </div>
             </div>
-            <div class="form-group col-md-6">
-              <label for="password">Password</label>
-              <input class="form-control" type="password" placeholder="Password" ng-model="password" required>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="rolemenu">Select Role:</label>
+                    <select class="custom-select" name="rolemenu" id="rolemenu">
+                        <option selected>Select one</option>
+                        <option value="">Role1</option>
+                        <option value="">Role2</option>
+                        <option value="">Role3</option>
+                    </select>
+                </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-md-6">
-              <label for="rolemenu">Select Role:</label>
-              <select class="custom-select" name="rolemenu" id="rolemenu">
-                <option selected>Select one</option>
-                <option value="">Role1</option>
-                <option value="">Role2</option>
-                <option value="">Role3</option>
-              </select>
-            </div>
-          </div>
-          <!-- Start List Select Menus -->
+            <!-- Start List Select Menus -->
             <div class="subject-info-box-1">
-              <select multiple="multiple" id='lstBox1' class="form-control">
-                <option ng-repeat="menu in menus">{{menu.id}} - {{menu.title}}</option>
+                <select multiple="multiple" id='lstBox1' class="form-control">
+                    <option ng-repeat="menu in menus">{{menu.id}} - {{menu.title}}</option>
 
-              </select>
+                </select>
             </div>
             <div class="subject-info-arrows text-center">
-              <input type="button" id="btnAllRight" value=">>" class="btn btn-default" />
-              <br />
-              <input type="button" id="btnRight" value=">" class="btn btn-default" />
-              <br />
-              <input type="button" id="btnLeft" value="<" class="btn btn-default" />
-              <br />
-              <input type="button" id="btnAllLeft" value="<<" class="btn btn-default" />
+                <input type="button" id="btnAllRight" value=">>" class="btn btn-default"  ng-click="addAllRight()"/>
+                <br />
+                <input type="button" id="btnRight" value=">" class="btn btn-default" ng-click="addOneRigth()"/>
+                <br />
+                <input type="button" id="btnLeft" value="<" class="btn btn-default" ng-click="addOneLeft()" />
+                <br />
+                <input type="button" id="btnAllLeft" value="<<" class="btn btn-default" ng-click="addAllLeft()"/>
             </div>
 
             <div class="subject-info-box-2">
-              <select multiple="multiple" id='lstBox2' class="form-control">
-                <option></option>
+                <select multiple="multiple" id='lstBox2' class="form-control">
+                    <option></option>
 
-              </select>
+                </select>
             </div>
             <div class="clearfix"></div>
 
 
 
-          <div class="col-md-3">
-            <label></label>
-            <input class="btn btn-primary btn-block" type="submit" ng-click="addUser()" value="Save">
-          </div>
-      </div>
+            <div class="col-md-3">
+                <label></label>
+                <input class="btn btn-primary btn-block" type="submit" ng-click="addUser()" value="Save">
+            </div>
     </div>
+</div>
 
