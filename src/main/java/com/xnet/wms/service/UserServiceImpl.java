@@ -58,9 +58,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean save(User user) {
-       user.setPassword(DigestUtils.sha1Hex(user.getPassword()));
+        user.setPassword(DigestUtils.sha1Hex(user.getPassword()));
         if (userRepository.findByUsernameAndBranchId(user.getUsername(), user.getBranchId().getId()) == null) {
             return userRepository.save(user) != null;
+         
         } else {
             return false;
         }
@@ -74,12 +75,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getById(Integer id) {
-         return userRepository.findOne(id);
+        if (userRepository.findOne(id).getId() != 0) {
+            return userRepository.findOne(id);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Collection<User> findAll() {
-        return userRepository.findAll();
+        if (userRepository.findAll() != null) {
+            return userRepository.findAll();
+        } else {
+            return null;
+        }
+
     }
 
 }

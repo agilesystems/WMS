@@ -9,8 +9,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -62,14 +64,16 @@ public class Menu implements Serializable {
     @Size(max = 45)
     @Column(name = "icon")
     private String icon;
+
     @JoinTable(name = "user_menu", joinColumns = {
         @JoinColumn(name = "menu", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "user", referencedColumnName = "id")})
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private Collection<User> userCollection;
-    @ManyToMany(mappedBy = "menuCollection")
+    
+    @ManyToMany(mappedBy = "menuCollection", cascade = CascadeType.ALL )
     private Collection<Role> roleCollection;
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent" ,fetch = FetchType.LAZY)
     private Collection<Menu> menuCollection;
     @JoinColumn(name = "parent", referencedColumnName = "id")
     @ManyToOne

@@ -26,4 +26,9 @@ public class MenuServiceImp implements MenuService {
         return menuRepository.findAll();
     }
 
+    @Override
+    public Menu findById(int id) {
+        return menuRepository.findOne(id);
+    }
+
 }

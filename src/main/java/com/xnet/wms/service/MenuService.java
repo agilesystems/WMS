@@ -15,4 +15,6 @@ import java.util.Collection;
 public interface MenuService {
 
     Collection<Menu> findAll();
+    Menu findById(int id);
+    
 }

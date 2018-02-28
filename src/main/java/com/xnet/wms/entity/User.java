@@ -5,15 +5,19 @@
  */
 package com.xnet.wms.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -74,8 +78,14 @@ public class User implements Serializable {
     private String username;
     @Column(name = "employee_id")
     private Integer employeeId;
-    @ManyToMany(mappedBy = "userCollection")
+    @JoinTable(name = "user_menu", joinColumns = {
+        @JoinColumn(name = "user", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "menu", referencedColumnName = "id")})
+    @ManyToMany(cascade = CascadeType.ALL)
+
+//    @ManyToMany(mappedBy = "userCollection" ,  cascade = CascadeType.ALL)
     private Collection<Menu> menuCollection;
+    
     @OneToMany(mappedBy = "createdby")
     private Collection<Item> itemCollection;
     @OneToMany(mappedBy = "createdby")
@@ -179,6 +189,9 @@ public class User implements Serializable {
 
     @XmlTransient
     public Collection<Menu> getMenuCollection() {
+        for( Menu m :menuCollection){
+            m.setMenuCollection(null);
+        }
         return menuCollection;
     }
 
@@ -187,6 +200,7 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<Item> getItemCollection() {
         return itemCollection;
     }
@@ -196,6 +210,7 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<Role> getRoleCollection() {
         return roleCollection;
     }
@@ -205,6 +220,7 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<Store> getStoreCollection() {
         return storeCollection;
     }
@@ -214,6 +230,7 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<Branch> getBranchCollection() {
         return branchCollection;
     }
@@ -223,6 +240,7 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<Transfer> getTransferCollection() {
         return transferCollection;
     }
@@ -232,6 +250,7 @@ public class User implements Serializable {
     }
 
     @XmlTransient
+    @JsonIgnore
     public Collection<Invoice> getInvoiceCollection() {
         return invoiceCollection;
     }
@@ -299,5 +318,5 @@ public class User implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.User[ id=" + id + " ]";
     }
-    
+
 }

@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // ignoring the "/", "/index.html", "/app/**", "/register",
                 // "/favicon.ico"
                 ///	.antMatchers("/","/privilege", "/index.html", "/app/**", "/register", "/authenticate", "/favicon.ico");
-                .antMatchers("/",
+                .antMatchers("/**",
                         "/vendor/**",
                         "/lib/*",
                         "/app/**",

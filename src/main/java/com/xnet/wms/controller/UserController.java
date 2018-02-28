@@ -35,55 +35,37 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    MenuService menuService;
+
     @PostMapping("/add")
-    public String add(@RequestBody User user) {
+    public User add(@RequestBody User user) {
 
-//        if (userService.save( user.getId(), user.getBranchId(), user.getAddress(), user.getFirstname(), user.getLastname(), user.getPassword(), user.getPhone(), user.getType(), user.getUsername(), user.getEmployeeId() )) {
+        Collection<Menu> mc = new ArrayList<>();
+
+        for (Menu m : user.getMenuCollection()) {
+            mc.add(menuService.findById(m.getId()));
+        }
+
+        user.setMenuCollection(mc);
         if (userService.save(user)) {
-            return "User Added Successfully";
-
+            return user;
+//            return "User Added Successfully";
         } else {
-            return "Wrong to add user";
+            return user;
+//            return "Wrong to add user";
         }
 
     }
-/**
-//    @GetMapping("/allusers")
-//    public Collection<UserDTO> getAll() {
-//
-//        Collection<UserDTO> getUsers = new ArrayList<>();
-//
-//        for (User user : userService.findAll()) {
-//            getUsers.add(new UserDTO(user.getId(),
-//                    user.getUsername(),
-//                    user.getPassword(),
-//                    user.getAddress(),
-//                    user.getFirstname(),
-//                    user.getLastname(),
-//                    user.getPhone(),
-//                    user.getType(),
-//                    user.getBranchId()
-//            ));
-//        }
-//        return getUsers;
-//    }
-
-//    @GetMapping("/getByuserAndBranch")
-//    public String findByUsernameAndBranchid(@PathParam("username") String username, @PathParam("branchid") Integer branchid) {
-//        if (userService.findByUsernameAndBranchid(username, branchid) != null) {
-//            return "Already Exist";
-//        } else {
-//            return "Not Found";
-//        }
-//
-//    }
 
     @GetMapping("/getById/{id}")
     public UserDTO getById(@PathVariable("id") Integer id) {
+        if (userService.getById(id) != null) {
+            return new UserDTO(userService.getById(id));
+        } else {
+            return null;
+        }
 
-        User u = userService.getById(id);
-        UserDTO dto = new UserDTO(u);
-        return dto;
     }
-    * **/
+
 }
