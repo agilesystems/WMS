@@ -7,6 +7,7 @@ package com.xnet.wms.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -23,6 +24,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -81,11 +83,11 @@ public class User implements Serializable {
     @JoinTable(name = "user_menu", joinColumns = {
         @JoinColumn(name = "user", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "menu", referencedColumnName = "id")})
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 
 //    @ManyToMany(mappedBy = "userCollection" ,  cascade = CascadeType.ALL)
     private Collection<Menu> menuCollection;
-    
+
     @OneToMany(mappedBy = "createdby")
     private Collection<Item> itemCollection;
     @OneToMany(mappedBy = "createdby")
@@ -189,9 +191,6 @@ public class User implements Serializable {
 
     @XmlTransient
     public Collection<Menu> getMenuCollection() {
-        for( Menu m :menuCollection){
-            m.setMenuCollection(null);
-        }
         return menuCollection;
     }
 
@@ -319,4 +318,14 @@ public class User implements Serializable {
         return "com.xnet.wms.entity.User[ id=" + id + " ]";
     }
 
+    @PostLoad
+    void handleUserMenus() {
+        getMenuCollection().stream().filter(pp -> pp.getParent() == null).forEach(parent -> {
+            parent.setMenuCollection(new ArrayList<>());
+            getMenuCollection().stream().filter(sp ->sp.getParent()!=null && sp.getParent().getId() == parent.getId()).forEach(sub -> {
+                parent.getMenuCollection().add(sub);
+            });
+        });
+
+    }
 }
