@@ -10,21 +10,21 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="fname">First Name</label>
-                    <input class="form-control" type="text" placeholder="Enter your first name" ng-model="fname">
+                    <input class="form-control" type="text" placeholder="Enter your first name" ng-model="user.firstname">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="lname">Last Name</label>
-                    <input class="form-control" type="text" placeholder="Enter your last name" ng-model="lname">
+                    <input class="form-control" type="text" placeholder="Enter your last name" ng-model="user.lastname">
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="phone">Phone</label>
-                    <input class="form-control" type="text" placeholder="Enter your phone" ng-model="phone">
+                    <input class="form-control" type="text" placeholder="Enter your phone" ng-model="user.phone">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="addredd">Address</label>
-                    <input class="form-control" type="text" placeholder="Enter your address" ng-model="address">
+                    <input class="form-control" type="text" placeholder="Enter your address" ng-model="user.address">
                 </div>
             </div>
 
@@ -32,11 +32,11 @@
             <div class="row">
                 <div class="form-group col-md-6">
                     <label for="username">User Name</label>
-                    <input class="form-control" type="text" placeholder="Enter your user name" ng-model="username">
+                    <input class="form-control" type="text" placeholder="Enter your user name" ng-model="user.username">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="password">Password</label>
-                    <input class="form-control" type="password" placeholder="Password" ng-model="password" required>
+                    <input class="form-control" type="password" placeholder="Password" ng-model="user.password" required>
                 </div>
             </div>
             <div class="row">
@@ -53,7 +53,7 @@
             <!-- Start List Select Menus -->
             <div class="subject-info-box-1">
                 <select multiple="multiple" id='lstBox1' class="form-control">
-                    <option ng-repeat="menu in menus">{{menu.id}} - {{menu.title}}</option>
+                    <option ng-repeat="menu in menus" value="{{menu.id}}">{{menu.id}} - {{menu.title}}</option>
 
                 </select>
             </div>
@@ -68,7 +68,7 @@
             </div>
 
             <div class="subject-info-box-2">
-                <select multiple="multiple" id='lstBox2' class="form-control">
+                <select multiple="multiple" id='lstBox2' class="form-control" ng-model="user.menuCollection" ng-option="  val as ">
                     <option></option>
 
                 </select>
@@ -79,7 +79,7 @@
 
             <div class="col-md-3">
                 <label></label>
-                <input class="btn btn-primary btn-block" type="submit" ng-click="addUser()" value="Save">
+                <input class="btn btn-primary btn-block" type="button" ng-click="addUser()" value="Save">
             </div>
     </div>
 </div>
