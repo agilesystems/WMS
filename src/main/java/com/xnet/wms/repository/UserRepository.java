@@ -23,6 +23,6 @@ public interface UserRepository extends JpaRepository<User, Serializable> {
     User findByUsernameAndPassword(String username, String password);
     User findByUsername(String username);
     
-    @Query("select u from User u where u.username = :username and u.branchId.id = :branchid")
-    User findByUsernameAndBranchId(@Param("username") String username, @Param("branchid") Integer branchid);
+//    @Query("select u from User u where u.username = :username and u.branchId.id = :branchid")
+    User findByUsernameAndBranch_Id( String username, Integer branchid);
 }

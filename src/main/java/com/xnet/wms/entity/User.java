@@ -102,7 +102,7 @@ public class User implements Serializable {
     private Collection<Invoice> invoiceCollection;
     @JoinColumn(name = "branch_id", referencedColumnName = "id")
     @ManyToOne
-    private Branch branchId;
+    private Branch branch;
     @OneToMany(mappedBy = "createdby")
     private Collection<Account> accountCollection;
     @OneToMany(mappedBy = "createdby")
@@ -258,12 +258,12 @@ public class User implements Serializable {
         this.invoiceCollection = invoiceCollection;
     }
 
-    public Branch getBranchId() {
-        return branchId;
+    public Branch getBranch() {
+        return branch;
     }
 
-    public void setBranchId(Branch branchId) {
-        this.branchId = branchId;
+    public void setBranch(Branch branch) {
+        this.branch = branch;
     }
 
     @XmlTransient
