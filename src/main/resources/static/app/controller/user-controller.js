@@ -1,4 +1,6 @@
 
+/* global server */
+
 app.controller('user-controller', init);
 
 function init($scope, $http, DataServiceApi) {
@@ -18,50 +20,51 @@ function init($scope, $http, DataServiceApi) {
         data.userMenuCollection = $('#lstBox1 option');
 //      console.log(data.userMenuCollection);
         DataServiceApi.PostData(data, server + 'user/add');
-    }
+    };
     
-    function selectListItems() {
-    $('#btnRight').click(function (e) {
-        var selectedOpts = $('#lstBox1 option:selected');
-        if (selectedOpts.length == 0) {
-            alert("Nothing to move.");
-            e.preventDefault();
-        }
-        $('#lstBox2').append($(selectedOpts).clone());
-        $(selectedOpts).remove();
-        e.preventDefault();
-    });
-    $('#btnAllRight').click(function (e) {
+    $scope.addAllRight= function(){
+        
         var selectedOpts = $('#lstBox1 option');
-        if (selectedOpts.length == 0) {
+        if (selectedOpts.length === 0) {
             alert("Nothing to move.");
             e.preventDefault();
         }
         $('#lstBox2').append($(selectedOpts).clone());
         $(selectedOpts).remove();
         e.preventDefault();
-    });
-    $('#btnLeft').click(function (e) {
-        var selectedOpts = $('#lstBox2 option:selected');
-        if (selectedOpts.length == 0) {
+    };
+    
+    $scope.addOneRigth=function(){
+           var selectedOpts = $('#lstBox1 option:selected');
+        if (selectedOpts.length === 0) {
+            alert("Nothing to move.");
+            e.preventDefault();
+        }
+        $('#lstBox2').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+        e.preventDefault();
+    };
+    $scope.addOneLeft=function(){
+         var selectedOpts = $('#lstBox2 option:selected');
+        if (selectedOpts.length === 0) {
             alert("Nothing to move.");
             e.preventDefault();
         }
         $('#lstBox1').append($(selectedOpts).clone());
         $(selectedOpts).remove();
         e.preventDefault();
-    });
-    $('#btnAllLeft').click(function (e) {
-        var selectedOpts = $('#lstBox2 option');
-        if (selectedOpts.length == 0) {
+    };
+    $scope.addAllLeft=function(){
+         var selectedOpts = $('#lstBox2 option');
+        if (selectedOpts.length === 0) {
             alert("Nothing to move.");
             e.preventDefault();
         }
         $('#lstBox1').append($(selectedOpts).clone());
         $(selectedOpts).remove();
         e.preventDefault();
-    });
-}
+    };
+   
 }
 
 

@@ -3,7 +3,7 @@
 app.controller('navbar-controller', function ($scope) {
 
     $scope.parentMenuFilter = function (item) {
-        return item.menuCollection.length > 0 && item.url !== null;
+        return item.menuCollection.length > 0 ;
     };
     $scope.subMenuFilter = function (item) {
 
