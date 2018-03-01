@@ -83,7 +83,7 @@ public class Branch implements Serializable {
     private Collection<Transfer> transferCollection;
     @OneToMany(mappedBy = "branch")
     private Collection<Invoice> invoiceCollection;
-    @OneToMany(mappedBy = "branchId")
+    @OneToMany(mappedBy = "branch")
     private Collection<User> userCollection;
     @OneToMany(mappedBy = "branch")
     private Collection<StoreItem> storeItemCollection;

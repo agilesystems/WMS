@@ -56,7 +56,7 @@ $scope.user={menuCollection:[]};
     };
             
     $scope.addOneRigth = function () {
-        var selectedOpts = $('#lstBox1 option:selected.value');
+        var selectedOpts = $('#lstBox1 option:selected');
         if (selectedOpts.length === 0) {
             alert("Nothing to move.");
 
@@ -66,7 +66,7 @@ $scope.user={menuCollection:[]};
         $(selectedOpts).remove();
         
         var menu={ id:0};
-        menu.id=selectedOpts.option.value;
+        menu.id=selectedOpts[0].value;
         $scope.user.menuCollection.push(menu);
         e.preventDefault();
     };

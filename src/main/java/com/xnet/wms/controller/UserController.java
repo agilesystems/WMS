@@ -48,13 +48,14 @@ public class UserController {
         }
 
         user.setMenuCollection(mc);
-        if (userService.save(user)) {
-            return user;
-//            return "User Added Successfully";
-        } else {
-            return user;
-//            return "Wrong to add user";
-        }
+        return userService.save(user);
+//        if (userService.save(user)!=null) {
+//            return user;
+////            return "User Added Successfully";
+//        } else {
+//            return user;
+////            return "Wrong to add user";
+//        }
 
     }
 

@@ -57,20 +57,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean save(User user) {
+    public User save(User user) {
         user.setPassword(DigestUtils.sha1Hex(user.getPassword()));
-        if (userRepository.findByUsernameAndBranchId(user.getUsername(), user.getBranchId().getId()) == null) {
-            return userRepository.save(user) != null;
-         
-        } else {
-            return false;
-        }
-
+//        if (userRepository.findByUsernameAndBranch_Id(user.getUsername(), user.getBranch().getId()) == null) {
+//            return userRepository.save(user) != null;
+//         
+//        } else {
+//            return false;
+//        }
+   return userRepository.save(user) ;
+//        if (userRepository.findByUsername(user.getUsername()) == null) {
+//            return userRepository.save(user) ;
+//        
+//        }
+//        return null;
     }
 
     @Override
     public User findByUsernameAndBranchid(String username, Integer branchid) {
-        return userRepository.findByUsernameAndBranchId(username, branchid);
+        return userRepository.findByUsernameAndBranch_Id(username, branchid);
     }
 
     @Override
