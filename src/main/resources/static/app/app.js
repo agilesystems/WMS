@@ -1,5 +1,5 @@
 
-var app = angular.module('wms', ['ui.router']);
+var app = angular.module('wms', ['ui.router', 'ngMessages']);
 var $routeProviderReference;
 var server='http://localhost:8080/';
 // Creating the Angular Service for storing logged user details
