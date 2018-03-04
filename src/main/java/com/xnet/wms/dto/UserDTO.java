@@ -5,9 +5,8 @@
  */
 package com.xnet.wms.dto;
 
-import com.xnet.wms.entity.Branch;
-import com.xnet.wms.entity.User;
 import com.xnet.wms.entity.Menu;
+import com.xnet.wms.entity.User;
 import java.util.Collection;
 
 /**
@@ -16,10 +15,10 @@ import java.util.Collection;
  */
 public class UserDTO {
 
-    public int id;
-    public String name;
-    public String userName;
-    public Collection<Menu> menus;
+    private int id;
+    private String name;
+    private String userName;
+    private RoleDTO role;
 
     public UserDTO() {
     }
@@ -31,9 +30,41 @@ public class UserDTO {
         this.id = user.getId();
         this.name = user.getFirstname() + " " + user.getLastname();
         this.userName = user.getUsername();
-        menus = user.getMenuCollection();
+        this.role = new RoleDTO(user.getRole());
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     
+    public RoleDTO getRole() {
+        return role;
+    }
 
+    public void setRole(RoleDTO role) {
+        this.role = role;
+    }
+
+    
 }

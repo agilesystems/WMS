@@ -1,0 +1,89 @@
+/**
+ * INSPINIA - Responsive Admin Theme
+ *
+ * Main controller.js file
+ * Define controllers with data used in Inspinia theme
+ *
+ *
+ * Functions (controllers)
+ *  - MainCtrl
+ *  - translateCtrl
+ *
+ *
+ */
+
+
+
+/**
+ * MainCtrl - controller
+ * Contains several global data used in different view
+ *
+ */
+
+
+function MainCtrl($rootScope,$state) {
+    if (!$rootScope.currentUser) {
+        console.log("go to login");
+       $state.go('logins');
+    }
+}
+;
+
+/**
+ * translateCtrl - Controller for translate
+ */
+function translateCtrl($translate, $scope) {
+    $scope.changeLanguage = function (langKey) {
+        $translate.use(langKey);
+        $scope.language = langKey;
+    };
+};
+
+function loginCtrl($http,$scope,$rootScope,$state){
+    
+    this.login = function () {
+        
+        console.log('llogin');
+        // requesting the token by usename and passoword
+        $http({
+            url: server+'authenticate',
+            method: "POST",
+            params: {
+                username: $scope.username,
+                password: $scope.password
+            }
+        }).then(function (res) {
+            $scope.password = null;
+            // checking if the token is available in the response
+            if (res.data.token) {
+                $scope.message = '';
+                // setting the Authorization Bearer token with JWT token
+                $http.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.token;
+               // AuthService.user = res.data.user;
+                $rootScope.currentUser = res.data.user;
+
+                //go to home page
+                $state.go('dashboards.dashboard_1');
+
+
+            } else {
+                // if the token is not present in the response then the
+                // authentication was not successful. Setting the error message.
+                $scope.message = 'Authetication Failed !';
+                console.log('Authetication Failed !');
+            }
+        }, function (error) {
+            console.log(error);
+        });
+    };
+};
+
+/**
+ *
+ * Pass all functions into module
+ */
+app.controller('MainCtrl', MainCtrl)
+        .controller('loginCtrl', loginCtrl)
+        .controller('translateCtrl', translateCtrl);
+
+

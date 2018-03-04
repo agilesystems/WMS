@@ -5,14 +5,11 @@
  */
 package com.xnet.wms.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Muhammad
+ * @author ramy
  */
 @Entity
 @Table(name = "menu")
@@ -64,16 +61,14 @@ public class Menu implements Serializable {
     @Size(max = 45)
     @Column(name = "icon")
     private String icon;
-
+    @ManyToMany(mappedBy = "menuCollection")
+    private Collection<Role> roleCollection;
     @JoinTable(name = "user_menu", joinColumns = {
         @JoinColumn(name = "menu", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "user", referencedColumnName = "id")})
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     private Collection<User> userCollection;
-    
-    @ManyToMany(mappedBy = "menuCollection", cascade = CascadeType.ALL )
-    private Collection<Role> roleCollection;
-    @OneToMany(mappedBy = "parent" ,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "parent")
     private Collection<Menu> menuCollection;
     @JoinColumn(name = "parent", referencedColumnName = "id")
     @ManyToOne
@@ -132,22 +127,21 @@ public class Menu implements Serializable {
     }
 
     @XmlTransient
-    @JsonIgnore
-    public Collection<User> getUserCollection() {
-        return userCollection;
-    }
-
-    public void setUserCollection(Collection<User> userCollection) {
-        this.userCollection = userCollection;
-    }
-
-    @XmlTransient
     public Collection<Role> getRoleCollection() {
         return roleCollection;
     }
 
     public void setRoleCollection(Collection<Role> roleCollection) {
         this.roleCollection = roleCollection;
+    }
+
+    @XmlTransient
+    public Collection<User> getUserCollection() {
+        return userCollection;
+    }
+
+    public void setUserCollection(Collection<User> userCollection) {
+        this.userCollection = userCollection;
     }
 
     @XmlTransient
@@ -159,7 +153,6 @@ public class Menu implements Serializable {
         this.menuCollection = menuCollection;
     }
 
-    @JsonIgnore
     public Menu getParent() {
         return parent;
     }
@@ -192,5 +185,5 @@ public class Menu implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.Menu[ id=" + id + " ]";
     }
-
+    
 }

@@ -29,10 +29,10 @@
     <class>com.xnet.wms.entity.CashType</class>
     <class>com.xnet.wms.entity.Menu</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/inventory?zeroDateTimeBehavior=convertToNull"/>
-      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://agile-solutions.co:3306/agile_x-net?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="agile_x-net"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="123456"/>
+      <property name="javax.persistence.jdbc.password" value="p@55vv0rd@x-net_123"/>
     </properties>
   </persistence-unit>
 </persistence>

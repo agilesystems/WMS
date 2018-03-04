@@ -5,26 +5,20 @@
  */
 package com.xnet.wms.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -32,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Muhammad
+ * @author ramy
  */
 @Entity
 @Table(name = "user")
@@ -47,7 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "User.findByPhone", query = "SELECT u FROM User u WHERE u.phone = :phone")
     , @NamedQuery(name = "User.findByType", query = "SELECT u FROM User u WHERE u.type = :type")
     , @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username")
-    , @NamedQuery(name = "User.findByEmployeeId", query = "SELECT u FROM User u WHERE u.employeeId = :employeeId")})
+    , @NamedQuery(name = "User.findByEmployee", query = "SELECT u FROM User u WHERE u.employee = :employee")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -78,16 +72,10 @@ public class User implements Serializable {
     @Size(max = 255)
     @Column(name = "username")
     private String username;
-    @Column(name = "employee_id")
-    private Integer employeeId;
-    @JoinTable(name = "user_menu", joinColumns = {
-        @JoinColumn(name = "user", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "menu", referencedColumnName = "id")})
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-
-//    @ManyToMany(mappedBy = "userCollection" ,  cascade = CascadeType.ALL)
+    @Column(name = "employee")
+    private Integer employee;
+    @ManyToMany(mappedBy = "userCollection")
     private Collection<Menu> menuCollection;
-
     @OneToMany(mappedBy = "createdby")
     private Collection<Item> itemCollection;
     @OneToMany(mappedBy = "createdby")
@@ -100,9 +88,12 @@ public class User implements Serializable {
     private Collection<Transfer> transferCollection;
     @OneToMany(mappedBy = "createdby")
     private Collection<Invoice> invoiceCollection;
-    @JoinColumn(name = "branch_id", referencedColumnName = "id")
+    @JoinColumn(name = "branch", referencedColumnName = "id")
     @ManyToOne
     private Branch branch;
+    @JoinColumn(name = "role", referencedColumnName = "id")
+    @ManyToOne
+    private Role role;
     @OneToMany(mappedBy = "createdby")
     private Collection<Account> accountCollection;
     @OneToMany(mappedBy = "createdby")
@@ -181,12 +172,12 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public Integer getEmployeeId() {
-        return employeeId;
+    public Integer getEmployee() {
+        return employee;
     }
 
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployee(Integer employee) {
+        this.employee = employee;
     }
 
     @XmlTransient
@@ -199,7 +190,6 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    @JsonIgnore
     public Collection<Item> getItemCollection() {
         return itemCollection;
     }
@@ -209,7 +199,6 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    @JsonIgnore
     public Collection<Role> getRoleCollection() {
         return roleCollection;
     }
@@ -219,7 +208,6 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    @JsonIgnore
     public Collection<Store> getStoreCollection() {
         return storeCollection;
     }
@@ -229,7 +217,6 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    @JsonIgnore
     public Collection<Branch> getBranchCollection() {
         return branchCollection;
     }
@@ -239,7 +226,6 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    @JsonIgnore
     public Collection<Transfer> getTransferCollection() {
         return transferCollection;
     }
@@ -249,7 +235,6 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    @JsonIgnore
     public Collection<Invoice> getInvoiceCollection() {
         return invoiceCollection;
     }
@@ -264,6 +249,14 @@ public class User implements Serializable {
 
     public void setBranch(Branch branch) {
         this.branch = branch;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @XmlTransient
@@ -317,15 +310,5 @@ public class User implements Serializable {
     public String toString() {
         return "com.xnet.wms.entity.User[ id=" + id + " ]";
     }
-
-    @PostLoad
-    void handleUserMenus() {
-        getMenuCollection().stream().filter(pp -> pp.getParent() == null).forEach(parent -> {
-            parent.setMenuCollection(new ArrayList<>());
-            getMenuCollection().stream().filter(sp ->sp.getParent()!=null && sp.getParent().getId() == parent.getId()).forEach(sub -> {
-                parent.getMenuCollection().add(sub);
-            });
-        });
-
-    }
+    
 }

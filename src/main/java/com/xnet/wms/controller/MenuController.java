@@ -5,8 +5,10 @@
  */
 package com.xnet.wms.controller;
 
+import com.xnet.wms.dto.MenuDTO;
 import com.xnet.wms.entity.Menu;
 import com.xnet.wms.service.MenuService;
+import java.util.ArrayList;
 import java.util.Collection;
 import jdk.nashorn.internal.objects.annotations.Getter;
 import org.apache.catalina.mbeans.UserMBean;
@@ -27,7 +29,12 @@ public class MenuController {
     MenuService menuService;
 
     @GetMapping("/all")
-    Collection<Menu> getAll() {
-        return menuService.findAll();
+    Collection<MenuDTO> getAll() {
+
+        Collection<MenuDTO> menus = new ArrayList<MenuDTO>();
+        menuService.findAll().forEach(m -> {
+            menus.add(new MenuDTO(m));
+        });
+        return menus;
     }
 }

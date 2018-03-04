@@ -1,91 +1,82 @@
-<!DOCTYPE html>
 <!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
+*
+* INSPINIA - Responsive Admin Theme
+* Version 2.7
+*
 -->
-<html ng-app="wms" >
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <title>SB Admin - Start Bootstrap Template</title>
-        <!-- Bootstrap core CSS-->
-        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <!--<link rel="stylesheet" href="http://cdn.rawgit.com/morteza/bootstrap-rtl/v3.3.4/dist/css/bootstrap-rtl.min.css">-->
-        <!-- Custom fonts for this template-->
-        <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-        <!-- Page level plugin CSS-->
-        <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-        <!-- Custom styles for this template-->
-        <link href="css/sb-admin.css" rel="stylesheet">
-    </head>
 
-    <body class="fixed-nav sticky-footer bg-dark" id="page-top" ng-controller="index-controller" >
+<!DOCTYPE html>
+<html ng-app="wms">
 
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav"  ng-include="'views/navbar.html'" ng-if="currentUser"  >
-        </nav>
+<head>
 
-        <div  ui-view="content" ng-if="!currentUser">
-        </div>
-        <div class="content-wrapper" ng-if="currentUser">
-            <div  ui-view="content">
-            </div>
-            <footer class="sticky-footer">
-                <div class="container">
-                    <div class="text-center">
-                        <small>Copyright © Your Website 2018</small>
-                    </div>
-                </div>
-            </footer>
-            <!-- Scroll to Top Button-->
-            <a class="scroll-to-top rounded" href="#page-top">
-                <i class="fa fa-angle-up"></i>
-            </a>
-            <!-- Logout Modal-->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                            <a class="btn btn-primary" href="login.html">Logout</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Bootstrap core JavaScript-->
-            <script src="vendor/jquery/jquery.min.js"></script>
-            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-            <!-- Core plugin JavaScript-->
-            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-            <!-- Page level plugin JavaScript-->
-            <script src="vendor/chart.js/Chart.min.js"></script>
-            <script src="vendor/datatables/jquery.dataTables.js"></script>
-            <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
-            <!-- Custom scripts for all pages-->
-            <script src="js/sb-admin.min.js"></script>
-            <!-- Custom scripts for this page-->
-            <script src="js/sb-admin-datatables.min.js"></script>
-            <script src="js/sb-admin-charts.min.js"></script>
-            <script src="lib/angular.min-1.6.js" type="text/javascript"></script>
-            <script src="lib/angular-ui-router.js" type="text/javascript"></script>
-            <script src="app/app.js" type="text/javascript"></script>
-            <script src="app/controller/login-controller.js" type="text/javascript"></script>
-            <script src="app/controller/index-controller.js" type="text/javascript"></script>
-            <script src="app/controller/navbar-controller.js" type="text/javascript"></script>
-            <script src="app/services/dataService.js"></script>
-            <script src="app/controller/user-controller.js"></script>
-        </div>
-    </body>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+    <!-- Page title set in pageTitle directive -->
+    <title page-title></title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+ <link href="css/plugins/bootstrap-rtl/bootstrap-rtl.min.css" rel="stylesheet">
+    <!-- Font awesome -->
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <!-- Main Inspinia CSS files -->
+    <link href="css/animate.css" rel="stylesheet">
+    <link id="loadBefore" href="css/style.css" rel="stylesheet">
+
+
+</head>
+
+<!-- ControllerAs syntax -->
+<!-- Main controller with serveral data used in Inspinia theme on diferent view -->
+<body ng-controller="MainCtrl as main" class="rtls" landing-scrollspy id="page-top ">
+
+<!-- Main view  -->
+<div ui-view></div>
+
+<!-- jQuery and Bootstrap -->
+<script src="js/jquery/jquery-3.1.1.min.js"></script>
+<script src="js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="js/bootstrap/bootstrap.min.js"></script>
+
+<!-- MetsiMenu -->
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+
+<!-- SlimScroll -->
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<!-- Peace JS -->
+<script src="js/plugins/pace/pace.min.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="js/inspinia.js"></script>
+
+<!-- Main Angular scripts-->
+<script src="js/angular/angular.min.js"></script>
+<script src="js/angular/angular-sanitize.js"></script>
+<script src="js/plugins/oclazyload/dist/ocLazyLoad.min.js"></script>
+<script src="js/angular-translate/angular-translate.min.js"></script>
+<script src="js/ui-router/angular-ui-router.min.js"></script>
+<script src="js/bootstrap/ui-bootstrap-tpls-1.1.2.min.js"></script>
+<script src="js/plugins/angular-idle/angular-idle.js"></script>
+
+<!--
+ You need to include this script on any page that has a Google Map.
+ When using Google Maps on your own site you MUST signup for your own API key at:
+ https://developers.google.com/maps/documentation/javascript/tutorial#api_key
+ After your sign up replace the key in the URL below..
+-->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQTpXj82d8UpCi97wzo_nKXL7nYrd4G70"></script>
+
+<!-- Anglar App Script -->
+<script src="js/app.js"></script>
+<script src="js/config.js"></script>
+<script src="js/translations.js"></script>
+<script src="js/directives.js"></script>
+<script src="js/controllers.js"></script>
+
+</body>
 </html>

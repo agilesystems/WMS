@@ -1,5 +1,5 @@
 
-<div class="card card-register mx-auto mt-5" ng-controller="user-controller">
+<div class="card card-register mx-auto mt-5" ng-controller="user-controller" >
     <div class="card-header">Add User:</div>
     <div class="card-body">
         <form>
@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-6" >
                     <label for="fname">First Name</label>
                     <input class="form-control" type="text" placeholder="Enter your first name" ng-model="user.firstname">
                 </div>
@@ -52,10 +52,15 @@
             </div>
             <!-- Start List Select Menus -->
             <div class="subject-info-box-1">
-                <select multiple="multiple" id='lstBox1' class="form-control">
-                    <option ng-repeat="menu in menus" value="{{menu.id}}">{{menu.id}} - {{menu.title}}</option>
+                <select multiple="multiple" id='lstBox1' class="form-control" ng-model="roleMenus"
+                            ng-options="m as m.title for m in user.roleMenus">
+                    <!--<option ng-repeat=" menu in roleMenus" ng-value="{{menu}}">{{menu.id}} - {{menu.title}}</option>-->
 
                 </select>
+
+<!--                 <select multiple="multiple" id='lstBox1' class="form-control" ng-model="selectedMenus"
+                         ng-options=" m as m.title for m in menus" >                  
+                </select>-->
             </div>
             <div class="subject-info-arrows text-center">
                 <input type="button" id="btnAllRight" value=">>" class="btn btn-default"  ng-click="addAllRight()"/>
@@ -68,15 +73,12 @@
             </div>
 
             <div class="subject-info-box-2">
-                <select multiple="multiple" id='lstBox2' class="form-control" ng-model="user.menuCollection" ng-option="  val as ">
+                <select multiple="multiple"  id='lstBox2' class="form-control" ng-model="user.menuCollection"  
+                        ng-options="m as m.title for m in user.menuCollection" >
                     <option></option>
-
                 </select>
             </div>
             <div class="clearfix"></div>
-
-
-
             <div class="col-md-3">
                 <label></label>
                 <input class="btn btn-primary btn-block" type="button" ng-click="addUser()" value="Save">

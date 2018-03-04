@@ -1,38 +1,25 @@
-
-
-        <div class="container bg-dark" ng-controller="login-controller" class="bg-dark">
-              
-            <div class="card card-login mx-auto mt-5" ng-controller="login-controller" class="bg-dark">
-                <div class="card-header">Login</div>
-                <div class="card-body">
-                    <form id="loginform" name="loginform" ng-submit="login()">
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Email address</label>
-                            <input class="form-control" ng-model="username" type="text" aria-describedby="emailHelp" placeholder="Enter email">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input class="form-control" ng-model="password" type="password" placeholder="Password">
-                        </div>
-                        <div class="form-group">
-                            <div class="form-check">
-                                <!-- <label class="form-check-label">
-                                  <input class="form-check-input" type="checkbox"> Remember Password</label> -->
-                            </div>
-                        </div>
-                        <!-- <a class="btn btn-primary btn-block" id="loginbtn" href="index.html">Login</a> -->
-                        <button class="btn btn-primary btn-block" ng-click="test()" type="submit">Login!</button>
-                    </form>
-                    <div class="text-center">
-                        <a class="d-block small mt-3" href="register.html">Register an Account</a>
-                        <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
-                    </div>
-                </div>
-            </div>
+<div class="middle-box text-center loginscreen  animated fadeInDown">
+    <div>
+        <div>
+            <h1 class="logo-name">IN+</h1>
         </div>
-        <!-- Bootstrap core JavaScript-->
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <!-- Core plugin JavaScript-->
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-        <!-- <script src="js/loginPlugin.js"></script> -->
+        <h3>Welcome to IN+</h3>
+        <p>Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.
+        </p>
+        <p>Login in. To see it in action.</p>
+        <form class="m-t" role="form"  ng-controller="loginCtrl as loginCtrl">
+            <div class="form-group">
+                <input  class="form-control" ng-model="username" placeholder="Username" required="">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" ng-model="password" placeholder="Password" required="">
+            </div>
+            <button type="submit" class="btn btn-primary block full-width m-b" ng-click="loginCtrl.login()">Login</button>
+
+            <a ui-sref="forgot_password"><small>Forgot password?</small></a>
+            <p class="text-muted text-center"><small>Do not have an account?</small></p>
+            <a class="btn btn-sm btn-white btn-block" ui-sref="register">Create an account</a>
+        </form>
+        <p class="m-t"> <small>Inspinia we app framework base on Bootstrap 3 &copy; 2014</small> </p>
+    </div>
+</div>
