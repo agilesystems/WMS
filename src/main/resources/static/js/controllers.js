@@ -78,12 +78,107 @@ function loginCtrl($http,$scope,$rootScope,$state){
     };
 };
 
+function accountCtrl($http, $scope, DataServiceApi) {
+
+    DataServiceApi.GetData(server + 'accountype/findall').then(function (response) {
+        $scope.accounts = response.data;
+    });
+
+    $scope.addAccount = function (isValid) {
+
+        if (isValid) {
+
+            DataServiceApi.PostData($scope.account, server + 'account/add');
+        }
+    };
+
+
+};
+
+function navbarCtrl($scope) {
+
+    $scope.parentMenuFilter = function (item) {
+        return item.menuCollection.length > 0 ;
+    };
+    $scope.subMenuFilter = function (item) {
+
+        return  item.url !== null;
+    };
+
+};
+
+function userCtrl($scope, $http, DataServiceApi) {
+
+    DataServiceApi.GetData(server + 'menu/all').then(function (response) {
+        $scope.menus = response.data;
+    });
+    $scope.user={menuCollection:[]};
+    $scope.addUser = function () {
+
+        DataServiceApi.PostData($scope.user, server + 'user/add');
+    };
+
+    $scope.addAllRight = function () {
+
+        var selectedOpts = $('#lstBox1 option');
+        if (selectedOpts.length === 0) {
+            alert("Nothing to move.");
+            e.preventDefault();
+        }
+        $('#lstBox2').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+   
+        e.preventDefault();
+    };
+            
+    $scope.addOneRigth = function () {
+        var selectedOpts = $('#lstBox1 option:selected');
+        if (selectedOpts.length === 0) {
+            alert("Nothing to move.");
+
+            e.preventDefault();
+        }
+        $('#lstBox2').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+        
+        var menu={ id:0};
+        menu.id=selectedOpts[0].value;
+        $scope.user.menuCollection.push(menu);
+        e.preventDefault();
+    };
+    $scope.addOneLeft = function () {
+        var selectedOpts = $('#lstBox2 option:selected');
+        if (selectedOpts.length === 0) {
+            alert("Nothing to move.");
+            e.preventDefault();
+        }
+        $('#lstBox1').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+        e.preventDefault();
+    };
+    $scope.addAllLeft = function () {
+        var selectedOpts = $('#lstBox2 option');
+        if (selectedOpts.length === 0) {
+            alert("Nothing to move.");
+            e.preventDefault();
+        }
+        $('#lstBox1').append($(selectedOpts).clone());
+        $(selectedOpts).remove();
+        e.preventDefault();
+    };
+
+}
+
+
 /**
  *
  * Pass all functions into module
  */
 app.controller('MainCtrl', MainCtrl)
         .controller('loginCtrl', loginCtrl)
-        .controller('translateCtrl', translateCtrl);
+        .controller('translateCtrl', translateCtrl)
+        .controller('accountCtrl', accountCtrl)
+        .controller('navbarCtrl', navbarCtrl)
+        .controller('userCtrl', userCtrl);
 
 

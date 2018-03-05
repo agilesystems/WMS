@@ -5,7 +5,7 @@
     <artifactId>WMS</artifactId>
     <version>0.0.1</version>
     <packaging>jar</packaging>
-    <name>WMS</name>
+    <name>WMS_NEW</name>
     <description>Warehouse Management System</description>
     <parent>
         <groupId>org.springframework.boot</groupId>
