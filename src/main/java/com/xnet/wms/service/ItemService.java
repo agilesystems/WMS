@@ -33,7 +33,7 @@ public interface ItemService {
      * @return true if the item updated with deleted field or false if not
      * updated
      */
-    boolean delete(int id);
+    boolean delete(Item item);
 
     /**
      * this method to get all item

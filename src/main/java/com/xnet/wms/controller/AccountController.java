@@ -6,7 +6,6 @@
 package com.xnet.wms.controller;
 
 import com.xnet.wms.dto.AccountDTO;
-import com.xnet.wms.entity.Account;
 import com.xnet.wms.service.AccountService;
 import java.util.ArrayList;
 import java.util.Collection;

@@ -7,24 +7,27 @@ package com.xnet.wms.entity;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
  *
  * @author ramy
  */
-@Entity(name = "item")
-public class Item implements Serializable {
+@Entity(name = "city")
+public class City implements Serializable {
+
+    @OneToMany(mappedBy = "city")
+    private List<Account> accountsList;
 
     @Id
     private Integer id;
-    private String barcode;
     private String name;
-    @Basic(optional = false)
-    private boolean deleted;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private State state;
 
     public Integer getId() {
         return id;
@@ -42,20 +45,12 @@ public class Item implements Serializable {
         this.name = name;
     }
 
-    public boolean isDeleted() {
-        return deleted;
+    public State getState() {
+        return state;
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
+    public void setState_(State state) {
+        this.state = state;
     }
 
-    public String getBarcode() {
-        return barcode;
-    }
-
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
-    }
-    
 }

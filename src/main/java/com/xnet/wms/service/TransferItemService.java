@@ -6,7 +6,7 @@
 package com.xnet.wms.service;
 
 import com.xnet.wms.entity.Item;
-import com.xnet.wms.entity.TransferItem;
+import com.xnet.wms.entity.ItemTransfer;
 import java.util.Collection;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
  */
 public interface TransferItemService {
 
-    boolean save(TransferItem TransferItem);
+    boolean save(ItemTransfer TransferItem);
 
-    boolean delete(TransferItem TransferItem);
+    boolean delete(ItemTransfer TransferItem);
 
-    Collection<TransferItem> getByItemid(Item item);
+    Collection<ItemTransfer> getByItemid(Item item);
 }

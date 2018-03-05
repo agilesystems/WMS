@@ -43,11 +43,11 @@ public class UserController {
 
         Collection<Menu> mc = new ArrayList<>();
 
-        for (Menu m : user.getMenuCollection()) {
-            mc.add(menuService.findById(m.getId()));
-        }
-
-        user.setMenuCollection(mc);
+//        for (Menu m : user.getMenuCollection()) {
+//            mc.add(menuService.findById(m.getId()));
+//        }
+//
+//        user.setMenuCollection(mc);
         return userService.save(user);
 //        if (userService.save(user)!=null) {
 //            return user;

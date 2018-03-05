@@ -29,15 +29,16 @@ public class AccountDTO {
     }
 
     public AccountDTO(Account account) {
+       
         setId(account.getId());
         setName(account.getName());
-        setPhone(account.getPhone());
+        setPhone(account.getPhone1());
         setEmail(account.getEmail());
         setAddress(account.getAddress());
         setCode(account.getCode());
-        setExtrainfo(account.getExtrainfo());
-        setCreatedate(account.getCreatedate());
-        setType(new AccountType(account.getType().getId(), account.getType().getName()));
+        setExtrainfo(account.getNote());
+//        setCreatedate(account.getCreateDate());
+        setType(new AccountType(account.getAccountType().getId(), account.getAccountType().getName()));
     }
 
     public int getId() {

@@ -5,6 +5,7 @@
  */
 package com.xnet.wms.repository;
 
+
 import com.xnet.wms.entity.Store;
 import java.io.Serializable;
 import org.springframework.context.annotation.Lazy;
@@ -16,6 +17,6 @@ import org.springframework.stereotype.Repository;
  * @author Muhammad
  */
 @Repository
-public interface StoreRepository extends JpaRepository<Store, Integer> {
+public interface StoreRepository extends JpaRepository< Store, Integer> {
 
 }

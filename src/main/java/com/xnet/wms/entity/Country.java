@@ -5,19 +5,21 @@
  */
 package com.xnet.wms.entity;
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author ramy
  */
-@Entity(name = "transfer")
-public class Transfer {
+@Entity(name = "country")
+public class Country {
 
+    @OneToMany(mappedBy = "country")
+    private List<State> statesList;    
     @Id
-    int id;
-
-    String description;
-
+    Integer id;
+    String name;
 }

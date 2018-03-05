@@ -6,112 +6,37 @@
 package com.xnet.wms.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author ramy
  */
-@Entity
-@Table(name = "account")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a")
-    , @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a WHERE a.id = :id")
-    , @NamedQuery(name = "Account.findByName", query = "SELECT a FROM Account a WHERE a.name = :name")
-    , @NamedQuery(name = "Account.findByPhone", query = "SELECT a FROM Account a WHERE a.phone = :phone")
-    , @NamedQuery(name = "Account.findByEmail", query = "SELECT a FROM Account a WHERE a.email = :email")
-    , @NamedQuery(name = "Account.findByAddress", query = "SELECT a FROM Account a WHERE a.address = :address")
-    , @NamedQuery(name = "Account.findByCode", query = "SELECT a FROM Account a WHERE a.code = :code")
-    , @NamedQuery(name = "Account.findByExtrainfo", query = "SELECT a FROM Account a WHERE a.extrainfo = :extrainfo")
-    , @NamedQuery(name = "Account.findByCreatedate", query = "SELECT a FROM Account a WHERE a.createdate = :createdate")
-    , @NamedQuery(name = "Account.findByUpdatedby", query = "SELECT a FROM Account a WHERE a.updatedby = :updatedby")
-    , @NamedQuery(name = "Account.findByUpdatedate", query = "SELECT a FROM Account a WHERE a.updatedate = :updatedate")
-    , @NamedQuery(name = "Account.findByDeleted", query = "SELECT a FROM Account a WHERE a.deleted = :deleted")
-    , @NamedQuery(name = "Account.findByDeletedby", query = "SELECT a FROM Account a WHERE a.deletedby = :deletedby")})
-public class Account implements Serializable {
+@Entity(name = "account")
+public class Account extends BaseEntity implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
-    @Size(max = 255)
-    @Column(name = "name")
     private String name;
-    // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
-    @Size(max = 255)
-    @Column(name = "phone")
-    private String phone;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Size(max = 255)
-    @Column(name = "email")
+    private String phone1;
+    private String phone2;
+    private String phone3;
+    private String mobile1;
+    private String mobile2;
+    private String mobile3;
     private String email;
-    @Size(max = 255)
-    @Column(name = "address")
     private String address;
-    @Size(max = 255)
-    @Column(name = "code")
     private String code;
-    @Size(max = 255)
-    @Column(name = "extrainfo")
-    private String extrainfo;
-    @Column(name = "createdate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdate;
-    @Column(name = "updatedby")
-    private Integer updatedby;
-    @Column(name = "updatedate")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedate;
-    @Column(name = "deleted")
-    private Boolean deleted;
-    @Column(name = "deletedby")
-    private Integer deletedby;
+    private String note;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private City city;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private AccountType accountType;
     @OneToMany(mappedBy = "account")
-    private Collection<Invoice> invoiceCollection;
-    @JoinColumn(name = "type", referencedColumnName = "id")
-    @ManyToOne
-    private AccountType type;
-    @JoinColumn(name = "createdby", referencedColumnName = "id")
-    @ManyToOne
-    private User createdby;
-    @OneToMany(mappedBy = "account")
-    private Collection<Transaction> transactionCollection;
-
-    public Account() {
-    }
-
-    public Account(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private List<Invoice> invoicesList;
 
     public String getName() {
         return name;
@@ -121,12 +46,52 @@ public class Account implements Serializable {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhone1() {
+        return phone1;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhone1(String phone1) {
+        this.phone1 = phone1;
+    }
+
+    public String getPhone2() {
+        return phone2;
+    }
+
+    public void setPhone2(String phone2) {
+        this.phone2 = phone2;
+    }
+
+    public String getPhone3() {
+        return phone3;
+    }
+
+    public void setPhone3(String phone3) {
+        this.phone3 = phone3;
+    }
+
+    public String getMobile1() {
+        return mobile1;
+    }
+
+    public void setMobile1(String mobile1) {
+        this.mobile1 = mobile1;
+    }
+
+    public String getMobile2() {
+        return mobile2;
+    }
+
+    public void setMobile2(String mobile2) {
+        this.mobile2 = mobile2;
+    }
+
+    public String getMobile3() {
+        return mobile3;
+    }
+
+    public void setMobile3(String mobile3) {
+        this.mobile3 = mobile3;
     }
 
     public String getEmail() {
@@ -153,111 +118,36 @@ public class Account implements Serializable {
         this.code = code;
     }
 
-    public String getExtrainfo() {
-        return extrainfo;
+    public String getNote() {
+        return note;
     }
 
-    public void setExtrainfo(String extrainfo) {
-        this.extrainfo = extrainfo;
+    public void setNote(String note) {
+        this.note = note;
     }
 
-    public Date getCreatedate() {
-        return createdate;
+    public City getCity() {
+        return city;
     }
 
-    public void setCreatedate(Date createdate) {
-        this.createdate = createdate;
+    public void setCity(City city) {
+        this.city = city;
     }
 
-    public Integer getUpdatedby() {
-        return updatedby;
+    public AccountType getAccountType() {
+        return accountType;
     }
 
-    public void setUpdatedby(Integer updatedby) {
-        this.updatedby = updatedby;
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 
-    public Date getUpdatedate() {
-        return updatedate;
+    public List<Invoice> getInvoicesList() {
+        return invoicesList;
     }
 
-    public void setUpdatedate(Date updatedate) {
-        this.updatedate = updatedate;
+    public void setInvoicesList(List<Invoice> invoicesList) {
+        this.invoicesList = invoicesList;
     }
 
-    public Boolean getDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
-
-    public Integer getDeletedby() {
-        return deletedby;
-    }
-
-    public void setDeletedby(Integer deletedby) {
-        this.deletedby = deletedby;
-    }
-
-    @XmlTransient
-    public Collection<Invoice> getInvoiceCollection() {
-        return invoiceCollection;
-    }
-
-    public void setInvoiceCollection(Collection<Invoice> invoiceCollection) {
-        this.invoiceCollection = invoiceCollection;
-    }
-
-    public AccountType getType() {
-        return type;
-    }
-
-    public void setType(AccountType type) {
-        this.type = type;
-    }
-
-    public User getCreatedby() {
-        return createdby;
-    }
-
-    public void setCreatedby(User createdby) {
-        this.createdby = createdby;
-    }
-
-    @XmlTransient
-    public Collection<Transaction> getTransactionCollection() {
-        return transactionCollection;
-    }
-
-    public void setTransactionCollection(Collection<Transaction> transactionCollection) {
-        this.transactionCollection = transactionCollection;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Account)) {
-            return false;
-        }
-        Account other = (Account) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "com.xnet.wms.entity.Account[ id=" + id + " ]";
-    }
-    
 }

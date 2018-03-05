@@ -8,21 +8,20 @@ package com.xnet.wms.entity;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 /**
  *
  * @author ramy
+ *
  */
-@Entity(name = "invoice_item")
-public class InvoiceItem implements Serializable {
+@Entity(name = "employee")
+public class Employee extends BaseEntity implements Serializable {
 
-    @Id
-    int id;
+    String firstName;
+    String secondName;
+    String lastName;
     @ManyToOne(cascade = CascadeType.ALL)
-    Item item;
-    @ManyToOne(cascade = CascadeType.ALL)
-    Invoice invoice;
-    int quantity;
+    Job job;
+
 }

@@ -56,13 +56,13 @@ public class AccountServiceImp implements AccountService {
 
     @Override
     public Collection<Account> getAllSuppliers() {
-       return accountRepository.findByType_IdAndDeleted(Global.ACCOUNT_TYPE_SUPPLIER
+       return accountRepository.findByAccountType_IdAndDeleted(Global.ACCOUNT_TYPE_SUPPLIER
                , Global.STATUS_UNDELETED);
           }
 
     @Override
     public Collection<Account> getAllCustomers() {
- return accountRepository.findByType_IdAndDeleted(Global.ACCOUNT_TYPE_CUSTOMER
+ return accountRepository.findByAccountType_IdAndDeleted(Global.ACCOUNT_TYPE_CUSTOMER
                , Global.STATUS_UNDELETED);      
     }
 

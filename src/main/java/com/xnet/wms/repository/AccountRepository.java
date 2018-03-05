@@ -17,5 +17,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 
-    Collection<Account> findByType_IdAndDeleted(int type, boolean deleted);
+    Collection<Account> findByAccountType_IdAndDeleted(int type, boolean deleted);
 }

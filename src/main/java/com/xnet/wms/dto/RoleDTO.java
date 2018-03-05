@@ -37,9 +37,9 @@ public class RoleDTO {
     }
 
     private void handleRoleMenus() {
-        role.getMenuCollection().stream().filter(p -> p.getParent() == null).forEach(parent -> {
+        role.getMenusList().stream().filter(p -> p.getParent() == null).forEach(parent -> {
             MenuDTO mDTO = new MenuDTO(parent);
-            role.getMenuCollection().stream().filter(sp -> sp.getParent() != null && sp.getParent().getId() == parent.getId()).forEach(sub -> {
+            role.getMenusList().stream().filter(sp -> sp.getParent() != null && sp.getParent().getId() == parent.getId()).forEach(sub -> {
                 System.out.println("sub>>>>>"+sub.getId());
                 mDTO.getSubMenus().add(new MenuDTO(sub));
             });

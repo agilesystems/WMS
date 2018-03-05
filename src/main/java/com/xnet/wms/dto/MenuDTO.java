@@ -33,7 +33,7 @@ public class MenuDTO {
         }
         id = menu.getId();
         title = menu.getTitle();
-        viewOrder = menu.getVeiwOrder();
+        viewOrder = menu.getViewOrder();
         url = menu.getUrl();
         icon = menu.getIcon();
         isParent = (menu.getParent() == null);

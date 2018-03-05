@@ -29,14 +29,16 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public boolean delete(int id) {
-        return itemRepository.deleteItem(id);
+    public boolean delete(Item item) {
+
+        item.setDeleted(true);
+        return (itemRepository.save(item) != null);
     }
 
     @Override
     public Collection<Item> getAll() {
         if (!itemRepository.findAll().isEmpty()) {
-            return itemRepository.getAll();
+            return itemRepository.findByDeleted(false);
         } else {
             return null;
         }
@@ -74,9 +76,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Collection<Item> getByName(String Name) {
-        Collection<Item> item = itemRepository.findByName(Name);
+        Collection<Item> item = itemRepository.findByNameContaining(Name);
         if (item != null) {
-            return itemRepository.findByName(Name);
+            return itemRepository.findByNameContaining(Name);
 
         } else {
             return null;

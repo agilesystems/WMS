@@ -28,7 +28,7 @@ public class UserDTO {
             return;
         }
         this.id = user.getId();
-        this.name = user.getFirstname() + " " + user.getLastname();
+        this.name = user.getName();
         this.userName = user.getUsername();
         this.role = new RoleDTO(user.getRole());
     }

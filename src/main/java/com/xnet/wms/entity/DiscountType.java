@@ -12,12 +12,10 @@ import javax.persistence.Id;
  *
  * @author ramy
  */
-@Entity(name = "transfer")
-public class Transfer {
-
+@Entity(name = "discount_type")
+public class DiscountType {
+    
     @Id
-    int id;
-
-    String description;
-
+    Integer id;
+    String name;
 }

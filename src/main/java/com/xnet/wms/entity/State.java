@@ -6,23 +6,26 @@
 package com.xnet.wms.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author ramy
  */
-@Entity(name = "invoice_item")
-public class InvoiceItem implements Serializable {
+@Entity(name = "state")
+public class State implements Serializable {
+
+    @OneToMany(mappedBy = "state")
+    private List<City> citiesList;
 
     @Id
-    int id;
+    Integer id;
+    String name;
     @ManyToOne(cascade = CascadeType.ALL)
-    Item item;
-    @ManyToOne(cascade = CascadeType.ALL)
-    Invoice invoice;
-    int quantity;
+    Country country;
 }

@@ -15,14 +15,17 @@ import javax.persistence.ManyToOne;
  *
  * @author ramy
  */
-@Entity(name = "invoice_item")
-public class InvoiceItem implements Serializable {
+@Entity(name = "item_transfer")
+public class ItemTransfer implements Serializable {
 
     @Id
     int id;
+
     @ManyToOne(cascade = CascadeType.ALL)
     Item item;
     @ManyToOne(cascade = CascadeType.ALL)
-    Invoice invoice;
-    int quantity;
+    Store fromStor;
+    @ManyToOne(cascade = CascadeType.ALL)
+    Store toStroe;
+
 }
