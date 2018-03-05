@@ -71,5 +71,6 @@ window.onpopstate = function (e) {
 };
 window.onbeforeunload = function (e) {
     console.log("reload");
+    e.pr
     e.preventDefault();
 };

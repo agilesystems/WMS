@@ -6,6 +6,7 @@
 package com.xnet.wms.repository;
 
 import com.xnet.wms.entity.Account;
+import java.util.Collection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,4 +17,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 
+    Collection<Account> findByType_IdAndDeleted(int type, boolean deleted);
 }

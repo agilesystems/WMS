@@ -8,9 +8,11 @@ package com.xnet.wms.service;
 import com.xnet.wms.entity.Account;
 import com.xnet.wms.entity.AccountType;
 import com.xnet.wms.entity.User;
+import com.xnet.wms.helper.Global;
+import com.xnet.wms.repository.AccountRepository;
 import java.util.Collection;
 import java.util.Date;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,6 +22,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountServiceImp implements AccountService {
 
+    @Autowired
+    AccountRepository accountRepository;
     @Override
     public boolean save(Account account) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -48,6 +52,18 @@ public class AccountServiceImp implements AccountService {
     @Override
     public Account findById(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Collection<Account> getAllSuppliers() {
+       return accountRepository.findByType_IdAndDeleted(Global.ACCOUNT_TYPE_SUPPLIER
+               , Global.STATUS_UNDELETED);
+          }
+
+    @Override
+    public Collection<Account> getAllCustomers() {
+ return accountRepository.findByType_IdAndDeleted(Global.ACCOUNT_TYPE_CUSTOMER
+               , Global.STATUS_UNDELETED);      
     }
 
 }

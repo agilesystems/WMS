@@ -42,9 +42,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Account.findByAddress", query = "SELECT a FROM Account a WHERE a.address = :address")
     , @NamedQuery(name = "Account.findByCode", query = "SELECT a FROM Account a WHERE a.code = :code")
     , @NamedQuery(name = "Account.findByExtrainfo", query = "SELECT a FROM Account a WHERE a.extrainfo = :extrainfo")
-    , @NamedQuery(name = "Account.findByCreatedat", query = "SELECT a FROM Account a WHERE a.createdat = :createdat")
+    , @NamedQuery(name = "Account.findByCreatedate", query = "SELECT a FROM Account a WHERE a.createdate = :createdate")
     , @NamedQuery(name = "Account.findByUpdatedby", query = "SELECT a FROM Account a WHERE a.updatedby = :updatedby")
-    , @NamedQuery(name = "Account.findByUpdatedat", query = "SELECT a FROM Account a WHERE a.updatedat = :updatedat")
+    , @NamedQuery(name = "Account.findByUpdatedate", query = "SELECT a FROM Account a WHERE a.updatedate = :updatedate")
     , @NamedQuery(name = "Account.findByDeleted", query = "SELECT a FROM Account a WHERE a.deleted = :deleted")
     , @NamedQuery(name = "Account.findByDeletedby", query = "SELECT a FROM Account a WHERE a.deletedby = :deletedby")})
 public class Account implements Serializable {
@@ -75,14 +75,14 @@ public class Account implements Serializable {
     @Size(max = 255)
     @Column(name = "extrainfo")
     private String extrainfo;
-    @Column(name = "createdat")
+    @Column(name = "createdate")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdat;
+    private Date createdate;
     @Column(name = "updatedby")
     private Integer updatedby;
-    @Column(name = "updatedat")
+    @Column(name = "updatedate")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedat;
+    private Date updatedate;
     @Column(name = "deleted")
     private Boolean deleted;
     @Column(name = "deletedby")
@@ -161,12 +161,12 @@ public class Account implements Serializable {
         this.extrainfo = extrainfo;
     }
 
-    public Date getCreatedat() {
-        return createdat;
+    public Date getCreatedate() {
+        return createdate;
     }
 
-    public void setCreatedat(Date createdat) {
-        this.createdat = createdat;
+    public void setCreatedate(Date createdate) {
+        this.createdate = createdate;
     }
 
     public Integer getUpdatedby() {
@@ -177,12 +177,12 @@ public class Account implements Serializable {
         this.updatedby = updatedby;
     }
 
-    public Date getUpdatedat() {
-        return updatedat;
+    public Date getUpdatedate() {
+        return updatedate;
     }
 
-    public void setUpdatedat(Date updatedat) {
-        this.updatedat = updatedat;
+    public void setUpdatedate(Date updatedate) {
+        this.updatedate = updatedate;
     }
 
     public Boolean getDeleted() {

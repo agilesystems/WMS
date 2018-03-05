@@ -68,6 +68,9 @@ public interface AccountService {
      * @return one Account
      */
     Account findById(int id);
-//    Collection<Account> findByTypeId(int typeid);
+
+    Collection<Account> getAllSuppliers();
+
+    Collection<Account> getAllCustomers();
 
 }
