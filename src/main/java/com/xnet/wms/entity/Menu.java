@@ -21,9 +21,6 @@ import javax.persistence.OneToMany;
 @Entity(name = "menu")
 public class Menu {
 
-    @ManyToMany(mappedBy = "menusList")
-    private List<Role> roles;
-
     @Id
     private int id;
     private String name;
@@ -35,6 +32,31 @@ public class Menu {
     private Menu parent;
     @OneToMany(mappedBy = "parent")
     private List<Menu> subMenusList;
+
+    public Menu() {
+
+    }
+
+    public Menu(String name, String url, String title, int viewOrder, String icon, Menu parent) {
+        this.name = name;
+        this.url = url;
+        this.title = title;
+        this.viewOrder = viewOrder;
+        this.icon = icon;
+        this.parent = parent;
+
+    }
+
+    public Menu(int id, String name, String url, String title, int viewOrder, String icon, Menu parent) {
+        this.id = id;
+        this.name = name;
+        this.url = url;
+        this.title = title;
+        this.viewOrder = viewOrder;
+        this.icon = icon;
+        this.parent = parent;
+
+    }
 
     public int getId() {
         return id;
@@ -90,6 +112,14 @@ public class Menu {
 
     public void setParent(Menu parent) {
         this.parent = parent;
+    }
+
+    public List<Menu> getSubMenusList() {
+        return subMenusList;
+    }
+
+    public void setSubMenusList(List<Menu> subMenusList) {
+        this.subMenusList = subMenusList;
     }
 
 }

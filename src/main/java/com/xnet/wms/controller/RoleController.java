@@ -5,8 +5,10 @@
  */
 package com.xnet.wms.controller;
 
+import com.xnet.wms.dto.RoleDTO;
 import com.xnet.wms.entity.Role;
 import com.xnet.wms.service.RoleService;
+import java.util.ArrayList;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,13 +29,17 @@ public class RoleController {
     RoleService roleService;
 
     @GetMapping("/all")
-    Collection<Role> getAll() {
-        return roleService.getAll();
+    Collection<RoleDTO> getAll() {
+        Collection<RoleDTO> roles = new ArrayList<>();
+        roleService.getAll().forEach(role -> {
+            roles.add(new RoleDTO(role));
+        });
+        return roles;
     }
 
     @PostMapping("/add")
-    Role add(@RequestBody Role role) {
-        return roleService.addRole(role);
+    RoleDTO add(@RequestBody Role role) {
+        return new RoleDTO(roleService.addRole(role));
     }
 
 }

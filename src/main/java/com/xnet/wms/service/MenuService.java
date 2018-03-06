@@ -16,5 +16,6 @@ public interface MenuService {
 
     Collection<Menu> findAll();
     Menu findById(int id);
+    Menu addMenu(Menu menu);
     
 }

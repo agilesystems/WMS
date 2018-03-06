@@ -32,15 +32,18 @@ public class RoleDTO {
         id = role.getId();
         name = role.getName();
         this.role = role;
-        menus=new ArrayList<MenuDTO>();
+        menus = new ArrayList<MenuDTO>();
         handleRoleMenus();
     }
 
     private void handleRoleMenus() {
+        if (role.getMenusList() == null) {
+            return;
+        }
         role.getMenusList().stream().filter(p -> p.getParent() == null).forEach(parent -> {
             MenuDTO mDTO = new MenuDTO(parent);
             role.getMenusList().stream().filter(sp -> sp.getParent() != null && sp.getParent().getId() == parent.getId()).forEach(sub -> {
-                System.out.println("sub>>>>>"+sub.getId());
+                System.out.println("sub>>>>>" + sub.getId());
                 mDTO.getSubMenus().add(new MenuDTO(sub));
             });
             menus.add(mDTO);

@@ -17,22 +17,12 @@ import javax.persistence.OneToMany;
  * @author ramy
  */
 @Entity(name = "item")
-public class Item implements Serializable {
+public class Item extends BaseEntity implements Serializable {
 
-    @Id
-    private Integer id;
     private String barcode;
     private String name;
+
     @Basic(optional = false)
-    private boolean deleted;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -42,14 +32,6 @@ public class Item implements Serializable {
         this.name = name;
     }
 
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-
     public String getBarcode() {
         return barcode;
     }
@@ -57,5 +39,5 @@ public class Item implements Serializable {
     public void setBarcode(String barcode) {
         this.barcode = barcode;
     }
-    
+
 }

@@ -19,26 +19,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Integer> {
 
-//    @Query("UPDATE Item item set item.deleted = 1 where item.id = :id")
-//    boolean deleteItem(@Param("id") int id);
-
-//    @Query("Select item From Item item  Where item.groupid = :groupId AND item.deleted <> 1")
-//    Collection<Item> findByGroupid(@Param("groupId") int groupId);
-
     Item findByBarcode(String barcode);
 
     /**
      *
      * @param name
-     * @return collection of  items 
+     * @return collection of items
      */
 //    @Query("Select item from  Item item where item.name LIKE CONCAT('%',:name,'%') AND item.deleted <> 1 ")
     Collection<Item> findByNameContaining(String name);
-
-//    @Query("Select item From Item item Where item.expiredate = :date  AND item.deleted <> 1 ")
-//    Item findByExbiredate(@Param("date") Date date);
-
-    
-    Collection<Item> findByDeleted(boolean deleted);
 
 }

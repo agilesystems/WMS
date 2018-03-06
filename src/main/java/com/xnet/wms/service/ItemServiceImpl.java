@@ -31,14 +31,14 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public boolean delete(Item item) {
 
-        item.setDeleted(true);
+        item.setIsDeleted(true);
         return (itemRepository.save(item) != null);
     }
 
     @Override
     public Collection<Item> getAll() {
         if (!itemRepository.findAll().isEmpty()) {
-            return itemRepository.findByDeleted(false);
+            return itemRepository.findAll();
         } else {
             return null;
         }

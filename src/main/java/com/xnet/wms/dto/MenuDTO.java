@@ -17,6 +17,7 @@ public class MenuDTO {
 
     private int id;
     private String title;
+    private String name;
     private Integer viewOrder;
     private String url;
     private String icon;
@@ -33,11 +34,12 @@ public class MenuDTO {
         }
         id = menu.getId();
         title = menu.getTitle();
+        name = menu.getName();
         viewOrder = menu.getViewOrder();
         url = menu.getUrl();
         icon = menu.getIcon();
         isParent = (menu.getParent() == null);
-        subMenus=new ArrayList<>();
+        subMenus = new ArrayList<>();
 
     }
 
@@ -97,4 +99,13 @@ public class MenuDTO {
         this.isParent = isParent;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    
 }

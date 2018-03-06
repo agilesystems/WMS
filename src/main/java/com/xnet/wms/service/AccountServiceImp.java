@@ -24,6 +24,7 @@ public class AccountServiceImp implements AccountService {
 
     @Autowired
     AccountRepository accountRepository;
+
     @Override
     public boolean save(Account account) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -56,14 +57,12 @@ public class AccountServiceImp implements AccountService {
 
     @Override
     public Collection<Account> getAllSuppliers() {
-       return accountRepository.findByAccountType_IdAndDeleted(Global.ACCOUNT_TYPE_SUPPLIER
-               , Global.STATUS_UNDELETED);
-          }
+        return accountRepository.findByAccountType_Id(Global.ACCOUNT_TYPE_SUPPLIER);
+    }
 
     @Override
     public Collection<Account> getAllCustomers() {
- return accountRepository.findByAccountType_IdAndDeleted(Global.ACCOUNT_TYPE_CUSTOMER
-               , Global.STATUS_UNDELETED);      
+        return accountRepository.findByAccountType_Id(Global.ACCOUNT_TYPE_CUSTOMER);
     }
 
 }
