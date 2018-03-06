@@ -24,19 +24,21 @@ public class ItemServiceImpl implements ItemService {
     ItemRepository itemRepository;
 
     @Override
-    public boolean save(Item item) {
-        return itemRepository.save(item) != null;
+    public Item addNew(Item item) {
+        if (item == null) {
+            return null;
+        }
+        return itemRepository.save(item);
     }
 
     @Override
     public boolean delete(Item item) {
-
         item.setIsDeleted(true);
         return (itemRepository.save(item) != null);
     }
 
     @Override
-    public Collection<Item> getAll() {
+    public Collection<Item> findAll() {
         if (!itemRepository.findAll().isEmpty()) {
             return itemRepository.findAll();
         } else {
@@ -55,7 +57,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Collection<Item> getLowestquantity(Item item) {
+    public Collection<Item> findLowestquantity(Item item) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -18,10 +18,10 @@ public interface StoreService {
     /**
      * this method to add new or update current data in store table
      *
-     * @param store an object to get the data of store to save it in the table
+     * @param store an object to get the data of store to addNew it in the table
      * @return true if the data saved successfully or false if not saved
      */
-    boolean save(Store store);
+    Store addNew(Store store);
 
     /**
      * This method for soft deleted the store , just update the deleted field
@@ -38,7 +38,7 @@ public interface StoreService {
      *
      * @return a collection of stores
      */
-    Collection<Store> getAll();
+    Collection<Store> findAll();
 
     /**
      * this method to get one store if the store id parameter true .
@@ -46,7 +46,7 @@ public interface StoreService {
      * @param id an integer to specify the store id
      * @return Store object if @param id is correct
      */
-    Store findByid(int id);
+    Store findById(int id);
 
     /**
      * this method to get collection of store using like (%{name}%) this method

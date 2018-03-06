@@ -29,7 +29,9 @@ public class AccountDTO {
     }
 
     public AccountDTO(Account account) {
-       
+        if (account == null) {
+            return;
+        }
         setId(account.getId());
         setName(account.getName());
         setPhone(account.getPhone1());

@@ -7,7 +7,9 @@ package com.xnet.wms.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -20,6 +22,7 @@ import javax.persistence.Temporal;
 public class User extends BaseEntity implements Serializable {
 
     private String name;
+    @Column(unique = true)
     private String username;
     private String password;
     @ManyToOne(cascade = CascadeType.ALL)
@@ -28,10 +31,11 @@ public class User extends BaseEntity implements Serializable {
     private String mobile;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date lastLogin;
-    private boolean isBlocked=false;
-      @ManyToOne(cascade = CascadeType.ALL)
+    private boolean isBlocked = false;
+    @Basic(optional = false)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Role role;
-      @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Employee employee;
 
     public String getName() {
@@ -113,6 +117,5 @@ public class User extends BaseEntity implements Serializable {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
-    
 
 }

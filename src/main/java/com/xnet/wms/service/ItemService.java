@@ -8,7 +8,6 @@ package com.xnet.wms.service;
 import com.xnet.wms.entity.Item;
 import java.util.Collection;
 import java.util.Date;
-import org.springframework.stereotype.Service;
 
 /**
  *
@@ -19,11 +18,11 @@ public interface ItemService {
     /**
      * This Method to add new Or update Current item
      *
-     * @param item An object of item parameter to save the item data
+     * @param item An object of item parameter to addNew the item data
      * @return true if the item saves successfully Or false if not saved
      * successfully .
      */
-    boolean save(Item item);
+    Item addNew(Item item);
 
     /**
      * This method for soft deleted the items , just update the deleted field
@@ -40,7 +39,7 @@ public interface ItemService {
      *
      * @return a collection of item
      */
-    Collection<Item> getAll();
+    Collection<Item> findAll();
 
     /**
      * this method to get the items by group id
@@ -59,7 +58,7 @@ public interface ItemService {
      * @return a collection of items if the lowest quantity near current
      * quantity or equal
      */
-    Collection<Item> getLowestquantity(Item item);
+    Collection<Item> findLowestquantity(Item item);
 
     /**
      * this method to find item by bacrcode

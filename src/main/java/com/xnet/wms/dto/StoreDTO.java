@@ -3,24 +3,39 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.xnet.wms.entity;
+package com.xnet.wms.dto;
 
-import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import com.xnet.wms.entity.Store;
 
 /**
  *
  * @author ramy
  */
-@Entity(name = "store")
-public class Store extends BaseEntity {
+public class StoreDTO {
 
+    private int id;
     private String name;
     private String note;
-    @OneToMany(mappedBy = "store")
-    private List<StoreItem> storeItemsList;
+
+    public StoreDTO() {
+    }
+
+    public StoreDTO(Store store) {
+        if (store == null) {
+            return;
+        }
+        setId(store.getId());
+        setName(store.getName());
+        setNote(store.getNote());
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -38,13 +53,4 @@ public class Store extends BaseEntity {
         this.note = note;
     }
 
-    public List<StoreItem> getStoreItemsList() {
-        return storeItemsList;
-    }
-
-    public void setStoreItemsList(List<StoreItem> storeItemsList) {
-        this.storeItemsList = storeItemsList;
-    }
-    
-    
 }

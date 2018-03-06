@@ -18,20 +18,7 @@ import org.springframework.stereotype.Service;
  */
 public interface InvoiceService {
 
-    /**
-     * Returns true or false This Method use to create invoice , 1- save the
-     * invoice body 2- save the invoice items 3- calculate the total of invoice
-     * 4- calculate the discount (total * discount Percentage ) 5- calculate Net
-     * Total (total - discount value) 6- calculate the taxes (net total * tax
-     * percentage) 7- calculate the total invoice with tax ( net total + tax
-     * value ) 8- calculate and update outstanding value ( net value with tax -
-     * paid )
-     *
-     * @param invoice an argument specify to create the invoice
-     *
-     * @return True if the invoice Created , False if not saved
-     */
-    boolean save(Invoice invoice);
+    Invoice addNew(Invoice invoice);
 
     /**
      * This method for soft deleted the invoice , just update the deleted field
@@ -57,7 +44,7 @@ public interface InvoiceService {
      * @param accountid integer parameter to dedicate the invoices by account id
      * @return A Collection of invoice .
      */
-    Collection<Invoice> findByAccountid(int accountid);
+    Collection<Invoice> findByAccountId(int accountid);
 
     /**
      * Returns invoice object by reference in the store documents
@@ -125,4 +112,5 @@ public interface InvoiceService {
     void netvalue(Invoice invoice);
 
     //void updateStore(Invoiceitem invoiceItem);
+    Collection<Invoice> findAll();
 }

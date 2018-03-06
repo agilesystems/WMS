@@ -6,11 +6,10 @@
 package com.xnet.wms.entity;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -20,9 +19,10 @@ import javax.persistence.OneToMany;
 public class Item extends BaseEntity implements Serializable {
 
     private String barcode;
-    private String name;
-
     @Basic(optional = false)
+    private String name;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Category category;
 
     public String getName() {
         return name;
@@ -38,6 +38,14 @@ public class Item extends BaseEntity implements Serializable {
 
     public void setBarcode(String barcode) {
         this.barcode = barcode;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
 }

@@ -3,62 +3,60 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.xnet.wms.entity;
+package com.xnet.wms.dto;
 
-import java.io.Serializable;
+import com.xnet.wms.entity.Account;
+import com.xnet.wms.entity.Branch;
+import com.xnet.wms.entity.CashType;
+import com.xnet.wms.entity.DiscountType;
+import com.xnet.wms.entity.Invoice;
+import com.xnet.wms.entity.InvoiceItem;
+import com.xnet.wms.entity.InvoiceType;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
 
 /**
  *
  * @author ramy
  */
-@Entity(name = "invoice")
-public class Invoice extends BaseEntity implements Serializable {
+public class InvoiceDTO {
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    private int id;
     private Branch branch;
-    @ManyToOne(cascade = CascadeType.ALL)
     private Account account;
-    @Temporal(javax.persistence.TemporalType.DATE)
     private Date invoiceDate;
-    @ManyToOne(cascade = CascadeType.ALL)
     private InvoiceType invoiceType;
-    @ManyToOne(cascade = CascadeType.ALL)
     private CashType cashType;
-    @ManyToOne(cascade = CascadeType.ALL)
     private DiscountType discountType;
     private String reference;
     private double discountAmount;
-    @OneToMany(mappedBy = "invoice")
     private List<InvoiceItem> invoiceItemsList;
 
-    
-    
-//    
-//  `discount_value` float DEFAULT NULL,
-//  `tax1per` int(11) DEFAULT NULL,
-//  `tax1val` float DEFAULT NULL,
-//  `tax2per` int(11) DEFAULT NULL,
-//  `tax2val` float DEFAULT NULL,
-//  `tax3per` int(11) DEFAULT NULL,
-//  `tax3val` float DEFAULT NULL,
-//  `total` float DEFAULT NULL,
-//  `paied` float DEFAULT NULL,
-//  `net` float DEFAULT NULL,
-//  `outstanding` float DEFAULT NULL,
-//  `created_by` int(11) DEFAULT NULL,
-//  `create_date` date DEFAULT NULL,
-//  `updated_by` int(11) DEFAULT NULL,
-//  `update_date` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-//  `deleted` bit(1) DEFAULT NULL,
-//  `deletedby` int(11) DEFAULT NULL,
+    public InvoiceDTO() {
+    }
+
+    public InvoiceDTO(Invoice invoice) {
+        if (invoice == null) {
+            return;
+        }
+        setId(invoice.getId());
+        setBranch(invoice.getBranch());
+        setAccount(invoice.getAccount());
+        setInvoiceDate(invoice.getInvoiceDate());
+        setCashType(invoice.getCashType());
+        setDiscountAmount(invoice.getDiscountAmount());
+        setDiscountType(invoice.getDiscountType());
+        setReference(invoice.getReference());
+        setInvoiceItemsList(invoice.getInvoiceItemsList());
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Branch getBranch() {
         return branch;
@@ -81,6 +79,7 @@ public class Invoice extends BaseEntity implements Serializable {
     }
 
     public void setInvoiceDate(Date invoiceDate) {
+
         this.invoiceDate = invoiceDate;
     }
 
@@ -129,6 +128,10 @@ public class Invoice extends BaseEntity implements Serializable {
     }
 
     public void setInvoiceItemsList(List<InvoiceItem> invoiceItemsList) {
+        if (invoiceItemsList == null) {
+            return;
+        }
         this.invoiceItemsList = invoiceItemsList;
     }
+
 }
