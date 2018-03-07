@@ -6,18 +6,31 @@
 package com.xnet.wms.entity;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  *
  * @author ramy
  */
 @Entity(name = "job")
-public class Job extends BaseEntity implements Serializable{
+public class Job implements Serializable{
     
+    @Id
+    @GeneratedValue
+    private int id;
+    @Column(unique = true,nullable = false)
     private String name;
     private String description;
 
+    public Job(String name, String description) {
+        setName(name);
+        setDescription(description);
+    }
+
+    
     public String getName() {
         return name;
     }
@@ -33,6 +46,15 @@ public class Job extends BaseEntity implements Serializable{
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     
     
     

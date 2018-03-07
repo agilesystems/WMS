@@ -5,10 +5,8 @@
  */
 package com.xnet.wms.repository;
 
-
 import com.xnet.wms.entity.Store;
-import java.io.Serializable;
-import org.springframework.context.annotation.Lazy;
+import java.util.Collection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +17,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StoreRepository extends JpaRepository< Store, Integer> {
 
+    Collection<Store> findAllByNameContaining(String name);
 }

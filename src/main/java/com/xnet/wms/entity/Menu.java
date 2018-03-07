@@ -8,7 +8,9 @@ package com.xnet.wms.entity;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -22,9 +24,12 @@ import javax.persistence.OneToMany;
 public class Menu {
 
     @Id
+    @GeneratedValue
     private int id;
+    @Column(nullable = false)
     private String name;
     private String url;
+    @Column(nullable = false)
     private String title;
     private int viewOrder;
     private String icon;
@@ -38,23 +43,24 @@ public class Menu {
     }
 
     public Menu(String name, String url, String title, int viewOrder, String icon, Menu parent) {
-        this.name = name;
-        this.url = url;
-        this.title = title;
-        this.viewOrder = viewOrder;
-        this.icon = icon;
-        this.parent = parent;
+        setName(name);
+        setUrl(url);
+        setTitle(title);
+        setViewOrder(viewOrder);
+        setId(id);
+        setParent(parent);
+   
 
     }
 
     public Menu(int id, String name, String url, String title, int viewOrder, String icon, Menu parent) {
-        this.id = id;
-        this.name = name;
-        this.url = url;
-        this.title = title;
-        this.viewOrder = viewOrder;
-        this.icon = icon;
-        this.parent = parent;
+        setId(id);
+        setName(name);
+        setUrl(url);
+        setTitle(title);
+        setViewOrder(viewOrder);
+        setId(id);
+        setParent(parent);
 
     }
 

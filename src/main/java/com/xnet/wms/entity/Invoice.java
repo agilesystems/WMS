@@ -31,7 +31,7 @@ public class Invoice extends BaseEntity implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private InvoiceType invoiceType;
     @ManyToOne(cascade = CascadeType.ALL)
-    private CashType cashType;
+    private PyementType cashType;
     @ManyToOne(cascade = CascadeType.ALL)
     private DiscountType discountType;
     private String reference;
@@ -92,11 +92,11 @@ public class Invoice extends BaseEntity implements Serializable {
         this.invoiceType = invoiceType;
     }
 
-    public CashType getCashType() {
+    public PyementType getCashType() {
         return cashType;
     }
 
-    public void setCashType(CashType cashType) {
+    public void setCashType(PyementType cashType) {
         this.cashType = cashType;
     }
 

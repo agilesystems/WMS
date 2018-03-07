@@ -22,14 +22,9 @@ import javax.persistence.OneToMany;
 @Entity(name = "role")
 public class Role extends BaseEntity implements Serializable {
 
-    @OneToMany(mappedBy = "role")
-    private List<User> usersList;
-
     @Column(unique = true)
     private String name;
-
-    
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Collection<Menu> menusList;
 
     public String getName() {
@@ -46,14 +41,6 @@ public class Role extends BaseEntity implements Serializable {
 
     public void setMenusList(Collection<Menu> menusList) {
         this.menusList = menusList;
-    }
-
-    public List<User> getUsersList() {
-        return usersList;
-    }
-
-    public void setUsersList(List<User> usersList) {
-        this.usersList = usersList;
     }
 
 }

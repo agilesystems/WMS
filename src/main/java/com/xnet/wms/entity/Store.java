@@ -5,8 +5,11 @@
  */
 package com.xnet.wms.entity;
 
+import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -15,12 +18,14 @@ import javax.persistence.OneToMany;
  * @author ramy
  */
 @Entity(name = "store")
-public class Store extends BaseEntity {
+public class Store implements Serializable {
 
+    @Id
+    @GeneratedValue
+    private int id;
+    @Column(unique = true, nullable = false)
     private String name;
     private String note;
-    @OneToMany(mappedBy = "store")
-    private List<StoreItem> storeItemsList;
 
     public String getName() {
         return name;
@@ -38,13 +43,13 @@ public class Store extends BaseEntity {
         this.note = note;
     }
 
-    public List<StoreItem> getStoreItemsList() {
-        return storeItemsList;
+    public int getId() {
+        return id;
     }
 
-    public void setStoreItemsList(List<StoreItem> storeItemsList) {
-        this.storeItemsList = storeItemsList;
+    public void setId(int id) {
+        this.id = id;
     }
     
-    
+
 }

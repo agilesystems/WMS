@@ -33,8 +33,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public boolean delete(Item item) {
-        item.setIsDeleted(true);
-        return (itemRepository.save(item) != null);
+
+        itemRepository.delete(item);
+        return true;
     }
 
     @Override

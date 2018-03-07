@@ -36,27 +36,24 @@ public class StoreServiceImpl implements StoreService {
         if (store == null) {
             return false;
         }
-
-        store.setIsDeleted(true);
-        store.setDeletedDate(new Date());
-        storeRepository.save(store);
+        storeRepository.delete(store);
 
         return true;
     }
 
     @Override
     public Collection<Store> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return storeRepository.findAll();
     }
 
     @Override
     public Store findById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return storeRepository.findOne(id);
     }
 
     @Override
     public Collection<Store> findByName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return storeRepository.findAllByNameContaining(name);
     }
 
 }

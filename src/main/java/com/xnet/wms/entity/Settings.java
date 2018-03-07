@@ -6,16 +6,19 @@
 package com.xnet.wms.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;    
 
 /**
  *
  * @author ramy
  */
-@Entity(name = "cash_type")
-public class CashType {
+@Entity(name = "settings")
+public class Settings {
     
     @Id
-    Integer id;
-    String name;
+    @GeneratedValue
+    int id;
+    String compnayName;
+    
 }
