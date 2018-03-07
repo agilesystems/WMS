@@ -20,6 +20,9 @@ public class AccountType  extends BaseEntity{
     @OneToMany(mappedBy = "accountType")
     private List<Account> accountsList;
 
+    public AccountType() {
+    }
+
     public AccountType(Integer id, String name) {
         setId(id);
         this.name = name;

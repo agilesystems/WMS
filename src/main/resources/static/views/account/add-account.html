@@ -1,74 +1,85 @@
-<section ng-controller="accountCtrl">
-    <div class="container">
+<div class="col-lg-12">
+    <div class="wrapper wrapper-content" ng-controller="accountCtrl">
+        <div class="ibox-content">
 
-        <form name="accountForm" ng-submit="addAccount(accountForm.$valid)" novalidate>
-            <br>
-            <h3>Add New Account:</h3>
+            <form name="accountForm" ng-submit="addAccount(accountForm.$valid)" novalidate>
+                <br>
 
-            <div class="row form-group">
-                <div class="col-sm-4">
-                    <label for="name" class="control-label">Name:</label>
-                    <input type="text" class="form-control" ng-class="{ 'is-invalid': accountForm.name.$touched && accountForm.name.$invalid }" id="account.name" name="name" ng-minlength="4" ng-required="true" ng-model="account.name">
-                    <div class="help-block" ng-messages="accountForm.name.$error" ng-if="accountForm.name.$touched">
-                        <smal ng-messages-include="messages.html"></smal>
+                <h3 translate="ADDAC.ADDNEWACCOUNT"></h3>
+
+                <div class="row form-group">
+                    <div class="col-sm-4">
+                        <label for="name" class="control-label" translate="ADDAC.NAME"></label>
+                        <input type="text" class="form-control" ng-class="{ 'is-invalid': accountForm.name.$touched && accountForm.name.$invalid }"
+                            id="account.name" name="name" ng-minlength="4" ng-required="true" ng-model="account.name">
+                        <div class="help-block" ng-messages="accountForm.name.$error" ng-if="accountForm.name.$touched">
+                            <smal ng-messages-include="messages.html"></smal>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="code" class="control-label" translate="ADDAC.CODE"></label>
+                        <input type="text" class="form-control" ng-class="{ 'is-invalid': accountForm.code.$touched && accountForm.code.$invalid }"
+                            name="code" id="code" ng-required="true" ng-model="account.code">
+                        <div class="help-block" ng-messages="accountForm.code.$error" ng-if="accountForm.code.$touched">
+                            <smal ng-messages-include="messages.html"></smal>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="type" translate="ADDAC.ACTYPE"></label>
+                        <select class="custom-select form-control" name="type" id="type" ng-class="{ 'is-invalid': accountForm.type.$touched && accountForm.type.$invalid }"
+                            ng-options="account as account.id +' - '+ account.name for account in accounts" ng-model="account.type"
+                            ng-required="true">
+                        </select>
+                        <div class="help-block" ng-messages="accountForm.type.$error" ng-if="accountForm.type.touched">
+                            <smal ng-messages-include="messages.html"></smal>
+                        </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <label for="code" class="control-label">Code:</label>
-                    <input type="text" class="form-control" ng-class="{ 'is-invalid': accountForm.code.$touched && accountForm.code.$invalid }" name="code" id="code" ng-required="true" ng-model="account.code">
-                    <div class="help-block" ng-messages="accountForm.code.$error" ng-if="accountForm.code.$touched">
-                        <smal ng-messages-include="messages.html"></smal>
+                <div class="row form-group">
+                    <div class="col-sm-6">
+                        <label for="account.email" class="control-label" translate="ADDAC.EMAIL"></label>
+                        <input type="email" name="email" class="form-control" ng-class="{ 'is-invalid': accountForm.email.$touched && accountForm.email.$invalid }" id="account.email" ng-model="account.email">
+                        <div class="help-block" ng-messages="accountForm.email.$error" ng-if="accountForm.email.$touched">
+                            <smal ng-messages-include="messages.html"></smal>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="account.phone" class="control-label" translate="ADDAC.PHONENO"></label>
+                        <input type="text" class="form-control" id="account.phone" ng-model="account.phone">
                     </div>
                 </div>
-                <div class="col-sm-4">
-                    <label for="type">Account type</label>
-                    <select class="custom-select form-control" name="type" id="type" ng-class="{ 'is-invalid': accountForm.type.$touched && accountForm.type.$invalid }" ng-options="account as account.id +' - '+ account.name for account in accounts" ng-model="account.type" ng-required="true">
-                    </select>
-                    <div class="help-block" ng-messages="accountForm.type.$error" ng-if="accountForm.type.touched">
-                        <smal ng-messages-include="messages.html"></smal>
+
+                <div class="row form-group">
+                    <div class="col-sm-4">
+                        <label for="account.address" class="control-label" translate="ADDAC.ADDRS"></label>
+                        <input type="text" class="form-control" id="account.address" ng-model="account.address">
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="account.city" class="control-label" translate="ADDAC.CITY"></label>
+                        <input type="text" class="form-control" id="account.city" ng-model="account.city">
+                    </div>
+
+                    <div class="col-sm-4">
+                        <label for="account.status" class="control-label" translate="ADDAC.STATE"></label>
+                        <input type="text" class="form-control" id="account.status" ng-model="account.state">
+                    </div>
+
+                </div>
+                
+                <div class="row  form-group">
+                    <div class="col-sm-12">
+                        <label for="account.info" translate="ADDAC.EXTINFO"></label>
+                        <div class="">
+                            <textarea rows="3" class="form-control" id="account.info" ng-model="account.info"></textarea>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row form-group">
-                <div class="col-sm-6">
-                    <label for="account.email" class="control-label">Email:</label>
-                    <input type="email" class="form-control" id="account.email" ng-model="account.email">
-                </div>
-                <div class="col-sm-6">
-                    <label for="account.phone" class="control-label">Phone Number:</label>
-                    <input type="text" class="form-control" id="account.phone" ng-model="account.phone">
-                </div>
-            </div>
-
-            <div class="row form-group">
-                <div class="col-sm-4">
-                    <label for="account.address" class="control-label">Address:</label>
-                    <input type="text" class="form-control" id="account.address" ng-model="account.address">
-                </div>
-                <div class="col-sm-4">
-                    <label for="account.city" class="control-label">City:</label>
-                    <input type="text" class="form-control" id="account.city" ng-model="account.city">
-                </div>
-
-                <div class="col-sm-4">
-                    <label for="account.status" class="control-label">State:</label>
-                    <input type="text" class="form-control" id="account.status" ng-model="account.state">
-                </div>
-
-            </div>
-            <div class="row  form-group">
-                <div class="col-sm-12">
-                    <label for="account.info">Extra Informations:</label>
-                    <div class="">
-                        <textarea rows="3" class="form-control" id="account.info" ng-model="account.info"></textarea>
+                <div class="form-group ibox-footer">
+                    <div>
+                        <button type="submit" ng-disabled="accountForm.$invalid" class="btn btn-primary col-sm-2" translate="ADDAC.SAVE"></button>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm-12 form-group">
-                <div>
-                    <button type="submit" ng-disabled="accountForm.$invalid" class="btn btn-primary col-sm-2">Save</button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</section>
+</div>
