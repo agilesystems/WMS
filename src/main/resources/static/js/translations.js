@@ -89,12 +89,35 @@ function config($translateProvider) {
           PASS:'كلمة السر: ',
           SELECTEROLE:'الصلاحيات: ',
           SAVE:'حفظ'
+      },
+      ADDINVO: {
+        BRANCH:'الفرع',
+        INVOTYPE:'نوع الفاتورة',
+        CASHTYPE:'طريقة الدفع',
+        REFERENCE:'المرجع',
+        ACCOUNTTYPE:'نوع الحساب',
+        INVODATE:'التاريخ',
+        STORE:'المخزن',
+        DISCOUNT:'الخصم',
+        PRODUCT:'المنتج',
+        QUANTITY:'الكمية',
+        COST:'الكلفة',
+        TOTAL:'المبلغ',
+        SUBTOTAL:'المجموع',
+        TAX:'الضريبة',
+        GRANDTOTAL:'المبلغ الإجمالي',
+        SAVE:'حفظ الفاتورة',
+        PRINT:'طباعة',
+        NEW:'فاتورة جديدة',
+        VIEWMODE:'معاينة',
+        EDITMODE:'تعديل',
+        EDITLOGO:'تعديل الشعار',
+        SHOWLOGO:'إظهار الشعار',
+        HIDELOGO:'إخفاء الشعار'
       }
     });
 
-    $translateProvider.preferredLanguage('ar');
-
+  $translateProvider.preferredLanguage("ar");
 }
-
 
 app.config(config);
