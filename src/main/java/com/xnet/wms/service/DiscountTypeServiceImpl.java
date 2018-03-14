@@ -9,11 +9,13 @@ import com.xnet.wms.entity.DiscountType;
 import com.xnet.wms.repository.DiscountTypeRepository;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author ramy
  */
+@Service
 public class DiscountTypeServiceImpl implements DiscountTypeService {
 
     @Autowired
