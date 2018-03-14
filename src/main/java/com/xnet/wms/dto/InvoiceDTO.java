@@ -7,7 +7,7 @@ package com.xnet.wms.dto;
 
 import com.xnet.wms.entity.Account;
 import com.xnet.wms.entity.Branch;
-import com.xnet.wms.entity.PyementType;
+import com.xnet.wms.entity.PaymentType;
 import com.xnet.wms.entity.DiscountType;
 import com.xnet.wms.entity.Invoice;
 import com.xnet.wms.entity.InvoiceItem;
@@ -26,7 +26,7 @@ public class InvoiceDTO {
     private Account account;
     private Date invoiceDate;
     private InvoiceType invoiceType;
-    private PyementType cashType;
+    private PaymentType cashType;
     private DiscountType discountType;
     private String reference;
     private double discountAmount;
@@ -91,11 +91,11 @@ public class InvoiceDTO {
         this.invoiceType = invoiceType;
     }
 
-    public PyementType getCashType() {
+    public PaymentType getCashType() {
         return cashType;
     }
 
-    public void setCashType(PyementType cashType) {
+    public void setCashType(PaymentType cashType) {
         this.cashType = cashType;
     }
 

@@ -16,7 +16,7 @@ import javax.persistence.Id;
  * @author ramy
  */
 @Entity(name = "payment_type")
-public class PyementType implements Serializable {
+public class PaymentType implements Serializable {
     
     @Id
     @GeneratedValue

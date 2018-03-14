@@ -44,4 +44,13 @@ public class AccountController {
         });
         return suppliers;
     }
+      @GetMapping("/all")
+    public Collection<AccountDTO> getAll(HttpServletRequest httpServletRequest) {
+
+        Collection<AccountDTO> customers = new ArrayList<>();
+        accountService.getAllCustomers().forEach(acc -> {
+            customers.add(new AccountDTO(acc));
+        });
+        return customers;
+    }
 }

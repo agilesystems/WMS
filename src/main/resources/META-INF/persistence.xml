@@ -27,7 +27,7 @@
     <class>com.xnet.wms.entity.AccountType</class>
     <class>com.xnet.wms.entity.Menu</class>
     <class>com.xnet.wms.entity.ItemTransfer</class>
-    <class>com.xnet.wms.entity.PyementType</class>
+    <class>com.xnet.wms.entity.PaymentType</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://agile-solutions.co:3306/agile_x-net?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="agile_x-net"/>
