@@ -10,6 +10,7 @@ import com.xnet.wms.entity.Role;
 import com.xnet.wms.service.RoleService;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +30,8 @@ public class RoleController {
     RoleService roleService;
 
     @GetMapping("/all")
-    Collection<RoleDTO> getAll() {
+    Collection<RoleDTO> getAll(HttpServletRequest httpServletRequest) {
+               System.out.println(httpServletRequest.getAttribute("userId"));
         Collection<RoleDTO> roles = new ArrayList<>();
         roleService.getAll().forEach(role -> {
             roles.add(new RoleDTO(role));
@@ -38,7 +40,7 @@ public class RoleController {
     }
 
     @PostMapping("/add")
-    RoleDTO add(@RequestBody Role role) {
+    RoleDTO add(@RequestBody Role role,HttpServletRequest httpServletRequest) {
         return new RoleDTO(roleService.addRole(role));
     }
 

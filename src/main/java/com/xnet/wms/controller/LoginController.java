@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,7 +54,8 @@ public class LoginController {
 //                .setExpiration(setExpiry(expiresIn))
 //                .signWith(this.Algo, this.getEncodedSecret())
 //                .compact();
-            token = Jwts.builder().setSubject(user.getUsername()).setIssuedAt(new Date())
+            token = Jwts.builder().setSubject(user.getUsername()).claim("userId", user.getId())
+                    .claim("branchId", user.getBranch().getId()).setIssuedAt(new Date())
                     .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
             tokenMap.put("token", token);
             tokenMap.put("user", u);

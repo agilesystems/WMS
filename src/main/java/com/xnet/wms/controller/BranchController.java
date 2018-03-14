@@ -10,6 +10,7 @@ import com.xnet.wms.entity.Branch;
 import com.xnet.wms.service.BranchService;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,7 @@ public class BranchController {
     BranchService branchService;
 
     @GetMapping("/all")
-    Collection<BranchDTO> getAll() {
+    Collection<BranchDTO> getAll(HttpServletRequest httpServletRequest) {
 
         Collection<BranchDTO> branches = new ArrayList<>();
         branchService.fincAll().forEach(br -> {
@@ -40,13 +41,13 @@ public class BranchController {
     }
 
     @GetMapping("/id/{id}")
-    BranchDTO findOneByID(@PathVariable("id") int id) {
+    BranchDTO findOneByID(@PathVariable("id") int id,HttpServletRequest httpServletRequest) {
         return new BranchDTO(branchService.findByID(id));
     }
 
     @PostMapping("/add")
 
-    BranchDTO addNew(@RequestBody Branch branch) {
+    BranchDTO addNew(@RequestBody Branch branch,HttpServletRequest httpServletRequest) {
 
         return new BranchDTO(branchService.addNew(branch));
 

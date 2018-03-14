@@ -13,6 +13,7 @@ import com.xnet.wms.service.MenuService;
 import com.xnet.wms.service.UserService;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,7 +40,7 @@ public class UserController {
     MenuService menuService;
 
     @PostMapping("/add")
-    public User add(@RequestBody User user) {
+    public User add(@RequestBody User user,HttpServletRequest httpServletRequest) {
 
         Collection<Menu> mc = new ArrayList<>();
 
@@ -60,7 +61,7 @@ public class UserController {
     }
 
     @GetMapping("/getById/{id}")
-    public UserDTO getById(@PathVariable("id") Integer id) {
+    public UserDTO getById(@PathVariable("id") Integer id,HttpServletRequest httpServletRequest) {
         if (userService.getById(id) != null) {
             return new UserDTO(userService.getById(id));
         } else {

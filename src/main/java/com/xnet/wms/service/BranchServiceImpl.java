@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @author ramy
  */
 @Service
-public class BranchInterfaceImpl implements BranchService {
+public class BranchServiceImpl implements BranchService {
 
     @Autowired
     BranchRepository branchRepository;

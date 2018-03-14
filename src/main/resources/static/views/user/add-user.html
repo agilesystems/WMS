@@ -1,88 +1,65 @@
+<div class="col-lg-12">
+    <div class="wrapper wrapper-content" ng-controller="userCtrl">
+        <div class="ibox-content">
+            <div class="card-header">
+                <H3 translate="ADDUSER.ADDNEWUSER"></H3>
+            </div>
+            <div class="card-body">
+                <form name="userForm" ng-submit="addUser(userForm.$valid)" novalidate>
+                    <div class="form-group">
+                        <div class="form-row">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="fname" translate="ADDUSER.FNAME"></label>
+                            <input class="form-control" type="text" placeholder="Enter your first name" ng-model="user.firstname">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="lname" translate="ADDUSER.LNAME"></label>
+                            <input class="form-control" type="text" placeholder="Enter your last name" ng-model="user.lastname">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="phone" translate="ADDUSER.PHONENO"></label>
+                            <input class="form-control" type="text" placeholder="Enter your phone" ng-model="user.phone">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="address" translate="ADDUSER.ADDRS"></label>
+                            <input class="form-control" type="text" placeholder="Enter your address" ng-model="user.address">
+                        </div>
+                    </div>
 
-<div class="card card-register mx-auto mt-5" ng-controller="userCtrl" >
-    <div class="card-header">Add User:</div>
-    <div class="card-body">
-        <form>
-            <div class="form-group">
-                <div class="form-row">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-6" >
-                    <label for="fname">First Name</label>
-                    <input class="form-control" type="text" placeholder="Enter your first name" ng-model="user.firstname">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="lname">Last Name</label>
-                    <input class="form-control" type="text" placeholder="Enter your last name" ng-model="user.lastname">
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label for="phone">Phone</label>
-                    <input class="form-control" type="text" placeholder="Enter your phone" ng-model="user.phone">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="addredd">Address</label>
-                    <input class="form-control" type="text" placeholder="Enter your address" ng-model="user.address">
-                </div>
-            </div>
 
-
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label for="username">User Name</label>
-                    <input class="form-control" type="text" placeholder="Enter your user name" ng-model="user.username">
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="password">Password</label>
-                    <input class="form-control" type="password" placeholder="Password" ng-model="user.password" required>
-                </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="uname" translate="ADDUSER.USERN"></label>
+                            <input class="form-control" id="uname" name="uname" type="text" placeholder="Enter your user name" ng-model="user.username" required>
+                            <div class="help-block" ng-messages="userForm.uname.$error" ng-if="userForm.uname.$touched">
+                                <smal ng-messages-include="messages.html"></smal>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="password" translate="ADDUSER.PASS"></label>
+                            <input class="form-control" id="password" name="password" type="password" placeholder="Password" ng-model="user.password" required>
+                            <div class="help-block" ng-messages="userForm.password.$error" ng-if="userForm.password.$touched">
+                                <smal ng-messages-include="messages.html"></smal>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="rolemenu" translate="ADDUSER.SELECTEROLE"></label>
+                            <select class="custom-select form-control m-b" name="rolemenu" id="rolemenu" ng-model="user.role" ng-options="option as option.name for option in roles">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group ibox-footer">
+                        <button class="btn btn-primary col-sm-2" type="submit" ng-disabled="userForm.$invalid" translate="ADDUSER.SAVE"></button>
+                    </div>
+                </form>
             </div>
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label for="rolemenu">Select Role:</label>
-                    <select class="custom-select" name="rolemenu" id="rolemenu">
-                        <option selected>Select one</option>
-                        <option value="">Role1</option>
-                        <option value="">Role2</option>
-                        <option value="">Role3</option>
-                    </select>
-                </div>
-            </div>
-            <!-- Start List Select Menus -->
-            <div class="subject-info-box-1">
-                <select multiple="multiple" id='lstBox1' class="form-control" ng-model="roleMenus"
-                            ng-options="m as m.title for m in user.roleMenus">
-                    <!--<option ng-repeat=" menu in roleMenus" ng-value="{{menu}}">{{menu.id}} - {{menu.title}}</option>-->
-
-                </select>
-
-<!--                 <select multiple="multiple" id='lstBox1' class="form-control" ng-model="selectedMenus"
-                         ng-options=" m as m.title for m in menus" >                  
-                </select>-->
-            </div>
-            <div class="subject-info-arrows text-center">
-                <input type="button" id="btnAllRight" value=">>" class="btn btn-default"  ng-click="addAllRight()"/>
-                <br />
-                <input type="button" id="btnRight" value=">" class="btn btn-default" ng-click="addOneRigth()"/>
-                <br />
-                <input type="button" id="btnLeft" value="<" class="btn btn-default" ng-click="addOneLeft()" />
-                <br />
-                <input type="button" id="btnAllLeft" value="<<" class="btn btn-default" ng-click="addAllLeft()"/>
-            </div>
-
-            <div class="subject-info-box-2">
-                <select multiple="multiple"  id='lstBox2' class="form-control" ng-model="user.menuCollection"  
-                        ng-options="m as m.title for m in user.menuCollection" >
-                    <option></option>
-                </select>
-            </div>
-            <div class="clearfix"></div>
-            <div class="col-md-3">
-                <label></label>
-                <input class="btn btn-primary btn-block" type="button" ng-click="addUser()" value="Save">
-            </div>
+        </div>
     </div>
 </div>
-

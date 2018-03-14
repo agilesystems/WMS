@@ -17,5 +17,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface StoreRepository extends JpaRepository< Store, Integer> {
 
-    Collection<Store> findAllByNameContaining(String name);
+    Collection<Store> findByNameContainingAndBranch_Id(String name,int branchId);
+    Collection<Store> findByBranch_Id(int branchId);
 }

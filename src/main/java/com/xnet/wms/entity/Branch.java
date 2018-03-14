@@ -6,8 +6,10 @@
 package com.xnet.wms.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -15,6 +17,12 @@ import javax.persistence.Entity;
  */
 @Entity(name = "branch")
 public class Branch extends BaseEntity implements Serializable {
+
+    @OneToMany(mappedBy = "branch")
+    private List<Account> accountsList;
+
+    @OneToMany(mappedBy = "branch")
+    private List<Store> storesList;
 
     @Column(unique = true, nullable = false)
     private String name;

@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -26,7 +27,9 @@ public class Store implements Serializable {
     @Column(unique = true, nullable = false)
     private String name;
     private String note;
-
+    @ManyToOne
+    private Branch branch;
+    
     public String getName() {
         return name;
     }
@@ -50,6 +53,13 @@ public class Store implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-    
 
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
+    
 }

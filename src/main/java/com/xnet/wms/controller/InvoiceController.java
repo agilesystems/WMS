@@ -10,6 +10,7 @@ import com.xnet.wms.entity.Invoice;
 import com.xnet.wms.service.InvoiceService;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,18 +31,18 @@ public class InvoiceController {
     InvoiceService invoiceService;
 
     @PostMapping("/add")
-    InvoiceDTO addNew(@RequestBody Invoice invoice) {
+    InvoiceDTO addNew(@RequestBody Invoice invoice,HttpServletRequest httpServletRequest) {
 
         return new InvoiceDTO(invoiceService.addNew(invoice));
     }
 
     @GetMapping("/id/{id}")
-    InvoiceDTO getOneById(@PathVariable("id") int id) {
+    InvoiceDTO getOneById(@PathVariable("id") int id,HttpServletRequest httpServletRequest) {
         return new InvoiceDTO(invoiceService.findById(id));
     }
 
     @GetMapping("/all")
-    Collection<InvoiceDTO> getAll() {
+    Collection<InvoiceDTO> getAll(HttpServletRequest httpServletRequest) {
         Collection<InvoiceDTO> invoices = new ArrayList<>();
         invoiceService.findAll().forEach(i -> {
             invoices.add(new InvoiceDTO(i));

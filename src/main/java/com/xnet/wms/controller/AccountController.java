@@ -9,6 +9,7 @@ import com.xnet.wms.dto.AccountDTO;
 import com.xnet.wms.service.AccountService;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ public class AccountController {
     AccountService accountService;
 
     @GetMapping("/customer/all")
-    public Collection<AccountDTO> getAllCustomers() {
+    public Collection<AccountDTO> getAllCustomers(HttpServletRequest httpServletRequest) {
 
         Collection<AccountDTO> customers = new ArrayList<>();
         accountService.getAllCustomers().forEach(acc -> {
@@ -36,7 +37,7 @@ public class AccountController {
     }
 
     @GetMapping("/supplier/all")
-    public Collection<AccountDTO> getAllSuppliers() {
+    public Collection<AccountDTO> getAllSuppliers(HttpServletRequest httpServletRequest) {
         Collection<AccountDTO> suppliers = new ArrayList<>();
         accountService.getAllSuppliers().forEach(acc -> {
             suppliers.add(new AccountDTO(acc));

@@ -15,17 +15,20 @@ import javax.persistence.Id;
  */
 @Entity(name = "account_type")
 public class AccountType {
-    
+
     @Id
     @GeneratedValue
     private int id;
     private String name;
 
-    public AccountType(int id, String name) {
-        setId(id);
+    public AccountType( String name) {
         setName(name);
     }
-    
+
+    public AccountType() {
+    }
+
+
     public String getName() {
         return name;
     }
@@ -34,7 +37,6 @@ public class AccountType {
         this.name = name;
     }
 
-
     public int getId() {
         return id;
     }
@@ -42,5 +44,5 @@ public class AccountType {
     public void setId(int id) {
         this.id = id;
     }
-    
+
 }

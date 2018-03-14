@@ -40,7 +40,7 @@ public class AccountDTO {
         setCode(account.getCode());
         setExtrainfo(account.getNote());
 //        setCreatedate(account.getCreateDate());
-        setType(new AccountType(account.getAccountType().getId(), account.getAccountType().getName()));
+        setType(new AccountType(account.getAccountType().getName()));
     }
 
     public int getId() {

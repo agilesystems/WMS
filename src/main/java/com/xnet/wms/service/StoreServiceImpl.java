@@ -52,8 +52,14 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Collection<Store> findByName(String name) {
-        return storeRepository.findAllByNameContaining(name);
+    public Collection<Store> findByNameAndBranch_Id(String name,  int branchId) {
+        return storeRepository.findByNameContainingAndBranch_Id(name,branchId);
     }
+
+    @Override
+    public Collection<Store> findAllByBranch_Id(int branchId) {
+        return storeRepository.findByBranch_Id(branchId);
+    }
+
 
 }

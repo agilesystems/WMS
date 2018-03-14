@@ -8,6 +8,7 @@ package com.xnet.wms.controller;
 import com.xnet.wms.entity.InvoiceType;
 import com.xnet.wms.service.InvoiceTypeService;
 import java.util.Collection;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,19 +29,19 @@ public class InvoiceTypeController {
     InvoiceTypeService invoiceTypeService;
 
     @PostMapping("/add")
-    InvoiceType addNew(@RequestBody InvoiceType invoiceType) {
+    InvoiceType addNew(@RequestBody InvoiceType invoiceType,HttpServletRequest httpServletRequest) {
 
         return invoiceTypeService.addNew(invoiceType);
 
     }
 
     @GetMapping("/all")
-    Collection<InvoiceType> getAll() {
+    Collection<InvoiceType> getAll(HttpServletRequest httpServletRequest) {
         return invoiceTypeService.findAll();
     }
 
     @GetMapping("/id/{id}")
-    InvoiceType getOneByID(@PathVariable("id") int id) {
+    InvoiceType getOneByID(@PathVariable("id") int id,HttpServletRequest httpServletRequest) {
         return invoiceTypeService.findByID(id);
     }
 

@@ -10,6 +10,7 @@ import com.xnet.wms.entity.Menu;
 import com.xnet.wms.service.MenuService;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.servlet.http.HttpServletRequest;
 import jdk.nashorn.internal.objects.annotations.Getter;
 import org.apache.catalina.mbeans.UserMBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class MenuController {
     MenuService menuService;
 
     @GetMapping("/all")
-    Collection<MenuDTO> getAll() {
+    Collection<MenuDTO> getAll(HttpServletRequest httpServletRequest) {
 
         Collection<MenuDTO> menus = new ArrayList<MenuDTO>();
         menuService.findAll().forEach(m -> {

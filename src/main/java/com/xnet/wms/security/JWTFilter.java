@@ -28,11 +28,7 @@ import org.springframework.web.filter.GenericFilterBean;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
-import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 /**
  * A generic filter for security. I will check token present in the header.
@@ -73,6 +69,8 @@ public class JWTFilter extends GenericFilterBean {
                 request.setAttribute("claims", claims);
                 SecurityContextHolder.getContext().setAuthentication(getAuthentication(claims));
                 String username = claims.get("sub").toString();
+                req.setAttribute("userId", claims.get("userId"));
+                req.setAttribute("branchId", claims.get("branchId"));
                 System.out.println("ssssssssssssss" + username);
                 if (new UserServiceImpl().hasAccess(username, "index_.html")) {
                     System.out.println(username + "ssssssssssssss");
@@ -94,8 +92,7 @@ public class JWTFilter extends GenericFilterBean {
      * @return
      */
     public Authentication getAuthentication(Claims claims) {
-        String username = claims.get("sub").toString();
-        System.out.println(username);
+       
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 //        authorities.add(new SimpleGrantedAuthority(claims.get(AUTHORITIES_KEY).toString()));
         User principal;

@@ -8,7 +8,8 @@ var app = angular.module('wms', [
         'ui.bootstrap',                 // Ui Bootstrap
         'pascalprecht.translate',       // Angular Translate
         'ngIdle',                       // Idle timer
-        'ngSanitize'                    // ngSanitize
+        'ngSanitize',                    // ngSanitize
+        'ngMessages'
     ]);
 var server="http://localhost:8080/";
 var $routeProviderReference;

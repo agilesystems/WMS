@@ -39,6 +39,7 @@ public interface StoreService {
      * @return a collection of stores
      */
     Collection<Store> findAll();
+    Collection<Store> findAllByBranch_Id(int branchId);
 
     /**
      * this method to get one store if the store id parameter true .
@@ -56,6 +57,6 @@ public interface StoreService {
      * name to get the store
      * @return a collection of stores
      */
-    Collection<Store> findByName(String name);
+    Collection<Store> findByNameAndBranch_Id(String name, int branchId);
 
 }

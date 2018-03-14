@@ -30,6 +30,9 @@ public class Account extends BaseEntity implements Serializable {
     private String address;
     private String code;
     private String note;
+    @ManyToOne
+    private Branch branch;
+    
 
     @ManyToOne(cascade = CascadeType.ALL)
     private City city;
@@ -150,4 +153,13 @@ public class Account extends BaseEntity implements Serializable {
         this.invoicesList = invoicesList;
     }
 
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
+
+    
 }
