@@ -19,8 +19,11 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/plugins/chosen/chosen.css" rel="stylesheet">
+    <link href="css/plugins/select/select.css" rel="stylesheet">
+    <link href="css/plugins/angularPrint/angularPrint.css" rel="stylesheet">
+    <link href="css/plugins/angular-moment-picker-master/dist/angular-moment-picker.css" rel="stylesheet">
  <link href="css/plugins/bootstrap-rtl/bootstrap-rtl.min.css" rel="stylesheet">
- <link href="css/plugins/chosen/chosen.css" rel="stylesheet">
     <!-- Font awesome -->
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
@@ -36,8 +39,7 @@
 <body ng-controller="MainCtrl as main" class="rtls md-skin " landing-scrollspy id="page-top ">
 
 <!-- Main view  -->
-<div ui-view></div>
-
+<div print-section ui-view></div>
 <!-- jQuery and Bootstrap -->
 <script src="js/jquery/jquery-3.1.1.min.js"></script>
 <script src="js/plugins/jquery-ui/jquery-ui.min.js"></script>
@@ -69,7 +71,13 @@
 <script src="js/ui-router/angular-ui-router.min.js"></script>
 <script src="js/bootstrap/ui-bootstrap-tpls-1.1.2.min.js"></script>
 <script src="js/plugins/angular-idle/angular-idle.js"></script>
-
+<!-- Select Plugin -->
+<script src="js/plugins/select/select.js"></script>
+<!-- Angular-print plugin -->
+<script src="js/plugins/angularPrint/angularPrint.js"></script>
+<!-- Moment Datepacker plugin -->
+<script src="js/plugins/angular-moment-picker-master/dist/moment-with-locales.js"></script>
+<script src="js/plugins/angular-moment-picker-master/dist/angular-moment-picker.js"></script>
 <!--
  You need to include this script on any page that has a Google Map.
  When using Google Maps on your own site you MUST signup for your own API key at:
@@ -84,6 +92,7 @@
 <script src="js/translations.js"></script>
 <script src="js/directives.js"></script>
 <script src="js/dataService.js"></script>
+<script src="js/invoiceService.js"></script>
 <script src="js/controllers.js"></script>
 
 </body>
