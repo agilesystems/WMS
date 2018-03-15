@@ -6,8 +6,6 @@
 package com.xnet.wms.service;
 
 import com.xnet.wms.entity.Account;
-import com.xnet.wms.entity.AccountType;
-import com.xnet.wms.entity.User;
 import com.xnet.wms.helper.Global;
 import com.xnet.wms.repository.AccountRepository;
 import java.util.Collection;
@@ -26,34 +24,32 @@ public class AccountServiceImp implements AccountService {
     AccountRepository accountRepository;
 
     @Override
-    public boolean save(Account account) {
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Account addNew(Account account) {
+
+        return accountRepository.save(account);
     }
 
     @Override
     public boolean delete(Account account) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        account.setIsDeleted(true);
+        account.setDeletedDate(new Date());
+        accountRepository.save(account);
+        return true;
     }
 
     @Override
-    public boolean save(int id, String name, String phone, String email, String address, AccountType type, String Code, String extrainfo, User createdby, Date createdat, User updatedby, Date updatedat, boolean deleted, User deletedby) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Collection<Account> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Collection<Account> findAll() {
+        return accountRepository.findAll();
     }
 
     @Override
     public Collection<Account> findByName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return accountRepository.findByNameContaining(name);
     }
 
     @Override
     public Account findById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return accountRepository.findOne(id);
     }
 
     @Override

@@ -18,4 +18,5 @@ import org.springframework.stereotype.Repository;
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     Collection<Account> findByAccountType_Id(int type );
+    Collection<Account>findByNameContaining(String name);
 }

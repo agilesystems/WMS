@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getById(Integer id) {
+    public User findById(Integer id) {
         if (userRepository.findOne(id).getId() != 0) {
             return userRepository.findOne(id);
         } else {
@@ -96,5 +96,7 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+   
 
 }

@@ -20,7 +20,7 @@ import java.util.Date;
 public interface AccountService {
 
     /**
-     * save new or update Current Account with all details This method always
+     * addNew new or update Current Account with all details This method always
      * returns immediately true or false
      *
      * @param account an argument to determined the account that we need to use
@@ -28,7 +28,7 @@ public interface AccountService {
      * @return true or false . if the account saved return true and the account
      * not saved return false .
      */
-    boolean save(Account account);
+    Account addNew(Account account);
 
     /**
      * this method to soft delete account , Just update the deleted field with
@@ -40,14 +40,13 @@ public interface AccountService {
      */
     boolean delete(Account account);
 
-    boolean save(int id, String name, String phone, String email, String address, AccountType type, String Code, String extrainfo, User createdby, Date createdat, User updatedby, Date updatedat, boolean deleted, User deletedby);
-
+  
     /**
      * this method to get All Accounts .
      *
      * @return a collection of accounts
      */
-    Collection<Account> getAll();
+    Collection<Account> findAll();
 
     /**
      * Return One Or more accounts By name argument Or a part of it. this method

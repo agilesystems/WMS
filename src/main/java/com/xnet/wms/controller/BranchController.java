@@ -8,6 +8,7 @@ package com.xnet.wms.controller;
 import com.xnet.wms.dto.BranchDTO;
 import com.xnet.wms.entity.Branch;
 import com.xnet.wms.service.BranchService;
+import com.xnet.wms.service.UserService;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,8 @@ public class BranchController {
 
     @Autowired
     BranchService branchService;
+    @Autowired
+    UserService userService;
 
     @GetMapping("/all")
     Collection<BranchDTO> getAll(HttpServletRequest httpServletRequest) {
@@ -41,14 +44,15 @@ public class BranchController {
     }
 
     @GetMapping("/id/{id}")
-    BranchDTO findOneByID(@PathVariable("id") int id,HttpServletRequest httpServletRequest) {
+    BranchDTO findOneByID(@PathVariable("id") int id, HttpServletRequest httpServletRequest) {
         return new BranchDTO(branchService.findByID(id));
     }
 
     @PostMapping("/add")
 
-    BranchDTO addNew(@RequestBody Branch branch,HttpServletRequest httpServletRequest) {
+    BranchDTO addNew(@RequestBody Branch branch, HttpServletRequest httpServletRequest) {
 
+        branch.setCreatedBy(userService.findById(Integer.parseInt(httpServletRequest.getAttribute("userId").toString())));
         return new BranchDTO(branchService.addNew(branch));
 
     }

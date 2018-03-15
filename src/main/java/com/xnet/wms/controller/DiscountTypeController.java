@@ -5,13 +5,11 @@
  */
 package com.xnet.wms.controller;
 
-import com.sun.org.glassfish.external.statistics.annotations.Reset;
 import com.xnet.wms.entity.DiscountType;
-import com.xnet.wms.repository.DiscountTypeRepository;
 import com.xnet.wms.service.DiscountTypeService;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.server.ServletServerHttpRequest;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,12 +29,12 @@ public class DiscountTypeController {
     DiscountTypeService discountTypeService;
 
     @GetMapping("/all")
-    Collection<DiscountType> getAll(ServletServerHttpRequest httpRequest) {
+    Collection<DiscountType> getAll(HttpServletRequest httpRequest) {
         return discountTypeService.findAll();
     }
     
     @PostMapping("/add")
-    DiscountType addNew(@RequestBody DiscountType discountType, ServletServerHttpRequest httpRequest ){
+    DiscountType addNew(@RequestBody DiscountType discountType, HttpServletRequest httpRequest ){
         
         return discountTypeService.addNew(discountType);
     }

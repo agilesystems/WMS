@@ -62,8 +62,8 @@ public class UserController {
 
     @GetMapping("/getById/{id}")
     public UserDTO getById(@PathVariable("id") Integer id,HttpServletRequest httpServletRequest) {
-        if (userService.getById(id) != null) {
-            return new UserDTO(userService.getById(id));
+        if (userService.findById(id) != null) {
+            return new UserDTO(userService.findById(id));
         } else {
             return null;
         }

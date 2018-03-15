@@ -9,7 +9,7 @@ import com.xnet.wms.entity.PaymentType;
 import com.xnet.wms.service.PaymentTypeService;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.server.ServletServerHttpRequest;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +26,7 @@ public class PaymentTypeController {
     PaymentTypeService paymentTypeService;
 
     @GetMapping("/all")
-    Collection<PaymentType> getAll(ServletServerHttpRequest httpRequest) {
+    Collection<PaymentType> getAll(HttpServletRequest httpRequest) {
 
         return paymentTypeService.findAll();
     }

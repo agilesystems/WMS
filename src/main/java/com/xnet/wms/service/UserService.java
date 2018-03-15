@@ -20,6 +20,6 @@ public interface UserService {
     
     public User save(User user);
     public User findByUsernameAndBranchid(String username, Integer branchid);
-    public User getById(Integer id);
+    public User findById(Integer id);
     Collection<User> findAll();
 }

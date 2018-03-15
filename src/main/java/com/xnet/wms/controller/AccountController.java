@@ -6,12 +6,16 @@
 package com.xnet.wms.controller;
 
 import com.xnet.wms.dto.AccountDTO;
+import com.xnet.wms.entity.Account;
 import com.xnet.wms.service.AccountService;
+import com.xnet.wms.service.UserService;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +29,9 @@ public class AccountController {
 
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping("/customer/all")
     public Collection<AccountDTO> getAllCustomers(HttpServletRequest httpServletRequest) {
@@ -44,7 +51,8 @@ public class AccountController {
         });
         return suppliers;
     }
-      @GetMapping("/all")
+
+    @GetMapping("/all")
     public Collection<AccountDTO> getAll(HttpServletRequest httpServletRequest) {
 
         Collection<AccountDTO> customers = new ArrayList<>();
@@ -52,5 +60,12 @@ public class AccountController {
             customers.add(new AccountDTO(acc));
         });
         return customers;
+    }
+
+    @PostMapping("/add")
+    AccountDTO addNew(@RequestBody Account account, HttpServletRequest httpServletRequest) {
+        account.setCreatedBy(userService.findById(Integer.parseInt(httpServletRequest.getAttribute("userId").toString())));
+
+        return new AccountDTO(accountService.addNew(account));
     }
 }
