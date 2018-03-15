@@ -5,9 +5,7 @@
  */
 package com.xnet.wms.controller;
 
-import com.sun.org.glassfish.external.statistics.annotations.Reset;
 import com.xnet.wms.entity.DiscountType;
-import com.xnet.wms.repository.DiscountTypeRepository;
 import com.xnet.wms.service.DiscountTypeService;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;

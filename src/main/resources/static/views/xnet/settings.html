@@ -1,0 +1,140 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Static Settings</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a>Forms</a>
+            </li>
+            <li class="active">
+                <strong>Settings</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div ng-controller="settingsCtrl" class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>{{'SETTINGS.PERSONALINFO' | translate}}
+                        <small translate="SETTINGS.DESCRIPTION"></small>
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <form class="form-horizontal">
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" translate="SETTINGS.COMPANYNAME"></label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="" class="form-control" ng-model="contact.name" ng-change="touched()">
+                                    <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" translate="SETTINGS.MOBILE1"></label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="" class="form-control" ng-model="contact.mobile1" ng-change="touched()">
+                                    <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" translate="SETTINGS.MOBILE2"></label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="" class="form-control" ng-model="contact.mobile2" ng-change="touched()">
+                                    <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" translate="SETTINGS.PHONE1"></label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="" class="form-control"ng-model="contact.phone1" ng-change="touched()">
+                                    <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" translate="SETTINGS.PHONE2"></label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="" class="form-control" ng-model="contact.phone2" ng-change="touched()">
+                                    <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" translate="SETTINGS.EMAIL"></label>
+                                <div class="col-lg-9">
+                                    <input type="email" placeholder="" class="form-control" ng-model="contact.mail" ng-change="touched()">
+                                    <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" translate="SETTINGS.ADDRESS"></label>
+                                <div class="col-lg-9">
+                                    <textarea type="text" placeholder="" class="form-control" ng-model="contact.address" ng-change="touched()"></textarea>
+                                    <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>{{'SETTINGS.TAXES' | translate}}</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="col-lg-1 control-label" translate="SETTINGS.NAME"></label>
+                            <div class="col-lg-3">
+                                <input type="text" placeholder="" class="form-control" ng-model="tax1.name" ng-change="touched()">
+                                <span class="help-block m-b-none"></span>
+                            </div>
+                            <label class="col-lg-1 control-label" translate="SETTINGS.VALUE"></label>
+                            <div class="col-lg-3">
+                                <input type="text" placeholder="" class="form-control" ng-model="tax1.cost" ng-change="touched()">
+                                <span class="help-block m-b-none"></span>
+                            </div>
+                            <div class="col-lg-2">
+                                <label translate="SETTINGS.PERCENTAGE"></label>
+                                <input icheck type="radio" value="per" name="tax1" ng-model="tax1.rdb" ng-change="touched()">
+                            </div>
+                            <div class="col-lg-2">
+                                <label translate="SETTINGS.COST"></label>
+                                <input icheck type="radio" value="val" name="tax1" ng-model="tax1.rdb" ng-change="touched()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-1 control-label" translate="SETTINGS.NAME"></label>
+                            <div class="col-lg-3">
+                                <input type="text" placeholder="" class="form-control" ng-model="tax2.name" ng-change="touched()">
+                                <span class="help-block m-b-none"></span>
+                            </div>
+                            <label class="col-lg-1 control-label" translate="SETTINGS.VALUE"></label>
+                            <div class="col-lg-3">
+                                <input type="text" placeholder="" class="form-control" ng-model="tax2.cost" ng-change="touched()">
+                                <span class="help-block m-b-none"></span>
+                            </div>
+                            <div class="col-lg-2">
+                                <label translate="SETTINGS.PERCENTAGE"></label>
+                                <input icheck type="radio" value="per" name="tax2" ng-model="tax2.rdb" ng-change="touched()">
+                            </div>
+                            <div class="col-lg-2">
+                                <label translate="SETTINGS.COST"></label>
+                                <input icheck type="radio" value="val" name="tax2" ng-model="tax2.rdb" ng-change="touched()">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

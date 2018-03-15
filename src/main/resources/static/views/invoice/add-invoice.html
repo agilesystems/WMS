@@ -59,15 +59,15 @@
                 </div>
                         <div class="form-group">
                             <div class="col-sm-3">
-                                <h4 translate="ADDINVO.CASHTYPE"></h4>
+                                <h4 translate="ADDINVO.PAYMENTTYPE"></h4>
                 </div>
                             <div class="col-sm-9 input-group">
-                                <ui-select ng-model="invoice.cashType" class="ui-select">
-                                    <ui-select-match placeholder="Select CashType">
+                                <ui-select ng-model="invoice.paymentType" class="ui-select">
+                                    <ui-select-match placeholder="Select PaymentType">
                                         <span ng-bind="$select.selected.name"></span>
                                     </ui-select-match>
-                                    <ui-select-choices repeat="cash in (cashes | filter: $select.search) track by cash.id">
-                                        <span ng-bind="cash.name"></span>
+                                    <ui-select-choices repeat="payment in (payments | filter: $select.search) track by payment.id">
+                                        <span ng-bind="payment.name"></span>
                                     </ui-select-choices>
                                 </ui-select>
                 </div>

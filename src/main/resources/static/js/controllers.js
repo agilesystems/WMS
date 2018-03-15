@@ -26,9 +26,20 @@ function MainCtrl($rootScope,$state) {
         console.log("go to login");
        $state.go('logins');
     }
-}
-;
+};
 
+function settingsCtrl($scope, storageService) {
+
+    $scope.touched = function () {
+      storageService.setStorage("tax1", $scope.tax1);
+      storageService.setStorage("tax2", $scope.tax2);
+      storageService.setStorage("contact", $scope.contact);
+}
+     $scope.tax1 = storageService.getStorage('tax1');
+     $scope.tax2 = storageService.getStorage('tax2');
+     $scope.contact = storageService.getStorage("contact");
+
+};
 /**
  * translateCtrl - Controller for translate
  */
@@ -153,7 +164,7 @@ function invoiceCtrl($scope, $http, DEFAULT_INVOICE, DEFAULT_LOGO, LocalStorage,
 
       // get Accounts from API
       DataServiceApi.GetData(server+'account/customer/all').then(function (response) {
-          $scope.customers = response.data;
+          $scope.accounts = response.data;
       });
 
       // get Stores from API
@@ -161,11 +172,21 @@ function invoiceCtrl($scope, $http, DEFAULT_INVOICE, DEFAULT_LOGO, LocalStorage,
           $scope.stores = response.data;
       });
 
-      // get Branches from API
-      DataServiceApi.GetData(server+'branch/all').then(function (response) {
-          $scope.branches = response.data;
+      // get Invoice Type from API
+      DataServiceApi.GetData(server+'invoice-type/all').then(function (response) {
+          $scope.invoTypes = response.data;
       });
       
+      // get Payment Type from API
+      DataServiceApi.GetData(server+'payment-type/all').then(function (response) {
+          $scope.payments = response.data;
+      });
+
+      // get Discount Type from API
+      DataServiceApi.GetData(server+'payment-type/all').then(function (response) {
+          $scope.discountTypes = response.data;
+      });
+
   })()
 
   // Save invoice (to invoice and invoiceItem)
@@ -278,6 +299,7 @@ app.controller('MainCtrl', MainCtrl)
         .controller('accountCtrl', accountCtrl)
         .controller('navbarCtrl', navbarCtrl)
         .controller('userCtrl', userCtrl)
-        .controller('invoiceCtrl', invoiceCtrl);
+        .controller('invoiceCtrl', invoiceCtrl)
+        .controller('settingsCtrl', settingsCtrl);
 
 
