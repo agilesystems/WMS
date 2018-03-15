@@ -12,7 +12,9 @@ var app = angular.module("wms", [
   "ngSanitize", // ngSanitize
   "ngMessages",
   "AngularPrint",
-  "moment-picker"
+  "moment-picker",
+  "LocalStorageModule",
+  "ui.bootstrap"
     ]);
 var server="http://localhost:8080/";
 var $routeProviderReference;

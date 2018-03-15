@@ -93,7 +93,7 @@ function config($translateProvider) {
       ADDINVO: {
         BRANCH:'الفرع',
         INVOTYPE:'نوع الفاتورة',
-        CASHTYPE:'طريقة الدفع',
+        PAYMENTTYPE:'طريقة الدفع',
         REFERENCE:'المرجع',
         ACCOUNTTYPE:'نوع الحساب',
         INVODATE:'التاريخ',
@@ -114,6 +114,22 @@ function config($translateProvider) {
         EDITLOGO:'تعديل الشعار',
         SHOWLOGO:'إظهار الشعار',
         HIDELOGO:'إخفاء الشعار'
+      },
+      SETTINGS: {
+          PERSONALINFO:'البياتات الشخصية',
+          DESCRIPTION:'يتم إدخال هذه البيانات مرة واحدة فقط واستخدامها بشكل دائم أثناء العمل',
+          COMPANYNAME:'اسم الشركة',
+          MOBILE1:'موبايل1',
+          MOBILE2:'موبايل2',
+          PHONE1:'هاتف ثابت1',
+          PHONE2:'هاتف ثابت2',
+          EMAIL:'البريد الالكتروني',
+          ADDRESS:'العنوان',
+          TAXES:'الضرائب',
+          NAME:'الاسم',
+          VALUE:'القيمة',
+          PERCENTAGE:'نسبة',
+          COST:'مبلغ'
       }
     });
 
