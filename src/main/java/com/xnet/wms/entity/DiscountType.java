@@ -20,11 +20,15 @@ public class DiscountType {
     @Id
     @GeneratedValue
     private int id;
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
 
     public DiscountType(String name) {
         setName(name);
+    }
+
+    public DiscountType() {
+
     }
 
     public String getName() {
@@ -42,5 +46,5 @@ public class DiscountType {
     public void setId(int id) {
         this.id = id;
     }
-    
+
 }
