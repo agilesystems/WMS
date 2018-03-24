@@ -21,17 +21,17 @@ import javax.persistence.Temporal;
 @Entity(name = "invoice")
 public class Invoice extends BaseEntity implements Serializable {
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Branch branch;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Account account;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date invoiceDate;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private InvoiceType invoiceType;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private PaymentType cashType;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private DiscountType discountType;
     private String reference;
     private double discountAmount;

@@ -8712,3 +8712,21 @@ textarea {
 /* .form-group .control-label{
   margin-top: 8px;
 } */
+
+/* Fix ui-select display in inline mode */
+.ui-select-container input.form-control.ui-select-search.ng-hide {
+  display: block !important;
+  visibility: hidden;
+  height: 0;
+  border: 0;
+  padding: 0;
+}
+/* Hide arrow from input type number */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}

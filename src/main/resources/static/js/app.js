@@ -8,13 +8,16 @@ var app = angular.module("wms", [
   "ui.bootstrap", // Ui Bootstrap
   "pascalprecht.translate", // Angular Translate
   "ngIdle", // Idle timer
+  "ngAnimate",
   "ui.select",
   "ngSanitize", // ngSanitize
   "ngMessages",
   "AngularPrint",
   "moment-picker",
   "LocalStorageModule",
-  "ui.bootstrap"
+  "ngValidate",
+  "toaster",
+  "ngTable"
     ]);
 var server="http://localhost:8080/";
 var $routeProviderReference;

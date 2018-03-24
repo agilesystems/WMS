@@ -31,12 +31,12 @@ public class Account extends BaseEntity implements Serializable {
     private String code;
     private String note;
     @ManyToOne
-    private Branch branch;
+    private Branch branch;  
     
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private City city;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private AccountType accountType;
     @OneToMany(mappedBy = "account")
     private List<Invoice> invoicesList;

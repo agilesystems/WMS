@@ -1,4 +1,4 @@
-<div print-remove class="row wrapper border-bottom white-bg page-heading">
+<div print-remove class="row wrapper border-bottom white-bg pQuantity-heading">
     <div class="col-lg-8">
         <h2>Invoice</h2>
         <ol class="breadcrumb">
@@ -6,312 +6,381 @@
                 <a href="index.html">Home</a>
             </li>
             <li>
-                Other Pages
+                Invoice
             </li>
             <li class="active">
-                <strong>Invoice</strong>
+                <strong>Add New Invoice</strong>
             </li>
         </ol>
     </div>
 
 </div>
-        <div class="row">
+<div class="row">
     <div class="col-lg-12">
-        <div class="wrapper wrapper-content animated fadeInRight" ng-controller="invoiceCtrl">
-            <div class="ibox-content b-r-xl">
-                <div print-only class="row">
-            <div class="col-xs-12 invo-heading">
-                INVOICE
+        <div class="wrapper wrapper-content animated fadeInRight" ng-controller="invoiceCtrl as inv">
+            <!-- ########### invoice informations section start ############################################### -->
+            <div class="ibox-title">
+                <h5>البيانات الاساسية</h5>
             </div>
-        </div>
-
-                <div class="row form-horizontal col-xs-12 form-group text-center">
-                    <div class="col-xs-4">
-                <input type="file" id="imgInp" />
-                <img ng-hide="logoRemoved" id="company_logo" ng-src="{{ logo }}" alt="your image" width="300" />
-                <div>
-                    <div class="noPrint" ng-hide="printMode">
-                                <a ng-click="editLogo()" href translate="ADDINVO.EDITLOGO"></a>
-                                <a ng-click="toggleLogo()" id="remove_logo" href translate>{{ logoRemoved ? 'ADDINVO.SHOWLOGO' : 'ADDINVO.HIDELOGO' }} </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
+            <div class="ibox-content">
                 <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <div class="col-sm-3">
-                                <h4 translate="ADDINVO.BRANCH"></h4>
-                </div>
-                            <div class="col-sm-9 input-group">
-                                <ui-select ng-model="invoice.branch" class="ui-select">
-                                    <ui-select-match placeholder="Select Branch">
-                                        <span ng-bind="$select.selected.name"></span>
-                                    </ui-select-match>
-                                    <ui-select-choices repeat="branch in (branches | filter: $select.search) track by branch.id">
-                                        <span ng-bind="branch.name"></span>
-                                    </ui-select-choices>
-                                </ui-select>
+                    <form name="invoiceForm" id="invoiceForm" role="form" ng-submit="addInvoice(invoiceForm)" class="form-horizontal" ng-validate="validateInvoice" novalidate>
+                        <div class="col-sm-6">
+
+                            <div class="form-horizontal">
+                                <label class="col-md-3 control-label">
+                                    <h4 translate="ADDINVO.PAYMENTTYPE"></h4>
+                                </label>
+                                <div class="col-md-9 form-group">
+                                    <ui-select ng-model="invoice.cashType" class="ui-select">
+                                        <ui-select-match placeholder="Select PaymentType">
+                                            <span ng-bind="$select.selected.name"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="payment in (payments | filter: $select.search) track by payment.id">
+                                            <span ng-bind="payment.name"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <label class="col-md-3 control-label">
+                                    <h4 translate="ADDINVO.ACCOUNTTYPE"></h4>
+                                </label>
+                                <div class="col-md-9 form-group">
+                                    <ui-select ng-model="invoice.account" class="ui-select">
+                                        <ui-select-match class="matchr" placeholder="Select Account">
+                                            <span ng-bind="$select.selected.name"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="account in (accounts | filter: $select.search) track by account.id">
+                                            <span ng-bind="account.name"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <label class="control-label col-md-3">
+                                    <h4 translate="ADDINVO.STORE"></h4>
+                                </label>
+
+                                <div class="col-md-7 form-group">
+                                    <ui-select ng-model="selected.name" class="ui-select">
+                                        <ui-select-match placeholder="Select Store">
+                                            <span ng-bind="$select.selected.name"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="">
+                                            <!-- store in (stores | filter: $select.search) track by store.id -->
+                                            <span ng-bind="store.name"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <div class="col-md-1">
+                                    <button data-toggle="modal" type="button" data-target="#addStore" class="btn btn-success fa fa-plus fa-lg"></button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-6 text-left">
+                            <div class="form-group">
+                                <div class="col-sm-3">
+                                    <h4 translate="ADDINVO.INVOTYPE"></h4>
+                                </div>
+                                <div class="col-sm-9 input-group">
+                                    <ui-select ng-model="invoice.invoiceType" class="ui-select">
+                                        <ui-select-match placeholder="Select InvoiceType">
+                                            <span ng-bind="$select.selected.name"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="invoType in (invoTypes | filter: $select.search) track by invoType.id">
+                                            <span ng-bind="invoType.name"></span>
+                                        </ui-select-choices>
+                                </div>
+                            </div>
+                            <div class=" form-group">
+                                <div class="col-sm-3">
+                                    <h4 translate="ADDINVO.REFERENCE"></h4>
+                                </div>
+                                <div class="col-sm-9 input-group">
+                                    <input type="text" name="reference" class="form-control" ng-model="invoice.reference" />
+                                </div>
+
+                            </div>
+                            <div class="form-group" moment-picker="invoice.invoiceDate" format="YYYY-MM-DD" start-view="month" today="true">
+                                <div class="col-sm-3">
+                                    <h4 translate="ADDINVO.INVODATE"></h4>
+                                </div>
+                                <div class="col-sm-9 input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                    <input class="form-control" placeholder="Select a date" ng-model="invoice.invoiceDate" ng-model-options="{ updateOn: 'blur' }">
+                                </div>
+                            </div>
+
+                            <div class="form-horizontal">
+                                <label class="control-label col-md-3">
+                                    <h4 translate="ADDINVO.DISCOUNT"></h4>
+                                </label>
+
+                                <div class="col-md-7 form-group">
+                                    <ui-select ng-model="invoice.discountType" class="ui-select">
+                                        <ui-select-match placeholder="Select Discount">
+                                            <span ng-bind="$select.selected.name"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="discountType in (discountTypes | filter: $select.search) track by discountType.id">
+                                            <span ng-bind="discountType.name"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <input type="hidden" value="{{invoice.discountType}}" ng-model="invoice.discountType" name="inputItem" class="inputHidden">{{vlaidateSelect()}}
+                                </div>
+                                <div class="col-md-1">
+                                    <button data-toggle="modal" type="button" data-target="#addDiscount" class="btn btn-success fa fa-plus fa-lg"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
-                </div>
-                        <div class="form-group">
-                            <div class="col-sm-3">
-                                <h4 translate="ADDINVO.PAYMENTTYPE"></h4>
-                </div>
-                            <div class="col-sm-9 input-group">
-                                <ui-select ng-model="invoice.paymentType" class="ui-select">
-                                    <ui-select-match placeholder="Select PaymentType">
-                                        <span ng-bind="$select.selected.name"></span>
-                                    </ui-select-match>
-                                    <ui-select-choices repeat="payment in (payments | filter: $select.search) track by payment.id">
-                                        <span ng-bind="payment.name"></span>
-                                    </ui-select-choices>
-                                </ui-select>
-                </div>
-                </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-3">
-                                <h4 translate="ADDINVO.ACCOUNTTYPE"></h4>
-                </div>
-                            <div class="col-sm-9 input-group">
-                                <ui-select ng-model="selected.name" class="ui-select">
-                                    <ui-select-match class="matchr" placeholder="Select Account">
-                                        <span ng-bind="$select.selected.name"></span>
-                                    </ui-select-match>
-                                    <ui-select-choices repeat="account in (accounts | filter: $select.search) track by account.id">
-                                        <span ng-bind="account.name"></span>
-                                    </ui-select-choices>
-                                </ui-select>
             </div>
 
-                </div>
-                        <div class="form-group">
-                            <div class="col-sm-3">
-                                <h4 translate="ADDINVO.STORE"></h4>
-                </div>
-                            <div class="col-sm-2">
-                                <a href ng-hide="printMode" data-toggle="modal" data-target="#addStore" class="btn btn-success fa fa-plus"></a>
-                </div>
-                            <div class="col-sm-7 input-group">
-                                <ui-select ng-model="selected.name" class="ui-select">
-                                    <ui-select-match placeholder="Select Store">
-                                        <span ng-bind="$select.selected.name"></span>
-                                    </ui-select-match>
-                                    <ui-select-choices repeat="store in (stores | filter: $select.search) track by store.id">
-                                        <span ng-bind="store.name"></span>
-                                    </ui-select-choices>
-                                </ui-select>
-                </div>
 
-                </div>
 
+            <!-- ###########  Add product row start ############################################### -->
+            <div class="ibox-title">
+                <h5>اضافة منتج جديد للفاتورة</h5>
             </div>
-
-                    <div class="col-sm-6 text-left">
-                        <div class="form-group">
-                            <div class="col-sm-3">
-                                <h4 translate="ADDINVO.INVOTYPE"></h4>
-        </div>
-                            <div class="col-sm-9 input-group">
-                                <ui-select ng-model="invoice.invoiceType" class="ui-select">
-                                    <ui-select-match placeholder="Select InvoiceType">
-                                        <span ng-bind="$select.selected.name"></span>
-                                    </ui-select-match>
-                                    <ui-select-choices repeat="invoType in (invoTypes | filter: $select.search) track by invoType.id">
-                                        <span ng-bind="invoType.name"></span>
-                                    </ui-select-choices>
-                            </div>
-                        </div>
-                        <div class=" form-group">
-                            <div class="col-sm-3">
-                                <h4 translate="ADDINVO.REFERENCE"></h4>
-                            </div>
-                            <div class="col-sm-9 input-group">
-                                <input type="text" class="form-control" ng-model="invoice.reference" />
-                            </div>
-
-                        </div>
-                        <div class="form-group" moment-picker="ctrl.datepicker" format="DD-MM-YYYY" start-view="month" today="true">
-                            <div class="col-sm-3">
-                                <h4 translate="ADDINVO.INVODATE"></h4>
-                            </div>
-                            <div class="col-sm-9 input-group">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
-                                </span>
-                                <input class="form-control" placeholder="Select a date" ng-model="ctrl.datepicker" ng-model-options="{ updateOn: 'blur' }">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-3">
-                                <h4 translate="ADDINVO.DISCOUNT"></h4>
-                            </div>
-                            <div class="col-sm-2">
-                                <a href ng-hide="printMode" data-toggle="modal" data-target="#addDiscount" class="btn btn-success fa fa-plus"></a>
-                            </div>
-                            <div class="col-sm-7 input-group">
-                                <ui-select ng-model="invoice.discountType" class="ui-select">
-                                    <ui-select-match placeholder="Select Discount">
-                                        <span ng-bind="$select.selected.name"></span>
-                                    </ui-select-match>
-                                    <ui-select-choices repeat="discountType in (discountTypes | filter: $select.search) track by discountType.id">
-                                        <span ng-bind="discountType.name"></span>
-                                    </ui-select-choices>
-                                </ui-select>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- line discount modal -->
-                <div class="modal fade" id="addDiscount" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">
-                                    <span aria-hidden="true">×</span>
-                                    <span class="sr-only">Close</span>
-                                </button>
-                                <h3 class="modal-title">Add New Discount Type</h3>
-                            </div>
-                            <div class="modal-body">
-
-                                <!-- content goes here -->
-                                <form>
-                                    <div class="form-group">
-                                        <label for="name">Discount Name:</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Discount Name">
-                                    </div>
-                                    <button type="submit" class="btn btn-default">Save</button>
-                                </form>
-
-                            </div>
-                            <div class="modal-footer">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- line store modal -->
-                <div class="modal fade" id="addStore" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">
-                                    <span aria-hidden="true">×</span>
-                                    <span class="sr-only">Close</span>
-                                </button>
-                                <h3 class="modal-title">Add New Store</h3>
-                            </div>
-                            <div class="modal-body">
-
-                                <!-- content goes here -->
-                                <form>
-                                    <div class="form-group">
-                                        <label for="name">Store Name:</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Store Name">
-                                    </div>
-                                    <button type="submit" class="btn btn-default">Save</button>
-                                </form>
-
-                            </div>
-                            <div class="modal-footer">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Start Information Section -->
-
-                <!-- End Information Section -->
-        <div class="items-table">
-            <div class="row invo-header">
-                <div class="col-xs-1">&nbsp;</div>
-                        <div class="col-xs-5" translate="ADDINVO.PRODUCT"></div>
-                        <div class="col-xs-2" translate="ADDINVO.QUANTITY"></div>
-                        <div class="col-xs-2" translate="ADDINVO.COST"></div>
-                        <div class="col-xs-2 text-right" translate="ADDINVO.TOTAL"></div>
-            </div>
-            <div class="row invoice-item" ng-repeat="item in invoice.items track by $index" ng-animate="'slide-down'">
-                <div class="col-xs-1 remove-item-container">
-                            <a href ng-hide="printMode" ng-click="removeItem(item)" class="btn btn-danger fa fa-times"></a>
-                </div>
-                        <div class="col-xs-5 input-container ui-select">
-                            <ui-select ng-model="invoiceItem.i" class="ui-select">
-                                <ui-select-match>
+            <div class="ibox-content">
+                <form name="itemForm" role="form" ng-submit="addRow(itemForm)" class="form-horizontal" ng-validate="validateInvoiceItem"
+                    novalidate>
+                    <div class="col-md-5">
+                        <label class="col-md-1 control-label" for="">Item</label>
+                        <div class=" col-md-11">
+                            <ui-select ng-model="invoiceItem.item" class="ui-select" name="item" required>
+                                <ui-select-match placeholder="">
                                     <span ng-bind="$select.selected.name"></span>
                                 </ui-select-match>
-                                <ui-select-choices repeat="i in (Items | filter: $select.search) track by i.id">
-                                    <span ng-bind="i.name"></span>
+                                <ui-select-choices repeat="invoiceItem in (Items | filter: $select.search) track by invoiceItem.id">
+                                    <span ng-bind="invoiceItem.name"></span>
                                 </ui-select-choices>
                             </ui-select>
-                </div>
-
-                <div class="col-xs-2 input-container">
-                            <input ng-model="invoiceItem.quantity" value="1" size="5" ng-required ng-validate="integer" placeholder="{{'ADDINVO.QUANTITY' | translate}}"
-                            />
-                </div>
-                <div class="col-xs-2 input-container">
-                            <input ng-model="invoiceItem.cost" value="0.00" ng-required ng-validate="number" size="6" placeholder="{{'ADDINVO.COST' | translate}}"
-                            />
-                </div>
-                <div class="col-xs-2 text-right input-container">
-                            {{invoiceItem.cost * invoiceItem.quantity | currency: currencySymbol}}
-                </div>
-            </div>
-            <div class="row invoice-item">
-                <div class="col-xs-12 add-item-container" ng-hide="printMode">
-                            <a class="btn btn-primary fa fa-plus" href ng-click="addItem()"></a>
-                </div>
-            </div>
-                    <!-- <div class="row" style="height: 80px" > 
-                    </div> -->
-            <div class="row">
-                        <div class="col-xs-2 text-right pull-right">{{invoiceSubTotal() | currency: currencySymbol}}</div>
-                        <div class="col-xs-2 text-right pull-right">{{'ADDINVO.SUBTOTAL' | translate}}</div>
-
-
-            </div>
-            <div class="row">
-                        <div class="col-xs-2 text-right pull-right">{{calculateTax() | currency: currencySymbol}}</div>
-                        <div class="col-xs-2 text-right pull-right">{{'ADDINVO.TAX' | translate}} (%):
-                            <input ng-model="invoice.tax" ng-validate="number" style='width:43px'>
-                </div>
-
-            </div>
-            <div class="row">
-                        <div class="col-xs-2 text-right pull-right"></div>
-                        <div class="col-xs-2 text-right pull-right">{{'ADDINVO.DISCOUNT' | translate}} (%):
-                            <input ng-model="invoice.discountAmount" ng-validate="number" style='width:43px'>
+                            <input type="hidden" value="{{invoiceItem.item}}" name="inputItem" class="inputHidden">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="col-md-4 control-label" class="">Quantity</label>
+                        <div class="col-md-8">
+                            <input type="number" name="quantity" placeholder="" ng-model="invoiceItem.quantity" class="form-control">
+                        </div>
+                    </div>
+                    <div class=" col-md-3">
+                        <label class="col-md-3 control-label">Cost</label>
+                        <div class="col-md-8">
+                            <input name="cost" type="number" placeholder="" ng-model="invoiceItem.cost" class="form-control">
+                        </div>
+                    </div>
+                    <button class="btn btn-success" type="submit">Add</button>
+                </form>
             </div>
 
-        </div>
-                    <div class="row">
-                        <div class="col-xs-2 text-right pull-right">{{calculateGrandTotal() | currency: currencySymbol}}</div>
-                        <div class="col-xs-2 text-right pull-right">{{'ADDINVO.GRANDTOTAL' | translate}}</div>
+            <!-- ########### products table section start ############################################### -->
+            <div class="ibox-title">
+                <h5>قائمة المنتجات المضافة</h5>
+            </div>
+            <div class="table-responsive ibox-content">
+                <input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="Search in table">
+
+                <table class="table table-hover table-striped footable" data-paging-container="#paging-ui-container" data-paging-count-format="{CP} of {TP}"
+                    data-paging="true" data-paging-size="5" data-filter=#filter>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Cost</th>
+                            <th class="text-left">Total</th>
+                            <th class="text-left">Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="invoiceItem in invoiceItems track by $index">
+                            <td>{{$index+1}}</td>
+                            <td>
+                                <span data-ng-hide="invoiceItem.editMode">{{invoiceItem.item.name}}</span>
+                                <ui-select ng-model="invoiceItem.item" class="ui-select" data-ng-show="invoiceItem.editMode">
+                                    <ui-select-match placeholder="">
+                                        <span ng-bind="$select.selected.name"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="invoiceItem in (Items | filter: $select.search) track by invoiceItem.id">
+                                        <span ng-bind="invoiceItem.name"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </td>
+                            <td>
+                                <span data-ng-hide="invoiceItem.editMode">{{invoiceItem.quantity}}</span>
+                                <input type="number" data-ng-show="invoiceItem.editMode" data-ng-model="invoiceItem.quantity" class="form-control" data-ng-required
+                                />
+                            </td>
+                            <td>
+                                <span data-ng-hide="invoiceItem.editMode">{{invoiceItem.cost}}</span>
+                                <input type="number" data-ng-show="invoiceItem.editMode" data-ng-model="invoiceItem.cost" class="form-control" data-ng-required
+                                />
+                            </td>
+                            <td class="text-left">
+                                <span data-ng-hide="invoiceItem.editMode">{{invoiceItem.cost * invoiceItem.quantity | currency: currencySymbol}}</span>
+                            </td>
+                            <td class="text-left">
+                                <button type="submit" data-ng-hide="invoiceItem.editMode" data-ng-click="invoiceItem.editMode = true; editRow($index)" class="btn btn-default">Edit</button>
+                                <button type="submit" data-ng-hide="invoiceItem.editMode" data-ng-click="deleteRow($index)" class="btn btn-default">Delete</button>
+                                <button type="submit" data-ng-show="invoiceItem.editMode" data-ng-click="invoiceItem.editMode = false" class="btn btn-default">Save</button>
+                                <button type="submit" data-ng-show="invoiceItem.editMode" data-ng-click="invoiceItem.editMode = false; cancel()" class="btn btn-default">Cancel</button>
+                            </td>
+                        </tr>
+                        <tr>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="paging-ui-container"></div>
+            </div>
+            <!-- ########### products table section end ############################################### -->
+
+            <!-- ###########Total pyament and taxes section start ############################################### -->
+            <div class=" ibox-content">
+                <div class="table-responsive">
+                        <table class="table table-hover col-md-7 pull-right" id="tab_logic_total">
+                            <tbody>
+                                <tr>
+                                    <th class="text-center col-md-4">Sub Total</th>
+                                    <td class="text-right">
+                                        {{subTotal() | currency: currencySymbol}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">Discount</th>
+                                    <td class="text-right">
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">Tax</th>
+                                    <td class="text-right">
+                                        <div class="form-inline">
+                                            <div class="form-group col-md-3">
+                                                <input type="number" placeholder='' ng-init="0" class="form-control" ng-model="invotax.cost" style="width:55px; height:25px;"
+                                                />
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label translate="SETTINGS.PERCENTAGE"></label>
+                                                <input icheck type="radio" value="per" name="invoice.tax" ng-model="invotax.rdb">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label translate="SETTINGS.COST"></label>
+                                                <input icheck type="radio" value="val" name="invoice.tax" ng-model="invotax.rdb" ng-checked="true">
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">Tax Amount</th>
+                                    <td class="text-right">
+
+                                        <div class="form-inline">
+                                            <div class="form-group col-md-3">{{calculateTax() | number : 2}}</div>
+                                            <div class="form-group col-md-4">
+                                                <label class="form-group">
+                                                    {{getTax1.name ? getTax1.name : ('SETTINGS.TAX1' | translate)}}
+                                                    <input icheck type="checkbox" ng-model="tax.tax1ckb">
+                                                </label>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="form-group">
+                                                    {{getTax2.name ? getTax2.name : ('SETTINGS.TAX2' | translate)}}
+                                                    <input icheck type="checkbox" ng-model="tax.tax2ckb">
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">Grand Total</th>
+                                    <td class="text-right">
+                                        <div class="form-group col-md-2">{{calculateGrandTotal()}}</div>
+                                    </td>
+                                </tr>
+                                <!-- ###########Total pyament and taxes section end ############################################### -->
+                            </tbody>
+                        </table>
+                </div>
+                <div class="">
+                    <button class="btn btn-success" ng-click="addInvoice(invoiceForm)" translate="ADDINVO.SAVE"></button>
+                    <button class="btn btn-success" ng-click="resetInvoice()" translate="ADDINVO.NEW"></button>
+                </div>
+            </div>
+
+
+            <!-- line discount modal -->
+            <div class="modal fade" id="addDiscount" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span aria-hidden="true">×</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <h3 class="modal-title">Add New Discount Type</h3>
+                        </div>
+                        <div class="modal-body">
+
+                            <!-- content goes here -->
+                            <form name="discountTypeForm" ng-submit="adddiscountType(discountTypeForm)" ng-validate="validatediscountTypeForm">
+                                <div class="form-group">
+                                    <label for="name">Discount Name:</label>
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="Discount Name" ng-model="discountType.name">
+                                </div>
+                                <button type="submit" class="btn btn-default">Save</button>
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+
+                        </div>
                     </div>
                 </div>
+            </div>
 
+            <!-- line store modal -->
+            <div class="modal fade" id="addStore" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span aria-hidden="true">×</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <h3 class="modal-title">Add New Store</h3>
+                        </div>
+                        <div class="modal-body">
 
+                            <!-- content goes here -->
+                            <form ng-submit="addStore()">
+                                <div class="form-group">
+                                    <label for="name">Store Name:</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Store Name" ng-model="store.name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Note:</label>
+                                    <textarea name="note" id="note" rows="3" class="form-control" ng-model="store.note"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-default">Save</button>
+                            </form>
 
+                        </div>
+                        <div class="modal-footer">
 
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-
-        <div class="row noPrint invo-actions">
-                    <button class="btn btn-primary" ng-click="addInvoice()" translate="ADDINVO.SAVE">Save</button>
-                    <button class="btn btn-primary" ng-show="printMode" ng-click="printInfo(print-section)" translate="ADDINVO.PRINT">Print</button>
-                    <button class="btn btn-primary" ng-click="clearLocalStorage()" translate="ADDINVO.NEW"></button>
-                    <button class="btn btn-primary" ng-hide="printMode" ng-click="printMode = true;">{{'ADDINVO.VIEWMODE' | translate}}</button>
-                    <button class="btn btn-primary" ng-show="printMode" ng-click="printMode = false;">{{'ADDINVO.EDITMODE' | translate}}</button>
         </div>
-    </div>
-</div>
     </div>
 </div>
