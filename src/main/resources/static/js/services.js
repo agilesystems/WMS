@@ -109,6 +109,20 @@ function validateFactory() {
         }
 
     };
+    vm.discountTypeForm = {
+        ignore: ":hidden:not(.inputHidden)",
+        onkeyup: function (element) {
+            this.element(element);  // <- "eager validation"
+        },
+        onfocusout: function (element) {
+            this.element(element);  // <- "eager validation"
+        },
+
+        rules: {
+            name: "required"
+        }
+
+    };
 
     return vm;
 };

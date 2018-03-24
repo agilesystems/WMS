@@ -331,10 +331,10 @@
                         <div class="modal-body">
 
                             <!-- content goes here -->
-                            <form>
+                            <form name="discountTypeForm" ng-submit="adddiscountType(discountTypeForm)" ng-validate="validatediscountTypeForm">
                                 <div class="form-group">
                                     <label for="name">Discount Name:</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Discount Name">
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="Discount Name" ng-model="discountType.name">
                                 </div>
                                 <button type="submit" class="btn btn-default">Save</button>
                             </form>

@@ -213,6 +213,19 @@ function invoiceCtrl(
   }
 
 
+  //Call function from validateService to validate form
+  $scope.validatediscountTypeForm = validateForms.discountTypeForm;
+  //save discountType
+  $scope.adddiscountType = function (form) {
+    if (form.validate()) {
+      DataServiceApi.PostData($scope.discountType, server + "discount-type/add")
+      toastrService.success('Success', 'saved successfully');
+    } else {
+      toastrService.error('Failed', 'not saved!');
+    }
+  }
+
+
   //////////////////////////////////////////////////////////////////////////
 
   $scope.editRow = function (field) {
