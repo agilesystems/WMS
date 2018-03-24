@@ -6,8 +6,12 @@
 package com.xnet.wms.controller;
 
 import com.xnet.wms.dto.InvoiceDTO;
+import com.xnet.wms.entity.Branch;
 import com.xnet.wms.entity.Invoice;
+import com.xnet.wms.entity.User;
 import com.xnet.wms.service.InvoiceService;
+import com.xnet.wms.service.UserService;
+import io.jsonwebtoken.Claims;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
@@ -29,20 +33,28 @@ public class InvoiceController {
 
     @Autowired
     InvoiceService invoiceService;
+    @Autowired
+    UserService userService;
 
     @PostMapping("/add")
-    InvoiceDTO addNew(@RequestBody Invoice invoice,HttpServletRequest httpServletRequest) {
+    public InvoiceDTO addNew(@RequestBody Invoice invoice, HttpServletRequest httpServletRequest) {
+//        invoice.setCreatedBy((User) ((Claims) httpServletRequest.getAttribute("claims")).get("user"));
+//        invoice.setBranch(invoice.getCreatedBy().getBranch());
 
+        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
+        invoice.setCreatedBy(currentUser);
+        invoice.setBranch(currentUser.getBranch());
         return new InvoiceDTO(invoiceService.addNew(invoice));
     }
 
     @GetMapping("/id/{id}")
-    InvoiceDTO getOneById(@PathVariable("id") int id,HttpServletRequest httpServletRequest) {
+    InvoiceDTO getOneById(@PathVariable("id") int id, HttpServletRequest httpServletRequest) {
         return new InvoiceDTO(invoiceService.findById(id));
     }
 
     @GetMapping("/all")
     Collection<InvoiceDTO> getAll(HttpServletRequest httpServletRequest) {
+
         Collection<InvoiceDTO> invoices = new ArrayList<>();
         invoiceService.findAll().forEach(i -> {
             invoices.add(new InvoiceDTO(i));

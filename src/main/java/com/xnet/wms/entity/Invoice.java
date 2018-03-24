@@ -40,7 +40,7 @@ public class Invoice extends BaseEntity implements Serializable {
 
     
     
-//    
+  
 //  `discount_value` float DEFAULT NULL,
 //  `tax1per` int(11) DEFAULT NULL,
 //  `tax1val` float DEFAULT NULL,

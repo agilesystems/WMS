@@ -32,8 +32,8 @@ public class MenuServiceImp implements MenuService {
     }
 
     @Override
-    public Menu addMenu(Menu menu) {
-        if (menu != null) {
+    public Menu save(Menu menu) {
+        if (menu == null) {
             return null;
         }
         return menuRepository.save(menu);

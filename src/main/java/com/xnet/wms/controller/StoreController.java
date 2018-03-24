@@ -7,8 +7,11 @@ package com.xnet.wms.controller;
 
 import com.xnet.wms.dto.StoreDTO;
 import com.xnet.wms.entity.Store;
+import com.xnet.wms.entity.User;
 import com.xnet.wms.service.BranchService;
 import com.xnet.wms.service.StoreService;
+import com.xnet.wms.service.UserService;
+import io.jsonwebtoken.Claims;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
@@ -31,13 +34,14 @@ public class StoreController {
     @Autowired
     StoreService storeService;
     @Autowired
-    BranchService branchService;
+    UserService userService;
 
     @GetMapping("/all")
     Collection<StoreDTO> findAll(HttpServletRequest httpServletRequest) {
-        int branchId = Integer.parseInt(httpServletRequest.getAttribute("branchId").toString());
+
+        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
         Collection<StoreDTO> stores = new ArrayList<>();
-        storeService.findAllByBranch_Id(branchId).forEach(store -> {
+        storeService.findAllByBranch_Id(currentUser.getBranch().getId()).forEach(store -> {
             stores.add(new StoreDTO(store));
 
         });
@@ -51,10 +55,10 @@ public class StoreController {
 
     @PostMapping("/add")
     StoreDTO addNew(@RequestBody Store store, HttpServletRequest httpServletRequest) {
+        User u = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
 
-        store.setBranch(branchService.findByID(
-                Integer.parseInt(httpServletRequest.getAttribute("branchId").toString())
-        ));
+        store.setBranch(u.getBranch());
+
         return new StoreDTO(storeService.addNew(store));
     }
 }

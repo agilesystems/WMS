@@ -24,8 +24,16 @@ public class Role extends BaseEntity implements Serializable {
 
     @Column(unique = true)
     private String name;
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Collection<Menu> menusList;
+    @ManyToMany( fetch = FetchType.EAGER)
+    private List<Menu> menusList;
+
+    public Role() {
+
+    }
+
+    public Role(String name) {
+        setName(name);
+    }
 
     public String getName() {
         return name;
@@ -35,11 +43,11 @@ public class Role extends BaseEntity implements Serializable {
         this.name = name;
     }
 
-    public Collection<Menu> getMenusList() {
+    public List<Menu> getMenusList() {
         return menusList;
     }
 
-    public void setMenusList(Collection<Menu> menusList) {
+    public void setMenusList(List<Menu> menusList) {
         this.menusList = menusList;
     }
 

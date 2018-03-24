@@ -33,7 +33,7 @@ public class RoleController {
     Collection<RoleDTO> getAll(HttpServletRequest httpServletRequest) {
                System.out.println(httpServletRequest.getAttribute("userId"));
         Collection<RoleDTO> roles = new ArrayList<>();
-        roleService.getAll().forEach(role -> {
+        roleService.findAll().forEach(role -> {
             roles.add(new RoleDTO(role));
         });
         return roles;
@@ -41,7 +41,7 @@ public class RoleController {
 
     @PostMapping("/add")
     RoleDTO add(@RequestBody Role role,HttpServletRequest httpServletRequest) {
-        return new RoleDTO(roleService.addRole(role));
+        return new RoleDTO(roleService.save(role));
     }
 
 }

@@ -5,17 +5,14 @@
  */
 package com.xnet.wms.service;
 
-import com.xnet.wms.entity.Menu;
-import java.util.Collection;
+import com.xnet.wms.entity.SystemException;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author ramy
  */
-public interface MenuService {
+public interface SystemExceptionService {
 
-    Collection<Menu> findAll();
-    Menu findById(int id);
-    Menu save(Menu menu);
-    
+    void addNew(SystemException systemException);
 }

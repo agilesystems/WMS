@@ -23,7 +23,7 @@ public interface StoreItemService {
      * @param storeitem an argument specify to get the data to be saved
      * @return true if the row added successfully or false if not added
      */
-    boolean save(StoreItem storeitem);
+    StoreItem save(StoreItem storeItem);
 
     /**
      * This method for soft deleted the store item , just update the deleted
@@ -41,7 +41,7 @@ public interface StoreItemService {
      * the item
      * @return a collection of store items
      */
-    Collection<StoreItem> getByItemid(Item item);
+    Collection<StoreItem> findByItemIdAndStoreId(int itemId, int storeId);
 
     /**
      * Returns the collection of store items by store id
@@ -50,5 +50,8 @@ public interface StoreItemService {
      * the store
      * @return a collection of store items
      */
-    Collection<StoreItem> getByStoreid(Store store);
+    Collection<StoreItem> findByStoreId(int storeId);
+
+    Collection<StoreItem> findByItemIdAndBranchId(int itemId, int branchId);
+
 }

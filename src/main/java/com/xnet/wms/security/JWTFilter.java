@@ -69,9 +69,6 @@ public class JWTFilter extends GenericFilterBean {
                 request.setAttribute("claims", claims);
                 SecurityContextHolder.getContext().setAuthentication(getAuthentication(claims));
                 String username = claims.get("sub").toString();
-                req.setAttribute("userId", claims.get("userId"));
-                req.setAttribute("branchId", claims.get("branchId"));
-                System.out.println("ssssssssssssss" + username);
                 if (new UserServiceImpl().hasAccess(username, "index_.html")) {
                     System.out.println(username + "ssssssssssssss");
                     filterChain.doFilter(req, res);

@@ -9,8 +9,11 @@ import com.xnet.wms.dto.UserDTO;
 import com.xnet.wms.entity.Branch;
 import com.xnet.wms.entity.Menu;
 import com.xnet.wms.entity.User;
+import com.xnet.wms.service.BranchService;
 import com.xnet.wms.service.MenuService;
+import com.xnet.wms.service.RoleService;
 import com.xnet.wms.service.UserService;
+import io.jsonwebtoken.Claims;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
@@ -37,31 +40,18 @@ public class UserController {
     UserService userService;
 
     @Autowired
-    MenuService menuService;
+    BranchService branchService;
 
     @PostMapping("/add")
-    public User add(@RequestBody User user,HttpServletRequest httpServletRequest) {
-
-        Collection<Menu> mc = new ArrayList<>();
-
-//        for (Menu m : user.getMenuCollection()) {
-//            mc.add(menuService.findById(m.getId()));
-//        }
-//
-//        user.setMenuCollection(mc);
+    public User addNew(@RequestBody User user, HttpServletRequest httpServletRequest) {
+        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
+        user.setBranch(currentUser.getBranch());
         return userService.save(user);
-//        if (userService.save(user)!=null) {
-//            return user;
-////            return "User Added Successfully";
-//        } else {
-//            return user;
-////            return "Wrong to add user";
-//        }
 
     }
 
     @GetMapping("/getById/{id}")
-    public UserDTO getById(@PathVariable("id") Integer id,HttpServletRequest httpServletRequest) {
+    public UserDTO getById(@PathVariable("id") Integer id, HttpServletRequest httpServletRequest) {
         if (userService.findById(id) != null) {
             return new UserDTO(userService.findById(id));
         } else {

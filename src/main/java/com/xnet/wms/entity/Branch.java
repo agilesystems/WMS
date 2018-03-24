@@ -28,6 +28,15 @@ public class Branch extends BaseEntity implements Serializable {
     private String name;
     private String address;
 
+    public Branch(String name, String address) {
+        setAddress(address);
+        setName(name);
+    }
+
+    public Branch() {
+
+    }
+
     public String getName() {
         return name;
     }

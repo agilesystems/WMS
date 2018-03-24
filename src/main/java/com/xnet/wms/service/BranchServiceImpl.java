@@ -22,7 +22,7 @@ public class BranchServiceImpl implements BranchService {
     BranchRepository branchRepository;
 
     @Override
-    public Branch addNew(Branch branch) {
+    public Branch save(Branch branch) {
         if (branch == null) {
             return null;
         }

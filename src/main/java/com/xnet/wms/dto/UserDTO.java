@@ -14,15 +14,16 @@ import java.util.Collection;
  * @author ramy
  */
 public class UserDTO {
-
+    
     private int id;
     private String name;
     private String userName;
     private RoleDTO role;
-
+    private BranchDTO branch;
+    
     public UserDTO() {
     }
-
+    
     public UserDTO(User user) {
         if (user == null) {
             return;
@@ -31,40 +32,39 @@ public class UserDTO {
         this.name = user.getName();
         this.userName = user.getUsername();
         this.role = new RoleDTO(user.getRole());
+        this.branch = new BranchDTO(user.getBranch());
     }
-
+    
     public int getId() {
         return id;
     }
-
+    
     public void setId(int id) {
         this.id = id;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
-
+    
     public String getUserName() {
         return userName;
     }
-
+    
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
     
     public RoleDTO getRole() {
         return role;
     }
-
+    
     public void setRole(RoleDTO role) {
         this.role = role;
     }
-
     
 }

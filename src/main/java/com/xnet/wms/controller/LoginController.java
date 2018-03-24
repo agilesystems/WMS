@@ -44,7 +44,6 @@ public class LoginController {
 
         Map<String, Object> tokenMap = new HashMap<String, Object>();
         if (user != null) {
-            UserDTO u = new UserDTO(user);
 
 //            token=return Jwts.builder()
 //                .setClaims(claims)
@@ -54,11 +53,10 @@ public class LoginController {
 //                .setExpiration(setExpiry(expiresIn))
 //                .signWith(this.Algo, this.getEncodedSecret())
 //                .compact();
-            token = Jwts.builder().setSubject(user.getUsername()).claim("userId", user.getId())
-                    .claim("branchId", user.getBranch().getId()).setIssuedAt(new Date())
+            token = Jwts.builder().setSubject(user.getUsername()).claim("userId", user.getId()).setIssuedAt(new Date())
                     .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
             tokenMap.put("token", token);
-            tokenMap.put("user", u);
+            tokenMap.put("user", new UserDTO(user));
             return new ResponseEntity<>(tokenMap, HttpStatus.OK);
         } else {
             tokenMap.put("token", null);

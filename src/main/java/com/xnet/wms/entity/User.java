@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
@@ -25,7 +26,7 @@ public class User extends BaseEntity implements Serializable {
     @Column(unique = true)
     private String username;
     private String password;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     private Branch branch;
     private String phone;
     private String mobile;
@@ -33,11 +34,24 @@ public class User extends BaseEntity implements Serializable {
     private Date lastLogin;
     private boolean isBlocked = false;
     @Basic(optional = false)
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     private Role role;
     @ManyToOne(cascade = CascadeType.ALL)
     private Employee employee;
 
+    
+    public User(){
+        
+    }
+    public User(String name,String userName,String password,Branch branch,Role role){
+        
+        setBranch(branch);
+        setName(name);
+        setUsername(userName);
+        setPassword(password);
+        setRole(role);
+    }
+    
     public String getName() {
         return name;
     }

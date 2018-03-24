@@ -14,7 +14,7 @@ import java.util.Collection;
  */
 public interface BranchService {
    
-    Branch addNew(Branch branch);
+    Branch save(Branch branch);
     Collection<Branch> fincAll();
     Branch findByID(int id);
 }

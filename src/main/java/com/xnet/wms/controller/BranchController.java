@@ -53,7 +53,7 @@ public class BranchController {
     BranchDTO addNew(@RequestBody Branch branch, HttpServletRequest httpServletRequest) {
 
         branch.setCreatedBy(userService.findById(Integer.parseInt(httpServletRequest.getAttribute("userId").toString())));
-        return new BranchDTO(branchService.addNew(branch));
+        return new BranchDTO(branchService.save(branch));
 
     }
 }

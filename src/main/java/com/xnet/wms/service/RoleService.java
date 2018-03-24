@@ -7,7 +7,6 @@ package com.xnet.wms.service;
 
 import com.xnet.wms.entity.Role;
 import java.util.Collection;
-import org.springframework.stereotype.Repository;
 
 /**
  *
@@ -15,8 +14,10 @@ import org.springframework.stereotype.Repository;
  */
 public interface RoleService {
 
-    Role addRole(Role role);
+    Role save(Role role);
 
-    Collection<Role> getAll();
+    Collection<Role> findAll();
+
+    Role findById(int id);
 
 }
