@@ -1,101 +1,128 @@
-<div class="col-lg-12">
-    <div class="wrapper wrapper-content" ng-controller="accountCtrl">
-        <div class="ibox-content">
+<div print-remove class="row wrapper animated fadeInLeft border-bottom white-bg pQuantity-heading">
+    <div class="col-lg-8">
+        <h2>Add Account</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                Account
+            </li>
+            <li class="active">
+                <strong>Add New Account</strong>
+            </li>
+        </ol>
+    </div>
 
-            <form name="accountForm" ng-submit="addAccount(accountForm)" ng-validate="accountFormValidate" novalidate>
-                <br>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInRight" ng-controller="accountCtrl">
+            <div class="ibox-title">
+                <h5 translate="ADDAC.ADDNEWACCOUNT"></h5>
+            </div>
+            <div class="ibox-content">
 
-                <h3 translate="ADDAC.ADDNEWACCOUNT"></h3>
+                <form name="accountForm" ng-submit="addAccount(accountForm)" ng-validate="accountFormValidate" novalidate>
 
-                <div class="row form-group">
-                    <div class="col-sm-4">
-                        <label for="name" class="control-label" translate="ADDAC.NAME"></label>
-                        <input type="text" class="form-control"
-                            id="account.name" name="name" ng-model="account.name">
-                    </div>
-                    <div class="col-sm-4">
-                        <label for="code" class="control-label" translate="ADDAC.CODE"></label>
-                        <input type="text" class="form-control"
-                            name="code" id="code" ng-model="account.code">
-                    </div>
-                    <div class="col-sm-4">
-                        <label for="type" translate="ADDAC.ACTYPE"></label>
-                    <ui-select ng-model="account.accountType" class="ui-select" name="accountType" ng-keydown="onKeyUpSelect()">
-                        <ui-select-match placeholder="">
-                            <span ng-bind="$select.selected.name"></span>
-                        </ui-select-match>
-                        <ui-select-choices repeat="account in (accounts | filter: $select.search) track by account.id">
-                            <span ng-bind="account.name"></span>
-                        </ui-select-choices>
-                    </ui-select>
-                    <input type="hidden" value="{{account.accounttype}}" name="inputItem" id="test" class="inputHidden">
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-sm-3">
-                        <label for="account.email" class="control-label" translate="ADDAC.EMAIL"></label>
-                        <input type="email" name="email" class="form-control" ng-model="account.email">
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="account.phone" class="control-label" translate="ADDAC.MOBILE1"></label>
-                        <input type="text" name="mobile1" class="form-control" id="account.mobile1" ng-model="account.mobile1">
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="account.phone" class="control-label" translate="ADDAC.MOBILE2"></label>
-                        <input type="text" name="mobile2" class="form-control" id="account.mobile2" ng-model="account.mobile2">
-                    </div>
-                    <div class="col-sm-3">
-                        <label for="account.phone" class="control-label" translate="ADDAC.MOBILE3"></label>
-                        <input type="text" name="mobile3" class="form-control" id="account.mobile3" ng-model="account.mobile3">
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-sm-4">
-                        <label for="account.phone" class="control-label" translate="ADDAC.PHONE1"></label>
-                        <input type="text" class="form-control" id="account.phone" ng-model="account.phone1">
-                    </div>
-                    <div class="col-sm-4">
-                        <label for="account.phone" class="control-label" translate="ADDAC.PHONE2"></label>
-                        <input type="text" class="form-control" id="account.phone" ng-model="account.phone2">
-                    </div>
-                    <div class="col-sm-4">
-                        <label for="account.phone" class="control-label" translate="ADDAC.PHONE3"></label>
-                        <input type="text" class="form-control" id="account.phone" ng-model="account.phone3">
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-sm-8">
-                        <label for="account.address" class="control-label" translate="ADDAC.ADDRS"></label>
-                        <input type="text" class="form-control" id="account.address" ng-model="account.address">
-                    </div>
-                    <div class="col-sm-2">
-                        <label for="account.city" class="control-label" translate="ADDAC.CITY"></label>
-                        <input type="text" class="form-control" id="account.city" ng-model="">
-                    </div>
-
-                    <div class="col-sm-2">
-                        <label for="account.status" class="control-label" translate="ADDAC.STATE"></label>
-                        <input type="text" class="form-control" id="account.status" ng-model="account.state">
-                    </div>
-
-                </div>
-                
-                <div class="row  form-group">
-                    <div class="col-sm-12">
-                        <label for="account.info" translate="ADDAC.EXTINFO"></label>
-                        <div class="">
-                            <textarea rows="3" class="form-control" id="account.info" ng-model="account.note"></textarea>
+                    <div class="row form-group">
+                        <div class="col-sm-6">
+                            <label for="name" class="control-label" translate="ADDAC.NAME"></label>
+                            <input type="text" class="form-control" id="account.name" name="name" ng-model="account.name">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="type" translate="ADDAC.ACTYPE"></label>
+                            <ui-select ng-model="account.accountType" class="ui-select" name="accountType" ng-keydown="onKeyUpSelect()">
+                                <ui-select-match placeholder="">
+                                    <span ng-bind="$select.selected.name"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="account in (accounts | filter: $select.search) track by account.id">
+                                    <span ng-bind="account.name"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                            <input type="hidden" value="{{account.accounttype}}" name="inputItem" id="test" class="inputHidden">
                         </div>
                     </div>
-                </div>
-                <div class="form-group ibox-footer">
-                    <div>
-                        <button type="submit" ng-disabled="" class="btn btn-primary col-sm-2" translate="ADDAC.SAVE"></button>
+                    <div class="row form-group">
+                        <div class="col-sm-6">
+                            <label for="code" class="control-label" translate="ADDAC.CODE"></label>
+                            <input type="text" class="form-control" name="code" id="code" ng-model="account.code">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="account.email" class="control-label" translate="ADDAC.EMAIL"></label>
+                            <input type="email" name="email" class="form-control" ng-model="account.email">
+                        </div>
                     </div>
-                </div>
-            </form>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+
+                        <div class=" form-group">
+                            <label class="control-label" translate="ADDAC.MOBILENO"></label>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4 form-group">
+                                <input type="text" name="mobile1" class="form-control" id="account.mobile1" ng-model="account.mobile1" placeholder="{{ 'ADDAC.MOBILE1' | translate}}">
+                            </div>
+                            <div class="col-sm-4 form-group">
+                                <input type="text" name="mobile2" class="form-control" id="account.mobile2" ng-model="account.mobile2" placeholder="{{ 'ADDAC.MOBILE2' | translate}}">
+                            </div>
+                            <div class="col-sm-4 form-group">
+                                <input type="text" name="mobile3" class="form-control" id="account.mobile3" ng-model="account.mobile3" placeholder="{{ 'ADDAC.MOBILE3' | translate}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group">
+                        <div class=" form-group">
+                            <label class="control-label" translate="ADDAC.PHONENO"></label>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="account.phone" ng-model="account.phone1" placeholder="{{ 'ADDAC.PHONE1' | translate}}">
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="account.phone" ng-model="account.phone2" placeholder="{{ 'ADDAC.PHONE2' | translate}}">
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="account.phone" ng-model="account.phone3" placeholder="{{ 'ADDAC.PHONE3' | translate}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="row form-group">
+                        <div class="col-sm-4">
+                            <label for="type" translate="ADDAC.CITY"></label>
+                            <ui-select ng-model="city.name" class="ui-select" name="city" ng-keydown="onKeyUpSelect()">
+                                <ui-select-match placeholder="">
+                                    <span ng-bind="$select.selected.name"></span>
+                                </ui-select-match>
+                                <ui-select-choices repeat="city in (cities | filter: $select.search) track by city.id">
+                                    <span ng-bind="city.name"></span>
+                                </ui-select-choices>
+                            </ui-select>
+                            <input type="hidden" value="{{city.name}}" name="inputItem2" class="inputHidden">
+                        </div>
+                        <div class="col-sm-8">
+                            <label for="account.address" class="control-label" translate="ADDAC.ADDRS"></label>
+                            <input type="text" class="form-control" name="address" ng-model="account.address">
+                        </div>
+                    </div>
+
+                    <div class="row  form-group">
+                        <div class="col-sm-12">
+                            <label for="account.info" translate="ADDAC.EXTINFO"></label>
+                            <div class="">
+                                <textarea rows="3" class="form-control" id="account.info" ng-model="account.note"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <button type="submit" class="btn btn-primary" translate="ADDAC.SAVE"></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

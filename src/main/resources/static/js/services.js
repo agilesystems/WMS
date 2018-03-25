@@ -43,26 +43,22 @@ function validateFactory() {
 
         rules: {
             inputItem: "required",
+            inputItem2: "required",
             name: {
                 required: true,
             },
             email: {
-                required: true,
                 email: true,
             },
             password: "required",
             username: "require",
-            code: {
-                required: true,
-                minlength: 3,
-                digits: true,
-            },
             mobile1: {
                 required: true,
                 mobileEG: true
             },
             mobile2: "mobileEG",
             mobile3: "mobileEG",
+            address: "required"
 
 
         }
@@ -104,8 +100,8 @@ function validateFactory() {
         },
 
         rules: {
-            inputItem: "required",
-            reference: "required"
+            //inputItem: "required",
+            //reference: "required"
         }
 
     };
