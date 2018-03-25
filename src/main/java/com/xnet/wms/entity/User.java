@@ -22,7 +22,8 @@ import javax.persistence.UniqueConstraint;
 @Entity(name = "user")
 public class User extends BaseEntity implements Serializable {
 
-    private String name;
+    private String firstName;
+    private String lastName;
     @Column(unique = true)
     private String username;
     private String password;
@@ -38,26 +39,27 @@ public class User extends BaseEntity implements Serializable {
     private Role role;
     @ManyToOne(cascade = CascadeType.ALL)
     private Employee employee;
+    private String address;
 
-    
-    public User(){
-        
+    public User() {
+
     }
-    public User(String name,String userName,String password,Branch branch,Role role){
-        
+
+    public User(String name, String userName, String password, Branch branch, Role role) {
+
         setBranch(branch);
-        setName(name);
+        setFirstName(name);
         setUsername(userName);
         setPassword(password);
         setRole(role);
     }
-    
-    public String getName() {
-        return name;
+
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getUsername() {
@@ -131,5 +133,23 @@ public class User extends BaseEntity implements Serializable {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    
+    
 
 }

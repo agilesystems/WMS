@@ -5,22 +5,13 @@
  */
 package com.xnet.wms.security;
 
-import javax.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 /**
  * Spring Web security configuration class
@@ -59,7 +50,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // "/favicon.ico"
                 ///	.antMatchers("/","/privilege", "/index.html", "/app/**", "/register", "/authenticate", "/favicon.ico");
                 .antMatchers("/",
-                        "/**",
+                        "/ar.json",
+                        "/en.json",
                         "/img/**",
                         "/font-awesome/**",
                         "/vendor/**",

@@ -61,10 +61,11 @@ public class UserServiceImpl implements UserService {
     public User save(User user) {
 
         if (user.getPassword() == null || user.getPassword().isEmpty()) {
-            Random r = new Random();
-            int pass = r.nextInt(999999 - 111111) + 111111;
-            user.setPassword(pass + "");
-            System.out.println("<<<<<<<<Password:" + pass + ">>>>>>>>");
+//            Random r = new Random();
+//            int pass = r.nextInt(999999 - 111111) + 111111;
+//            user.setPassword(pass + "");
+//            System.out.println("<<<<<<<<Password:" + pass + ">>>>>>>>");
+            user.setPassword("123456");
         }
         user.setPassword(DigestUtils.sha1Hex(user.getPassword()));
         userRepository.save(user);

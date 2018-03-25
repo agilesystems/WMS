@@ -140,6 +140,7 @@ public class WmsApplication {
         role.getMenusList().add(menuService.save(new Menu(17, "ADD_USER", "user/add-user.html", "ADD_USER", 103, null, role.getMenusList().get(0))));
         role.getMenusList().add(menuService.save(new Menu(18, "ADD_ACCOUNT", "account/add-account.html", "ADD_ACCOUNT", 701, null, role.getMenusList().get(6))));
         role.getMenusList().add(menuService.save(new Menu(19, "ADD_INVOICE", "invoice/add-invoice.html", "ADD_INVOICE", 501, null, role.getMenusList().get(4))));
+       
         role = roleService.save(role);
         User user = userService.save(new User("Admin", "admin", "admin", branch, role));
         

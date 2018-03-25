@@ -5,66 +5,127 @@
  */
 package com.xnet.wms.dto;
 
-import com.xnet.wms.entity.Menu;
 import com.xnet.wms.entity.User;
-import java.util.Collection;
+import org.apache.commons.codec.digest.DigestUtils;
 
 /**
  *
  * @author ramy
  */
 public class UserDTO {
-    
+
     private int id;
-    private String name;
-    private String userName;
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private String mobile;
+    private String address;
     private RoleDTO role;
     private BranchDTO branch;
-    
+    private String username;
+    private String password;
+
     public UserDTO() {
     }
-    
+
     public UserDTO(User user) {
         if (user == null) {
             return;
         }
         this.id = user.getId();
-        this.name = user.getName();
-        this.userName = user.getUsername();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.username = user.getUsername();
         this.role = new RoleDTO(user.getRole());
         this.branch = new BranchDTO(user.getBranch());
+        this.phone = user.getPhone();
+        this.mobile = user.getMobile();
+        this.address = user.getAddress();
+
+        if (user.getPassword().equals(DigestUtils.sha1Hex("123456"))) {
+            this.password = "123456";
+        }
+
     }
-    
+
     public int getId() {
         return id;
     }
-    
+
     public void setId(int id) {
         this.id = id;
     }
-    
-    public String getName() {
-        return name;
+
+    public String getFirstName() {
+        return firstName;
     }
-    
-    public void setName(String name) {
-        this.name = name;
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
-    
-    public String getUserName() {
-        return userName;
-    }
-    
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-    
+
     public RoleDTO getRole() {
         return role;
     }
-    
+
     public void setRole(RoleDTO role) {
         this.role = role;
     }
-    
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public BranchDTO getBranch() {
+        return branch;
+    }
+
+    public void setBranch(BranchDTO branch) {
+        this.branch = branch;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 }

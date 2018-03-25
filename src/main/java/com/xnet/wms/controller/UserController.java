@@ -11,6 +11,7 @@ import com.xnet.wms.service.BranchService;
 import com.xnet.wms.service.UserService;
 import io.jsonwebtoken.Claims;
 import javax.servlet.http.HttpServletRequest;
+import jdk.nashorn.internal.runtime.Context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,11 +37,11 @@ public class UserController {
     BranchService branchService;
 
     @PostMapping("/add")
-    public User addNew(@RequestBody User user, HttpServletRequest httpServletRequest) {
+    public UserDTO addNew(@RequestBody User user, HttpServletRequest httpServletRequest) {
         User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
         user.setBranch(currentUser.getBranch());
-        return userService.save(user);
-
+        user.setCreatedBy(currentUser);
+        return new UserDTO(userService.save(user));
     }
 
     @GetMapping("/getById/{id}")
