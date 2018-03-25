@@ -7,6 +7,7 @@ package com.xnet.wms.service;
 
 import com.xnet.wms.entity.DiscountType;
 import java.util.Collection;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,7 +19,7 @@ public interface DiscountTypeService {
 
     DiscountType findById(int id);
 
-    Collection<DiscountType> findAll();
+    List<DiscountType> findAll();
 
-    DiscountType addNew(DiscountType discountType);
+    DiscountType save(DiscountType discountType);
 }

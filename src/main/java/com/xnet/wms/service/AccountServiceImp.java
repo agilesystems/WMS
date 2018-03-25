@@ -10,6 +10,7 @@ import com.xnet.wms.helper.Global;
 import com.xnet.wms.repository.AccountRepository;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class AccountServiceImp implements AccountService {
     AccountRepository accountRepository;
 
     @Override
-    public Account addNew(Account account) {
+    public Account save(Account account) {
 
         return accountRepository.save(account);
     }
@@ -38,12 +39,12 @@ public class AccountServiceImp implements AccountService {
     }
 
     @Override
-    public Collection<Account> findAll() {
+    public List<Account> findAll() {
         return accountRepository.findAll();
     }
 
     @Override
-    public Collection<Account> findByName(String name) {
+    public List<Account> findByName(String name) {
         return accountRepository.findByNameContaining(name);
     }
 
@@ -53,12 +54,12 @@ public class AccountServiceImp implements AccountService {
     }
 
     @Override
-    public Collection<Account> getAllSuppliers() {
+    public List<Account> getAllSuppliers() {
         return accountRepository.findByAccountType_Id(Global.ACCOUNT_TYPE_SUPPLIER);
     }
 
     @Override
-    public Collection<Account> getAllCustomers() {
+    public List<Account> getAllCustomers() {
         return accountRepository.findByAccountType_Id(Global.ACCOUNT_TYPE_CUSTOMER);
     }
 

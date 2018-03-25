@@ -18,15 +18,10 @@ import javax.persistence.OneToMany;
 @Entity(name = "branch")
 public class Branch extends BaseEntity implements Serializable {
 
-    @OneToMany(mappedBy = "branch")
-    private List<Account> accountsList;
-
-    @OneToMany(mappedBy = "branch")
-    private List<Store> storesList;
-
     @Column(unique = true, nullable = false)
     private String name;
     private String address;
+    private String phone;
 
     public Branch(String name, String address) {
         setAddress(address);

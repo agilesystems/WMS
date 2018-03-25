@@ -6,7 +6,6 @@
 package com.xnet.wms.controller;
 
 import com.xnet.wms.dto.InvoiceDTO;
-import com.xnet.wms.entity.Branch;
 import com.xnet.wms.entity.Invoice;
 import com.xnet.wms.entity.User;
 import com.xnet.wms.service.InvoiceService;
@@ -44,7 +43,7 @@ public class InvoiceController {
         User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
         invoice.setCreatedBy(currentUser);
         invoice.setBranch(currentUser.getBranch());
-        return new InvoiceDTO(invoiceService.addNew(invoice));
+        return new InvoiceDTO(invoiceService.save(invoice));
     }
 
     @GetMapping("/id/{id}")

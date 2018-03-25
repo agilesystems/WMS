@@ -5,19 +5,19 @@
  */
 package com.xnet.wms.service;
 
-import com.xnet.wms.entity.InvoiceType;
-import java.util.Collection;
+import com.xnet.wms.entity.City;
+import com.xnet.wms.entity.Country;
+import java.util.List;
 
 /**
  *
  * @author ramy
  */
-public interface InvoiceTypeService {
+public interface CityService {
 
-    InvoiceType save(InvoiceType invoiceType);
+    City save(City city);
 
-    InvoiceType findByID(int id);
+    City findById(int id);
 
-    Collection<InvoiceType> findAll();
-    
+    List<City> findAll();
 }

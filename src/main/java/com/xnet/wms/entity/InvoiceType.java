@@ -23,8 +23,15 @@ public class InvoiceType implements Serializable {
     private int id;
     @Column(unique = true, nullable = false)
     private String name;
-    
-    
+
+    public InvoiceType() {
+    }
+
+    public InvoiceType(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }
@@ -40,7 +47,5 @@ public class InvoiceType implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
-    
+
 }

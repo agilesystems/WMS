@@ -20,9 +20,20 @@ public class InvoiceItem implements Serializable {
 
     @Id
     int id;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     Item item;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     Invoice invoice;
     int quantity;
+
+    public InvoiceItem() {
+    }
+
+    public InvoiceItem( Item item,  int quantity) {
+      
+        this.item = item;    
+        this.quantity = quantity;
+    }
+    
+    
 }

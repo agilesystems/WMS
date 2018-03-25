@@ -66,6 +66,6 @@ public class AccountController {
     AccountDTO addNew(@RequestBody Account account, HttpServletRequest httpServletRequest) {
         account.setCreatedBy(userService.findById(Integer.parseInt(httpServletRequest.getAttribute("userId").toString())));
 
-        return new AccountDTO(accountService.addNew(account));
+        return new AccountDTO(accountService.save(account));
     }
 }

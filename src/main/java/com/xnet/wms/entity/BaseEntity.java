@@ -30,17 +30,17 @@ public class BaseEntity {
     @GeneratedValue
     private int id;
     private boolean isDeleted = false;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private User deletedBy;
     @Temporal(TemporalType.TIMESTAMP)
     private Date deletedDate;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @Basic(optional = false)
     private User createdBy;
     @Temporal(TemporalType.TIMESTAMP)
     @Basic(optional = false)
     private Date createdDate = new Date();
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private User updatedBy;
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;

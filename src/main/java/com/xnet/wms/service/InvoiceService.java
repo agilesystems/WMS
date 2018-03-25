@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  */
 public interface InvoiceService {
 
-    Invoice addNew(Invoice invoice);
+    Invoice save(Invoice invoice);
 
     /**
      * This method for soft deleted the invoice , just update the deleted field

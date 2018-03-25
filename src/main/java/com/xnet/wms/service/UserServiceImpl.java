@@ -8,6 +8,7 @@ package com.xnet.wms.service;
 import com.xnet.wms.entity.User;
 import com.xnet.wms.repository.UserRepository;
 import java.util.Collection;
+import java.util.Random;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,19 +59,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
+
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
+            Random r = new Random();
+            int pass = r.nextInt(999999 - 111111) + 111111;
+            user.setPassword(pass + "");
+            System.out.println("<<<<<<<<Password:" + pass + ">>>>>>>>");
+        }
         user.setPassword(DigestUtils.sha1Hex(user.getPassword()));
-//        if (userRepository.findByUsernameAndBranch_Id(user.getUsername(), user.getBranch().getId()) == null) {
-//            return userRepository.save(user) != null;
-//         
-//        } else {
-//            return false;
-//        }
-   return userRepository.save(user) ;
-//        if (userRepository.findByUsername(user.getUsername()) == null) {
-//            return userRepository.save(user) ;
-//        
-//        }
-//        return null;
+        userRepository.save(user);
+        if (user.getUsername() == null || user.getUsername().isEmpty()) {
+            user.setUsername(generateUsername(user.getBranch().getId(), user.getId()));
+            userRepository.save(user);
+        }
+        System.out.println("<<<<<<<<Username:" + user.getUsername() + ">>>>>>>>");
+
+        return user;
     }
 
     @Override
@@ -97,6 +101,18 @@ public class UserServiceImpl implements UserService {
 
     }
 
-   
+    private String generateUsername(int branchId, int userId) {
+
+        if (branchId <= 0 || userId <= 0) {
+            return null;
+        }
+        if (branchId < 10) {
+            branchId *= 100000;
+        } else if (branchId < 100) {
+            branchId *= 10000;
+        }
+        return (String.valueOf(branchId + userId));
+
+    }
 
 }

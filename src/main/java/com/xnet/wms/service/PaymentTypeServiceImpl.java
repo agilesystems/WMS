@@ -8,6 +8,7 @@ package com.xnet.wms.service;
 import com.xnet.wms.entity.PaymentType;
 import com.xnet.wms.repository.PaymentTypeRepository;
 import java.util.Collection;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +28,12 @@ public class PaymentTypeServiceImpl implements PaymentTypeService {
     }
 
     @Override
-    public Collection<PaymentType> findAll() {
+    public List<PaymentType> findAll() {
         return paymentTypeRepository.findAll();
     }
 
     @Override
-    public PaymentType addNew(PaymentType paymentType) {
+    public PaymentType save(PaymentType paymentType) {
 
         return paymentTypeRepository.save(paymentType);
     }

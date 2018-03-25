@@ -7,6 +7,7 @@ package com.xnet.wms.service;
 
 import com.xnet.wms.entity.PaymentType;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -16,7 +17,7 @@ public interface PaymentTypeService {
 
     PaymentType findById(int id);
 
-    Collection<PaymentType> findAll();
+    List<PaymentType> findAll();
     
-    PaymentType addNew(PaymentType paymentType);
+    PaymentType save(PaymentType paymentType);
 }

@@ -31,7 +31,7 @@ public class InvoiceTypeController {
     @PostMapping("/add")
     InvoiceType addNew(@RequestBody InvoiceType invoiceType,HttpServletRequest httpServletRequest) {
 
-        return invoiceTypeService.addNew(invoiceType);
+        return invoiceTypeService.save(invoiceType);
 
     }
 

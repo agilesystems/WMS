@@ -6,18 +6,11 @@
 package com.xnet.wms.controller;
 
 import com.xnet.wms.dto.UserDTO;
-import com.xnet.wms.entity.Branch;
-import com.xnet.wms.entity.Menu;
 import com.xnet.wms.entity.User;
 import com.xnet.wms.service.BranchService;
-import com.xnet.wms.service.MenuService;
-import com.xnet.wms.service.RoleService;
 import com.xnet.wms.service.UserService;
 import io.jsonwebtoken.Claims;
-import java.util.ArrayList;
-import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
-import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

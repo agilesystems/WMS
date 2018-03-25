@@ -5,20 +5,11 @@
  */
 package com.xnet.wms.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;    
-
 /**
  *
  * @author ramy
  */
-@Entity(name = "settings")
-public class Settings {
-    
-    @Id
-    @GeneratedValue
-    int id;
-    String compnayName;
-    
+public enum TaxValueType {
+    percentage,
+    amount
 }

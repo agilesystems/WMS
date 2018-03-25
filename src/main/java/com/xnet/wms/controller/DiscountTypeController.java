@@ -36,7 +36,7 @@ public class DiscountTypeController {
     @PostMapping("/add")
     DiscountType addNew(@RequestBody DiscountType discountType, HttpServletRequest httpRequest ){
         
-        return discountTypeService.addNew(discountType);
+        return discountTypeService.save(discountType);
     }
     
 }

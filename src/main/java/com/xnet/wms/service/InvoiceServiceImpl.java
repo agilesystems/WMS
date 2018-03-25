@@ -24,7 +24,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     InvoiceRepository invoiceRepository;
 
     @Override
-    public Invoice addNew(Invoice invoice) {
+    public Invoice save(Invoice invoice) {
         if (invoice == null) {
             return null;
         }

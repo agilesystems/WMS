@@ -5,19 +5,19 @@
  */
 package com.xnet.wms.service;
 
-import com.xnet.wms.entity.InvoiceType;
-import java.util.Collection;
+import com.xnet.wms.entity.Setting;
+import java.util.List;
 
 /**
  *
  * @author ramy
  */
-public interface InvoiceTypeService {
+public interface SettingService {
 
-    InvoiceType save(InvoiceType invoiceType);
+  
 
-    InvoiceType findByID(int id);
+    Setting find();
 
-    Collection<InvoiceType> findAll();
+    Setting save(Setting settings);
     
 }

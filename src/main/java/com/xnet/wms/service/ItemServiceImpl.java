@@ -9,6 +9,7 @@ import com.xnet.wms.entity.Item;
 import com.xnet.wms.repository.ItemRepository;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class ItemServiceImpl implements ItemService {
     ItemRepository itemRepository;
 
     @Override
-    public Item addNew(Item item) {
+    public Item save(Item item) {
         if (item == null) {
             return null;
         }
@@ -39,7 +40,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Collection<Item> findAll() {
+    public List<Item> findAll() {
         if (!itemRepository.findAll().isEmpty()) {
             return itemRepository.findAll();
         } else {
@@ -48,7 +49,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Collection<Item> findByGroupid(int groupid) {
+    public List<Item> findByGroupid(int groupid) {
 //        if (!itemRepository.findByGroupid(groupid).isEmpty()) {
 //            return itemRepository.findByGroupid(groupid);
 //        } else {
@@ -58,7 +59,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Collection<Item> findLowestquantity(Item item) {
+    public List<Item> findLowestquantity(Item item) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -73,12 +74,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Collection<Item> getItemExbiredate(Date from, Date to) {
+    public List<Item> getItemExbiredate(Date from, Date to) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Collection<Item> getByName(String Name) {
+    public List<Item> getByName(String Name) {
         Collection<Item> item = itemRepository.findByNameContaining(Name);
         if (item != null) {
             return itemRepository.findByNameContaining(Name);

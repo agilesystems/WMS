@@ -32,6 +32,10 @@ public class Country {
         setName(name);
     }
 
+    public Country() {
+    }
+
+    
     public int getId() {
         return id;
     }

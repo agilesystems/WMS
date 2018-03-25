@@ -25,13 +25,17 @@ public class State implements Serializable {
     @Id
     @GeneratedValue
     private int id;
-    @Column(unique = true, nullable = false)
+    @Column( nullable = false)
     private String name;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Country country;
     @OneToMany(mappedBy = "state")
     private List<City> citiesList;
 
+    public State() {
+    }
+
+    
     public State(String name, Country country) {
         setName(name);
         setCountry(country);

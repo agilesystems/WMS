@@ -8,6 +8,7 @@ package com.xnet.wms.service;
 import com.xnet.wms.entity.DiscountType;
 import com.xnet.wms.repository.DiscountTypeRepository;
 import java.util.Collection;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +29,12 @@ public class DiscountTypeServiceImpl implements DiscountTypeService {
     }
 
     @Override
-    public Collection<DiscountType> findAll() {
+    public List<DiscountType> findAll() {
         return discountTypeRepository.findAll();
     }
 
     @Override
-    public DiscountType addNew(DiscountType discountType) {
+    public DiscountType save(DiscountType discountType) {
         return discountTypeRepository.save(discountType);
     }
 

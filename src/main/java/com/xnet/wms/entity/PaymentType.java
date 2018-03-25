@@ -24,6 +24,16 @@ public class PaymentType implements Serializable {
     @Column(unique = true,nullable = false)
     private String name;
 
+    public PaymentType() {
+    }
+
+    
+    public PaymentType(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    
     public Integer getId() {
         return id;
     }

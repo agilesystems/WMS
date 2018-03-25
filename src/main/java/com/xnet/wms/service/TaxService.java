@@ -5,19 +5,18 @@
  */
 package com.xnet.wms.service;
 
-import com.xnet.wms.entity.InvoiceType;
-import java.util.Collection;
+import com.xnet.wms.entity.Tax;
+import java.util.List;
 
 /**
  *
  * @author ramy
  */
-public interface InvoiceTypeService {
+public interface TaxService {
 
-    InvoiceType save(InvoiceType invoiceType);
+    Tax save(Tax tax);
 
-    InvoiceType findByID(int id);
+    Tax findById(int id);
 
-    Collection<InvoiceType> findAll();
-    
+    List<Tax> findAll();
 }

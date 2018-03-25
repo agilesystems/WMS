@@ -32,7 +32,7 @@ public class Item implements Serializable {
     private String name;
     private String description;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     private Category category;
 
     

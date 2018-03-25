@@ -5,19 +5,18 @@
  */
 package com.xnet.wms.service;
 
-import com.xnet.wms.entity.InvoiceType;
-import java.util.Collection;
+import com.xnet.wms.entity.AccountType;
+import java.util.List;
 
 /**
  *
  * @author ramy
  */
-public interface InvoiceTypeService {
+public interface AccountTypeService {
 
-    InvoiceType save(InvoiceType invoiceType);
+    AccountType save(AccountType accountType);
 
-    InvoiceType findByID(int id);
+    AccountType findById(int id);
 
-    Collection<InvoiceType> findAll();
-    
+    List<AccountType> findAll();
 }

@@ -19,6 +19,7 @@ public interface UserService {
     public boolean hasAccess(String username,String url);
     
     public User save(User user);
+
     public User findByUsernameAndBranchid(String username, Integer branchid);
     public User findById(Integer id);
     Collection<User> findAll();

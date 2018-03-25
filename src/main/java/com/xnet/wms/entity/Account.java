@@ -28,15 +28,16 @@ public class Account extends BaseEntity implements Serializable {
     private String mobile3;
     private String email;
     private String address;
+    // refrence code . we can say it's a code from the old system .
     private String code;
     private String note;
     @ManyToOne
     private Branch branch;  
     
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     private City city;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
     private AccountType accountType;
     @OneToMany(mappedBy = "account")
     private List<Invoice> invoicesList;

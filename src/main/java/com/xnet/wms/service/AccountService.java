@@ -11,6 +11,7 @@ import com.xnet.wms.entity.AccountType;
 import com.xnet.wms.entity.User;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -20,15 +21,15 @@ import java.util.Date;
 public interface AccountService {
 
     /**
-     * addNew new or update Current Account with all details This method always
-     * returns immediately true or false
+     * save new or update Current Account with all details This method always
+ returns immediately true or false
      *
      * @param account an argument to determined the account that we need to use
      * it
      * @return true or false . if the account saved return true and the account
      * not saved return false .
      */
-    Account addNew(Account account);
+    Account save(Account account);
 
     /**
      * this method to soft delete account , Just update the deleted field with
@@ -46,7 +47,7 @@ public interface AccountService {
      *
      * @return a collection of accounts
      */
-    Collection<Account> findAll();
+    List<Account> findAll();
 
     /**
      * Return One Or more accounts By name argument Or a part of it. this method
@@ -58,7 +59,7 @@ public interface AccountService {
      *
      * @return a collection type of accounts
      */
-    Collection<Account> findByName(String name);
+    List<Account> findByName(String name);
 
     /**
      * this method to get specified account with id argument
@@ -68,8 +69,8 @@ public interface AccountService {
      */
     Account findById(int id);
 
-    Collection<Account> getAllSuppliers();
+    List<Account> getAllSuppliers();
 
-    Collection<Account> getAllCustomers();
+    List<Account> getAllCustomers();
 
 }

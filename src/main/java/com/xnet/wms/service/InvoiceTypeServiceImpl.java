@@ -23,7 +23,7 @@ public class InvoiceTypeServiceImpl implements InvoiceTypeService {
     InvoiceTypeRepository invoiceTypeRepository;
 
     @Override
-    public InvoiceType addNew(InvoiceType invoiceType) {
+    public InvoiceType save(InvoiceType invoiceType) {
         if (invoiceType == null) {
             return null;
         }

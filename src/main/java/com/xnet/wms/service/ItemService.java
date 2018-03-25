@@ -8,6 +8,7 @@ package com.xnet.wms.service;
 import com.xnet.wms.entity.Item;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -18,11 +19,11 @@ public interface ItemService {
     /**
      * This Method to add new Or update Current item
      *
-     * @param item An object of item parameter to addNew the item data
+     * @param item An object of item parameter to save the item data
      * @return true if the item saves successfully Or false if not saved
      * successfully .
      */
-    Item addNew(Item item);
+    Item save(Item item);
 
     /**
      * This method for soft deleted the items , just update the deleted field
@@ -39,7 +40,7 @@ public interface ItemService {
      *
      * @return a collection of item
      */
-    Collection<Item> findAll();
+    List<Item> findAll();
 
     /**
      * this method to get the items by group id
@@ -47,7 +48,7 @@ public interface ItemService {
      * @param groupid an integer parameter to get the items
      * @return a collection of item by group id
      */
-    Collection<Item> findByGroupid(int groupid);
+    List<Item> findByGroupid(int groupid);
 
     /**
      * this method to get the items by the lowest quantity if the current
@@ -58,7 +59,7 @@ public interface ItemService {
      * @return a collection of items if the lowest quantity near current
      * quantity or equal
      */
-    Collection<Item> findLowestquantity(Item item);
+    List<Item> findLowestquantity(Item item);
 
     /**
      * this method to find item by bacrcode
@@ -77,14 +78,14 @@ public interface ItemService {
      * @return a collection of item if the expire item between the from and to
      * date .
      */
-    Collection<Item> getItemExbiredate(Date from, Date to);
+    List<Item> getItemExbiredate(Date from, Date to);
 
     /**
      *
      * @param Name
      * @return
      */
-    Collection<Item> getByName(String Name);
+    List<Item> getByName(String Name);
 
     /**
      *

@@ -104,7 +104,7 @@ app
             $http.get(server + 'menu/all').then(function (res) {
                 if (res.data) {
                     res.data.forEach(function (m) {
-                        addState('forms._' + m.id, m.url);
+                        addState('forms_' + m.id, m.url);
 
                     });
                 }

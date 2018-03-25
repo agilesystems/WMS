@@ -1,23 +1,47 @@
 package com.xnet.wms;
 
+import com.xnet.wms.entity.Account;
+import com.xnet.wms.entity.AccountType;
 import com.xnet.wms.entity.Branch;
+import com.xnet.wms.entity.Category;
+import com.xnet.wms.entity.City;
+import com.xnet.wms.entity.Country;
+import com.xnet.wms.entity.DiscountType;
+import com.xnet.wms.entity.Invoice;
+import com.xnet.wms.entity.InvoiceItem;
+import com.xnet.wms.entity.InvoiceType;
+import com.xnet.wms.entity.Item;
 import com.xnet.wms.entity.Menu;
+import com.xnet.wms.entity.PaymentType;
 import com.xnet.wms.entity.Role;
+import com.xnet.wms.entity.Setting;
+import com.xnet.wms.entity.State;
+import com.xnet.wms.entity.Tax;
+import com.xnet.wms.entity.TaxValueType;
 import com.xnet.wms.entity.User;
-import com.xnet.wms.repository.MenuRepository;
+import com.xnet.wms.service.AccountService;
+import com.xnet.wms.service.AccountTypeService;
 import com.xnet.wms.service.BranchService;
+import com.xnet.wms.service.CategoryService;
+import com.xnet.wms.service.CityService;
+import com.xnet.wms.service.CountryService;
+import com.xnet.wms.service.DiscountTypeService;
+import com.xnet.wms.service.InvoiceService;
+import com.xnet.wms.service.InvoiceTypeService;
+import com.xnet.wms.service.ItemService;
 import com.xnet.wms.service.MenuService;
+import com.xnet.wms.service.PaymentTypeService;
 import com.xnet.wms.service.RoleService;
+import com.xnet.wms.service.SettingService;
+import com.xnet.wms.service.StateService;
 import com.xnet.wms.service.UserService;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Date;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -31,51 +55,72 @@ public class WmsApplication {
     static String dbUser = "root";
     static String dbPass = "123456";
 
-//    @Autowired
-    BranchService branchService;
-
-//    @Autowired
-    UserService userService;
-
-//    @Autowired
-    RoleService roleService;
-
-//    @Autowired
-    MenuService menuService;
-
     public static void main(String[] args) throws SQLException {
         System.out.println("11111111111111111111111");
 
         createDatabase();
-
         context = SpringApplication.run(WmsApplication.class, args);
         new WmsApplication().insertData();
-//        insertInitData();
+
         System.out.println("222222222222222222222222f");
     }
 
     public static void createDatabase() throws SQLException {
-        Connection connection = DriverManager
+        try (Connection connection = DriverManager
                 .getConnection("jdbc:mysql://" + dbServer + "/mysql?"
-                        + "user=" + dbUser + "&password=" + dbPass + "&useSSL=false");
-        String dbName = "inventory";
-        Statement stm = connection.createStatement();
-        stm.execute("drop database inventory;");
+                        + "user=" + dbUser + "&password=" + dbPass + "&useSSL=false")) {
+            String dbName = "inventory";
+            try (Statement stm = connection.createStatement()) {
+                stm.execute("drop database inventory;");
 
-        stm.execute("create database " + dbName + " DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;");
-        stm.close();
-        connection.close();
+                stm.execute("create database " + dbName + " DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;");
+            }
+        }
     }
 
     public void insertData() {
 
-        branchService = context.getBean(BranchService.class);
-        roleService = context.getBean(RoleService.class);
-        userService = context.getBean(UserService.class);
-        menuService = context.getBean(MenuService.class);
+        BranchService branchService = context.getBean(BranchService.class);
+        RoleService roleService = context.getBean(RoleService.class);
+        UserService userService = context.getBean(UserService.class);
+        MenuService menuService = context.getBean(MenuService.class);
+        ItemService itemService = context.getBean(ItemService.class);
+        CategoryService categoryService = context.getBean(CategoryService.class);
+        InvoiceService invoiceService = context.getBean(InvoiceService.class);
+        AccountService accountService = context.getBean(AccountService.class);
+        AccountTypeService accountTypeService = context.getBean(AccountTypeService.class);
+        CountryService countryService = context.getBean(CountryService.class);
+        StateService stateService = context.getBean(StateService.class);
+        CityService cityService = context.getBean(CityService.class);
+        PaymentTypeService paymentTypeService = context.getBean(PaymentTypeService.class);
+        DiscountTypeService discountTypeService = context.getBean(DiscountTypeService.class);
+        InvoiceTypeService invoiceTypeService = context.getBean(InvoiceTypeService.class);
+        SettingService settingService = context.getBean(SettingService.class);
+
+        List<Tax> taxList = new ArrayList<>();
+        taxList.add(new Tax("tax1", 15, TaxValueType.percentage));
+        taxList.add(new Tax("tax2", 5, TaxValueType.amount));
+        settingService.save(new Setting("X-Net", "0101212", "01001001", "459953", "32233", "email@gmail.com", "Adress", taxList));
+
+        Country country;
+        for (int i = 1; i <= 10; i++) {
+
+            country = new Country("Country  " + i);
+
+            countryService.save(country);
+            for (int ii = 1; ii <= 20; ii++) {
+                State state = new State("State " + ii, country);
+                stateService.save(state);
+                for (int iii = 1; iii <= 30; iii++) {
+                    cityService.save(new City("City " + iii, state));
+                }
+
+            }
+        }
+        System.gc();
         Branch branch = branchService.save(new Branch("Main Branch", "HQ Address"));
         Role role = roleService.save(new Role("Admin"));
-        role.setMenusList(new ArrayList<Menu>());
+        role.setMenusList(new ArrayList<>());
         role.getMenusList().add(menuService.save(new Menu(1, "X_NET", null, "X_NET", 1, null, null)));
         role.getMenusList().add(menuService.save(new Menu(2, "PRODUCT", null, "PRODUCT", 2, null, null)));
         role.getMenusList().add(menuService.save(new Menu(3, "FIANANCIAL", null, "FIANANCIAL", 3, null, null)));
@@ -92,14 +137,165 @@ public class WmsApplication {
         role.getMenusList().add(menuService.save(new Menu(14, "STORE_ITEMS_REPORT", null, "STORE_ITEMS_REPORT", 204, null, role.getMenusList().get(1))));
         role.getMenusList().add(menuService.save(new Menu(15, "STORE_TRANSACTION_REPORT", null, "STORE_TRANSACTION_REPORT", 205, null, role.getMenusList().get(1))));
         role.getMenusList().add(menuService.save(new Menu(16, "PRODUCT_LESS_THAN_MIN", null, "PRODUCT_LESS_THAN_MIN", 206, null, role.getMenusList().get(1))));
-        role.getMenusList().add(menuService.save(new Menu(17, "ADD_USER", null, "ADD_USER", 103, null, role.getMenusList().get(0))));
+        role.getMenusList().add(menuService.save(new Menu(17, "ADD_USER", "اكuser/add-user.html", "ADD_USER", 103, null, role.getMenusList().get(0))));
         role.getMenusList().add(menuService.save(new Menu(18, "ADD_ACCOUNT", null, "ADD_ACCOUNT", 701, null, role.getMenusList().get(6))));
-        role.getMenusList().add(menuService.save(new Menu(19, "ADD_INVOICE", null, "ADD_INVOICE", 501, null, role.getMenusList().get(4))));
+        role.getMenusList().add(menuService.save(new Menu(19, "ADD_INVOICE", "invoice/add-invoice.html", "ADD_INVOICE", 501, null, role.getMenusList().get(4))));
         role = roleService.save(role);
         User user = userService.save(new User("Admin", "admin", "admin", branch, role));
+        
+        Category cat = new Category();
+        cat.setId(1);
+        cat.setName("Cat 1");
+        categoryService.save(cat);
+        cat.setId(2);
+        cat.setName("Cat 2");
+        categoryService.save(cat);
+        cat.setId(3);
+        cat.setName("Cat 3");
+        categoryService.save(cat);
+        cat.setId(4);
+        cat.setName("Cat 4");
+        categoryService.save(cat);
 
-        System.out.println("User>>" + user.toString());
+        Item item;
+        for (int i = 0; i < 1000; i++) {
+            item = new Item();
+            item.setBarcode("111212121121122" + (i + 1));
+            item.setCategory(categoryService.findById(1));
+            item.setDescription("discreption for  Item no " + (1 + i));
+            long globalID = 1000000000 + i + 1;
+            item.setGlobalId(globalID + "");
+            item.setName("Item " + (i + 1));
+            itemService.save(item);
+        }
 
+        for (int i = 100; i < 200; i++) {
+            item = new Item();
+            item.setBarcode("111212121121122" + (i + 1));
+            item.setCategory(categoryService.findById(2));
+            item.setDescription("discreption for  Item no " + (1 + i));
+            long globalID = 1000000000 + i + 1;
+            item.setGlobalId(globalID + "");
+            item.setName("Item " + (i + 1));
+            itemService.save(item);
+        }
+        for (int i = 200; i < 300; i++) {
+            item = new Item();
+            item.setBarcode("111212121121122" + (i + 1));
+            item.setCategory(categoryService.findById(3));
+            item.setDescription("discreption for  Item no " + (1 + i));
+            long globalID = 1000000000 + i + 1;
+            item.setGlobalId(globalID + "");
+            item.setName("Item " + (i + 1));
+            itemService.save(item);
+        }
+        for (int i = 300; i < 400; i++) {
+            item = new Item();
+            item.setBarcode("111212121121122" + (i + 1));
+            item.setCategory(categoryService.findById(4));
+            item.setDescription("discreption for  Item no " + (1 + i));
+            long globalID = 1000000000 + i + 1;
+            item.setGlobalId(globalID + "");
+            item.setName("Item " + (i + 1));
+            itemService.save(item);
+        }
+        System.gc();
+        accountTypeService.save(new AccountType("Customer"));
+        accountTypeService.save(new AccountType("Supplier"));
+        accountTypeService.save(new AccountType("Both"));
+        Account account;
+
+        for (int i = 1; i <= 100; i++) {
+            account = new Account();
+            account.setAccountType(accountTypeService.findAll().get(0));
+            account.setAddress("Address for Account no " + i);
+            account.setBranch(branch);
+            account.setCity(cityService.findAll().get(0));
+            account.setCode("CODE" + i);
+            account.setCreatedBy(user);
+            account.setEmail("email@gmail.com");
+            account.setMobile1("011011131");
+            account.setMobile2("011011131");
+            account.setMobile3("011011131");
+            account.setName("Account " + i);
+            account.setNote("No  notes for  this Account");
+            account.setPhone1("052301992");
+            account.setPhone2("052301992");
+            account.setPhone3("052301992");
+            accountService.save(account);
+        }
+        System.gc();
+        for (int i = 101; i <= 200; i++) {
+            account = new Account();
+            account.setAccountType(accountTypeService.findAll().get(1));
+            account.setAddress("Address for Account no " + i);
+            account.setBranch(branch);
+            account.setCity(cityService.findAll().get(1));
+            account.setCode("CODE" + i);
+            account.setCreatedBy(user);
+            account.setEmail("email@gmail.com");
+            account.setMobile1("011011131");
+            account.setMobile2("011011131");
+            account.setMobile3("011011131");
+            account.setName("Account " + i);
+            account.setNote("No  notes for  this Account");
+            account.setPhone1("052301992");
+            account.setPhone2("052301992");
+            account.setPhone3("052301992");
+            accountService.save(account);
+        }
+        System.gc();
+        for (int i = 201; i <= 300; i++) {
+            account = new Account();
+            account.setAccountType(accountTypeService.findAll().get(2));
+            account.setAddress("Address for Account no " + i);
+            account.setBranch(branch);
+            account.setCity(cityService.findAll().get(2));
+            account.setCode("CODE" + i);
+            account.setCreatedBy(user);
+            account.setEmail("email@gmail.com");
+            account.setMobile1("011011131");
+            account.setMobile2("011011131");
+            account.setMobile3("011011131");
+            account.setName("Account " + i);
+            account.setNote("No  notes for  this Account");
+            account.setPhone1("052301992");
+            account.setPhone2("052301992");
+            account.setPhone3("052301992");
+            accountService.save(account);
+        }
+        System.gc();
+        paymentTypeService.save(new PaymentType(1, "Cash"));
+        paymentTypeService.save(new PaymentType(2, "Loan"));
+
+        discountTypeService.save(new DiscountType("cash discount"));
+        invoiceTypeService.save(new InvoiceType(1, "Sales"));
+        invoiceTypeService.save(new InvoiceType(2, "Buy"));
+        invoiceTypeService.save(new InvoiceType(3, "Refund-Sales"));
+        invoiceTypeService.save(new InvoiceType(4, "Refund-Buy"));
+
+        Invoice invoice;
+        for (int i = 1; i < 50; i++) {
+            invoice = new Invoice();
+            invoice.setAccount(accountService.findAll().get(0));
+            invoice.setBranch(branch);
+            invoice.setPaymentType(paymentTypeService.findById(1));
+            invoice.setCreatedBy(user);
+            invoice.setCreatedDate(new Date());
+            invoice.setDiscountAmount(5000);
+            invoice.setDiscountType(discountTypeService.findAll().get(0));
+            invoice.setInvoiceDate(new Date());
+
+            invoice.setInvoiceItemsList(new ArrayList<>());
+            for (int ii = 1; ii < 30; ii++) {
+
+                invoice.getInvoiceItemsList().add(new InvoiceItem(itemService.findAll().get(ii), 10));
+            }
+            invoice.setInvoiceType(invoiceTypeService.findByID(1));
+            invoice.setReference("Code" + i);
+            invoiceService.save(invoice);
+        }
+        System.gc();
         user = null;
         role = null;
         branch = null;

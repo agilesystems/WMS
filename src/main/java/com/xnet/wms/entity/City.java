@@ -25,10 +25,13 @@ public class City implements Serializable {
     @Id
     @GeneratedValue
     private int id;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String name;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private State state;
+
+    public City() {
+    }
 
     public City(String name, State state) {
         setName(name);

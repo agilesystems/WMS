@@ -43,7 +43,7 @@ public class InvoiceDTO {
         setBranch(invoice.getBranch());
         setAccount(invoice.getAccount());
         setInvoiceDate(invoice.getInvoiceDate());
-        setCashType(invoice.getCashType());
+        setCashType(invoice.getPaymentType());
         setDiscountAmount(invoice.getDiscountAmount());
         setDiscountType(invoice.getDiscountType());
         setReference(invoice.getReference());

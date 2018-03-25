@@ -7,6 +7,7 @@ package com.xnet.wms.repository;
 
 import com.xnet.wms.entity.Item;
 import java.util.Collection;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,6 +28,6 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
      * @return collection of items
      */
 //    @Query("Select item from  Item item where item.name LIKE CONCAT('%',:name,'%') AND item.deleted <> 1 ")
-    Collection<Item> findByNameContaining(String name);
+    List<Item> findByNameContaining(String name);
 
 }
