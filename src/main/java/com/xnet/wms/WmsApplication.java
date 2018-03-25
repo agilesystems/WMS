@@ -137,8 +137,8 @@ public class WmsApplication {
         role.getMenusList().add(menuService.save(new Menu(14, "STORE_ITEMS_REPORT", null, "STORE_ITEMS_REPORT", 204, null, role.getMenusList().get(1))));
         role.getMenusList().add(menuService.save(new Menu(15, "STORE_TRANSACTION_REPORT", null, "STORE_TRANSACTION_REPORT", 205, null, role.getMenusList().get(1))));
         role.getMenusList().add(menuService.save(new Menu(16, "PRODUCT_LESS_THAN_MIN", null, "PRODUCT_LESS_THAN_MIN", 206, null, role.getMenusList().get(1))));
-        role.getMenusList().add(menuService.save(new Menu(17, "ADD_USER", "اكuser/add-user.html", "ADD_USER", 103, null, role.getMenusList().get(0))));
-        role.getMenusList().add(menuService.save(new Menu(18, "ADD_ACCOUNT", null, "ADD_ACCOUNT", 701, null, role.getMenusList().get(6))));
+        role.getMenusList().add(menuService.save(new Menu(17, "ADD_USER", "user/add-user.html", "ADD_USER", 103, null, role.getMenusList().get(0))));
+        role.getMenusList().add(menuService.save(new Menu(18, "ADD_ACCOUNT", "account/add-account.html", "ADD_ACCOUNT", 701, null, role.getMenusList().get(6))));
         role.getMenusList().add(menuService.save(new Menu(19, "ADD_INVOICE", "invoice/add-invoice.html", "ADD_INVOICE", 501, null, role.getMenusList().get(4))));
         role = roleService.save(role);
         User user = userService.save(new User("Admin", "admin", "admin", branch, role));
@@ -158,7 +158,7 @@ public class WmsApplication {
         categoryService.save(cat);
 
         Item item;
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 100; i++) {
             item = new Item();
             item.setBarcode("111212121121122" + (i + 1));
             item.setCategory(categoryService.findById(1));
@@ -169,7 +169,7 @@ public class WmsApplication {
             itemService.save(item);
         }
 
-        for (int i = 100; i < 200; i++) {
+        for (int i = 101; i < 200; i++) {
             item = new Item();
             item.setBarcode("111212121121122" + (i + 1));
             item.setCategory(categoryService.findById(2));
@@ -179,7 +179,7 @@ public class WmsApplication {
             item.setName("Item " + (i + 1));
             itemService.save(item);
         }
-        for (int i = 200; i < 300; i++) {
+        for (int i = 201; i < 300; i++) {
             item = new Item();
             item.setBarcode("111212121121122" + (i + 1));
             item.setCategory(categoryService.findById(3));
@@ -189,7 +189,7 @@ public class WmsApplication {
             item.setName("Item " + (i + 1));
             itemService.save(item);
         }
-        for (int i = 300; i < 400; i++) {
+        for (int i = 301; i < 400; i++) {
             item = new Item();
             item.setBarcode("111212121121122" + (i + 1));
             item.setCategory(categoryService.findById(4));

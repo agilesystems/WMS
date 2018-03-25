@@ -59,6 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // "/favicon.ico"
                 ///	.antMatchers("/","/privilege", "/index.html", "/app/**", "/register", "/authenticate", "/favicon.ico");
                 .antMatchers("/",
+                        "/**",
                         "/img/**",
                         "/font-awesome/**",
                         "/vendor/**",
