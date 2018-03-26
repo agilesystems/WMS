@@ -6,12 +6,11 @@
  * Initial there are written state for all view in theme.
  *
  */
-addState = function (name, url) {
+var addState = function (name, url) {
     console.log(name + ' ' + url);
     if (name === null || name === '' || url === null || url === '') {
         return;
     }
-
     $stateProviderRefrence.state(name, {
         url: '/' + name,
         templateUrl: 'views/' + url,
@@ -85,28 +84,29 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
 
 app
         .config(config)
-        .run(function ($rootScope, $state, $http) {
+        .run(function ($rootScope, $state) {
             $rootScope.$state = $state;
 
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                console.log("State Changed >>>>> event:" + event + " | from:" + fromState.url + "  | to:" + toState.url);
 
                 // checking the user is logged in or not
                 if (!$rootScope.currentUser) {
                     // To avoiding the infinite looping of state change we have to add a
                     // if condition.
-                    if (toState.name !== 'logins' && toState.name !== 'register') {
+                    if (toState.name !== 'logins') {
                         event.preventDefault();
                         $state.go('logins');
                     }
                 }
             }
             );
-            $http.get(server + 'menu/all').then(function (res) {
-                if (res.data) {
-                    res.data.forEach(function (m) {
-                        addState('forms.form_' + m.id, m.url);
-
-                    });
-                }
-            });
+//            $http.get(server + 'menu/all').then(function (res) {
+//                if (res.data) {
+//                    res.data.forEach(function (m) {
+//                        addState('forms.form_' + m.id, m.url);
+//
+//                    });
+//                }
+//            });
         });

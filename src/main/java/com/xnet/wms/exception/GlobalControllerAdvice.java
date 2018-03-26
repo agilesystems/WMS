@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.xnet.wms;
+package com.xnet.wms.exception;
 
 
 
@@ -43,7 +43,7 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(value = Exception.class)
     public ModelAndView defaultErrorHandler(HttpServletRequest request, Exception e) {
         
-        exceptionService.addNew(new SystemException(e.getMessage(), new Date(), request.toString()));
+        exceptionService.addNew(new SystemException(e.getMessage(), request.getPathInfo() ));
         LOGGER. error("error>>>>", e);
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", e);

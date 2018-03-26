@@ -31,6 +31,7 @@ public class MenuController {
 
     @GetMapping("/all")
     Collection<MenuDTO> getAll(HttpServletRequest httpServletRequest) {
+        System.out.println("Request>>>>>>>>>>>>>>>>>"+httpServletRequest.getRequestURI());
 
         Collection<MenuDTO> menus = new ArrayList<MenuDTO>();
         menuService.findAll().forEach(m -> {

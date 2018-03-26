@@ -19,9 +19,6 @@ public class SettingServiceImpl implements SettingService {
     
     @Autowired
     SettingRepository settingsRepository;
-
- 
-    
     @Override
     public Setting save(Setting setting) {
         

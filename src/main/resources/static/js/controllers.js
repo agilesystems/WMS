@@ -20,12 +20,12 @@
  *
  */
 
-function MainCtrl($rootScope, $state) {
-    if (!$rootScope.currentUser) {
-        console.log("go to login");
-        $state.go("logins");
-    }
-}
+function MainCtrl() {
+//    if (!$rootScope.currentUser) {
+//        console.log("go to login");
+//        $state.go("logins");
+//    }
+};
 
 function settingsCtrl($scope, $rootScope, storageService) {
     $scope.touched = function () {
@@ -48,6 +48,7 @@ function translateCtrl($translate, $scope) {
 }
 
 function loginCtrl($http, $scope, $rootScope, $state) {
+    console.log("Login CTRL Loaded");
     this.login = function () {
         console.log("llogin");
         // requesting the token by usename and passoword
@@ -69,7 +70,12 @@ function loginCtrl($http, $scope, $rootScope, $state) {
                                 "Bearer " + res.data.token;
                         // AuthService.user = res.data.user;
                         $rootScope.currentUser = res.data.user;
+                        res.data.user.role.menus.forEach(function (m) {
+                            m.subMenus.forEach(function (sm) {
+                                addState('forms.form_' + sm.id, sm.url);
+                            });
 
+                        });
                         //go to home page
                         $state.go("dashboards.dashboard_1");
                     } else {

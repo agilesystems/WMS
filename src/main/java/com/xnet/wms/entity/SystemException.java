@@ -5,35 +5,39 @@
  */
 package com.xnet.wms.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author ramy
  */
 @Entity(name = "system_exception")
-public class SystemException {
-    
+public class SystemException implements Serializable {
+
     @Id
     @GeneratedValue
     private int id;
+    @Lob
     private String message;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date exceptionDate;
     private String request;
 
-    public SystemException(String message, Date exceptionDate, String request) {
+    public SystemException(String message, String request) {
         this.message = message;
-        this.exceptionDate = exceptionDate;
+        this.exceptionDate = new Date();
         this.request = request;
     }
 
     public SystemException() {
-        
+
     }
-    
 
     public int getId() {
         return id;
@@ -66,6 +70,5 @@ public class SystemException {
     public void setRequest(String request) {
         this.request = request;
     }
-    
-    
+
 }
