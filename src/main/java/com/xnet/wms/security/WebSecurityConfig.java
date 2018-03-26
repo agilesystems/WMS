@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -90,6 +91,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                        "/nav").permitAll()
                 // authenticate all remaining URLS
                 .anyRequest().fullyAuthenticated().and()
+                .addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
                 // adding JWT filter
                 .addFilterBefore(new JWTFilter(), UsernamePasswordAuthenticationFilter.class)
                 // enabling the basic authentication

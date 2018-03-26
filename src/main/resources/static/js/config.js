@@ -6,6 +6,7 @@
  * Initial there are written state for all view in theme.
  *
  */
+
 var addState = function (name, url) {
     console.log(name + ' ' + url);
     if (name === null || name === '' || url === null || url === '') {
@@ -85,6 +86,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
 app
         .config(config)
         .run(function ($rootScope, $state) {
+            
             $rootScope.$state = $state;
 
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {

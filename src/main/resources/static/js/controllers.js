@@ -47,6 +47,7 @@ function translateCtrl($translate, $scope) {
     };
 }
 
+
 function loginCtrl($http, $scope, $rootScope, $state) {
     console.log("Login CTRL Loaded");
     this.login = function () {
@@ -129,9 +130,26 @@ function navbarCtrl($scope) {
 }
 
 function userCtrl($scope, $http, DataServiceApi) {
-    DataServiceApi.GetData(server + "role/all").then(function (response) {
-        $scope.roles = response.data;
-    });
+    
+    $http({
+                method: "GET",
+                url: server + "role/all"
+            }).then(function (response) {
+              
+
+                if (response.status === 200 && response.data !== null ) {
+                    $scope.roles = response.data;
+                }
+
+            }).catch(function (response) {
+                console.error('Gists error', response.status, response.data);
+            }).finally(function () {
+                console.log("finally finished gists");
+            });
+    
+//    DataServiceApi.GetData(server + "role/all").then(function (response) {
+//        $scope.roles = response.data;
+//    });
 
     $scope.addUser = function (isValid) {
 
