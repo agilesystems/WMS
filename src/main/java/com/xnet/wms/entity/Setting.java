@@ -5,13 +5,9 @@
  */
 package com.xnet.wms.entity;
 
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 
 /**
  *
@@ -30,15 +26,25 @@ public class Setting {
     private String phone2;
     private String email;
     private String address;
-
-    @OneToMany
-    @JoinColumn(name = "settingId",referencedColumnName = "id")
-    private List<Tax> taxesList;
+    private String tax1Name;
+    private double tax1Value;
+    private String tax2Name;
+    private double tax2Value;
+    private String tax3Name;
+    private double tax3Value;
+    private String tax4Name;
+    private double tax4Value;
+    private String tax5Name;
+    private double tax5Value;
+    private String discount1Name;
+    private double discount1Valu;
+    private String discount2Name;
+    private double discount2Valu;
 
     public Setting() {
     }
 
-    public Setting(String compnayName, String mobile1, String mobile2, String phone1, String phone2, String email, String address, List<Tax> taxesList) {
+    public Setting(String compnayName, String mobile1, String mobile2, String phone1, String phone2, String email, String address) {
 
         this.compnayName = compnayName;
         this.mobile1 = mobile1;
@@ -47,7 +53,6 @@ public class Setting {
         this.phone2 = phone2;
         this.email = email;
         this.address = address;
-        this.taxesList = taxesList;
     }
 
     public int getId() {
@@ -114,12 +119,116 @@ public class Setting {
         this.address = address;
     }
 
-    public List<Tax> getTaxesList() {
-        return taxesList;
+    public String getTax1Name() {
+        return tax1Name;
     }
 
-    public void setTaxesList(List<Tax> taxesList) {
-        this.taxesList = taxesList;
+    public void setTax1Name(String tax1Name) {
+        this.tax1Name = tax1Name;
+    }
+
+    public double getTax1Value() {
+        return tax1Value;
+    }
+
+    public void setTax1Value(double tax1Value) {
+        this.tax1Value = tax1Value;
+    }
+
+    public String getTax2Name() {
+        return tax2Name;
+    }
+
+    public void setTax2Name(String tax2Name) {
+        this.tax2Name = tax2Name;
+    }
+
+    public double getTax2Value() {
+        return tax2Value;
+    }
+
+    public void setTax2Value(double tax2Value) {
+        this.tax2Value = tax2Value;
+    }
+
+    public String getTax3Name() {
+        return tax3Name;
+    }
+
+    public void setTax3Name(String tax3Name) {
+        this.tax3Name = tax3Name;
+    }
+
+    public double getTax3Value() {
+        return tax3Value;
+    }
+
+    public void setTax3Value(double tax3Value) {
+        this.tax3Value = tax3Value;
+    }
+
+    public String getTax4Name() {
+        return tax4Name;
+    }
+
+    public void setTax4Name(String tax4Name) {
+        this.tax4Name = tax4Name;
+    }
+
+    public double getTax4Value() {
+        return tax4Value;
+    }
+
+    public void setTax4Value(double tax4Value) {
+        this.tax4Value = tax4Value;
+    }
+
+    public String getTax5Name() {
+        return tax5Name;
+    }
+
+    public void setTax5Name(String tax5Name) {
+        this.tax5Name = tax5Name;
+    }
+
+    public double getTax5Value() {
+        return tax5Value;
+    }
+
+    public void setTax5Value(double tax5Value) {
+        this.tax5Value = tax5Value;
+    }
+
+    public String getDiscount1Name() {
+        return discount1Name;
+    }
+
+    public void setDiscount1Name(String discount1Name) {
+        this.discount1Name = discount1Name;
+    }
+
+    public double getDiscount1Valu() {
+        return discount1Valu;
+    }
+
+    public void setDiscount1Valu(double discount1Valu) {
+        this.discount1Valu = discount1Valu;
+    }
+
+    public String getDiscount2Name() {
+        return discount2Name;
+    }
+
+    public void setDiscount2Name(String discount2Name) {
+        this.discount2Name = discount2Name;
+    }
+
+    public double getDiscount2Valu() {
+        return discount2Valu;
+    }
+
+    public void setDiscount2Valu(double discount2Valu) {
+        this.discount2Valu = discount2Valu;
     }
 
 }

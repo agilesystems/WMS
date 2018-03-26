@@ -6,7 +6,7 @@ import com.xnet.wms.entity.Branch;
 import com.xnet.wms.entity.Category;
 import com.xnet.wms.entity.City;
 import com.xnet.wms.entity.Country;
-import com.xnet.wms.entity.DiscountType;
+
 import com.xnet.wms.entity.Invoice;
 import com.xnet.wms.entity.InvoiceItem;
 import com.xnet.wms.entity.InvoiceType;
@@ -16,8 +16,6 @@ import com.xnet.wms.entity.PaymentType;
 import com.xnet.wms.entity.Role;
 import com.xnet.wms.entity.Setting;
 import com.xnet.wms.entity.State;
-import com.xnet.wms.entity.Tax;
-import com.xnet.wms.entity.TaxValueType;
 import com.xnet.wms.entity.User;
 import com.xnet.wms.service.AccountService;
 import com.xnet.wms.service.AccountTypeService;
@@ -25,7 +23,6 @@ import com.xnet.wms.service.BranchService;
 import com.xnet.wms.service.CategoryService;
 import com.xnet.wms.service.CityService;
 import com.xnet.wms.service.CountryService;
-import com.xnet.wms.service.DiscountTypeService;
 import com.xnet.wms.service.InvoiceService;
 import com.xnet.wms.service.InvoiceTypeService;
 import com.xnet.wms.service.ItemService;
@@ -41,7 +38,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -93,14 +89,10 @@ public class WmsApplication {
         StateService stateService = context.getBean(StateService.class);
         CityService cityService = context.getBean(CityService.class);
         PaymentTypeService paymentTypeService = context.getBean(PaymentTypeService.class);
-        DiscountTypeService discountTypeService = context.getBean(DiscountTypeService.class);
         InvoiceTypeService invoiceTypeService = context.getBean(InvoiceTypeService.class);
         SettingService settingService = context.getBean(SettingService.class);
 
-        List<Tax> taxList = new ArrayList<>();
-        taxList.add(new Tax("tax1", 15, TaxValueType.percentage));
-        taxList.add(new Tax("tax2", 5, TaxValueType.amount));
-        settingService.save(new Setting("X-Net", "0101212", "01001001", "459953", "32233", "email@gmail.com", "Adress", taxList));
+        settingService.save(new Setting("X-Net", "0101212", "01001001", "459953", "32233", "email@gmail.com", "Adress"));
 
         Country country;
         for (int i = 1; i <= 10; i++) {
@@ -140,10 +132,10 @@ public class WmsApplication {
         role.getMenusList().add(menuService.save(new Menu(17, "ADD_USER", "user/add-user.html", "ADD_USER", 103, null, role.getMenusList().get(0))));
         role.getMenusList().add(menuService.save(new Menu(18, "ADD_ACCOUNT", "account/add-account.html", "ADD_ACCOUNT", 701, null, role.getMenusList().get(6))));
         role.getMenusList().add(menuService.save(new Menu(19, "ADD_INVOICE", "invoice/add-invoice.html", "ADD_INVOICE", 501, null, role.getMenusList().get(4))));
-       
+
         role = roleService.save(role);
         User user = userService.save(new User("Admin", "admin", "admin", branch, role));
-        
+
         Category cat = new Category();
         cat.setId(1);
         cat.setName("Cat 1");
@@ -269,7 +261,6 @@ public class WmsApplication {
         paymentTypeService.save(new PaymentType(1, "Cash"));
         paymentTypeService.save(new PaymentType(2, "Loan"));
 
-        discountTypeService.save(new DiscountType("cash discount"));
         invoiceTypeService.save(new InvoiceType(1, "Sales"));
         invoiceTypeService.save(new InvoiceType(2, "Buy"));
         invoiceTypeService.save(new InvoiceType(3, "Refund-Sales"));
@@ -283,8 +274,7 @@ public class WmsApplication {
             invoice.setPaymentType(paymentTypeService.findById(1));
             invoice.setCreatedBy(user);
             invoice.setCreatedDate(new Date());
-            invoice.setDiscountAmount(5000);
-            invoice.setDiscountType(discountTypeService.findAll().get(0));
+
             invoice.setInvoiceDate(new Date());
 
             invoice.setInvoiceItemsList(new ArrayList<>());
