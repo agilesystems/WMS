@@ -86,20 +86,24 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
 app
         .config(config)
         .run(function ($rootScope, $state) {
-            
+
             $rootScope.$state = $state;
 
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                 console.log("State Changed >>>>> event:" + event + " | from:" + fromState.url + "  | to:" + toState.url);
 
+                if (toState.name === 'logins') {
+                    return;
+                }
                 // checking the user is logged in or not
                 if (!$rootScope.currentUser) {
                     // To avoiding the infinite looping of state change we have to add a
                     // if condition.
-                    if (toState.name !== 'logins') {
-                        event.preventDefault();
-                        $state.go('logins');
-                    }
+
+                    event.preventDefault();
+
+                    $state.go('logins');
+
                 }
             }
             );

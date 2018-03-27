@@ -32,8 +32,7 @@ public class Invoice extends BaseEntity implements Serializable {
     private double invoiceAmountAfterDiscount;
     private double invoiceAmountAfterTax;
     private double invoiceNetAmount;
-    private double invoiceOutstandingAmount;
-    
+    private double invoiceOutstandingAmount;    
     @ManyToOne
     private PaymentType paymentType;
     private String reference;

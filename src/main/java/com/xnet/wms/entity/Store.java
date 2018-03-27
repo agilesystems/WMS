@@ -29,6 +29,17 @@ public class Store implements Serializable {
     private String note;
     @ManyToOne
     private Branch branch;
+
+    public Store() {
+    }
+
+    public Store( String name, String note, Branch branch) {
+        this.id = id;
+        this.name = name;
+        this.note = note;
+        this.branch = branch;
+    }
+    
     
     public String getName() {
         return name;

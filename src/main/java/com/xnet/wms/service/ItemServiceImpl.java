@@ -65,7 +65,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item findByBarcode(String barcode) {
-        Item item = itemRepository.findByBarcode(barcode);
+        Item item = itemRepository.findByGlobalBarcode(barcode);
         if (item != null) {
             return item;
         } else {

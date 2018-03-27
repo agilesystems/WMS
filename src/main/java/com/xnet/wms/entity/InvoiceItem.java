@@ -21,7 +21,7 @@ public class InvoiceItem implements Serializable {
     @Id
     int id;
     @ManyToOne
-    Item item;
+    StoreItem item;
     @ManyToOne
     Invoice invoice;
     int quantity;
@@ -29,11 +29,10 @@ public class InvoiceItem implements Serializable {
     public InvoiceItem() {
     }
 
-    public InvoiceItem( Item item,  int quantity) {
-      
-        this.item = item;    
+    public InvoiceItem(StoreItem item, int quantity) {
+
+        this.item = item;
         this.quantity = quantity;
     }
-    
-    
+
 }

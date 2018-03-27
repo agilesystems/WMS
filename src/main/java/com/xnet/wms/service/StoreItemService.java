@@ -9,6 +9,7 @@ import com.xnet.wms.entity.Item;
 import com.xnet.wms.entity.Store;
 import com.xnet.wms.entity.StoreItem;
 import java.util.Collection;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
@@ -53,5 +54,8 @@ public interface StoreItemService {
     Collection<StoreItem> findByStoreId(int storeId);
 
     Collection<StoreItem> findByItemIdAndBranchId(int itemId, int branchId);
+
+    List<StoreItem> findAllByBranchId(int branchId);
+    List<StoreItem> findAllByBranchIdAndKey(int branchId,String kye);
 
 }

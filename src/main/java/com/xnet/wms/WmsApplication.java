@@ -16,6 +16,8 @@ import com.xnet.wms.entity.PaymentType;
 import com.xnet.wms.entity.Role;
 import com.xnet.wms.entity.Setting;
 import com.xnet.wms.entity.State;
+import com.xnet.wms.entity.Store;
+import com.xnet.wms.entity.StoreItem;
 import com.xnet.wms.entity.User;
 import com.xnet.wms.service.AccountService;
 import com.xnet.wms.service.AccountTypeService;
@@ -31,6 +33,8 @@ import com.xnet.wms.service.PaymentTypeService;
 import com.xnet.wms.service.RoleService;
 import com.xnet.wms.service.SettingService;
 import com.xnet.wms.service.StateService;
+import com.xnet.wms.service.StoreItemService;
+import com.xnet.wms.service.StoreService;
 import com.xnet.wms.service.UserService;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -54,9 +58,9 @@ public class WmsApplication {
     public static void main(String[] args) throws SQLException {
         System.out.println("11111111111111111111111");
 
-        createDatabase();
+//        createDatabase();
         context = SpringApplication.run(WmsApplication.class, args);
-        new WmsApplication().insertData();
+//        new WmsApplication().insertData();
 
         System.out.println("222222222222222222222222f");
     }
@@ -91,7 +95,8 @@ public class WmsApplication {
         PaymentTypeService paymentTypeService = context.getBean(PaymentTypeService.class);
         InvoiceTypeService invoiceTypeService = context.getBean(InvoiceTypeService.class);
         SettingService settingService = context.getBean(SettingService.class);
-
+        StoreItemService storeItemService = context.getBean(StoreItemService.class);
+        StoreService storeService = context.getBean(StoreService.class);
         settingService.save(new Setting("X-Net", "0101212", "01001001", "459953", "32233", "email@gmail.com", "Adress"));
 
         Country country;
@@ -111,6 +116,9 @@ public class WmsApplication {
         }
         System.gc();
         Branch branch = branchService.save(new Branch("Main Branch", "HQ Address"));
+        storeService.addNew(new Store("Store1", "Store 1", branch));
+        storeService.addNew(new Store("Store2", "Store 2", branch));
+        storeService.addNew(new Store("Store3", "Store 3", branch));
         Role role = roleService.save(new Role("Admin"));
         role.setMenusList(new ArrayList<>());
         role.getMenusList().add(menuService.save(new Menu(1, "X_NET", null, "X_NET", 1, null, null)));
@@ -151,46 +159,55 @@ public class WmsApplication {
         categoryService.save(cat);
 
         Item item;
-        for (int i = 0; i < 100; i++) {
+        for (int i = 1; i < 100; i++) {
             item = new Item();
-            item.setBarcode("111212121121122" + (i + 1));
+            item.setGlobalBarcode("111212121121122" + i);
             item.setCategory(categoryService.findById(1));
-            item.setDescription("discreption for  Item no " + (1 + i));
-            long globalID = 1000000000 + i + 1;
+            item.setDescription("discreption for  Item no " + i);
+            long globalID = 1000000000 + i;
             item.setGlobalId(globalID + "");
-            item.setName("Item " + (i + 1));
+            item.setId(i);
+            item.setName("Item " + i);
             itemService.save(item);
+            storeItemService.save(new StoreItem(item, storeService.findById(1), 30, 20, 10, null));
         }
 
         for (int i = 101; i < 200; i++) {
             item = new Item();
-            item.setBarcode("111212121121122" + (i + 1));
+            item.setGlobalBarcode("111212121121122" + i);
             item.setCategory(categoryService.findById(2));
-            item.setDescription("discreption for  Item no " + (1 + i));
-            long globalID = 1000000000 + i + 1;
+            item.setDescription("discreption for  Item no " + i);
+            long globalID = 1000000000 + i;
             item.setGlobalId(globalID + "");
-            item.setName("Item " + (i + 1));
+            item.setId(i);
+            item.setName("Item " + i);
             itemService.save(item);
+            storeItemService.save(new StoreItem(item, storeService.findById(1), 30, 20, 10, null));
         }
         for (int i = 201; i < 300; i++) {
             item = new Item();
-            item.setBarcode("111212121121122" + (i + 1));
+            item.setGlobalBarcode("111212121121122" + i);
             item.setCategory(categoryService.findById(3));
-            item.setDescription("discreption for  Item no " + (1 + i));
-            long globalID = 1000000000 + i + 1;
+            item.setDescription("discreption for  Item no " + i);
+            long globalID = 1000000000 + i;
             item.setGlobalId(globalID + "");
-            item.setName("Item " + (i + 1));
+            item.setId(i);
+            item.setName("Item " + i);
             itemService.save(item);
+            storeItemService.save(new StoreItem(item, storeService.findById(1), 30, 20, 10, null));
         }
         for (int i = 301; i < 400; i++) {
+
             item = new Item();
-            item.setBarcode("111212121121122" + (i + 1));
+            item.setGlobalBarcode("111212121121122" + i);
             item.setCategory(categoryService.findById(4));
-            item.setDescription("discreption for  Item no " + (1 + i));
-            long globalID = 1000000000 + i + 1;
+            item.setDescription("discreption for  Item no " + i);
+            long globalID = 1000000000 + i;
             item.setGlobalId(globalID + "");
-            item.setName("Item " + (i + 1));
+            item.setId(i);
+            item.setName("Item " + i);
             itemService.save(item);
+            storeItemService.save(new StoreItem(item, storeService.findById(1), 30, 20, 10, null));
         }
         System.gc();
         accountTypeService.save(new AccountType("Customer"));
@@ -280,7 +297,7 @@ public class WmsApplication {
             invoice.setInvoiceItemsList(new ArrayList<>());
             for (int ii = 1; ii < 30; ii++) {
 
-                invoice.getInvoiceItemsList().add(new InvoiceItem(itemService.findAll().get(ii), 10));
+//                invoice.getInvoiceItemsList().add(new InvoiceItem(storeItemService.findAll().get(ii), 10));
             }
             invoice.setInvoiceType(invoiceTypeService.findByID(1));
             invoice.setReference("Code" + i);

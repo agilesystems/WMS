@@ -24,7 +24,7 @@ public class ItemDTO {
         if (item == null) {
             return;
         }
-        setBarcode(item.getBarcode());
+        setBarcode(item.getGlobalBarcode());
         setId(item.getId());
         setName(item.getName());
     }

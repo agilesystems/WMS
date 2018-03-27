@@ -7,6 +7,7 @@ package com.xnet.wms.service;
 
 import com.xnet.wms.entity.Store;
 import java.util.Collection;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
@@ -38,7 +39,7 @@ public interface StoreService {
      *
      * @return a collection of stores
      */
-    Collection<Store> findAll();
+    List<Store> findAll();
     Collection<Store> findAllByBranch_Id(int branchId);
 
     /**

@@ -7,8 +7,10 @@ package com.xnet.wms.controller;
 
 import com.xnet.wms.dto.AccountDTO;
 import com.xnet.wms.entity.Account;
+import com.xnet.wms.entity.User;
 import com.xnet.wms.service.AccountService;
 import com.xnet.wms.service.UserService;
+import io.jsonwebtoken.Claims;
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
@@ -54,7 +56,7 @@ public class AccountController {
 
     @GetMapping("/all")
     public Collection<AccountDTO> getAll(HttpServletRequest httpServletRequest) {
-
+        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
         Collection<AccountDTO> customers = new ArrayList<>();
         accountService.getAllCustomers().forEach(acc -> {
             customers.add(new AccountDTO(acc));
@@ -64,7 +66,8 @@ public class AccountController {
 
     @PostMapping("/add")
     AccountDTO addNew(@RequestBody Account account, HttpServletRequest httpServletRequest) {
-        account.setCreatedBy(userService.findById(Integer.parseInt(httpServletRequest.getAttribute("userId").toString())));
+        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
+        account.setCreatedBy(currentUser);
 
         return new AccountDTO(accountService.save(account));
     }

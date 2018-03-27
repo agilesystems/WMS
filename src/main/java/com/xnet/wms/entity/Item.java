@@ -27,11 +27,10 @@ public class Item implements Serializable {
     @Column(unique = true)
     private String globalId;
     @Column(unique = true)
-    private String barcode;
+    private String globalBarcode;
     @Basic(optional = false)
     private String name;
-    private String description;
-    
+    private String description;   
     @ManyToOne()
     private Category category;
 
@@ -44,12 +43,12 @@ public class Item implements Serializable {
         this.name = name;
     }
 
-    public String getBarcode() {
-        return barcode;
+    public String getGlobalBarcode() {
+        return globalBarcode;
     }
 
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
+    public void setGlobalBarcode(String globalBarcode) {
+        this.globalBarcode = globalBarcode;
     }
 
     public Category getCategory() {

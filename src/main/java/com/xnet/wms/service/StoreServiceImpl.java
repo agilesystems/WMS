@@ -9,6 +9,7 @@ import com.xnet.wms.entity.Store;
 import com.xnet.wms.repository.StoreRepository;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Collection<Store> findAll() {
+    public List<Store> findAll() {
         return storeRepository.findAll();
     }
 

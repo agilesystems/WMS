@@ -91,7 +91,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                        "/nav").permitAll()
                 // authenticate all remaining URLS
                 .anyRequest().fullyAuthenticated().and()
-                .addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
+                .addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)// this line must be removed on production
                 // adding JWT filter
                 .addFilterBefore(new JWTFilter(), UsernamePasswordAuthenticationFilter.class)
                 // enabling the basic authentication
