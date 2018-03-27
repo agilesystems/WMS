@@ -52,7 +52,7 @@ public class WmsApplication {
 
     static String dbServer = "localhost";
     static String dbUser = "root";
-    static String dbPass = "";
+    static String dbPass = "123456";
 
     public static void main(String[] args) throws SQLException {
         System.out.println("11111111111111111111111");
