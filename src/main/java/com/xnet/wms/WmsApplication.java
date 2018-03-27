@@ -58,9 +58,9 @@ public class WmsApplication {
     public static void main(String[] args) throws SQLException {
         System.out.println("11111111111111111111111");
 
-//        createDatabase();
+        createDatabase();
         context = SpringApplication.run(WmsApplication.class, args);
-//        new WmsApplication().insertData();
+        new WmsApplication().insertData();
 
         System.out.println("222222222222222222222222f");
     }
@@ -278,9 +278,9 @@ public class WmsApplication {
         paymentTypeService.save(new PaymentType(1, "Cash"));
         paymentTypeService.save(new PaymentType(2, "Loan"));
 
-        invoiceTypeService.save(new InvoiceType(1, "Sales"));
+        invoiceTypeService.save(new InvoiceType(1, "Sell"));
         invoiceTypeService.save(new InvoiceType(2, "Buy"));
-        invoiceTypeService.save(new InvoiceType(3, "Refund-Sales"));
+        invoiceTypeService.save(new InvoiceType(3, "Refund-Sell"));
         invoiceTypeService.save(new InvoiceType(4, "Refund-Buy"));
 
         Invoice invoice;

@@ -56,7 +56,7 @@ public class ItemController {
 //        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
         User currentUser = userService.findById(1);
 
-        if (invoiceType != null && invoiceType.equals("sale")) {
+        if (invoiceType != null && invoiceType.equals("sell")) {
             List<StoreItem> items = new ArrayList<>();
             if (key.equals("*")) {
                 items = storeItemService.findAllByBranchId(currentUser.getBranch().getId());
