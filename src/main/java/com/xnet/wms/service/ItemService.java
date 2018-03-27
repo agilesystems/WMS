@@ -93,4 +93,7 @@ public interface ItemService {
      * @return
      */
     Item findByExbiredate(Date date);
+
+    List<Item> findAllByBranch_IdAndKey(int branchId, String key);
+
 }

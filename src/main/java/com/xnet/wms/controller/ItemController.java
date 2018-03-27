@@ -51,22 +51,30 @@ public class ItemController {
         return items;
     }
 
-    @GetMapping("/{key}")
-    List<StoreItemDTO> getItemsByKey(HttpServletRequest httpServletRequest, @PathVariable("key") String key) {
-        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
-//        User currentUser = userService.findById(1);
-        List<StoreItem> items = new ArrayList<>();
-        if (key.equals("*")) {
-            items = storeItemService.findAllByBranchId(currentUser.getBranch().getId());
-        } else {
-            items = storeItemService.findAllByBranchIdAndKey(currentUser.getBranch().getId(), key);
+    @GetMapping("/{invoiceType}/{key}")
+    List<?> getItemsByKey(HttpServletRequest httpServletRequest, @PathVariable("key") String key, @PathVariable("invoiceType") String invoiceType) {
+//        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
+        User currentUser = userService.findById(1);
+
+        if (invoiceType != null && invoiceType.equals("sale")) {
+            List<StoreItem> items = new ArrayList<>();
+            if (key.equals("*")) {
+                items = storeItemService.findAllByBranchId(currentUser.getBranch().getId());
+            } else {
+                items = storeItemService.findAllByBranchIdAndKey(currentUser.getBranch().getId(), key);
+            }
+            List<StoreItemDTO> storeItemDTOs = new ArrayList<>();
+            items.forEach(i -> {
+                storeItemDTOs.add(new StoreItemDTO(i));
+            });
+            return storeItemDTOs;
+        } else if (invoiceType != null && invoiceType.equals("buy")) {
+            if (key.equals("*")) {
+                return itemService.findAll();
+            } else {
+                return itemService.findAllByBranch_IdAndKey(currentUser.getBranch().getId(), key);
+            }
         }
-
-        List<StoreItemDTO> storeItemDTOs = new ArrayList<>();
-        items.forEach(i -> {
-            storeItemDTOs.add(new StoreItemDTO(i));
-        });
-        return storeItemDTOs;
-
+        return null;
     }
 }

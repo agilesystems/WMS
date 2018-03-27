@@ -8,6 +8,7 @@ package com.xnet.wms.entity;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -19,20 +20,94 @@ import javax.persistence.ManyToOne;
 public class InvoiceItem implements Serializable {
 
     @Id
-    int id;
+    @GeneratedValue
+    private int id;
     @ManyToOne
-    StoreItem item;
+    private StoreItem storeItem;
+    private int quantity;
+    private double unitPrice;
+    private double discountPercentage;
+    private double totalPrice;
+    private double totalNetPrice;
     @ManyToOne
-    Invoice invoice;
-    int quantity;
+    private Invoice invoice;
 
     public InvoiceItem() {
     }
 
-    public InvoiceItem(StoreItem item, int quantity) {
+    public InvoiceItem(StoreItem storeItem, double unitPrice, double discountPercentage, int quantity) {
 
-        this.item = item;
+        setStoreItem(storeItem);
+        setUnitPrice(unitPrice);
+        setDiscountPercentage(discountPercentage);
+        setQuantity(quantity);
+
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
+        setTotalPrice(getQuantity() * getUnitPrice());
+        setTotalNetPrice(getTotalPrice() - (getTotalPrice() * getDiscountPercentage()));
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public StoreItem getStoreItem() {
+        return storeItem;
+    }
+
+    public void setStoreItem(StoreItem storeItem) {
+        this.storeItem = storeItem;
+    }
+
+    public double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
+
+    public double getDiscountPercentage() {
+        return discountPercentage;
+    }
+
+    public void setDiscountPercentage(double discountPercentage) {
+        this.discountPercentage = discountPercentage;
+    }
+
+    public double getTotalNetPrice() {
+        return totalNetPrice;
+    }
+
+    private void setTotalNetPrice(double totalNetPrice) {
+        this.totalNetPrice = totalNetPrice;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    private void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
 }
