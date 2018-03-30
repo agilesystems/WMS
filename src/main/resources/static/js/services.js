@@ -1,27 +1,27 @@
 app
 
-        .config(['$translateProvider', translateConfig])
-        .factory('toastrService', ['toaster', toasterFactory])
-        .config(['$validatorProvider', validateConfig])
-        .factory('validateForms', validateFactory)
-        .config(['localStorageServiceProvider', localStorageConfig])
-        .factory("storageService", ['localStorageService', localStorageFactory])
-        .factory('DataServiceApi', ['$http', '$q', dataFromRest])
+    .config(['$translateProvider', translateConfig])
+    .factory('toastrService', ['toaster', toasterFactory])
+    .config(['$validatorProvider', validateConfig])
+    .factory('validateForms', validateFactory)
+    .config(['localStorageServiceProvider', localStorageConfig])
+    .factory("storageService", ['localStorageService', localStorageFactory])
+    .factory('DataServiceApi', ['$http', '$q', dataFromRest])
 
 //=================== Validate config function===================
 function validateConfig($validatorProvider) {
 
     $validatorProvider
 
-            .setDefaults({
+        .setDefaults({
 
-            });
+        });
     $validatorProvider
-            // Check if Mobile phone number is correct
-            .addMethod("mobileEG", function (phone_number, element) {
-                phone_number = phone_number.replace(/\(|\)|\s+|-/g, "");
-                return this.optional(element) || (phone_number.length > 9 && phone_number.match(/(010|011|012|014|015)\d{8}/));
-            }, "Please specify a valid mobile number")
+        // Check if Mobile phone number is correct
+        .addMethod("mobileEG", function (phone_number, element) {
+            phone_number = phone_number.replace(/\(|\)|\s+|-/g, "");
+            return this.optional(element) || (phone_number.length > 9 && phone_number.match(/(010|011|012|014|015)\d{8}/));
+        }, "Please specify a valid mobile number")
 }
 
 /**
@@ -121,8 +121,7 @@ function validateFactory() {
     };
 
     return vm;
-}
-;
+};
 
 /**
  * Call this service in controller like :
@@ -132,42 +131,40 @@ function validateFactory() {
 function toasterFactory(toaster) {
     return {
         success: function (title, body) {
-            toaster.pop({type: 'success', title: title, body: body});
+            toaster.pop({ type: 'success', title: title, body: body });
         },
         success2: function (title, body) {
-            toaster.pop({type: 'success', title: title, body: body, toasterId: 2});
+            toaster.pop({ type: 'success', title: title, body: body, toasterId: 2 });
         },
         error: function (title, body) {
-            toaster.pop({type: 'error', title: title, body: body});
+            toaster.pop({ type: 'error', title: title, body: body });
         },
         error2: function (title, body) {
-            toaster.pop({type: 'error', title: title, body: body, toasterId: 2});
+            toaster.pop({ type: 'error', title: title, body: body, toasterId: 2 });
         },
         info: function (title, body) {
-            toaster.pop({type: 'info', title: title, body: body});
+            toaster.pop({ type: 'info', title: title, body: body });
         },
         info2: function (title, body) {
-            toaster.pop({type: 'info', title: title, body: body, toasterId: 2});
+            toaster.pop({ type: 'info', title: title, body: body, toasterId: 2 });
         },
         warning: function (title, body) {
-            toaster.pop({type: 'warning', title: title, body: body});
+            toaster.pop({ type: 'warning', title: title, body: body });
         },
         warning2: function (title, body) {
-            toaster.pop({type: 'warning', title: title, body: body, toasterId: 2});
+            toaster.pop({ type: 'warning', title: title, body: body, toasterId: 2 });
         },
     };
-}
-;
+};
 
 
 // /Local storage config (set default values)
 function localStorageConfig(localStorageServiceProvider) {
     localStorageServiceProvider
-            .setPrefix("wms")
-            .setStorageType("localStorage")
-            .setNotify("true, true");
-}
-;
+        .setPrefix("wms")
+        .setStorageType("localStorage")
+        .setNotify("true, true");
+};
 
 
 
@@ -232,8 +229,7 @@ function localStorageFactory(localStorageService) {
         localStorageService.set(key, val, "sessionStorage");
     }
     return storage;
-}
-;
+};
 
 
 
@@ -249,32 +245,35 @@ function dataFromRest($http, $q) {
 
     return vm;
 
-       function PostData(objectData, url) {
-        var promiss = $http({
+    function PostData(objectData, url) {
+        $http({
             method: "POST",
             url: url,
-            data: objectData
+            data: objectData,
+            headers: "content-Type : application/json"
         }).then(function (response) {
-            console.log('Post success ', response.status, response.data);
-            return response;
-        }).catch(function (response) {
-            console.error('Gists error', response.status, response.data);
-        }).finally(function () {
-            console.log("finally finished gists");
+
+            var res = response;
+            deferred.resolve(res);
+
+        }, function (response) {
+            var res = response;
+            deferred.resolve(res);
         });
-        return promiss;
+
+        return deferred.promise;
     }
 
     function GetData(url) {
         return $http({
             method: "GET",
-            url: url
+            url: url,
+            headers: {},
         }).then(function (response) {
             return response;
         })
     }
-}
-;
+};
 
 // Translate Config
 function translateConfig($translateProvider) {

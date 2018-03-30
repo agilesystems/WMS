@@ -80,13 +80,28 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
         abstract: true,
         url: "/forms",
         templateUrl: "views/common/content.html"
+    }).state('invoice', {
+        abstract: true,
+        url: "",
+        templateUrl: "views/common/content.html"
+        }).state('invoice.type', {
+            url: "/invoice/:type",
+            templateUrl: "views/invoice/add-invoice.html",
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            files: ['css/plugins/iCheck/custom.css', 'js/plugins/iCheck/icheck.min.js']
+                        }
+                    ]);
+                }
+            }
     });
 }
 
 app
         .config(config)
         .run(function ($rootScope, $state) {
-
             $rootScope.$state = $state;
 
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
