@@ -8,7 +8,6 @@ import com.xnet.wms.entity.City;
 import com.xnet.wms.entity.Country;
 
 import com.xnet.wms.entity.Invoice;
-import com.xnet.wms.entity.InvoiceItem;
 import com.xnet.wms.entity.InvoiceType;
 import com.xnet.wms.entity.Item;
 import com.xnet.wms.entity.Menu;
