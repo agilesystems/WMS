@@ -26,21 +26,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 //@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 // Modifying or overriding the default spring boot security.
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    
-   
 
     // This method is for overriding some configuration of the WebSecurity
     // If you want to ignore some request or request patterns then you can
     // specify that inside this method
 //    @Autowired
 //    private JWTFilter jwtFilter;
-
 //    @Bean
 //    public FilterRegistrationBean myFilterRegistrationBean() {
 //        FilterRegistrationBean regBean = new FilterRegistrationBean();
 //        regBean.setFilter(jwtFilter);
 //        regBean.setOrder(1);
-//        
+//
 //        return regBean;
 //    }
     @Override
@@ -50,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // ignoring the "/", "/index.html", "/app/**", "/register",
                 // "/favicon.ico"
                 ///	.antMatchers("/","/privilege", "/index.html", "/app/**", "/register", "/authenticate", "/favicon.ico");
-                .antMatchers("/**",
+                .antMatchers("/",
                         "/ar.json",
                         "/en.json",
                         "/img/**",
@@ -76,19 +73,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 // starts authorizing configurations
                 .authorizeRequests()
-                
-//                 .antMatchers("/",
-//                        "/vendor/**",
-//                        "/lib/*",
-//                        "/app/**",
-//                        "/js/**",
-//                        "/css/**",
-//                        "/index.html",
-//                        "/login.html",
-//                        "/authenticate",
-//                        "/menu/all",
-//                        "/favicon.ico",
-//                        "/nav").permitAll()
+                //                 .antMatchers("/",
+                //                        "/vendor/**",
+                //                        "/lib/*",
+                //                        "/app/**",
+                //                        "/js/**",
+                //                        "/css/**",
+                //                        "/index.html",
+                //                        "/login.html",
+                //                        "/authenticate",
+                //                        "/menu/all",
+                //                        "/favicon.ico",
+                //                        "/nav").permitAll()
                 // authenticate all remaining URLS
                 .anyRequest().fullyAuthenticated().and()
                 .addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)// this line must be removed on production
