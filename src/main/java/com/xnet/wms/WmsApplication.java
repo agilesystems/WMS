@@ -6,7 +6,6 @@ import com.xnet.wms.entity.Branch;
 import com.xnet.wms.entity.Category;
 import com.xnet.wms.entity.City;
 import com.xnet.wms.entity.Country;
-
 import com.xnet.wms.entity.Invoice;
 import com.xnet.wms.entity.InvoiceType;
 import com.xnet.wms.entity.Item;
@@ -48,20 +47,18 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication
 public class WmsApplication {
 
-    static ConfigurableApplicationContext context = null;
-
-    static String dbServer = "localhost";
-    static String dbUser = "root";
-    static String dbPass = "123456";
+    private static ConfigurableApplicationContext context = null;
+    static final String dbServer = "localhost";
+    static final String dbUser = "root";
+    static final String dbPass = "123456";
 
     public static void main(String[] args) throws SQLException {
-        System.out.println("11111111111111111111111");
-
+        System.out.println("Starting");
         createDatabase();
         context = SpringApplication.run(WmsApplication.class, args);
         new WmsApplication().insertData();
 
-        System.out.println("222222222222222222222222f");
+        System.out.println("Started");
     }
 
     public static void createDatabase() throws SQLException {
