@@ -35,16 +35,6 @@ function settingsCtrl($scope, $http, storageService, DataServiceApi) {
     })
   })();
 
-
-  // $scope.touched = function () {
-  //   storageService.setStorage("tax1", $scope.tax1);
-  //   storageService.setStorage("tax2", $scope.tax2);
-  //   storageService.setStorage("contact", $scope.contact);
-  // };
-  // $scope.tax1 = storageService.getStorage("tax1");
-  // $scope.tax2 = storageService.getStorage("tax2");
-  // $scope.contact = storageService.getStorage("contact");
-
   $scope.updateSettings = function () {
     DataServiceApi.PostData($scope.settings, server + "setting");
 }
@@ -58,7 +48,6 @@ function translateCtrl($translate, $scope) {
         $scope.language = langKey;
     };
 }
-
 
 function loginCtrl($http, $scope, $rootScope, $state) {
     console.log("Login CTRL Loaded");
@@ -206,171 +195,103 @@ function invoiceCtrl(
         $scope.newField = {};
         $scope.invoiceItem = {};
         $scope.invoice = {};
-        $scope.tax = {};
-        $scope.editing = false;
+    $scope.taxes = {};
+    $scope.ckb = {};
+    $scope.editing = {};
         $scope.invoiceItems = [];
-    $scope.invoiceItem.discountPercentage = '';
     $scope.param = $stateParams.type;
-
+    $scope.settings = {};
     // Temp List to save searched items.
-    $scope.Items =[];
-    // To refresh items list in real time.
+    $scope.Items = [];
+
+    // To search specific item in items list.
     $scope.searchedItems = function (itemName) {
         // get items from API
       return DataServiceApi.GetData(server + "item/sell/" + itemName).then(function (response) {
             $scope.Items = response.data;
         });
     }
-        // get Accounts from API
-    $scope.getAccountByInvoType = function () {
-      if ($scope.invoice.invoiceType) {
-        if ($scope.invoice.invoiceType.name === 'Buy' || $scope.invoice.invoiceType.name === 'Refund-Buy') {
-          DataServiceApi.GetData(server + "account/supplier/all").then(function (response) {
-            $scope.accounts = response.data;
-        });
 
-        } else {
+        // get Accounts from API
           DataServiceApi.GetData(server + "account/customer/all").then(function (response) {
             $scope.accounts = response.data;
           });
-        }
-      }
-      else {
-        $scope.accounts = undefined;
-      }
-    }
-
-    //Check if invoice type selected
-    $scope.invoiceTypeNotNull = function () {
-      if ($scope.invoice.invoiceType === undefined) {
-        toastrService.error('خطأ', 'يرجى اختيار نوع الفاتورة أولاً');
-      }
-    }
-
-        // get Stores from API
-        DataServiceApi.GetData(server + "store/all").then(function (response) {
-            $scope.stores = response.data;
-        });
-
-        // get Invoice Type from API
-    $http.get(server + "invoice-type/all").then(function (response) {
-            $scope.invoTypes = response.data;
-        });
 
         // get Payment Type from API
-        DataServiceApi.GetData(server + "payment-type/all").then(function (
-                response
-                ) {
+    DataServiceApi.GetData(server + "payment-type/all").then(function (response) {
             $scope.payments = response.data;
         });
 
-        // get Discount Type from API
-        DataServiceApi.GetData(server + "payment-type/all").then(function (response) {
-            $scope.discountTypes = response.data;
+    // get taxes and discount from settings.
+    DataServiceApi.GetData(server + "setting").then(function (response) {
+      $scope.settings = response.data;
         });
+
     })();
 
-    //Call function from validateService to validate invoice form
+  //Call function from validateService to validate forms
     $scope.validateInvoice = validateForms.invoiceForm;
+  $scope.validateInvoiceItem = validateForms.invoiceItemForm;
+  $scope.validateInvoiceItem2 = validateForms.invoiceItem2Form;
+
     // Save invoice (invoice and invoiceItem)
     $scope.addInvoice = function (form) {
 
-        if (form.validate()) {
+    //  Assign values to invoice object
+    $scope.invoice.discount1Percentage = $scope.settings.discount1Valu;
+    $scope.invoice.discount2Percentage = $scope.settings.discount2Valu;
+    $scope.invoice.discount1Amount = $scope.dis.discount1;
+    $scope.invoice.discount2Amount = $scope.dis.discount2;
+    $scope.invoice.tax1Percentage = $scope.settings.tax1Value;
+    $scope.invoice.tax2Percentage = $scope.settings.tax2Value;
+    $scope.invoice.tax3Percentage = $scope.settings.tax3Value;
+    $scope.invoice.tax4Percentage = $scope.settings.tax4Value;
+    $scope.invoice.tax5Percentage = $scope.settings.tax5Value;
+    $scope.invoice.tax1Amount = $scope.taxes.tax1;
+    $scope.invoice.tax2Amount = $scope.taxes.tax2;
+    $scope.invoice.tax3Amount = $scope.taxes.tax3;
+    $scope.invoice.tax4Amount = $scope.taxes.tax4;
+    $scope.invoice.tax5Amount = $scope.taxes.tax5;
+    $scope.invoice.invoiceItemsList = $scope.invoiceItems;
 
+    if (form.validate()) { // Check inputs validation
+      if ($scope.invoiceItems === undefined || $scope.invoiceItems.length === 0) { // Check if no items in invoice
+        toastrService.error('Failed!', 'Add one Item to invoice at least please');
+        return
+      }
             // Save invoice
-            DataServiceApi.PostData($scope.invoice, server + "invoice/add").then(function (res) {
-                if (res.status === 200 && res.data) {
+      DataServiceApi.PostData($scope.invoice, server + "invoice/sell/add").then(function (res) {
+        if (res.status === 200) {
                     toastrService.success('Success', 'Invoice saved successfully');
                     console.log(res.data);
                 } else {
-                    toastrService.error('Failed', 'Invoice not saved!');
-                    console.log(res);
+          toastrService.error('Failed!', 'Invoice not saved!');
         };
-
             });
-            // Save invoice item
-      //DataServiceApi.PostData($scope.invoiceItem, server + "invoiceItem/add");
-        }
+    } else { toastrService.error('', 'Some Fields Required!') }
+    console.log($scope.invoice);
     };
-
     //save store 
-    $scope.addStore = function () {
-    DataServiceApi.PostData($scope.store, server + "sotre/add")
-  }
+  // $scope.addStore = function () {
+  //   DataServiceApi.PostData($scope.store, server + "sotre/add")
+  // }
 
+  /////////////////////////////////////   Add New Item    /////////////////////////////////////
 
-    //Call function from validateService to validate form
-    $scope.validatediscountTypeForm = validateForms.discountTypeForm;
-    //save discountType
-    $scope.adddiscountType = function (form) {
-        if (form.validate()) {
-      DataServiceApi.PostData($scope.discountType, server + "discount-type/add")
-            toastrService.success('Success', 'saved successfully');
-        } else {
-            toastrService.error('Failed', 'not saved!');
-        }
-    }
-  ////////////////////////////////////////////////////////////////////////////
-
-  DataServiceApi.GetData(server + "setting").then(function (response) {
-    $scope.settings = response.data;
-  })
-
-  // Check if all taxes null to hide taxes table.
-  $scope.emptyTaxes = function () {
-    if (
-      $scope.settings.tax1Value === 0 &&
-      $scope.settings.tax2Value === 0 &&
-      $scope.settings.tax3Value === 0 &&
-      $scope.settings.tax4Value === 0 &&
-      $scope.settings.tax5Value === 0
-    ) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  // Check if all Discounts null to hide Discounts table.
-  $scope.emptyDiscounts = function () {
-    if (
-      $scope.settings.discount1Valu === 0 &&
-      $scope.settings.discount2Valu === 0
-    ) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  // To make item vlaue the default value to calculate price after discount
+  // To make item value the default value to calculate price after discount
   $scope.discountUpdate = function () {
     $scope.invoiceItem.discountPercentage = $scope.invoiceItem.storeItem.discountPercentage;
   }
-  $scope.netTotalUpdate = function () {
-    $scope.invoiceItem.totalNetPrice = $scope.invoiceItem.totalPrice - ($scope.invoiceItem.totalPrice / 100 * $scope.invoiceItem.discountPercentage)
+
+  // Return the value after discount
+  $scope.priceAfterDiscount = function (unit, discount) {
+    return unit - (unit / 100 * discount);
   }
-
-    //////////////////////////////////////////////////////////////////////////
-
-  $scope.editRow = function (index) {
-    $scope.editing = $scope.invoiceItems[index];
-    };
-
-  $scope.saveField = function () {
-      $scope.editing.unitPrice = $scope.editing.storeItem.price;
-      $scope.editing.totalPrice = $scope.editing.quantity * $scope.editing.unitPrice;
-      $scope.editing.totalNetPrice = $scope.editing.totalPrice - ($scope.editing.totalPrice / 100 * $scope.editing.discountPercentage);
-            $scope.editing = false;
-
-    };
-    //Call function from validateService to validate invoicItem form
-    $scope.validateInvoiceItem = validateForms.invoiceItemForm;
 
     // Add new item to invoice
     $scope.addRow = function (form) {
     var temp = $scope.invoiceItem;
-    if (form.validate()) {  // /check form validation
+    if (form.validate()) {  // check form validation
       if ($scope.invoiceItems.length === 0) { // Check if list of items null to add first item
             $scope.invoiceItems.push({
           storeItem: temp.storeItem,
@@ -382,8 +303,8 @@ function invoiceCtrl(
         })
       } else {
         var isEqual = false;
-        
-        angular.forEach($scope.invoiceItems, function (val, key) { // Check if item exist to just update quantity.
+        // Check if item exist to just update quantity.
+        angular.forEach($scope.invoiceItems, function (val, key) {
           if (temp.storeItem.itemId === val.storeItem.itemId) {
             val.quantity += temp.quantity;
             val.unitPrice = temp.unitPrice;
@@ -407,9 +328,47 @@ function invoiceCtrl(
     }
     };
 
+  $scope.editRow = function (index) {
+    $scope.temp = $scope.invoiceItems[index]; // add current item to a temp object to edit it.
+  };
+
+
+  // Save item after editting.
+  $scope.saveField = function (form) {
+    if (form.validate()) {
+      // update current object with new values
+      $scope.temp.quantity = $scope.editing.quantity;
+      $scope.temp.storeItem = $scope.editing.storeItem;
+      $scope.temp.unitPrice = $scope.temp.storeItem.price;
+      $scope.temp.totalPrice = $scope.temp.quantity * $scope.temp.unitPrice;
+      $scope.temp.totalNetPrice = $scope.temp.totalPrice - ($scope.temp.totalPrice / 100 * $scope.temp.discountPercentage);
+    }
+  };
+
     $scope.deleteRow = function (index) {
         $scope.invoiceItems.splice(index, 1);
     };
+
+  /////////////////////////////////////   Tax And Discount Functions   /////////////////////////////////////
+
+  // Check if all taxes null to hide taxes table.
+  $scope.emptyTaxes = function () {
+    if ($scope.settings.tax1Value === 0 &&
+      $scope.settings.tax2Value === 0 &&
+      $scope.settings.tax3Value === 0 &&
+      $scope.settings.tax4Value === 0 &&
+      $scope.settings.tax5Value === 0) {
+      return false
+    } else { return true }
+  }
+
+  // Check if all Discounts null to hide Discounts table.
+  $scope.emptyDiscounts = function () {
+    if ($scope.settings.discount1Valu === 0 &&
+      $scope.settings.discount2Valu === 0) {
+      return false
+    } else { return true }
+  }
 
     $scope.subTotal = function () {
         var total = 0;
@@ -418,61 +377,121 @@ function invoiceCtrl(
         });
         return total;
     };
-  // Return the value after discount
-  $scope.priceAfterDiscount = function (unit, discount) {
-    var u = ''; var d = '';
-    u += unit; d += discount;
-    return u - (u / 100 * d);
-  }
-
-  $scope.update = function () {
-    $scope.$apply();
-  }
-
-    // default value to initlize 
-  $scope.invotax = { cost: 0 };
 
   // Return taxes amount minus discounts amount
-  $scope.calculateNetTaxAndDiscount = function () {
+  $scope.getNetTaxesAndDiscounts = function () {
     var total = 0
-    $scope.discount1 = $scope.settings.discount1Valu * $scope.subTotal() / 100;
-    $scope.discount2 = $scope.settings.discount2Valu * $scope.subTotal() / 100;
-    $scope.tax1 = $scope.settings.tax1Value * $scope.subTotal() / 100;
-    $scope.tax2 = $scope.settings.tax2Value * $scope.subTotal() / 100;
-    $scope.tax3 = $scope.settings.tax3Value * $scope.subTotal() / 100;
-    $scope.tax4 = $scope.settings.tax4Value * $scope.subTotal() / 100;
-    $scope.tax5 = $scope.settings.tax5Value * $scope.subTotal() / 100;
+    $scope.dis = {};
+    // Convert value from percentage for taxes and discounts
+    $scope.dis.discount1 = $scope.settings.discount1Valu * $scope.subTotal() / 100;
+    $scope.dis.discount2 = $scope.settings.discount2Valu * $scope.subTotal() / 100;
+    $scope.taxes.tax1 = $scope.settings.tax1Value * $scope.subTotal() / 100;
+    $scope.taxes.tax2 = $scope.settings.tax2Value * $scope.subTotal() / 100;
+    $scope.taxes.tax3 = $scope.settings.tax3Value * $scope.subTotal() / 100;
+    $scope.taxes.tax4 = $scope.settings.tax4Value * $scope.subTotal() / 100;
+    $scope.taxes.tax5 = $scope.settings.tax5Value * $scope.subTotal() / 100;
+    return total = $scope.totalTaxes - $scope.getTotalDiscounts();
+  };
 
-    function isChecked(val, ckb) {
-      if (!ckb) {
         
-        return val = 0
-      }else{
-        return val;
+  $scope.getTotalTaxes = function () {
+    $scope.totalTaxes = 0;
+    angular.forEach($scope.taxes, function (val, key) {
+      if ($scope.ckb[key]) {
+        $scope.totalTaxes += val;
                 }
+    })
+    return $scope.totalTaxes;
             }
 
-    total +=  isChecked($scope.tax1, $scope.tax1ckb) + 
-              isChecked($scope.tax2, $scope.tax2ckb) + 
-              isChecked($scope.tax3, $scope.tax3ckb) + 
-              isChecked($scope.tax4, $scope.tax4ckb) + 
-              isChecked($scope.tax5, $scope.tax5ckb) - 
-              (isChecked($scope.discount1, $scope.dis1ckb) + 
-              isChecked($scope.discount2, $scope.dis2ckb));
-    return total;
-    };
+  // Return total discounts
+  $scope.getTotalDiscounts = function () {
+    $scope.totalDiscounts = 0;
+    $scope.totalDiscounts += $scope.dis1ckb ? $scope.dis.discount1 : 0;
+    $scope.totalDiscounts += $scope.dis2ckb ? $scope.dis.discount2 : 0;
+    return $scope.totalDiscounts;
+  }
+
+  // Return total taxes percent
+  $scope.getTotalPercentTaxes = function () {
+    $scope.totalPercentTaxes = 0;
+    angular.forEach($scope.taxes, function (val, key) {
+      if ($scope.ckb[key]) {
+        $scope.totalPercentTaxes += val / $scope.subTotal() * 100;
+      }
+    })
+    return $scope.totalPercentTaxes;
+  }
+
+  // Return total discount percent
+  $scope.getTotalPercentDiscount = function () {
+    $scope.invoicePercentAmount = 0;
+    $scope.invoicePercentAmount += $scope.dis1ckb ? $scope.dis.discount1 : 0;
+    $scope.invoicePercentAmount += $scope.dis2ckb ? $scope.dis.discount2 : 0;
+    return $scope.invoicePercentAmount;
+  }
+
+  // Return total without any discount or tax.
+  $scope.totalInvoiceAmount = function () {
+    var total = 0
+    angular.forEach($scope.invoiceItems, function (val, key) {
+      total += val.totalPrice;
+    });
+    return $scope.invoice.invoiceAmount = total;
+  }
 
   // Return Net total with taxes and discounts
     $scope.calculateGrandTotal = function () {
-    return $scope.calculateNetTaxAndDiscount() + $scope.subTotal();
+    return $scope.invoice.invoiceNetAmount = $scope.getNetTaxesAndDiscounts() + $scope.subTotal();
     };
+
+  // Return invoice Outstanding Amount
+  $scope.getinvoiceOutstandingAmount = function () {
+    return $scope.invoice.invoiceOutstandingAmount = $scope.invoice.invoiceAmount - $scope.calculateGrandTotal();
+  }
+
+  // Return total amount after taxes.
+  $scope.getTotalAmountAfterTaxes = function () {
+    $scope.invoice.invoiceAmountAfterTax = $scope.subTotal();
+    angular.forEach($scope.taxes, function (val, key) {
+      if ($scope.ckb[key]) {
+        $scope.invoice.invoiceAmountAfterTax += val;
+      }
+    })
+    return $scope.invoice.invoiceAmountAfterTax;
+  }
+
+  // Return total amount after discount.
+  $scope.getTotalAmountAfterDiscount = function () {
+    if ($scope.dis1ckb || $scope.dis2ckb) {
+      $scope.invoice.invoiceAmountAfterDiscount = $scope.subTotal()
+    } else { $scope.invoice.invoiceAmountAfterDiscount = 0 }
+    $scope.invoice.invoiceAmountAfterDiscount -= $scope.dis1ckb ? $scope.dis.discount1 : 0;
+    $scope.invoice.invoiceAmountAfterDiscount -= $scope.dis2ckb ? $scope.dis.discount2 : 0;
+    return $scope.invoice.invoiceAmountAfterDiscount;
+  }
+
+  $scope.checkAllTaxes = function () {
+    if ($scope.ckbAllTaxes) {
+      $scope.ckb.tax1 = true;
+      $scope.ckb.tax2 = true;
+      $scope.ckb.tax3 = true;
+      $scope.ckb.tax4 = true;
+      $scope.ckb.tax5 = true;
+    } else { $scope.ckb = {} }
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     $scope.resetInvoice = function resetInvoice() {
         $scope.invoice = {};
         $scope.invoiceItem = {};
         $scope.invoiceItems = [];
-    $scope.invotax = { cost: 0, rdb: 'val' };
-        $scope.tax = {};
+    $scope.taxes = {};
+    $scope.ckb = {};
+    $scope.dis = {};
+    $scope.dis1ckb = '';
+    $scope.dis2ckb = '';
   }
 
 

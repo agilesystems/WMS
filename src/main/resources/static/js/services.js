@@ -14,7 +14,7 @@ function validateConfig($validatorProvider) {
     $validatorProvider
 
         .setDefaults({
-
+            success: "valid"
         });
     $validatorProvider
         // Check if Mobile phone number is correct
@@ -23,105 +23,6 @@ function validateConfig($validatorProvider) {
             return this.optional(element) || (phone_number.length > 9 && phone_number.match(/(010|011|012|014|015)\d{8}/));
         }, "Please specify a valid mobile number")
 }
-
-/**
- *  How To Use...
- *  define object with inputs name to validate it , then call it from controller like:
- *  $scope.exampleForm = validateForms.exampleForm.
- */
-function validateFactory() {
-    vm = {};
-
-    vm.accountForm = {
-        ignore: ":hidden:not(.inputHidden)",
-        onkeyup: function (element) {
-            this.element(element);  // <- "eager validation"
-        },
-        onfocusout: function (element) {
-            this.element(element);  // <- "eager validation"
-        },
-
-        rules: {
-            inputItem: "required",
-            inputItem2: "required",
-            name: {
-                required: true,
-            },
-            email: {
-                email: true,
-            },
-            password: "required",
-            username: "require",
-            mobile1: {
-                required: true,
-                mobileEG: true
-            },
-            mobile2: "mobileEG",
-            mobile3: "mobileEG",
-            address: "required"
-
-
-        }
-    };
-
-    vm.invoiceItemForm = {
-        ignore: ":hidden:not(.inputHidden)",
-        onkeyup: function (element) {
-            this.element(element);  // <- "eager validation"
-        },
-        onfocusout: function (element) {
-            this.element(element);  // <- "eager validation"
-        },
-
-        rules: {
-            inputItem: "required",
-            item: {
-                required: true,
-            },
-            quantity: {
-                required: true,
-                digits: true,
-            },
-            cost: {
-                required: true,
-                digits: true,
-            }
-        }
-
-    };
-
-    vm.invoiceForm = {
-        ignore: ":hidden:not(.inputHidden)",
-        onkeyup: function (element) {
-            this.element(element);  // <- "eager validation"
-        },
-        onfocusout: function (element) {
-            this.element(element);  // <- "eager validation"
-        },
-
-        rules: {
-            //inputItem: "required",
-            //reference: "required"
-        }
-
-    };
-    vm.discountTypeForm = {
-        ignore: ":hidden:not(.inputHidden)",
-        onkeyup: function (element) {
-            this.element(element);  // <- "eager validation"
-        },
-        onfocusout: function (element) {
-            this.element(element);  // <- "eager validation"
-        },
-
-        rules: {
-            name: "required"
-        }
-
-    };
-
-    return vm;
-};
 
 /**
  * Call this service in controller like :
@@ -298,3 +199,124 @@ function translateConfig($translateProvider) {
         suffix: '.json'
     });
 }
+
+
+/**
+ *  How To Use...
+ *  define object with inputs name to validate it , then call it from controller like:
+ *  $scope.exampleForm = validateForms.exampleForm.
+ */
+function validateFactory() {
+    vm = {};
+
+    vm.accountForm = {
+        ignore: ":hidden:not(.inputHidden)",
+        onkeyup: function (element) {
+            this.element(element);  // <- "eager validation"
+        },
+        onfocusout: function (element) {
+            this.element(element);  // <- "eager validation"
+        },
+
+        rules: {
+            inputItem: "required",
+            inputItem2: "required",
+            name: {
+                required: true,
+            },
+            email: {
+                email: true,
+            },
+            password: "required",
+            username: "require",
+            mobile1: {
+                required: true,
+                mobileEG: true
+            },
+            mobile2: "mobileEG",
+            mobile3: "mobileEG",
+            address: "required"
+
+
+        }
+    }
+
+    vm.invoiceItemForm = {
+        ignore: ":hidden:not(.inputHidden)",
+        onkeyup: function (element) {
+            this.element(element);  // <- "eager validation"
+        },
+        onfocusout: function (element) {
+            this.element(element);  // <- "eager validation"
+        },
+
+        rules: {
+            hiddenItem: "required",
+            item: {
+                required: true,
+            },
+            quantity: {
+                required: true,
+                digits: true,
+                min: 1
+            },
+            discount:{min:0}
+        }
+
+    }
+
+    vm.invoiceItem2Form = {
+        ignore: ":hidden:not(.inputHidden)",
+        onkeyup: function (element) {
+            this.element(element);  // <- "eager validation"
+        },
+        onfocusout: function (element) {
+            this.element(element);  // <- "eager validation"
+        },
+        rules: {
+            hiddenItem: "required",
+            item: {
+                required: true,
+            },
+            quantity: {
+                required: true,
+                digits: true,
+                min: 1
+            },
+            discount: { min: 0 }
+        }
+
+    }
+
+    vm.invoiceForm = {
+        ignore: ":hidden:not(.inputHidden)",
+        onkeyup: function (element) {
+            this.element(element);  // <- "eager validation"
+        },
+        onfocusout: function (element) {
+            this.element(element);  // <- "eager validation"
+        },
+
+        rules: {
+            paymentTypeInput: "required",
+            accountInput: "required",
+        }
+
+    };
+    vm.discountTypeForm = {
+        ignore: ":hidden:not(.inputHidden)",
+        onkeyup: function (element) {
+            this.element(element);  // <- "eager validation"
+        },
+        onfocusout: function (element) {
+            this.element(element);  // <- "eager validation"
+        },
+
+        rules: {
+            name: "required"
+        }
+
+    };
+
+    return vm;
+};
