@@ -80,11 +80,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, IdlePro
         abstract: true,
         url: "/forms",
         templateUrl: "views/common/content.html"
-    }).state('invoice', {
-        abstract: true,
-        url: "",
-        templateUrl: "views/common/content.html"
-        }).state('invoice.type', {
+        }).state('forms.invoice', {
             url: "/invoice/:type",
             templateUrl: "views/invoice/add-invoice.html",
             resolve: {
