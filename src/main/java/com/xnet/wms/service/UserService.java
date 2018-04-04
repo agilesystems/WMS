@@ -7,6 +7,7 @@ package com.xnet.wms.service;
 
 import com.xnet.wms.entity.User;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -20,7 +21,9 @@ public interface UserService {
     
     public User save(User user);
 
-    public User findByUsernameAndBranchid(String username, Integer branchid);
-    public User findById(Integer id);
+    public User findByUsernameAndBranchid(String username, int branchid);
+    public User findById(int id);
     Collection<User> findAll();
+    List<User> findByBranchid(int branchId);
+   public boolean delete(User user);
 }

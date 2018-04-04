@@ -7,6 +7,7 @@ package com.xnet.wms.repository;
 
 import com.xnet.wms.entity.User;
 import java.io.Serializable;
+import java.util.List;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -25,4 +26,6 @@ public interface UserRepository extends JpaRepository<User, Serializable> {
     
 //    @Query("select u from User u where u.username = :username and u.branchId.id = :branchid")
     User findByUsernameAndBranch_Id( String username, Integer branchid);
+    
+    List <User> findAllByBranch_Id(Integer branchId);
 }
