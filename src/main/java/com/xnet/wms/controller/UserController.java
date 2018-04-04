@@ -36,31 +36,36 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("user")
 @CrossOrigin
 public class UserController {
-    
+
     @Autowired
     UserService userService;
-    
+
     @Autowired
     BranchService branchService;
-    
+
     @PostMapping("/add")
     public UserDTO addNew(@RequestBody User user, HttpServletRequest httpServletRequest) {
         User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
         user.setBranch(currentUser.getBranch());
         user.setCreatedBy(currentUser);
-        
         return new UserDTO(userService.save(user));
     }
-    
+
     @PostMapping("/update")
     public UserDTO updateUser(@RequestBody User user, HttpServletRequest httpServletRequest) {
         User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
-        
+
         user.setUpdatedBy(currentUser);
         user.setUpdatedDate(new Date());
         return new UserDTO(userService.save(user));
     }
-    
+
+    @PostMapping("/delete/{id}")
+    public boolean deleteUser(@RequestBody int id, HttpServletRequest httpServletRequest) {
+        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
+        return userService.delete(id, currentUser);
+    }
+
     @GetMapping("/getById/{id}")
     public UserDTO getById(@PathVariable("id") Integer id, HttpServletRequest httpServletRequest) {
         if (userService.findById(id) != null) {
@@ -68,9 +73,9 @@ public class UserController {
         } else {
             return null;
         }
-        
+
     }
-    
+
     @GetMapping("/all")
     public List<UserDTO> getAll(HttpServletRequest httpServletRequest) {
         User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));

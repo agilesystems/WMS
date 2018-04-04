@@ -125,14 +125,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean delete(User user) {
-        
-        if (user == null) {
+    public boolean delete(int id, User currentUser) {
+        User user = findById(id);
+        if (id == 0) {
             return false;
         }else{
             user.setIsDeleted(true);
             user.setDeletedDate(new Date());
-            
+            user.setDeletedBy(currentUser);
             save(user);
             return true;
         }

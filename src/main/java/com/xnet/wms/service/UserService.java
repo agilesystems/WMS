@@ -25,5 +25,5 @@ public interface UserService {
     public User findById(int id);
     Collection<User> findAll();
     List<User> findByBranchid(int branchId);
-   public boolean delete(User user);
+   public boolean delete(int user ,User current);
 }
