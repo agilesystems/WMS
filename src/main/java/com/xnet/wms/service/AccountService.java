@@ -72,5 +72,6 @@ public interface AccountService {
     List<Account> getAllSuppliers();
 
     List<Account> getAllCustomers();
+   Account update (Account account , int currentUserId);
 
 }

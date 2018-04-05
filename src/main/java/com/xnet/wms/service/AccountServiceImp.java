@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.xnet.wms.entity.User;
 
 /**
  *
@@ -23,6 +24,9 @@ public class AccountServiceImp implements AccountService {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    UserService userService;
 
     @Override
     public Account save(Account account) {
@@ -63,4 +67,15 @@ public class AccountServiceImp implements AccountService {
         return accountRepository.findByAccountType_Id(Global.ACCOUNT_TYPE_CUSTOMER);
     }
 
+    @Override
+    public Account update(Account account, int currentUserId) {
+        User user = userService.findById(currentUserId);
+        if (user.getBranch() == account.getBranch()) {
+            account.setUpdatedBy(user);
+            account.setUpdatedDate(new Date());
+            return save(account);
+        } else {
+            return null;
+        }
+    }
 }
