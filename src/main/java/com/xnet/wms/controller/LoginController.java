@@ -55,6 +55,7 @@ public class LoginController {
 //                .compact();
             token = Jwts.builder().setSubject(user.getUsername()).claim("userId", user.getId()).setIssuedAt(new Date())
                     .signWith(SignatureAlgorithm.HS256, "secretkey").compact();
+            
             tokenMap.put("token", token);
             tokenMap.put("user", new UserDTO(user));
             return new ResponseEntity<>(tokenMap, HttpStatus.OK);

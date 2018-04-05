@@ -10,8 +10,15 @@ import com.xnet.wms.entity.User;
 import com.xnet.wms.service.BranchService;
 import com.xnet.wms.service.UserService;
 import io.jsonwebtoken.Claims;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 import javax.servlet.http.HttpServletRequest;
 import jdk.nashorn.internal.runtime.Context;
+import org.apache.commons.lang.text.StrBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,6 +51,21 @@ public class UserController {
         return new UserDTO(userService.save(user));
     }
 
+    @PostMapping("/update")
+    public UserDTO updateUser(@RequestBody User user, HttpServletRequest httpServletRequest) {
+        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
+
+        user.setUpdatedBy(currentUser);
+        user.setUpdatedDate(new Date());
+        return new UserDTO(userService.save(user));
+    }
+
+    @PostMapping("/delete/{id}")
+    public boolean deleteUser(@RequestBody int id, HttpServletRequest httpServletRequest) {
+        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
+        return userService.delete(id, currentUser);
+    }
+
     @GetMapping("/getById/{id}")
     public UserDTO getById(@PathVariable("id") Integer id, HttpServletRequest httpServletRequest) {
         if (userService.findById(id) != null) {
@@ -54,4 +76,37 @@ public class UserController {
 
     }
 
+    @GetMapping("/all")
+    public List<UserDTO> getAll(HttpServletRequest httpServletRequest) {
+        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
+        if (currentUser == null) {
+            return null;
+        }
+        List<UserDTO> users = new ArrayList<>();
+        userService.findByBranchid(currentUser.getBranch().getId()).forEach((user) -> {
+            users.add(new UserDTO(user));
+        });
+        return users;
+    }
+
+//    @GetMapping("/all")
+//    public List<HashMap<String, String>> getAllusers(HttpServletRequest httpServletRequest) {
+//        List<HashMap<String, String>> users = new ArrayList<HashMap<String, String>>();
+//
+//        HashMap<String, String> user;
+//        for (User u : userService.findAll()) {
+//            user = new HashMap<String, String>();
+//            user.put("id", u.getId() + "");
+//            user.put("fisrtName", u.getFirstName());
+//            user.put("lastName", u.getLastName());
+//            user.put("phone", u.getPhone());
+//            user.put("address", u.getAddress());
+//            user.put("userName", u.getUsername());
+//            user.put("password", u.getPassword());
+//            user.put("rolName", u.getRole().getName());
+//            users.add(user);
+//        }
+//
+//        return users;
+//    }
 }

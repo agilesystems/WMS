@@ -8,6 +8,8 @@ package com.xnet.wms.service;
 import com.xnet.wms.entity.User;
 import com.xnet.wms.repository.UserRepository;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,12 +81,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUsernameAndBranchid(String username, Integer branchid) {
+    public User findByUsernameAndBranchid(String username, int branchid) {
         return userRepository.findByUsernameAndBranch_Id(username, branchid);
     }
 
     @Override
-    public User findById(Integer id) {
+    public User findById(int id) {
         if (userRepository.findOne(id).getId() != 0) {
             return userRepository.findOne(id);
         } else {
@@ -114,6 +116,27 @@ public class UserServiceImpl implements UserService {
         }
         return (String.valueOf(branchId + userId));
 
+    }
+
+    @Override
+    public List<User> findByBranchid(int branchId) {
+        
+        return userRepository.findAllByBranch_Id(branchId);
+    }
+
+    @Override
+    public boolean delete(int id, User currentUser) {
+        User user = findById(id);
+        if (id == 0) {
+            return false;
+        }else{
+            user.setIsDeleted(true);
+            user.setDeletedDate(new Date());
+            user.setDeletedBy(currentUser);
+            save(user);
+            return true;
+        }
+        
     }
 
 }
