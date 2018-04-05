@@ -39,7 +39,7 @@ public interface AccountService {
      * @return this method must return True if the account Already update the
      * deleted field or False if not update the deleted field
      */
-    boolean delete(Account account);
+    boolean delete(int accountId , int currentUser);
 
   
     /**

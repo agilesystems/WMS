@@ -80,4 +80,13 @@ public class AccountController {
         }
     }
 
+    @PostMapping("/delete/{id}")
+    public boolean deleteAccount(@RequestBody int id, HttpServletRequest httpServletRequest) {
+        try {
+            return accountService.delete(id, Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }
