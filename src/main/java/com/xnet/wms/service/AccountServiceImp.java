@@ -6,14 +6,13 @@
 package com.xnet.wms.service;
 
 import com.xnet.wms.entity.Account;
+import com.xnet.wms.entity.User;
 import com.xnet.wms.helper.Global;
 import com.xnet.wms.repository.AccountRepository;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.xnet.wms.entity.User;
 
 /**
  *
@@ -21,22 +20,22 @@ import com.xnet.wms.entity.User;
  */
 @Service
 public class AccountServiceImp implements AccountService {
-    
+
     @Autowired
     AccountRepository accountRepository;
-    
+
     @Autowired
     UserService userService;
-    
+
     @Override
     public Account save(Account account) {
-        
+
         return accountRepository.save(account);
     }
-    
+
     @Override
     public boolean delete(int accountId, int currentUserId) {
-        if (accountId == 0) {
+        if (accountId == 0 || currentUserId == 0) {// هنا بضيف شيك على الكرنت يوزر كمان
             return false;
         } else {
             Account account = findById(accountId);
@@ -45,36 +44,37 @@ public class AccountServiceImp implements AccountService {
             account.setDeletedDate(new Date());
             account.setDeletedBy(user);
             save(account);
-            return true;
+
+            return (account.isIsDeleted());// ده عشان اتأكد  اذا اتمسح فعلا ولا لا
         }
-        
+
     }
-    
+
     @Override
     public List<Account> findAll() {
         return accountRepository.findAll();
     }
-    
+
     @Override
     public List<Account> findByName(String name) {
         return accountRepository.findByNameContaining(name);
     }
-    
+
     @Override
     public Account findById(int id) {
         return accountRepository.findOne(id);
     }
-    
+
     @Override
     public List<Account> getAllSuppliers() {
         return accountRepository.findByAccountType_Id(Global.ACCOUNT_TYPE_SUPPLIER);
     }
-    
+
     @Override
     public List<Account> getAllCustomers() {
         return accountRepository.findByAccountType_Id(Global.ACCOUNT_TYPE_CUSTOMER);
     }
-    
+
     @Override
     public Account update(Account account, int currentUserId) {
         User user = userService.findById(currentUserId);
