@@ -22,7 +22,7 @@ public interface AccountService {
 
     /**
      * save new or update Current Account with all details This method always
-     * returns immediately true or false
+ returns immediately true or false
      *
      * @param account an argument to determined the account that we need to use
      * it
@@ -41,6 +41,7 @@ public interface AccountService {
      */
     boolean delete(Account account);
 
+  
     /**
      * this method to get All Accounts .
      *
@@ -71,7 +72,5 @@ public interface AccountService {
     List<Account> getAllSuppliers();
 
     List<Account> getAllCustomers();
-
-    Account update(Account account , int currentUserId);
 
 }

@@ -6,7 +6,6 @@
 package com.xnet.wms.service;
 
 import com.xnet.wms.entity.Account;
-import com.xnet.wms.entity.User;
 import com.xnet.wms.helper.Global;
 import com.xnet.wms.repository.AccountRepository;
 import java.util.Collection;
@@ -24,8 +23,6 @@ public class AccountServiceImp implements AccountService {
 
     @Autowired
     AccountRepository accountRepository;
-    @Autowired
-    UserService userService;
 
     @Override
     public Account save(Account account) {
@@ -64,18 +61,6 @@ public class AccountServiceImp implements AccountService {
     @Override
     public List<Account> getAllCustomers() {
         return accountRepository.findByAccountType_Id(Global.ACCOUNT_TYPE_CUSTOMER);
-    }
-
-    @Override
-    public Account update(Account account, int currentUserId) {
-        User user = userService.findById(currentUserId);
-        if (user.getBranch() == account.getBranch()) {
-            account.setUpdatedBy(user);
-            account.setUpdatedDate(new Date());
-            return save(account);
-        } else {
-            return null;
-        }
     }
 
 }

@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findByBranchid(int branchId) {
-
+        
         return userRepository.findAllByBranch_Id(branchId);
     }
 
@@ -129,14 +129,14 @@ public class UserServiceImpl implements UserService {
         User user = findById(id);
         if (id == 0) {
             return false;
-        } else {
+        }else{
             user.setIsDeleted(true);
             user.setDeletedDate(new Date());
             user.setDeletedBy(currentUser);
             save(user);
             return true;
         }
-
+        
     }
 
 }
