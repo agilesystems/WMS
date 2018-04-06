@@ -35,7 +35,7 @@ public class AccountServiceImp implements AccountService {
 
     @Override
     public boolean delete(int accountId, int currentUserId) {
-        if (accountId == 0 || currentUserId == 0) {// هنا بضيف شيك على الكرنت يوزر كمان
+        if (accountId == 0 || currentUserId == 0) {
             return false;
         } else {
             Account account = findById(accountId);
@@ -45,7 +45,7 @@ public class AccountServiceImp implements AccountService {
             account.setDeletedBy(user);
             save(account);
 
-            return (account.isIsDeleted());// ده عشان اتأكد  اذا اتمسح فعلا ولا لا
+            return (account.isIsDeleted());
         }
 
     }
