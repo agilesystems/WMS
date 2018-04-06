@@ -49,6 +49,7 @@ public class WmsApplication {
 
     private static ConfigurableApplicationContext context = null;
     static final String dbServer = "localhost";
+
     static final String dbUser = "root";
     static final String dbPass = "123456";
 
