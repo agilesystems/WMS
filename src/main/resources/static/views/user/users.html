@@ -1,0 +1,104 @@
+<div class="ibox-title">
+    <h5>قائمة المسنخدمين</h5>
+</div>
+<div class="table-responsive ibox-content" ng-controller="userCtrl">
+    <input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="Search in table">
+
+    <table class="table table-hover table-striped footable" data-paging-container="#paging-ui-container" data-paging-count-format="{CP} of {TP}"
+        data-paging="true" data-paging-size="5" data-filter=#filter>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>User Name</th>
+                <th>Mobile</th>
+                <th>Role</th>
+                <th class="text-left">Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="user in users track by $index">
+
+                <td>{{$index+1}}</td>
+                <td>{{user.firstName +' '+ user.lastName}}</td>
+                <td>{{user.username}}</td>
+                <td>{{user.phone}}</td>
+                <td>{{user.role.name}}</td>
+                <td class="text-left">
+                    <button type="submit" data-ng-click="editUser(user)" data-toggle="modal" type="button" data-target="#updateUser" class="btn btn-success">Edit</button>
+                    <button type="submit" data-ng-click="deleteUser($index)" class="btn btn-danger">Delete</button>
+                </td>
+            </tr>
+            <tr>
+
+            </tr>
+        </tbody>
+    </table>
+    <div id="paging-ui-container"></div>
+
+    <!-- line User modal -->
+    <div class="modal fade" id="updateUser" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h3 class="modal-title">Update User</h3>
+                </div>
+                <div class="modal-body">
+
+                    <!-- content goes here -->
+                    <form name="editUserForm" role="form" ng-submit="saveUser(editUserForm)" ng-validate="validateUser">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="fname" translate="ADDUSER.FNAME"></label>
+                                <input class="form-control" type="text" name="fname" ng-model="editableUser.firstName">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="lname" translate="ADDUSER.LNAME"></label>
+                                <input class="form-control" type="text" ng-model="editableUser.lastName">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="phone" translate="ADDUSER.PHONENO"></label>
+                                <input class="form-control" type="text" placeholder="Enter your phone" ng-model="editableUser.phone">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="address" translate="ADDUSER.ADDRS"></label>
+                                <input class="form-control" type="text" placeholder="Enter your address" ng-model="editableUser.address">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="uname" translate="ADDUSER.USERN"></label>
+                                <input class="form-control" id="uname" name="uname" type="text" placeholder="" ng-value="editableUser.username" readonly>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="password" translate="ADDUSER.PASS"></label>
+                                <input class="form-control" id="password" name="password" type="password" ng-model="editableUser.password" placeholder="">
+                            </div>
+                        </div>
+                        <!-- <div class="form-group">
+                            <label for="rolemenu" translate="ADDUSER.SELECTEROLE"></label>
+                            <select class="custom-select form-control m-b" name="updateRoleMenu" id="rolemenu" ng-model="editableUser.role" ng-options="option as option.name for option in roles">
+                                <option value="">Select Role...</option>
+                            </select>
+                        </div> -->
+                        <div class="row">
+                            <button type="submit" class="btn btn-default">Save</button>
+                            <button data-dismiss="modal" type="button" class="btn btn-default">Cancel</button>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

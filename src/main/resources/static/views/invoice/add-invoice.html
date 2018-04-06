@@ -175,7 +175,14 @@
                                     </ui-select-match>
                                     <ui-select-choices repeat="invoiceItem in (Items | filter: $select.search) track by invoiceItem.itemId" refresh="searchedItems($select.search)"
                                         refresh-delay="0">
-                                        <span ng-bind="invoiceItem.name"></span>
+                                        <!-- <span ng-bind="invoiceItem.name"></span><br> -->
+                                        <span class="font-bold" ng-bind-html="invoiceItem.name | highlight: $select.search"></span><br>
+                                        <small>
+                                            <span class="font-italic font-bold">Price :</span><span ng-bind-html="invoiceItem.price | highlight: $select.search"></span>
+                                            <span class="font-italic font-bold">expiry Date:</span>
+                                            <span ng-bind-html="invoiceItem.expiryDate | highlight: $select.search"></span>
+                                        </small>
+                                        
                                     </ui-select-choices>
                                 </ui-select>
                                 <input type="hidden" value="{{invoiceItem.storeItem}}" name="hiddenItem" class="inputHidden">
@@ -455,6 +462,10 @@
                             <th class="text-left">Grand Total</th>
                             <td class="text-right">
                                 {{calculateGrandTotal()}}
+                            </td>
+                            <th class="text-left">Paied Amount</th>
+                            <td class="text-right">
+                                <input type="number" size="6" ng-init="invoice.paiedAmount = 0" ng-model="invoice.paiedAmount" >
                             </td>
                             <th class="text-left">Outstanding Amount</th>
                             <td class="text-right">

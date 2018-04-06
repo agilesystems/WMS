@@ -32,15 +32,10 @@
                         </div>
                         <div class="col-sm-6">
                             <label for="type" translate="ADDAC.ACTYPE"></label>
-                            <ui-select ng-model="account.accountType" class="ui-select" name="accountType" ng-keydown="onKeyUpSelect()">
-                                <ui-select-match placeholder="">
-                                    <span ng-bind="$select.selected.name"></span>
-                                </ui-select-match>
-                                <ui-select-choices repeat="account in (accounts | filter: $select.search) track by account.id">
-                                    <span ng-bind="account.name"></span>
-                                </ui-select-choices>
-                            </ui-select>
-                            <input type="hidden" value="{{account.accounttype}}" name="inputItem" id="test" class="inputHidden">
+                            <select ng-model="account.accountType" name="accountType" class="form-control" ng-options="option as option.name for option in accountsType" >
+                                <option value=""></option>
+                            </select>
+                            
                         </div>
                     </div>
                     <div class="row form-group">
