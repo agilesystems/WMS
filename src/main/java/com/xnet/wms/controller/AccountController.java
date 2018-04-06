@@ -89,4 +89,7 @@ public class AccountController {
         }
     }
 
+    public boolean test(){
+        return true;
+    }
 }
