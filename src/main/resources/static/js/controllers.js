@@ -27,7 +27,7 @@ function MainCtrl() {
   //    }
 };
 
-function settingsCtrl($scope, $http, storageService, DataServiceApi) {
+function settingsCtrl($scope, $http, storageService, DataServiceApi, toastrService) {
 
   (function init() {
     DataServiceApi.GetData(server + "setting").then(function (response) {
@@ -35,8 +35,13 @@ function settingsCtrl($scope, $http, storageService, DataServiceApi) {
     })
   })();
 
-  $scope.updateSettings = function () {
-    DataServiceApi.PostData($scope.settings, server + "setting");
+  $scope.saveSettings = function () {
+    DataServiceApi.PostData($scope.settings, server + "setting").then(function (res) {
+      if (res.status !== 200 && res.data.id !== 1) {
+        toastrService.error('Error', '');
+        return
+      } else { toastrService.success('', 'Settings Updated Successfully') }
+    });
   }
 }
 /**
