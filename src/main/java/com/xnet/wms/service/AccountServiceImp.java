@@ -28,9 +28,17 @@ public class AccountServiceImp implements AccountService {
     UserService userService;
 
     @Override
-    public Account save(Account account) {
+    public Account save(Account account, int currentUser) {
 
-        return accountRepository.save(account);
+        if (account != null && currentUser != 0) {
+            User user = userService.findById(currentUser);
+            account.setCreatedBy(user);
+            account.setBranch(user.getBranch());
+            return accountRepository.save(account);
+        } else {
+            return null;
+        }
+
     }
 
     @Override
@@ -43,7 +51,7 @@ public class AccountServiceImp implements AccountService {
             account.setIsDeleted(true);
             account.setDeletedDate(new Date());
             account.setDeletedBy(user);
-            save(account);
+            save(account, user.getId());
 
             return (account.isIsDeleted());
         }
@@ -81,7 +89,7 @@ public class AccountServiceImp implements AccountService {
         if (user.getBranch() == account.getBranch()) {
             account.setUpdatedBy(user);
             account.setUpdatedDate(new Date());
-            return save(account);
+            return save(account, user.getId());
         } else {
             return null;
         }

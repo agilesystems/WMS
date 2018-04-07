@@ -29,7 +29,7 @@ public interface AccountService {
      * @return true or false . if the account saved return true and the account
      * not saved return false .
      */
-    Account save(Account account);
+    Account save(Account account , int cuurentUser);
 
     /**
      * this method to soft delete account , Just update the deleted field with

@@ -66,9 +66,12 @@ public class AccountController {
 //    }
     @PostMapping("/add")
     AccountDTO addNew(@RequestBody Account account, HttpServletRequest httpServletRequest) {
-        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
-        account.setCreatedBy(currentUser);
-        return new AccountDTO(accountService.save(account));
+        try {
+            return new AccountDTO(accountService.save(account, Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString())));
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
     @PostMapping("/update")
@@ -80,7 +83,7 @@ public class AccountController {
         }
     }
 
-    @PostMapping("/delete/{id}")
+    @PostMapping("/delete")
     public boolean deleteAccount(@RequestBody int id, HttpServletRequest httpServletRequest) {
         try {
             return accountService.delete(id, Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
@@ -89,7 +92,4 @@ public class AccountController {
         }
     }
 
-    public boolean test(){
-        return true;
-    }
 }
