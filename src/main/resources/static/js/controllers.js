@@ -21,10 +21,10 @@
  */
 
 function MainCtrl() {
-//    if (!$rootScope.currentUser) {
-//        console.log("go to login");
-//        $state.go("logins");
-//    }
+  //    if (!$rootScope.currentUser) {
+  //        console.log("go to login");
+  //        $state.go("logins");
+  //    }
 };
 
 function settingsCtrl($scope, $http, storageService, DataServiceApi) {
@@ -37,205 +37,303 @@ function settingsCtrl($scope, $http, storageService, DataServiceApi) {
 
   $scope.updateSettings = function () {
     DataServiceApi.PostData($scope.settings, server + "setting");
-}
+  }
 }
 /**
  * translateCtrl - Controller for translate
  */
 function translateCtrl($translate, $scope) {
-    $scope.changeLanguage = function (langKey) {
-        $translate.use(langKey);
-        $scope.language = langKey;
-    };
+  $scope.changeLanguage = function (langKey) {
+    $translate.use(langKey);
+    $scope.language = langKey;
+  };
 }
 
 function loginCtrl($http, $scope, $rootScope, $state) {
-    console.log("Login CTRL Loaded");
-    this.login = function () {
-        console.log("llogin");
-        // requesting the token by usename and passoword
-        $http({
-            url: server + "authenticate",
-            method: "POST",
-            params: {
-                username: $scope.username,
-                password: $scope.password
-            }
-        }).then(
-                function (res) {
-                    $scope.password = null;
-                    // checking if the token is available in the response
-                    if (res.data.token) {
-                        $scope.message = "";
-                        // setting the Authorization Bearer token with JWT token
-                        $http.defaults.headers.common["Authorization"] =
-                                "Bearer " + res.data.token;
-                        // AuthService.user = res.data.user;
-                        $rootScope.currentUser = res.data.user;
-                        res.data.user.role.menus.forEach(function (m) {
-                            m.subMenus.forEach(function (sm) {
-                                addState('forms.form_' + sm.id, sm.url);
-                            });
+  console.log("Login CTRL Loaded");
+  this.login = function () {
+    console.log("llogin");
+    // requesting the token by usename and passoword
+    $http({
+      url: server + "authenticate",
+      method: "POST",
+      params: {
+        username: $scope.username,
+        password: $scope.password
+      }
+    }).then(
+      function (res) {
+        $scope.password = null;
+        // checking if the token is available in the response
+        if (res.data.token) {
+          $scope.message = "";
+          // setting the Authorization Bearer token with JWT token
+          $http.defaults.headers.common["Authorization"] =
+            "Bearer " + res.data.token;
+          // AuthService.user = res.data.user;
+          $rootScope.currentUser = res.data.user;
+          res.data.user.role.menus.forEach(function (m) {
+            m.subMenus.forEach(function (sm) {
+              addState('forms.form_' + sm.id, sm.url);
+            });
 
-                        });
-                        //go to home page
-                        $state.go("dashboards.dashboard_1");
-                    } else {
-                        // if the token is not present in the response then the
-                        // authentication was not successful. Setting the error message.
-                        $scope.message = "Authetication Failed !";
-                        console.log("Authetication Failed !");
-                    }
-                },
-                function (error) {
-                    console.log(error);
-                }
-        );
-    };
+          });
+          //go to home page
+          $state.go("dashboards.dashboard_1");
+        } else {
+          // if the token is not present in the response then the
+          // authentication was not successful. Setting the error message.
+          $scope.message = "Authetication Failed !";
+          console.log("Authetication Failed !");
+        }
+      },
+      function (error) {
+        console.log(error);
+      }
+    );
+  };
 }
 
-function accountCtrl($http, $scope, DataServiceApi, validateForms) {
-    DataServiceApi.GetData(server + "account-type/all").then(function (
-            response
-            ) {
-        $scope.accounts = response.data;
-    });
+function accountCtrl($http, $scope, DataServiceApi, validateForms, toastrService) {
 
-    DataServiceApi.GetData(server + "city/all").then(function (
-            response
-            ) {
-        $scope.cities = response.data;
-    });
-    $scope.onKeyUpSelect = function () {
-        $('input[name="inputItem"]').valid();
-    };
+  // Get All Acounts Type From API
+  DataServiceApi.GetData(server + "account-type/all").then(function (response) {
+    $scope.accountsType = response.data;
+  });
 
-    // Call function from validateService to validate account form
-    $scope.accountFormValidate = validateForms.accountForm;
+  // Get Cities From API
+  DataServiceApi.GetData(server + "city/all").then(function (response) {
+    $scope.cities = response.data;
+  });
+  // Validate select input
+  $scope.onKeyUpSelect = function () {
+    $('input[name="inputItem"]').valid();
+  }
 
-    // Add new account
-    $scope.addAccount = function (form) {
-        if (form.validate()) {
-            DataServiceApi.PostData($scope.account, server + "account/add");
-        }
-    };
+  // Call function from validateService to validate account form
+  $scope.accountFormValidate = validateForms.accountForm;
+
+  $scope.selectAccountType = function () {
+    if ($scope.acType === '1') {
+      // Get All Customer Acounts From API.
+      DataServiceApi.GetData(server + "account/customer/all").then(function (res) {
+        $scope.accounts = res.data;
+      })
+    } else {
+      // Get All Supplier Acounts From API.
+      DataServiceApi.GetData(server + "account/supplier/all").then(function (res) {
+        $scope.accounts = res.data;
+      })
+    }
+  }
+
+
+  // Add new account
+  $scope.addAccount = function (form) {
+    if (form.validate()) {
+      DataServiceApi.PostData($scope.account, server + "account/add");
+    }
+  };
+
+  // Edit An Account in Accounts Table
+  $scope.editAccount = function (account) {
+    $scope.editableAccount = angular.copy(account);
+  }
+
+  // Save Edited Account
+  $scope.saveAccount = function (form) {
+    if (form.validate()) {
+      DataServiceApi.PostData($scope.editableAccount, server + 'account/update').then(function (res) {
+        console.log(res.data);
+      })
+
+    }
+
+  }
+
+  // Delete An Account From Accounts Table
+  $scope.deleteAccount = function (index) {
+
+    DataServiceApi.PostData($scope.accounts[index].id, server + 'account/delete/' + 0).then(function (res) {
+      if (res.data === true) {
+        toastrService.success('Done', 'Account Deleted Successfully');
+      } else {
+        toastrService.error('Failed', 'Account Not Deleted!');
+      }
+    })
+  };
+
+  // Enable search and pager in products table.
+  $(".footable").footable({
+    paging: {
+      enabled: true,
+      size: 5,
+    }
+  });
 }
 
 function navbarCtrl($scope) {
-    $scope.parentMenuFilter = function (item) {
-        return item.menuCollection.length > 0;
-    };
-    $scope.subMenuFilter = function (item) {
-        return item.url !== null;
-    };
+  $scope.parentMenuFilter = function (item) {
+    return item.menuCollection.length > 0;
+  };
+  $scope.subMenuFilter = function (item) {
+    return item.url !== null;
+  };
 }
 
-function userCtrl($scope, $http, DataServiceApi) {
-    
-    $http({
-                method: "GET",
-                url: server + "role/all"
-            }).then(function (response) {
-              
+function userCtrl($scope, $http, DataServiceApi, validateForms, toastrService) {
 
-                if (response.status === 200 && response.data !== null ) {
-                    $scope.roles = response.data;
-                }
+  // Validate Form
+  $scope.validateUser = validateForms.userForm;
 
-            }).catch(function (response) {
-                console.error('Gists error', response.status, response.data);
-            }).finally(function () {
-                console.log("finally finished gists");
-            });
-    
-//    DataServiceApi.GetData(server + "role/all").then(function (response) {
-//        $scope.roles = response.data;
-//    });
+  // Get All Users From API.
+  DataServiceApi.GetData(server + "user/all").then(function (res) {
+    $scope.users = res.data;
+  })
 
-    $scope.addUser = function (isValid) {
+  $http({
+    method: "GET",
+    url: server + "role/all"
+  }).then(function (response) {
 
-        if (isValid) {
-            $scope.user.username = null;
-            $scope.user.password = null;
-            $http({
-                method: "POST",
-                url: server + "user/add",
-                data: $scope.user
-            }).then(function (response) {
-                console.log('Post success ', response.status, response.data);
 
-                if (response.status === 200 && response.data !== null && response.data.id > 0) {
-                    $scope.user = response.data;
-                }
+    if (response.status === 200 && response.data !== null) {
+      $scope.roles = response.data;
+    }
 
-            }).catch(function (response) {
-                console.error('Gists error', response.status, response.data);
-            }).finally(function () {
-                console.log("finally finished gists");
-            });
+  }).catch(function (response) {
+    console.error('Gists error', response.status, response.data);
+  }).finally(function () {
+    console.log("finally finished gists");
+  });
 
+  //    DataServiceApi.GetData(server + "role/all").then(function (response) {
+  //        $scope.roles = response.data;
+  //    });
+
+  $scope.addUser = function (isValid) {
+
+    if (isValid) {
+      $scope.user.username = null;
+      $scope.user.password = null;
+      $http({
+        method: "POST",
+        url: server + "user/add",
+        data: $scope.user
+      }).then(function (response) {
+        console.log('Post success ', response.status, response.data);
+
+        if (response.status === 200 && response.data !== null && response.data.id > 0) {
+          $scope.user = response.data;
         }
-    };
+
+      }).catch(function (response) {
+        console.error('Gists error', response.status, response.data);
+      }).finally(function () {
+        console.log("finally finished gists");
+      });
+
+    }
+  };
+
+  // Edit User in users table
+  $scope.editUser = function (user) {
+    $scope.editableUser = angular.copy(user);
+  }
+
+  // Save Edited User
+  $scope.saveUser = function (form) {
+    if (form.validate()) {
+      DataServiceApi.PostData($scope.editableUser, server + 'user/update').then(function (res) {
+        // Get All Users From API.
+        DataServiceApi.GetData(server + "user/all").then(function (res) {
+          $scope.users = res.data;
+        })
+      })
+
+    }
+
+  }
+
+  $scope.deleteUser = function (index) {
+
+    DataServiceApi.PostData($scope.users[index].id, server + 'user/delete/' + 0).then(function (res) {
+      if (res.data === true) {
+        toastrService.success('Done', 'User Deleted Successfully');
+      } else {
+        toastrService.error('Failed', 'User Not Deleted!');
+      }
+    })
+  };
+
+  // Enable search and pager in products table.
+  $(".footable").footable({
+    paging: {
+      enabled: true,
+      size: 5,
+    }
+  });
 }
 
 function invoiceCtrl(
-        $scope,
-        $http,
-        DataServiceApi,
-        storageService,
-        validateForms,
-        toaster,
+  $scope,
+  $http,
+  DataServiceApi,
+  storageService,
+  validateForms,
+  toaster,
   toastrService,
-  $stateParams
-        ) {
+  $stateParams,
+  localStorageService
+) {
 
 
-    (function init() {
-        // Init values
-        $scope.newField = {};
-        $scope.invoiceItem = {};
-        $scope.invoice = {};
+  (function init() {
+    // Init values
+    $scope.newField = {};
+    $scope.invoiceItem = {};
+    $scope.invoice = {};
     $scope.taxes = {};
     $scope.ckb = {};
     $scope.editing = {};
-        $scope.invoiceItems = [];
+    $scope.invoiceItems = [];
     $scope.param = $stateParams.type;
     $scope.settings = {};
     // Temp List to save searched items.
     $scope.Items = [];
-
+    getInvoiceFromLocalStorage();
     // To search specific item in items list.
     $scope.searchedItems = function (itemName) {
-        // get items from API
+      // get items from API
       return DataServiceApi.GetData(server + "item/sell/" + itemName).then(function (response) {
-            $scope.Items = response.data;
-        });
+        $scope.Items = response.data;
+      });
     }
 
-        // get Accounts from API
-          DataServiceApi.GetData(server + "account/customer/all").then(function (response) {
-            $scope.accounts = response.data;
-          });
+    // get Accounts from API
+    DataServiceApi.GetData(server + "account/customer/all").then(function (response) {
+      $scope.accounts = response.data;
+    });
 
-        // get Payment Type from API
+    // get Payment Type from API
     DataServiceApi.GetData(server + "payment-type/all").then(function (response) {
-            $scope.payments = response.data;
-        });
+      $scope.payments = response.data;
+    });
 
     // get taxes and discount from settings.
     DataServiceApi.GetData(server + "setting").then(function (response) {
       $scope.settings = response.data;
-        });
+    });
 
-    })();
+  })();
 
   //Call function from validateService to validate forms
-    $scope.validateInvoice = validateForms.invoiceForm;
+  $scope.validateInvoice = validateForms.invoiceForm;
   $scope.validateInvoiceItem = validateForms.invoiceItemForm;
   $scope.validateInvoiceItem2 = validateForms.invoiceItem2Form;
 
-    // Save invoice (invoice and invoiceItem)
-    $scope.addInvoice = function (form) {
+  // Save invoice (invoice and invoiceItem)
+  $scope.addInvoice = function (form) {
 
     //  Assign values to invoice object
     $scope.invoice.discount1Percentage = $scope.settings.discount1Valu;
@@ -259,19 +357,20 @@ function invoiceCtrl(
         toastrService.error('Failed!', 'Add one Item to invoice at least please');
         return
       }
-            // Save invoice
+      // Save invoice
       DataServiceApi.PostData($scope.invoice, server + "invoice/sell/add").then(function (res) {
         if (res.status === 200) {
-                    toastrService.success('Success', 'Invoice saved successfully');
-                    console.log(res.data);
-                } else {
+          toastrService.success('Success', 'Invoice saved successfully');
+          console.log(res.data);
+        } else {
           toastrService.error('Failed!', 'Invoice not saved!');
         };
-            });
+      });
     } else { toastrService.error('', 'Some Fields Required!') }
+    saveInvoiceToLocalStorage();
     console.log($scope.invoice);
-    };
-    //save store 
+  };
+  //save store 
   // $scope.addStore = function () {
   //   DataServiceApi.PostData($scope.store, server + "sotre/add")
   // }
@@ -288,12 +387,12 @@ function invoiceCtrl(
     return unit - (unit / 100 * discount);
   }
 
-    // Add new item to invoice
-    $scope.addRow = function (form) {
+  // Add new item to invoice
+  $scope.addRow = function (form) {
     var temp = $scope.invoiceItem;
     if (form.validate()) {  // check form validation
       if ($scope.invoiceItems.length === 0) { // Check if list of items null to add first item
-            $scope.invoiceItems.push({
+        $scope.invoiceItems.push({
           storeItem: temp.storeItem,
           quantity: temp.quantity,
           unitPrice: temp.unitPrice,
@@ -304,7 +403,7 @@ function invoiceCtrl(
       } else {
         var isEqual = false;
         // Check if item exist to just update quantity.
-        angular.forEach($scope.invoiceItems, function (val, key) {
+        angular.forEach($scope.invoiceItems, function (val) {
           if (temp.storeItem.itemId === val.storeItem.itemId) {
             val.quantity += temp.quantity;
             val.unitPrice = temp.unitPrice;
@@ -313,7 +412,7 @@ function invoiceCtrl(
             val.totalNetPrice = val.totalPrice - (val.totalPrice / 100 * val.discountPercentage);
             isEqual = true;
           }
-            });
+        });
         if (!isEqual) { // Add item if not exist.
           $scope.invoiceItems.push({
             storeItem: temp.storeItem,
@@ -326,7 +425,7 @@ function invoiceCtrl(
         }
       }
     }
-    };
+  };
 
   $scope.editRow = function (index) {
     $scope.temp = $scope.invoiceItems[index]; // add current item to a temp object to edit it.
@@ -345,9 +444,9 @@ function invoiceCtrl(
     }
   };
 
-    $scope.deleteRow = function (index) {
-        $scope.invoiceItems.splice(index, 1);
-    };
+  $scope.deleteRow = function (index) {
+    $scope.invoiceItems.splice(index, 1);
+  };
 
   /////////////////////////////////////   Tax And Discount Functions   /////////////////////////////////////
 
@@ -370,13 +469,13 @@ function invoiceCtrl(
     } else { return true }
   }
 
-    $scope.subTotal = function () {
-        var total = 0;
+  $scope.subTotal = function () {
+    var total = 0;
     angular.forEach($scope.invoiceItems, function (itemVal, key) {
       total += itemVal.totalNetPrice;
-        });
-        return total;
-    };
+    });
+    return total;
+  };
 
   // Return taxes amount minus discounts amount
   $scope.getNetTaxesAndDiscounts = function () {
@@ -393,16 +492,16 @@ function invoiceCtrl(
     return total = $scope.totalTaxes - $scope.getTotalDiscounts();
   };
 
-        
+
   $scope.getTotalTaxes = function () {
     $scope.totalTaxes = 0;
     angular.forEach($scope.taxes, function (val, key) {
       if ($scope.ckb[key]) {
         $scope.totalTaxes += val;
-                }
+      }
     })
     return $scope.totalTaxes;
-            }
+  }
 
   // Return total discounts
   $scope.getTotalDiscounts = function () {
@@ -441,13 +540,13 @@ function invoiceCtrl(
   }
 
   // Return Net total with taxes and discounts
-    $scope.calculateGrandTotal = function () {
+  $scope.calculateGrandTotal = function () {
     return $scope.invoice.invoiceNetAmount = $scope.getNetTaxesAndDiscounts() + $scope.subTotal();
-    };
+  };
 
   // Return invoice Outstanding Amount
   $scope.getinvoiceOutstandingAmount = function () {
-    return $scope.invoice.invoiceOutstandingAmount = $scope.invoice.invoiceAmount - $scope.calculateGrandTotal();
+    return $scope.invoice.invoiceOutstandingAmount = $scope.calculateGrandTotal() - $scope.invoice.paiedAmount;
   }
 
   // Return total amount after taxes.
@@ -483,10 +582,10 @@ function invoiceCtrl(
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    $scope.resetInvoice = function resetInvoice() {
-        $scope.invoice = {};
-        $scope.invoiceItem = {};
-        $scope.invoiceItems = [];
+  $scope.resetInvoice = function resetInvoice() {
+    $scope.invoice = {};
+    $scope.invoiceItem = {};
+    $scope.invoiceItems = [];
     $scope.taxes = {};
     $scope.ckb = {};
     $scope.dis = {};
@@ -494,14 +593,37 @@ function invoiceCtrl(
     $scope.dis2ckb = '';
   }
 
+  // Save invoice to local storage when click save
+  function saveInvoiceToLocalStorage() {
+    localStorageService.set("taxes", $scope.ckb);
+    localStorageService.set("discount1", $scope.dis1ckb);
+    localStorageService.set("discount2", $scope.dis2ckb);
+    localStorageService.set("invoice", $scope.invoice);
 
-    // Enable search and pager in products table.
-    $(".footable").footable({
-        paging: {
-            enabled: true,
-      size: 5,
-        }
+  }
+
+  // Get last invoice saved from local storage
+  function getInvoiceFromLocalStorage() {
+    if (localStorageService.get("invoice") === undefined || localStorageService.get("invoice") === null) {
+      return;
+    }
+    $scope.invoice = localStorageService.get("invoice") //get object from local storage
+    angular.forEach($scope.invoice.invoiceItemsList, function (val) {
+      $scope.invoiceItems.push(val);
     });
+    $scope.ckb = localStorageService.get("taxes");
+    $scope.dis1ckb = localStorageService.get("discount1");
+    $scope.dis2ckb = localStorageService.get("discount2");
+
+  }
+
+  // Enable search and pager in products table.
+  $(".footable").footable({
+    paging: {
+      enabled: true,
+      size: 5,
+    }
+  });
 
 }
 
@@ -510,11 +632,11 @@ function invoiceCtrl(
  * Pass all functions into module
  */
 app
-        .controller("MainCtrl", MainCtrl)
-        .controller("loginCtrl", loginCtrl)
-        .controller("translateCtrl", translateCtrl)
-        .controller("accountCtrl", accountCtrl)
-        .controller("navbarCtrl", navbarCtrl)
-        .controller("userCtrl", userCtrl)
-        .controller("invoiceCtrl", invoiceCtrl)
+  .controller("MainCtrl", MainCtrl)
+  .controller("loginCtrl", loginCtrl)
+  .controller("translateCtrl", translateCtrl)
+  .controller("accountCtrl", accountCtrl)
+  .controller("navbarCtrl", navbarCtrl)
+  .controller("userCtrl", userCtrl)
+  .controller("invoiceCtrl", invoiceCtrl)
   .controller("settingsCtrl", settingsCtrl)

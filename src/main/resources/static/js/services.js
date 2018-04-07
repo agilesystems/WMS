@@ -209,6 +209,19 @@ function translateConfig($translateProvider) {
 function validateFactory() {
     vm = {};
 
+    vm.userForm = {
+        ignore: ":hidden:not(.inputHidden)",
+        onkeyup: function (element) {
+            this.element(element);  // <- "eager validation"
+        },
+        onfocusout: function (element) {
+            this.element(element);  // <- "eager validation"
+        },
+
+        rules: {
+        }
+    }
+
     vm.accountForm = {
         ignore: ":hidden:not(.inputHidden)",
         onkeyup: function (element) {
@@ -221,6 +234,7 @@ function validateFactory() {
         rules: {
             inputItem: "required",
             inputItem2: "required",
+            accountType: "required",
             name: {
                 required: true,
             },
