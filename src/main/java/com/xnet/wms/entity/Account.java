@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author ramy
+ * @author Ramy Ashour
  */
 @Entity(name = "account")
 @Where(clause = "is_deleted=0")
