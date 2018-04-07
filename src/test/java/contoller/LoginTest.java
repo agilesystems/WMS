@@ -9,7 +9,6 @@ package contoller;
  *
  * @author ramy
  */
+public class LoginTest {
 
-public class Item {
-    
 }
