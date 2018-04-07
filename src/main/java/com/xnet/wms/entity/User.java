@@ -5,21 +5,17 @@
  */
 package com.xnet.wms.entity;
 
+import org.hibernate.annotations.Where;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.UniqueConstraint;
 
 /**
- *
  * @author ramy
  */
 @Entity(name = "user")
+@Where(clause = "is_deleted=0")
 public class User extends BaseEntity implements Serializable {
 
     private String firstName;
@@ -149,7 +145,6 @@ public class User extends BaseEntity implements Serializable {
     public void setAddress(String address) {
         this.address = address;
     }
-    
-    
+
 
 }

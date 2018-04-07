@@ -212,6 +212,8 @@ public class WmsApplication {
         accountTypeService.save(new AccountType("Both"));
         Account account;
 
+
+
         for (int i = 1; i <= 100; i++) {
             account = new Account();
             account.setAccountType(accountTypeService.findAll().get(0));

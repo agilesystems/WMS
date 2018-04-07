@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- *
  * @author ramy
  */
 @Entity(name = "setting")

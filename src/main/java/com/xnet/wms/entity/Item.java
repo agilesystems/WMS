@@ -5,17 +5,10 @@
  */
 package com.xnet.wms.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 /**
- *
  * @author ramy
  */
 @Entity(name = "item")
@@ -30,11 +23,11 @@ public class Item implements Serializable {
     private String globalBarcode;
     @Basic(optional = false)
     private String name;
-    private String description;   
+    private String description;
     @ManyToOne()
     private Category category;
 
-    
+
     public String getName() {
         return name;
     }

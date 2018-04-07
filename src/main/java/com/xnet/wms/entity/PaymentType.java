@@ -5,35 +5,34 @@
  */
 package com.xnet.wms.entity;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
- *
  * @author ramy
  */
 @Entity(name = "payment_type")
 public class PaymentType implements Serializable {
-    
+
     @Id
     @GeneratedValue
     private Integer id;
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     private String name;
 
     public PaymentType() {
     }
 
-    
+
     public PaymentType(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    
+
     public Integer getId() {
         return id;
     }
@@ -49,6 +48,6 @@ public class PaymentType implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
+
+
 }

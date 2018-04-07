@@ -5,15 +5,13 @@
  */
 package com.xnet.wms.entity;
 
-import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.io.Serializable;
 
 /**
- *
  * @author ramy
  */
 @Entity(name = "invoice_item")

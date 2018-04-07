@@ -5,18 +5,11 @@
  */
 package com.xnet.wms.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 /**
- *
  * @author ramy
  */
 @Entity(name = "state")
@@ -25,7 +18,7 @@ public class State implements Serializable {
     @Id
     @GeneratedValue
     private int id;
-    @Column( nullable = false)
+    @Column(nullable = false)
     private String name;
     @ManyToOne
     private Country country;
@@ -35,7 +28,7 @@ public class State implements Serializable {
     public State() {
     }
 
-    
+
     public State(String name, Country country) {
         setName(name);
         setCountry(country);

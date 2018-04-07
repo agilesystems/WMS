@@ -9,12 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 /**
- *
  * @author ramy
  */
 @Entity(name = "transaction")
 public class Transaction {
-    
+
     @Id
     int id;
     String name;

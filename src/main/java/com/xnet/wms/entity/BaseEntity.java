@@ -5,25 +5,16 @@
  */
 package com.xnet.wms.entity;
 
-import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import org.hibernate.annotations.Where;
 
+import javax.persistence.*;
+import java.util.Date;
+
 /**
- *
  * @author ramy
  */
 @MappedSuperclass
-@Where(clause = "isDeleted=0")
+@Where(clause = "is_deleted=0")
 public class BaseEntity {
 
     @Id

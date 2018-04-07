@@ -5,17 +5,10 @@
  */
 package com.xnet.wms.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 /**
- *
  * @author ramy
  */
 @Entity(name = "store")
@@ -33,20 +26,20 @@ public class Store implements Serializable {
     public Store() {
     }
 
-    public Store( String name, String note, Branch branch) {
+    public Store(String name, String note, Branch branch) {
         this.id = id;
         this.name = name;
         this.note = note;
         this.branch = branch;
     }
-    
-    
+
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;   
+        this.name = name;
     }
 
     public String getNote() {
@@ -72,5 +65,5 @@ public class Store implements Serializable {
     public void setBranch(Branch branch) {
         this.branch = branch;
     }
-    
+
 }

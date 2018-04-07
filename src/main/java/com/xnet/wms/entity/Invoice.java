@@ -5,16 +5,15 @@
  */
 package com.xnet.wms.entity;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
- *
  * @author ramy
  */
 @Entity(name = "invoice")
@@ -32,7 +31,7 @@ public class Invoice extends BaseEntity implements Serializable {
     private double invoiceAmountAfterDiscount;
     private double invoiceAmountAfterTax;
     private double invoiceNetAmount;
-    private double invoiceOutstandingAmount;    
+    private double invoiceOutstandingAmount;
     @ManyToOne
     private PaymentType paymentType;
     private String reference;
@@ -53,7 +52,7 @@ public class Invoice extends BaseEntity implements Serializable {
     private double tax5Percentage;
     private double tax5Amount;
 
-//  `discount_value` float DEFAULT NULL,
+    //  `discount_value` float DEFAULT NULL,
 //  `tax1per` int(11) DEFAULT NULL,
 //  `tax1val` float DEFAULT NULL,
 //  `tax2per` int(11) DEFAULT NULL,
@@ -278,7 +277,5 @@ public class Invoice extends BaseEntity implements Serializable {
         this.invoiceOutstandingAmount = invoiceOutstandingAmount;
     }
 
-   
-   
 
 }

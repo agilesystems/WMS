@@ -5,19 +5,10 @@
  */
 package com.xnet.wms.entity;
 
-import java.util.Collection;
+import javax.persistence.*;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 /**
- *
  * @author ramy
  */
 @Entity(name = "menu")
@@ -49,7 +40,7 @@ public class Menu {
         setViewOrder(viewOrder);
         setId(id);
         setParent(parent);
-   
+
 
     }
 

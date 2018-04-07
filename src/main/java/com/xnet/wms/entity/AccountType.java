@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- *
  * @author ramy
  */
 @Entity(name = "account_type")
@@ -21,7 +20,7 @@ public class AccountType {
     private int id;
     private String name;
 
-    public AccountType( String name) {
+    public AccountType(String name) {
         setName(name);
     }
 

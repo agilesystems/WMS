@@ -5,14 +5,13 @@
  */
 package com.xnet.wms.entity;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
- *
  * @author ramy
  */
 @Entity(name = "item_category")
@@ -40,6 +39,5 @@ public class Category implements Serializable {
         this.name = name;
     }
 
- 
-    
+
 }

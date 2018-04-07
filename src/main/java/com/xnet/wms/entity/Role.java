@@ -5,26 +5,25 @@
  */
 package com.xnet.wms.entity;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-import javax.persistence.CascadeType;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import java.io.Serializable;
+import java.util.List;
 
 /**
- *
  * @author ramy
  */
 @Entity(name = "role")
+@Where(clause = "is_deleted=0")
 public class Role extends BaseEntity implements Serializable {
 
     @Column(unique = true)
     private String name;
-    @ManyToMany( fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Menu> menusList;
 
     public Role() {

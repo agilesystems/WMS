@@ -5,18 +5,19 @@
  */
 package com.xnet.wms.entity;
 
-import java.io.Serializable;
-import java.util.List;
-import javax.persistence.CascadeType;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.io.Serializable;
+import java.util.List;
 
 /**
- *
  * @author ramy
  */
 @Entity(name = "account")
+@Where(clause = "is_deleted=0")
 public class Account extends BaseEntity implements Serializable {
 
     private String name;
@@ -32,8 +33,8 @@ public class Account extends BaseEntity implements Serializable {
     private String code;
     private String note;
     @ManyToOne
-    private Branch branch;  
-    
+    private Branch branch;
+
 
     @ManyToOne
     private City city;
@@ -162,5 +163,5 @@ public class Account extends BaseEntity implements Serializable {
         this.branch = branch;
     }
 
-    
+
 }

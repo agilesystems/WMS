@@ -5,17 +5,18 @@
  */
 package com.xnet.wms.entity;
 
-import java.io.Serializable;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.io.Serializable;
 
 /**
- *
  * @author ramy
- *
  */
 @Entity(name = "employee")
+@Where(clause = "is_deleted=0")
 public class Employee extends BaseEntity implements Serializable {
 
     String firstName;

@@ -5,17 +5,11 @@
  */
 package com.xnet.wms.entity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import javax.annotation.Generated;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
 
 /**
- *
  * @author ramy
  */
 @Entity(name = "store_item")
