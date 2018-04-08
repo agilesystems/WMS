@@ -51,13 +51,13 @@ public class WmsApplication {
     static final String dbServer = "localhost";
 
     static final String dbUser = "root";
-    static final String dbPass = "123456";
+    static final String dbPass = "";
 
     public static void main(String[] args) throws SQLException {
         System.out.println("Starting");
-        createDatabase();
+        //createDatabase();
         context = SpringApplication.run(WmsApplication.class, args);
-        new WmsApplication().insertData();
+        //new WmsApplication().insertData();
 
         System.out.println("Started");
     }
@@ -231,7 +231,7 @@ public class WmsApplication {
             account.setPhone1("052301992");
             account.setPhone2("052301992");
             account.setPhone3("052301992");
-            accountService.save(account);
+            accountService.save(account,1);
         }
         System.gc();
         for (int i = 101; i <= 200; i++) {
@@ -251,7 +251,7 @@ public class WmsApplication {
             account.setPhone1("052301992");
             account.setPhone2("052301992");
             account.setPhone3("052301992");
-            accountService.save(account);
+            accountService.save(account,1);
         }
         System.gc();
         for (int i = 201; i <= 300; i++) {
@@ -271,7 +271,7 @@ public class WmsApplication {
             account.setPhone1("052301992");
             account.setPhone2("052301992");
             account.setPhone3("052301992");
-            accountService.save(account);
+            accountService.save(account,1);
         }
         System.gc();
         paymentTypeService.save(new PaymentType(1, "Cash"));
