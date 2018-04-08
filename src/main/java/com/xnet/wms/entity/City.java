@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @Entity(name = "city")
 public class City implements Serializable {
-
+    
     @Id
     @GeneratedValue
     private int id;
@@ -21,38 +21,44 @@ public class City implements Serializable {
     private String name;
     @ManyToOne
     private State state;
-
+    
     public City() {
     }
 
-    public City(String name, State state) {
+    public City(int id , String name) {
+        setId(id);
         setName(name);
-        setState_(state);
-
     }
 
+    public City(String name, State state) {
+        
+        setName(name);
+        setState_(state);
+        
+    }
+    
     public int getId() {
         return id;
     }
-
+    
     public void setId(int id) {
         this.id = id;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
-
+    
     public State getState() {
         return state;
     }
-
+    
     public void setState_(State state) {
         this.state = state;
     }
-
+    
 }
