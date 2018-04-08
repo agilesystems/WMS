@@ -7,6 +7,10 @@ package com.xnet.wms.dto;
 
 import com.xnet.wms.entity.Account;
 import com.xnet.wms.entity.AccountType;
+import com.xnet.wms.entity.Branch;
+import com.xnet.wms.entity.City;
+import com.xnet.wms.entity.Country;
+import com.xnet.wms.entity.State;
 import java.util.Date;
 
 /**
@@ -24,6 +28,13 @@ public class AccountDTO {
     private String extrainfo;
     private Date createdate;
     private AccountType type;
+    private String mobile1;
+    private String mobile2;
+    private String mobile3;
+    private String phone2;
+    private String phone3;
+    private City city;
+    private Branch branch;
 
     public AccountDTO() {
     }
@@ -41,6 +52,19 @@ public class AccountDTO {
         setExtrainfo(account.getNote());
 //        setCreatedate(account.getCreateDate());
         setType(new AccountType(account.getAccountType().getName()));
+        setMobile1(account.getMobile1());
+        setMobile2(account.getMobile2());
+        setMobile3(account.getMobile3());
+        setPhone2(account.getPhone2());
+        setPhone3(account.getPhone3());
+        
+        setCity( new City(account.getCity().getId(), account.getCity().getName()));
+        
+//       setCity(new City(account.getCity().getName(),
+//                new State(account.getCity().getState().getName(), 
+//                       new Country(account.getCity().getState().getCountry().getName()))));
+
+        //setBranch(new Branch(account.getBranch().getName(), account.getBranch().getAddress()));
     }
 
     public int getId() {
@@ -113,6 +137,62 @@ public class AccountDTO {
 
     public void setType(AccountType type) {
         this.type = type;
+    }
+
+    public String getMobile1() {
+        return mobile1;
+    }
+
+    public void setMobile1(String mobile1) {
+        this.mobile1 = mobile1;
+    }
+
+    public String getMobile2() {
+        return mobile2;
+    }
+
+    public void setMobile2(String mobile2) {
+        this.mobile2 = mobile2;
+    }
+
+    public String getMobile3() {
+        return mobile3;
+    }
+
+    public void setMobile3(String mobile3) {
+        this.mobile3 = mobile3;
+    }
+
+    public String getPhone2() {
+        return phone2;
+    }
+
+    public void setPhone2(String phone2) {
+        this.phone2 = phone2;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public String getPhone3() {
+        return phone3;
+    }
+
+    public void setPhone3(String phone3) {
+        this.phone3 = phone3;
+    }
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
     }
 
 }
