@@ -5,10 +5,8 @@
  */
 package com.xnet.wms.entity;
 
-import com.xnet.wms.helper.Global;
-
-import javax.persistence.*;
 import java.io.Serializable;
+import javax.persistence.*;
 
 /**
  * @author ramy
@@ -26,7 +24,7 @@ public class InvoiceItem implements Serializable {
     private double discountPercentage;
     private double totalPrice;
     private double totalNetPrice;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Invoice invoice;
 
     public InvoiceItem() {
@@ -106,6 +104,5 @@ public class InvoiceItem implements Serializable {
     private void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
-
 
 }

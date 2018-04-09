@@ -137,7 +137,10 @@ public class WmsApplication {
         role.getMenusList().add(menuService.save(new Menu(16, "PRODUCT_LESS_THAN_MIN", null, "PRODUCT_LESS_THAN_MIN", 206, null, role.getMenusList().get(1))));
         role.getMenusList().add(menuService.save(new Menu(17, "ADD_USER", "user/add-user.html", "ADD_USER", 103, null, role.getMenusList().get(0))));
         role.getMenusList().add(menuService.save(new Menu(18, "ADD_ACCOUNT", "account/add-account.html", "ADD_ACCOUNT", 701, null, role.getMenusList().get(6))));
-        role.getMenusList().add(menuService.save(new Menu(19, "ADD_INVOICE", "invoice/add-invoice.html", "ADD_INVOICE", 501, null, role.getMenusList().get(4))));
+        role.getMenusList().add(menuService.save(new Menu(19, "SELL_INVOICE", "invoice/sell-invoice.html", "ADD_SELL_INVOICE", 501, null, role.getMenusList().get(4))));
+        role.getMenusList().add(menuService.save(new Menu(20, "BUY_INVOICE", "invoice/buy-invoice.html", "ADD_BUY_INVOICE", 502, null, role.getMenusList().get(4))));
+        role.getMenusList().add(menuService.save(new Menu(21, "REFUND_SELL_INVOICE", "invoice/refund-sell-invoice.html", "ADD_REFUND_SELL_INVOICE", 503, null, role.getMenusList().get(4))));
+        role.getMenusList().add(menuService.save(new Menu(22, "REFUND_BUY_INVOICE", "invoice/refund-buy-invoice.html", "ADD_REFUND_BUY_INVOICE", 504, null, role.getMenusList().get(4))));
 
         role = roleService.save(role);
         User user = userService.save(new User("Admin", "admin", "admin", branch, role));
@@ -213,8 +216,6 @@ public class WmsApplication {
         accountTypeService.save(new AccountType("Both"));
         Account account;
 
-
-
         for (int i = 1; i <= 100; i++) {
             account = new Account();
             account.setAccountType(accountTypeService.findAll().get(0));
@@ -232,7 +233,7 @@ public class WmsApplication {
             account.setPhone1("052301992");
             account.setPhone2("052301992");
             account.setPhone3("052301992");
-            accountService.addNew(account,1);
+            accountService.addNew(account, 1);
         }
         System.gc();
         for (int i = 101; i <= 200; i++) {
@@ -252,7 +253,7 @@ public class WmsApplication {
             account.setPhone1("052301992");
             account.setPhone2("052301992");
             account.setPhone3("052301992");
-            accountService.addNew(account,1);
+            accountService.addNew(account, 1);
         }
         System.gc();
         for (int i = 201; i <= 300; i++) {
@@ -272,7 +273,7 @@ public class WmsApplication {
             account.setPhone1("052301992");
             account.setPhone2("052301992");
             account.setPhone3("052301992");
-            accountService.addNew(account,1);
+            accountService.addNew(account, 1);
         }
         System.gc();
         paymentTypeService.save(new PaymentType(1, "Cash"));

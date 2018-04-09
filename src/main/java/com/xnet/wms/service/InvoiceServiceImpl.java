@@ -18,7 +18,6 @@ import java.util.List;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author ramy
@@ -36,13 +35,17 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Autowired
     InvoiceTypeService invoiceTypeService;
 
+    @Autowired
+    AccountService accountService;
+
     @Override
-    @Transactional
+//    @Transactional
     public Invoice addSellInvoice(Invoice invoice) {
+        invoice.setInvoiceType(invoiceTypeService.findByID(Global.INVOICE_TYPE_SELL));
+
         if (!isValidInvoice(invoice)) {
             return null;
         }
-        invoice.setInvoiceType(invoiceTypeService.findByID(Global.INVOICE_TYPE_SELL));
 
         List<InvoiceItem> items = new ArrayList<>();
         invoice.getInvoiceItemsList().forEach(i -> {
@@ -89,6 +92,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             log.warn("Invoice.Account is not Valid");
             return false;
         }
+        invoice.setAccount(accountService.findById(invoice.getAccount().getId()));
         if (invoice.getBranch() == null || invoice.getBranch().getId() <= 0) {
             log.warn("Invoice.Branch is not Valid");
             return false;
