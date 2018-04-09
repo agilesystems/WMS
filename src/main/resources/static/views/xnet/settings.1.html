@@ -1,0 +1,273 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Static Settings</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li>
+                <a>Forms</a>
+            </li>
+            <li class="active">
+                <strong>Settings</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div ng-controller="settingsCtrl" class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>{{'SETTINGS.PERSONALINFO' | translate}}
+                        <small translate="SETTINGS.DESCRIPTION"></small>
+                    </h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="row">
+                        <form class="form-horizontal">
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" translate="SETTINGS.COMPANYNAME"></label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="" class="form-control" ng-model="settings.compnayName" ng-blur="updateSettings()">
+                                    <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" translate="SETTINGS.MOBILE1"></label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="" class="form-control" ng-model="settings.mobile1" ng-blur="updateSettings()">
+                                    <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" translate="SETTINGS.MOBILE2"></label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="" class="form-control" ng-model="settings.mobile2" ng-blur="updateSettings()">
+                                    <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" translate="SETTINGS.PHONE1"></label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="" class="form-control" ng-model="settings.phone1" ng-blur="updateSettings()">
+                                    <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" translate="SETTINGS.PHONE2"></label>
+                                <div class="col-lg-9">
+                                    <input type="text" placeholder="" class="form-control" ng-model="settings.phone2" ng-blur="updateSettings()">
+                                    <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" translate="SETTINGS.EMAIL"></label>
+                                <div class="col-lg-9">
+                                    <input type="email" placeholder="" class="form-control" ng-model="settings.email" ng-blur="updateSettings()">
+                                    <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label" translate="SETTINGS.ADDRESS"></label>
+                                <div class="col-lg-9">
+                                    <textarea type="text" placeholder="" class="form-control" ng-model="settings.address" ng-blur="updateSettings()"></textarea>
+                                    <span class="help-block m-b-none"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>{{'SETTINGS.TAXES' | translate}}</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label" translate="SETTINGS.TAX1"></label>
+                            <div class="col-lg-3">
+                                <input type="text" placeholder="" class="form-control" ng-model="tax1.name" ng-change="touched()">
+                                <span class="help-block m-b-none"></span>
+                            </div>
+                            <label class="col-lg-1 control-label" translate="SETTINGS.VALUE"></label>
+                            <div class="col-lg-2">
+                                <input type="number" placeholder="" class="form-control" ng-model="tax1.cost" ng-change="touched()">
+                                <span class="help-block m-b-none"></span>
+                            </div>
+                            <div class="col-lg-2">
+                                <label translate="SETTINGS.PERCENTAGE"></label>
+                                <input icheck type="radio" value="per" name="tax1" ng-model="tax1.rdb" ng-change="touched()">
+                            </div>
+                            <div class="col-lg-2">
+                                <label translate="SETTINGS.COST"></label>
+                                <input icheck type="radio" value="val" name="tax1" ng-model="tax1.rdb" ng-change="touched()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label" translate="SETTINGS.TAX2"></label>
+                            <div class="col-lg-3">
+                                <input type="text" placeholder="" class="form-control" ng-model="tax2.name" ng-change="touched()">
+                                <span class="help-block m-b-none"></span>
+                            </div>
+                            <label class="col-lg-1 control-label" translate="SETTINGS.VALUE"></label>
+                            <div class="col-lg-2">
+                                <input type="number" placeholder="" class="form-control" ng-model="tax2.cost" ng-change="touched()">
+                                <span class="help-block m-b-none"></span>
+                            </div>
+                            <div class="col-lg-2">
+                                <label translate="SETTINGS.PERCENTAGE"></label>
+                                <input icheck type="radio" value="per" name="tax2" ng-model="tax2.rdb" ng-change="touched()">
+                            </div>
+                            <div class="col-lg-2">
+                                <label translate="SETTINGS.COST"></label>
+                                <input icheck type="radio" value="val" name="tax2" ng-model="tax2.rdb" ng-change="touched()">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div> -->
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>{{'SETTINGS.TAXES' | translate}}</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal">
+
+                        <table class="table table-responsive table-hover">
+                            <thead>
+                                <tr>
+                                    <th>رقم</th>
+                                    <th>اسم الضريبة</th>
+                                    <th>القيمة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <input type="text" placeholder="" class="form-control" ng-model="settings.tax1Name" ng-blur="updateSettings()">
+                                    </td>
+                                    <td>
+                                        <div class="input-group m-b">
+                                            <span class="input-group-addon">%</span>
+                                        <input type="number" placeholder="" class="form-control" ng-model="settings.tax1Value" ng-blur="updateSettings()">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>
+                                        <input type="text" placeholder="" class="form-control" ng-model="settings.tax2Name" ng-blur="updateSettings()">
+                                    </td>
+                                    <td>
+                                        <div class="input-group m-b">
+                                            <span class="input-group-addon">%</span>
+                                            <input type="number" placeholder="" class="form-control" ng-model="settings.tax2Value" ng-blur="updateSettings()">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>
+                                        <input type="text" placeholder="" class="form-control" ng-model="settings.tax3Name" ng-blur="updateSettings()">
+                                    </td>
+                                    <td>
+                                        <div class="input-group m-b">
+                                            <span class="input-group-addon">%</span>
+                                            <input type="number" placeholder="" class="form-control" ng-model="settings.tax3Value" ng-blur="updateSettings()">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>
+                                        <input type="text" placeholder="" class="form-control" ng-model="settings.tax4Name" ng-blur="updateSettings()">
+                                    </td>
+                                    <td>
+                                        <div class="input-group m-b">
+                                            <span class="input-group-addon">%</span>
+                                            <input type="number" placeholder="" class="form-control" ng-model="settings.tax4Value" ng-blur="updateSettings()">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>
+                                        <input type="text" placeholder="" class="form-control" ng-model="settings.tax5Name" ng-blur="updateSettings()">
+                                    </td>
+                                    <td>
+                                        <div class="input-group m-b">
+                                            <span class="input-group-addon">%</span>
+                                            <input type="number" placeholder="" class="form-control" ng-model="settings.tax5Value" ng-blur="updateSettings()">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                                    <!-- <button type="button" class="btn btn-success" style="width: 120px" ng-click="addTaxes()">Save</button> -->
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>{{'SETTINGS.TAXES' | translate}}</h5>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal">
+        
+                        <table class="table table-responsive table-hover">
+                            <thead>
+                                <tr>
+                                    <th>رقم</th>
+                                    <th>نوع الخصم</th>
+                                    <th>القيمة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <input type="text" placeholder="" class="form-control" ng-model="settings.discount1Name" ng-blur="updateSettings()">
+                                    </td>
+                                    <td>
+                                        <div class="input-group m-b">
+                                            <span class="input-group-addon">%</span>
+                                            <input type="number" placeholder="" class="form-control" ng-model="settings.discount1Valu" ng-blur="updateSettings()">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>
+                                        <input type="text" placeholder="" class="form-control" ng-model="settings.discount2Name" ng-blur="updateSettings()">
+                                    </td>
+                                    <td>
+                                        <div class="input-group m-b">
+                                            <span class="input-group-addon">%</span>
+                                            <input type="number" placeholder="" class="form-control" ng-model="settings.discount2Valu" ng-blur="updateSettings()">
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
