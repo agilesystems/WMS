@@ -6,7 +6,7 @@
                 <a href="index.html">Home</a>
             </li>
             <li>
-                Invoice
+                Sell Invoice
             </li>
             <li class="active">
                 <strong>Add New Invoice</strong>
@@ -20,8 +20,7 @@
         <div class="wrapper wrapper-content animated fadeInRight" ng-controller="invoiceCtrl as inv">
             <!-- ########### invoice informations section start ############################################### -->
             <div class="head-title">
-                <!-- <h5 class="text-title" ng-if="param === 'sell'">فاتورة بيع</h5>
-                <h5 class="text-title" ng-if="param === 'refund-sell'">مرتجع بيع</h5> -->
+                <!-- <h5 class="text-title" ng-if="param === 'refund-sell'">مرتجع بيع</h5> -->
                 <!-- <h5 class="text-title" ng-if="param === 'buy'">فاتورة شراء</h5>
                 <h5 class="text-title" ng-if="param === 'refund-buy'">مرتجع شراء</h5> -->
             </div>
@@ -36,7 +35,7 @@
                                     <h4 translate="ADDINVO.PAYMENTTYPE"></h4>
                                 </label>
                                 <div class="col-md-9 form-group form-group-sm">
-                                    <ui-select ng-model="invoice.cashType" class="ui-select">
+                                    <ui-select ng-model="invoice.paymentType" class="ui-select">
                                         <ui-select-match placeholder="Select PaymentType">
                                             <span ng-bind="$select.selected.name"></span>
                                         </ui-select-match>
@@ -44,7 +43,7 @@
                                             <span ng-bind="payment.name"></span>
                                         </ui-select-choices>
                                     </ui-select>
-                                    <input type="hidden" value="{{invoice.cashType}}" name="paymentTypeInput" class="inputHidden">
+                                    <input type="hidden" value="{{invoice.paymentType}}" name="paymentTypeInput" class="inputHidden">
                                 </div>
 
                             </div>
@@ -57,7 +56,7 @@
                                         <ui-select-match class="matchr" placeholder="Select Account">
                                             <span ng-bind="$select.selected.name"></span>
                                         </ui-select-match>
-                                        <ui-select-choices repeat="account in (accounts | filter: $select.search) track by account.id">
+                                        <ui-select-choices repeat="account in (customerAccounts | filter: $select.search) track by account.id">
                                             <span ng-bind="account.name"></span>
                                         </ui-select-choices>
                                     </ui-select>
@@ -112,7 +111,7 @@
                                     <ui-select-match placeholder="">
                                         <span ng-bind="$select.selected.name"></span>
                                     </ui-select-match>
-                                    <ui-select-choices repeat="invoiceItem in (Items | filter: $select.search) track by invoiceItem.itemId" refresh="searchedItems($select.search)"
+                                    <ui-select-choices repeat="invoiceItem in (sellItems | filter: $select.search) track by invoiceItem.itemId" refresh="searchedSellItems($select.search)"
                                         refresh-delay="0">
                                         <!-- <span ng-bind="invoiceItem.name"></span><br> -->
                                         <h3><span class="font-bold" ng-bind-html="invoiceItem.name | highlight: $select.search"></span></h3><br>

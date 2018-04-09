@@ -32,8 +32,6 @@
                 <ul class="nav nav-second-level collapse" ng-class="{in: $state.includes('dashboards')}">
                     <li ui-sref-active="active" ng-repeat="subMenu in menu.subMenus">
                         <a ui-sref="forms.form_{{subMenu.id}}">{{subMenu.title}} v.1</a>
-                        <a ng-if="menu.title === 'INVOICE'" ui-sref="forms.invoice({type:'sell'})">Sell</a>
-                        <a ng-if="menu.title === 'INVOICE'" ui-sref="forms.invoice({type:'refund-sell'})">Refund Sell</a>
                     </li>
                 </ul>
             </li>

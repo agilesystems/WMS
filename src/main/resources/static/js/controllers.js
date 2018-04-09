@@ -100,6 +100,7 @@ function loginCtrl($http, $scope, $rootScope, $state) {
 }
 
 function accountCtrl($http, $scope, DataServiceApi, validateForms, toastrService) {
+  $scope.acType = '1';
 
   // Get All Acounts Type From API
   DataServiceApi.GetData(server + "account-type/all").then(function (response) {
@@ -149,6 +150,12 @@ function accountCtrl($http, $scope, DataServiceApi, validateForms, toastrService
   $scope.saveAccount = function (form) {
     if (form.validate()) {
       DataServiceApi.PostData($scope.editableAccount, server + 'account/update').then(function (res) {
+        if (res.status === 200 && res.data.id > 0) {
+          toastrService.success('Done', 'Account Updated Successfully');
+        } else {
+          toastrService.error('Failed', 'Account Not Updated!');
+        }
+        console.log($scope.editableAccount);
         console.log(res.data);
       })
 
@@ -282,6 +289,7 @@ function userCtrl($scope, $http, DataServiceApi, validateForms, toastrService) {
 
 function invoiceCtrl(
   $scope,
+  $rootScope,
   $http,
   DataServiceApi,
   storageService,
@@ -289,10 +297,12 @@ function invoiceCtrl(
   toaster,
   toastrService,
   $stateParams,
-  localStorageService
+  localStorageService,
+  $interval,
+  SweetAlert
 ) {
 
-
+  console.log($rootScope.currentUser);
   (function init() {
     // Init values
     $scope.newField = {};
@@ -305,19 +315,33 @@ function invoiceCtrl(
     $scope.param = $stateParams.type;
     $scope.settings = {};
     // Temp List to save searched items.
-    $scope.Items = [];
-    getInvoiceFromLocalStorage();
+    $scope.buyItems = [];
+    $scope.sellItems = [];
+    getSellInvoiceFromLocalStorage();
     // To search specific item in items list.
-    $scope.searchedItems = function (itemName) {
+    $scope.searchedSellItems = function (itemName) {
       // get items from API
       return DataServiceApi.GetData(server + "item/sell/" + itemName).then(function (response) {
-        $scope.Items = response.data;
+        $scope.sellItems = response.data;
       });
     }
 
-    // get Accounts from API
+    // To search specific item in items list.
+    $scope.searchedBuyItems = function (itemName) {
+      // get items from API
+      return DataServiceApi.GetData(server + "item/buy/" + itemName).then(function (response) {
+        $scope.buyItems = response.data;
+      });
+    }
+
+    // get Customer Accounts from API
     DataServiceApi.GetData(server + "account/customer/all").then(function (response) {
-      $scope.accounts = response.data;
+      $scope.customerAccounts = response.data;
+    });
+
+    // get Accounts from API
+    DataServiceApi.GetData(server + "account/supplier/all").then(function (response) {
+      $scope.supplierAccounts = response.data;
     });
 
     // get Payment Type from API
@@ -329,6 +353,9 @@ function invoiceCtrl(
     DataServiceApi.GetData(server + "setting").then(function (response) {
       $scope.settings = response.data;
     });
+
+    // Save Invoice in local storage every 5 seconds
+    $interval(saveSellInvoiceToLocalStorage, 5000);
 
   })();
 
@@ -372,10 +399,10 @@ function invoiceCtrl(
         };
       });
     } else { toastrService.error('', 'Some Fields Required!') }
-    saveInvoiceToLocalStorage();
+
     console.log($scope.invoice);
   };
-  //save store 
+  //save store
   // $scope.addStore = function () {
   //   DataServiceApi.PostData($scope.store, server + "sotre/add")
   // }
@@ -405,17 +432,13 @@ function invoiceCtrl(
           totalPrice: temp.totalPrice,
           totalNetPrice: temp.totalNetPrice
         })
-      } else {
+      } else { // if list of items not null
         var isEqual = false;
-        // Check if item exist to just update quantity.
+        // Check if item exist to just update it.
         angular.forEach($scope.invoiceItems, function (val) {
           if (temp.storeItem.itemId === val.storeItem.itemId) {
-            val.quantity += temp.quantity;
-            val.unitPrice = temp.unitPrice;
-            val.discountPercentage = temp.discountPercentage;
-            val.totalPrice = val.unitPrice * val.quantity;
-            val.totalNetPrice = val.totalPrice - (val.totalPrice / 100 * val.discountPercentage);
             isEqual = true;
+            $scope.updateObject = val;
           }
         });
         if (!isEqual) { // Add item if not exist.
@@ -427,6 +450,27 @@ function invoiceCtrl(
             unitPrice: temp.unitPrice,
             totalNetPrice: temp.totalNetPrice
           })
+        } else {
+          SweetAlert.swal({ // Show message to confirm update item or cancel
+            title: "The Item Is Exist",
+            text: "Are You Sure You Want To Add It ?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            cancelButtonText: "No",
+            closeOnConfirm: true,
+            closeOnCancel: true
+          },
+            function (isConfirm) {
+              if (isConfirm) { // update item
+                $scope.updateObject.quantity += temp.quantity;
+                $scope.updateObject.unitPrice = temp.unitPrice;
+                $scope.updateObject.discountPercentage = temp.discountPercentage;
+                $scope.updateObject.totalPrice = $scope.updateObject.unitPrice * $scope.updateObject.quantity;
+                $scope.updateObject.totalNetPrice = $scope.updateObject.totalPrice - ($scope.updateObject.totalPrice / 100 * $scope.updateObject.discountPercentage);
+              }
+            });
         }
       }
     }
@@ -434,8 +478,10 @@ function invoiceCtrl(
 
   $scope.editRow = function (index) {
     $scope.temp = $scope.invoiceItems[index]; // add current item to a temp object to edit it.
+    $scope.editing = $scope.temp; // Pass data to edit screen
+    $scope.tempQuantity = $scope.editing.quantity; // temp variable to sotre default value
+    $scope.tempItem = $scope.editing.storeItem; // temp variable to sotre default value
   };
-
 
   // Save item after editting.
   $scope.saveField = function (form) {
@@ -446,8 +492,16 @@ function invoiceCtrl(
       $scope.temp.unitPrice = $scope.temp.storeItem.price;
       $scope.temp.totalPrice = $scope.temp.quantity * $scope.temp.unitPrice;
       $scope.temp.totalNetPrice = $scope.temp.totalPrice - ($scope.temp.totalPrice / 100 * $scope.temp.discountPercentage);
+      $scope.tempQuantity = $scope.temp.quantity; // update temp variable with new value after save
+      $scope.tempItem = $scope.temp.storeItem; // update temp variable with new value after save
     }
   };
+
+  $scope.cancelField = function () {
+    // Return to default value if press cancel without save or last value if press save.
+    $scope.temp.quantity = $scope.tempQuantity;
+    $scope.temp.storeItem = $scope.tempItem;
+  }
 
   $scope.deleteRow = function (index) {
     $scope.invoiceItems.splice(index, 1);
@@ -476,11 +530,18 @@ function invoiceCtrl(
 
   $scope.subTotal = function () {
     var total = 0;
-    angular.forEach($scope.invoiceItems, function (itemVal, key) {
+    angular.forEach($scope.invoiceItems, function (itemVal) {
       total += itemVal.totalNetPrice;
     });
     return total;
   };
+
+  // Check if quantity more than available quantity
+  $scope.quantityValidate = function () {
+    if ($scope.invoiceItem.quantity > $scope.invoiceItem.storeItem.availableQuantity) {
+      $scope.invoiceItem.quantity = $scope.invoiceItem.storeItem.availableQuantity;
+    }
+  }
 
   // Return taxes amount minus discounts amount
   $scope.getNetTaxesAndDiscounts = function () {
@@ -598,27 +659,28 @@ function invoiceCtrl(
     $scope.dis2ckb = '';
   }
 
-  // Save invoice to local storage when click save
-  function saveInvoiceToLocalStorage() {
-    localStorageService.set("taxes", $scope.ckb);
-    localStorageService.set("discount1", $scope.dis1ckb);
-    localStorageService.set("discount2", $scope.dis2ckb);
-    localStorageService.set("invoice", $scope.invoice);
+  // Save invoice to local storage every 5 seconds...
+  function saveSellInvoiceToLocalStorage() {
+    localStorageService.set("sellTaxes", $scope.ckb);
+    localStorageService.set("sellDiscount1", $scope.dis1ckb);
+    localStorageService.set("sellDiscount2", $scope.dis2ckb);
+    $scope.invoice.invoiceItemsList = $scope.invoiceItems
+    localStorageService.set("sellInvoice", $scope.invoice);
 
   }
 
   // Get last invoice saved from local storage
-  function getInvoiceFromLocalStorage() {
-    if (localStorageService.get("invoice") === undefined || localStorageService.get("invoice") === null) {
+  function getSellInvoiceFromLocalStorage() {
+    if (localStorageService.get("sellInvoice") === undefined || localStorageService.get("sellInvoice") === null) {
       return;
     }
-    $scope.invoice = localStorageService.get("invoice") //get object from local storage
+    $scope.invoice = localStorageService.get("sellInvoice") //get object from local storage
     angular.forEach($scope.invoice.invoiceItemsList, function (val) {
       $scope.invoiceItems.push(val);
     });
-    $scope.ckb = localStorageService.get("taxes");
-    $scope.dis1ckb = localStorageService.get("discount1");
-    $scope.dis2ckb = localStorageService.get("discount2");
+    $scope.ckb = localStorageService.get("sellTaxes");
+    $scope.dis1ckb = localStorageService.get("sellDiscount1");
+    $scope.dis2ckb = localStorageService.get("sellDiscount2");
 
   }
 

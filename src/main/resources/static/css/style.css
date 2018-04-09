@@ -8730,3 +8730,16 @@ input[type="number"]::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
+
+.head-title {
+  width: 100%;
+  height: 60px;
+  text-align: center;
+  padding: 10px 0 0 0 ;
+  border: #E0E1E1 solid 1px;
+  border-radius: 3px;
+  background-color: white;
+}
+.text-title {
+  font-size: 2em;
+}

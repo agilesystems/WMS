@@ -1,21 +1,21 @@
+
 <div class="wrapper wrapper-content" ng-controller="settingsCtrl">
     <div class="row" style="margin-top:10px;">
         <div class=" well well-sm  bg-white borderZero" uib-dropdown>
             <div class="btn-group date-block btn-group-justified font-small dropdown" data-toggle="buttons">
                 <label href="#home" data-toggle="tab" class="btn btn-default  next font-small semiBold" title="Next Day" style="font-size:18px; border-radius:0;">
-                    {{'SETTINGS.PERSONALINFO' | translate}}
+                     {{'SETTINGS.PERSONALINFO' | translate}}
                 </label>
                 <label href="#taxes" data-toggle="tab" class="btn btn-default previous text-right font-small semiBold" title="Previous Day"
                     style="font-size:18px;">
-                    {{'SETTINGS.TAXES' | translate}}
+                     {{'SETTINGS.TAXES' | translate}}
                 </label>
                 <label href="#discounts" data-toggle="tab" class="btn date-buttons btn-default text-right semiBold" style="font-size:18px;">
                     {{'SETTINGS.DISCOUNTS' | translate}}
                 </label>
-
+                
                 <label ng-click="saveSettings()" class="btn date-buttons btn-success text-right semiBold dropdown-toggle" style="font-size:12px;">
-                    <i class="fa fa-2x fa-save"></i>
-                    <span class="font-bold" style="font-size: 18px">&nbsp; حفظ&nbsp;</span>
+                    <i class="fa fa-2x fa-save"></i><span class="font-bold" style="font-size: 18px">&nbsp; حفظ&nbsp;</span>
                 </label>
             </div>
 
@@ -35,7 +35,7 @@
                                     <div class="wrapper">
                                         <div class="row">
                                             <form class="form-horizontal">
-
+                            
                                                 <div class="form-group">
                                                     <label class="col-md-2 control-label" translate="SETTINGS.COMPANYNAME"></label>
                                                     <div class="col-md-10">
@@ -98,7 +98,7 @@
             <div class="tab-pane fade" id="taxes">
                 <div class="ibox-content">
                     <form class="form-horizontal">
-
+                
                         <table class="table table-responsive table-hover">
                             <thead>
                                 <tr>
@@ -177,7 +177,7 @@
             <div class="tab-pane fade" id="discounts">
                 <div class="ibox-content">
                     <form class="form-horizontal">
-
+                
                         <table class="table table-responsive table-hover">
                             <thead>
                                 <tr>
@@ -187,7 +187,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                
                                 <tr>
                                     <td>1</td>
                                     <td>
@@ -212,7 +212,7 @@
                                         </div>
                                     </td>
                                 </tr>
-
+                
                             </tbody>
                         </table>
                     </form>

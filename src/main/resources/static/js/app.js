@@ -17,6 +17,7 @@ var app = angular.module("wms", [
   "LocalStorageModule",
   "ngValidate",
   "toaster",
+  "oitozero.ngSweetAlert",
   "ngTable"
     ]);
 var server="http://localhost:8080/";
