@@ -17,6 +17,7 @@ import com.xnet.wms.entity.State;
 import com.xnet.wms.entity.Store;
 import com.xnet.wms.entity.StoreItem;
 import com.xnet.wms.entity.User;
+import com.xnet.wms.helper.Global;
 import com.xnet.wms.service.AccountService;
 import com.xnet.wms.service.AccountTypeService;
 import com.xnet.wms.service.BranchService;
@@ -51,13 +52,13 @@ public class WmsApplication {
     static final String dbServer = "localhost";
 
     static final String dbUser = "root";
-    static final String dbPass = "";
+    static final String dbPass = "123456";
 
     public static void main(String[] args) throws SQLException {
         System.out.println("Starting");
-        //createDatabase();
+//        createDatabase();
         context = SpringApplication.run(WmsApplication.class, args);
-        //new WmsApplication().insertData();
+//        new WmsApplication().insertData();
 
         System.out.println("Started");
     }
@@ -231,7 +232,7 @@ public class WmsApplication {
             account.setPhone1("052301992");
             account.setPhone2("052301992");
             account.setPhone3("052301992");
-            accountService.save(account,1);
+            accountService.addNew(account,1);
         }
         System.gc();
         for (int i = 101; i <= 200; i++) {
@@ -251,7 +252,7 @@ public class WmsApplication {
             account.setPhone1("052301992");
             account.setPhone2("052301992");
             account.setPhone3("052301992");
-            accountService.save(account,1);
+            accountService.addNew(account,1);
         }
         System.gc();
         for (int i = 201; i <= 300; i++) {
@@ -271,16 +272,16 @@ public class WmsApplication {
             account.setPhone1("052301992");
             account.setPhone2("052301992");
             account.setPhone3("052301992");
-            accountService.save(account,1);
+            accountService.addNew(account,1);
         }
         System.gc();
         paymentTypeService.save(new PaymentType(1, "Cash"));
         paymentTypeService.save(new PaymentType(2, "Loan"));
 
-        invoiceTypeService.save(new InvoiceType(1, "Sell"));
-        invoiceTypeService.save(new InvoiceType(2, "Buy"));
-        invoiceTypeService.save(new InvoiceType(3, "Refund-Sell"));
-        invoiceTypeService.save(new InvoiceType(4, "Refund-Buy"));
+        invoiceTypeService.save(new InvoiceType(Global.INVOICE_TYPE_SELL, "Sell"));
+        invoiceTypeService.save(new InvoiceType(Global.INVOICE_TYPE_BUY, "Buy"));
+        invoiceTypeService.save(new InvoiceType(Global.INVOICE_TYPE_REFUND_SELL, "Refund-Sell"));
+        invoiceTypeService.save(new InvoiceType(Global.INVOICE_TYPE_REFUND_BUY, "Refund-Buy"));
 
         Invoice invoice;
         for (int i = 1; i < 50; i++) {
@@ -300,7 +301,7 @@ public class WmsApplication {
             }
             invoice.setInvoiceType(invoiceTypeService.findByID(1));
             invoice.setReference("Code" + i);
-            invoiceService.save(invoice);
+            invoiceService.addSellInvoice(invoice);
         }
         System.gc();
         user = null;

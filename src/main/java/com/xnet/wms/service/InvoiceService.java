@@ -7,10 +7,7 @@ package com.xnet.wms.service;
 
 import com.xnet.wms.entity.Invoice;
 import com.xnet.wms.entity.InvoiceItem;
-import com.xnet.wms.entity.Item;
-import com.xnet.wms.entity.Store;
 import java.util.Collection;
-import org.springframework.stereotype.Service;
 
 /**
  *
@@ -18,7 +15,9 @@ import org.springframework.stereotype.Service;
  */
 public interface InvoiceService {
 
-    Invoice save(Invoice invoice);
+    Invoice addSellInvoice(Invoice invoice);
+
+    boolean isValidInvoice(Invoice invoice);
 
     /**
      * This method for soft deleted the invoice , just update the deleted field

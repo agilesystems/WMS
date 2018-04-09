@@ -18,7 +18,7 @@ public interface InvoiceItemService {
      * this method to add new Or update Current of the invoice item , this
      * method use when make invoice
      *
-     * @param invoiceItem to get the data to save in item invoice table
+     * @param invoiceItem to get the data to addNew in item invoice table
      * @return true if the row added Or False if row not added
      */
     boolean save(InvoiceItem invoiceItem);

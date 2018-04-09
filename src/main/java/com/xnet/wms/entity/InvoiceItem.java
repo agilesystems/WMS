@@ -5,10 +5,9 @@
  */
 package com.xnet.wms.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import com.xnet.wms.helper.Global;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -107,5 +106,6 @@ public class InvoiceItem implements Serializable {
     private void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
+
 
 }

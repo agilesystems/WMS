@@ -83,7 +83,7 @@ public class ViewExportReports {
     }
 
     /**
-     * this method open dialog to save file and return File.
+     * this method open dialog to addNew file and return File.
      */
     public File saveFile(String fileType, String extension) {
         JFileChooser fileChooser = new JFileChooser();

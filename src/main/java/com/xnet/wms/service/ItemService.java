@@ -19,7 +19,7 @@ public interface ItemService {
     /**
      * This Method to add new Or update Current item
      *
-     * @param item An object of item parameter to save the item data
+     * @param item An object of item parameter to addNew the item data
      * @return true if the item saves successfully Or false if not saved
      * successfully .
      */

@@ -7,23 +7,17 @@ package com.xnet.wms.controller;
 
 import com.xnet.wms.dto.AccountDTO;
 import com.xnet.wms.entity.Account;
-import com.xnet.wms.entity.User;
 import com.xnet.wms.service.AccountService;
 import com.xnet.wms.service.UserService;
 import io.jsonwebtoken.Claims;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
- *
  * @author ramy
  */
 @RestController
@@ -35,6 +29,9 @@ public class AccountController {
 
     @Autowired
     UserService userService;
+
+
+
 
     @GetMapping("/customer/all")
     public Collection<AccountDTO> getAllCustomers(HttpServletRequest httpServletRequest) {
@@ -55,7 +52,7 @@ public class AccountController {
         return suppliers;
     }
 
-//    @GetMapping("/all")
+    //    @GetMapping("/all")
 //    public Collection<AccountDTO> getAll(HttpServletRequest httpServletRequest) {
 //        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
 //        Collection<AccountDTO> customers = new ArrayList<>();
@@ -67,7 +64,7 @@ public class AccountController {
     @PostMapping("/add")
     AccountDTO addNew(@RequestBody Account account, HttpServletRequest httpServletRequest) {
         try {
-            return new AccountDTO(accountService.save(account, Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString())));
+            return new AccountDTO(accountService.addNew(account, Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString())));
         } catch (Exception e) {
             return null;
         }

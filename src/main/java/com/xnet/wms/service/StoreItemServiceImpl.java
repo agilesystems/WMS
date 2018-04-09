@@ -7,13 +7,13 @@ package com.xnet.wms.service;
 
 import com.xnet.wms.entity.StoreItem;
 import com.xnet.wms.repository.StoreItemRepository;
-import java.util.Collection;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
- *
  * @author ramy
  */
 @Service
@@ -56,6 +56,11 @@ public class StoreItemServiceImpl implements StoreItemService {
     public List<StoreItem> findAllByBranchIdAndKey(int branchId, String kye) {
 //        return storeItemRepository.findAllByStore_Branch_IdAndItem_NameContainingIgnoreCaseOrStore_Branch_IdAndItem_DescriptionContainingIgnoreCaseOrStore_Branch_IdAndItem_BarcodeContainingIgnoreCaseOrStore_Branch_IdAndItem_GlobalIdContainingIgnoreCase(branchId, kye);
         return storeItemRepository.findAllByStore_Branch_IdAndKey(branchId, kye);
+    }
+
+    @Override
+    public StoreItem findById(int id) {
+        return storeItemRepository.findOne(id);
     }
 
 }

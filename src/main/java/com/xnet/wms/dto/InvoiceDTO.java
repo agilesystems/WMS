@@ -25,7 +25,7 @@ public class InvoiceDTO {
     private Account account;
     private Date invoiceDate;
     private InvoiceType invoiceType;
-    private PaymentType cashType;
+    private PaymentType PaymentType;
     private String reference;
     private double invoiceAmount;
     private double invoiceAmountAfterDiscount;
@@ -59,7 +59,7 @@ public class InvoiceDTO {
         setBranch(invoice.getBranch());
         setAccount(invoice.getAccount());
         setInvoiceDate(invoice.getInvoiceDate());
-        setCashType(invoice.getPaymentType());
+        setPaymentType(invoice.getPaymentType());
 
         setReference(invoice.getReference());
         setInvoiceItemsList(invoice.getInvoiceItemsList());
@@ -127,12 +127,12 @@ public class InvoiceDTO {
         this.invoiceType = invoiceType;
     }
 
-    public PaymentType getCashType() {
-        return cashType;
+    public PaymentType getPaymentType() {
+        return PaymentType;
     }
 
-    public void setCashType(PaymentType cashType) {
-        this.cashType = cashType;
+    public void setPaymentType(PaymentType PaymentType) {
+        this.PaymentType = PaymentType;
     }
 
     public String getReference() {

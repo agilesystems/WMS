@@ -58,7 +58,7 @@ public class LoginController {
             
             tokenMap.put("token", token);
             tokenMap.put("user", new UserDTO(user));
-            return new ResponseEntity<>(tokenMap, HttpStatus.OK);
+            return new ResponseEntity<>(tokenMap, HttpStatus.OK );
         } else {
             tokenMap.put("token", null);
             return new ResponseEntity<>(tokenMap, HttpStatus.UNAUTHORIZED);

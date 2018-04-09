@@ -21,7 +21,7 @@ import java.util.List;
 public interface AccountService {
 
     /**
-     * save new or update Current Account with all details This method always
+     * addNew new or update Current Account with all details This method always
  returns immediately true or false
      *
      * @param account an argument to determined the account that we need to use
@@ -29,7 +29,7 @@ public interface AccountService {
      * @return true or false . if the account saved return true and the account
      * not saved return false .
      */
-    Account save(Account account , int cuurentUser);
+    Account addNew(Account account , int cuurentUser);
 
     /**
      * this method to soft delete account , Just update the deleted field with

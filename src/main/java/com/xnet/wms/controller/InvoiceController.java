@@ -43,7 +43,7 @@ public class InvoiceController {
         User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
         invoice.setCreatedBy(currentUser);
         invoice.setBranch(currentUser.getBranch());
-        return new InvoiceDTO(invoiceService.save(invoice));
+        return new InvoiceDTO(invoiceService.addSellInvoice(invoice));
     }
 
     @PostMapping("/buy/add")
@@ -54,7 +54,7 @@ public class InvoiceController {
         User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
         invoice.setCreatedBy(currentUser);
         invoice.setBranch(currentUser.getBranch());
-        return new InvoiceDTO(invoiceService.save(invoice));
+        return new InvoiceDTO(invoiceService.addSellInvoice(invoice));
     }
 
     @GetMapping("/id/{id}")

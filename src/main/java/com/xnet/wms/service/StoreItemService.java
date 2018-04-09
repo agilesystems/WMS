@@ -58,4 +58,6 @@ public interface StoreItemService {
     List<StoreItem> findAllByBranchId(int branchId);
     List<StoreItem> findAllByBranchIdAndKey(int branchId,String kye);
 
+    StoreItem findById(int id);
+
 }
