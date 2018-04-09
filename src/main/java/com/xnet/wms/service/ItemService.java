@@ -94,6 +94,6 @@ public interface ItemService {
      */
     Item findByExbiredate(Date date);
 
-    List<Item> findAllByBranch_IdAndKey(int branchId, String key);
+    List<Item> findAllByKey(String key);
 
 }

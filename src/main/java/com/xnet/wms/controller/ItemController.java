@@ -72,7 +72,7 @@ public class ItemController {
             if (key.equals("*")) {
                 return itemService.findAll();
             } else {
-                return itemService.findAllByBranch_IdAndKey(currentUser.getBranch().getId(), key);
+                return itemService.findAllByKey(key);
             }
         }
         return null;

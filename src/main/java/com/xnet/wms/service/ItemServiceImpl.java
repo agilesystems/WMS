@@ -102,8 +102,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> findAllByBranch_IdAndKey(int branchId, String key) {
-        return itemRepository.findAllByBranch_IdAndKey(branchId, key);
+    public List<Item> findAllByKey( String key) {
+        return itemRepository.findAllByKey( key);
     }
 
   
