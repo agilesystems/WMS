@@ -391,7 +391,7 @@ function invoiceCtrl(
       }
       // Save invoice
       DataServiceApi.PostData($scope.invoice, server + "invoice/sell/add").then(function (res) {
-        if (res.status === 200) {
+        if (res.status === 200 && res.data.id > 0) {
           toastrService.success('Success', 'Invoice saved successfully');
           console.log(res.data);
         } else {
