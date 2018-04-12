@@ -69,9 +69,9 @@ public interface AccountService {
      */
     Account findById(int id);
 
-    List<Account> getAllSuppliers();
+    List<Account> getAllSuppliers(String key);
 
-    List<Account> getAllCustomers();
+    List<Account> getAllCustomers(String key);
    Account update (Account account , int currentUserId);
 
 }
