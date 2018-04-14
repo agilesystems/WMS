@@ -30,23 +30,20 @@ public class AccountController {
     @Autowired
     UserService userService;
 
-
-
-
-    @GetMapping("/customer/all")
-    public Collection<AccountDTO> getAllCustomers(HttpServletRequest httpServletRequest) {
+    @GetMapping("/customer/all/{key}")
+    public Collection<AccountDTO> getAllCustomers(HttpServletRequest httpServletRequest, @PathVariable("key") String key) {
 
         Collection<AccountDTO> customers = new ArrayList<>();
-        accountService.getAllCustomers().forEach(acc -> {
+        accountService.getAllCustomers(key).forEach(acc -> {
             customers.add(new AccountDTO(acc));
         });
         return customers;
     }
 
-    @GetMapping("/supplier/all")
-    public Collection<AccountDTO> getAllSuppliers(HttpServletRequest httpServletRequest) {
+    @GetMapping("/supplier/all/{key}")
+    public Collection<AccountDTO> getAllSuppliers(HttpServletRequest httpServletRequest, @PathVariable("key") String key) {
         Collection<AccountDTO> suppliers = new ArrayList<>();
-        accountService.getAllSuppliers().forEach(acc -> {
+        accountService.getAllSuppliers(key).forEach(acc -> {
             suppliers.add(new AccountDTO(acc));
         });
         return suppliers;

@@ -74,13 +74,13 @@ public class AccountServiceImp implements AccountService {
     }
 
     @Override
-    public List<Account> getAllSuppliers() {
-        return accountRepository.findByAccountType_Id(Global.ACCOUNT_TYPE_SUPPLIER);
+    public List<Account> getAllSuppliers(String key) {
+        return accountRepository.findAllByAccountTypeAndBranch_IdAndKey(Global.ACCOUNT_TYPE_SUPPLIER,key);
     }
 
     @Override
-    public List<Account> getAllCustomers() {
-        return accountRepository.findByAccountType_Id(Global.ACCOUNT_TYPE_CUSTOMER);
+    public List<Account> getAllCustomers(String key) {
+        return accountRepository.findAllByAccountTypeAndBranch_IdAndKey(Global.ACCOUNT_TYPE_CUSTOMER,key);
     }
 
     @Override
