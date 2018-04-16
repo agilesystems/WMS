@@ -31,19 +31,37 @@ public class AccountController {
     UserService userService;
 
     @GetMapping("/customer/all/{key}")
-    public Collection<AccountDTO> getAllCustomers(HttpServletRequest httpServletRequest, @PathVariable("key") String key) {
+    public Collection<AccountDTO> getAllCustomersWithKey(HttpServletRequest httpServletRequest, @PathVariable("key") String key) {
 
         Collection<AccountDTO> customers = new ArrayList<>();
-        accountService.getAllCustomers(key).forEach(acc -> {
+        accountService.getAllCustomersWithKey(key).forEach(acc -> {
+            customers.add(new AccountDTO(acc));
+        });
+        return customers;
+    }
+
+    @GetMapping("/customer/all")
+    public Collection<AccountDTO> getAllCustomers(HttpServletRequest httpServletRequest) {
+
+        Collection<AccountDTO> customers = new ArrayList<>();
+        accountService.getAllCustomers().forEach(acc -> {
             customers.add(new AccountDTO(acc));
         });
         return customers;
     }
 
     @GetMapping("/supplier/all/{key}")
-    public Collection<AccountDTO> getAllSuppliers(HttpServletRequest httpServletRequest, @PathVariable("key") String key) {
+    public Collection<AccountDTO> getAllSuppliersWithKey(HttpServletRequest httpServletRequest, @PathVariable("key") String key) {
         Collection<AccountDTO> suppliers = new ArrayList<>();
-        accountService.getAllSuppliers(key).forEach(acc -> {
+        accountService.getAllSuppliersWithKey(key).forEach(acc -> {
+            suppliers.add(new AccountDTO(acc));
+        });
+        return suppliers;
+    }
+      @GetMapping("/supplier/all")
+    public Collection<AccountDTO> getAllSuppliers(HttpServletRequest httpServletRequest) {
+        Collection<AccountDTO> suppliers = new ArrayList<>();
+        accountService.getAllSuppliers().forEach(acc -> {
             suppliers.add(new AccountDTO(acc));
         });
         return suppliers;

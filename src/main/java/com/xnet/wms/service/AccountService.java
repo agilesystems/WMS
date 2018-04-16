@@ -22,14 +22,14 @@ public interface AccountService {
 
     /**
      * addNew new or update Current Account with all details This method always
- returns immediately true or false
+     * returns immediately true or false
      *
      * @param account an argument to determined the account that we need to use
      * it
      * @return true or false . if the account saved return true and the account
      * not saved return false .
      */
-    Account addNew(Account account , int cuurentUser);
+    Account addNew(Account account, int cuurentUser);
 
     /**
      * this method to soft delete account , Just update the deleted field with
@@ -39,9 +39,8 @@ public interface AccountService {
      * @return this method must return True if the account Already update the
      * deleted field or False if not update the deleted field
      */
-    boolean delete(int accountId , int currentUser);
+    boolean delete(int accountId, int currentUser);
 
-  
     /**
      * this method to get All Accounts .
      *
@@ -69,9 +68,14 @@ public interface AccountService {
      */
     Account findById(int id);
 
-    List<Account> getAllSuppliers(String key);
+    List<Account> getAllSuppliersWithKey(String key);
 
-    List<Account> getAllCustomers(String key);
-   Account update (Account account , int currentUserId);
+    List<Account> getAllSuppliers();
+
+    List<Account> getAllCustomersWithKey(String key);
+
+    List<Account> getAllCustomers();
+
+    Account update(Account account, int currentUserId);
 
 }

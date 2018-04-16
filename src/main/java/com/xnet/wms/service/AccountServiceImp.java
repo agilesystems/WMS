@@ -30,7 +30,7 @@ public class AccountServiceImp implements AccountService {
     @Override
     public Account addNew(Account account, int currentUserId) {
 
-        if (account != null && currentUserId >0 ) {
+        if (account != null && currentUserId > 0) {
             User currentUser = userService.findById(currentUserId);
             account.setCreatedBy(currentUser);
             account.setBranch(currentUser.getBranch());
@@ -74,13 +74,13 @@ public class AccountServiceImp implements AccountService {
     }
 
     @Override
-    public List<Account> getAllSuppliers(String key) {
-        return accountRepository.findAllByAccountTypeAndBranch_IdAndKey(Global.ACCOUNT_TYPE_SUPPLIER,key);
+    public List<Account> getAllSuppliers() {
+        return accountRepository.findByAccountType_Id(Global.ACCOUNT_TYPE_SUPPLIER);
     }
 
     @Override
-    public List<Account> getAllCustomers(String key) {
-        return accountRepository.findAllByAccountTypeAndBranch_IdAndKey(Global.ACCOUNT_TYPE_CUSTOMER,key);
+    public List<Account> getAllCustomers() {
+        return accountRepository.findByAccountType_Id(Global.ACCOUNT_TYPE_CUSTOMER);
     }
 
     @Override
@@ -93,5 +93,17 @@ public class AccountServiceImp implements AccountService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public List<Account> getAllSuppliersWithKey(String key) {
+
+        return accountRepository.findAllByAccountTypeAndBranch_IdAndKey(Global.ACCOUNT_TYPE_SUPPLIER, key);
+    }
+
+    @Override
+    public List<Account> getAllCustomersWithKey(String key) {
+
+        return accountRepository.findAllByAccountTypeAndBranch_IdAndKey(Global.ACCOUNT_TYPE_CUSTOMER, key);
     }
 }
