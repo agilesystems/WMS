@@ -299,7 +299,7 @@ function invoiceCtrl(
   $stateParams,
   localStorageService,
   $interval,
-  SweetAlert
+  SweetAlert,
 ) {
 
   console.log($rootScope.currentUser);
@@ -492,8 +492,9 @@ function invoiceCtrl(
       $scope.temp.unitPrice = $scope.temp.storeItem.price;
       $scope.temp.totalPrice = $scope.temp.quantity * $scope.temp.unitPrice;
       $scope.temp.totalNetPrice = $scope.temp.totalPrice - ($scope.temp.totalPrice / 100 * $scope.temp.discountPercentage);
-      $scope.tempQuantity = $scope.temp.quantity; // update temp variable with new value after save
+      $scope.tempQuantity = $scope.temp.quantity; // update quantity with new value after save
       $scope.tempItem = $scope.temp.storeItem; // update temp variable with new value after save
+      angular.element('.modal').modal('hide'); // close modal after save
     }
   };
 

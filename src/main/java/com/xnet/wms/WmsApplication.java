@@ -56,9 +56,9 @@ public class WmsApplication {
 
     public static void main(String[] args) throws SQLException {
         System.out.println("Starting");
-//        createDatabase();
+    //    createDatabase();
         context = SpringApplication.run(WmsApplication.class, args);
-//        new WmsApplication().insertData();
+    //    new WmsApplication().insertData();
 
         System.out.println("Started");
     }
@@ -126,8 +126,8 @@ public class WmsApplication {
         role.getMenusList().add(menuService.save(new Menu(5, "INVOICE", null, "INVOICE", 5, null, null)));
         role.getMenusList().add(menuService.save(new Menu(6, "REPORT", null, "REPORT", 6, null, null)));
         role.getMenusList().add(menuService.save(new Menu(7, "ACCOUNT", null, "ACCOUNT", 7, null, null)));
-        role.getMenusList().add(menuService.save(new Menu(8, "HELP", null, "HELP", 7, null, null)));
-        role.getMenusList().add(menuService.save(new Menu(9, "SETTING", null, "SETTING", 101, null, role.getMenusList().get(0))));
+        role.getMenusList().add(menuService.save(new Menu(8, "HELP", null, "HELP", 9, null, null)));
+        role.getMenusList().add(menuService.save(new Menu(9, "SETTING", "xnet/settings.html", "SETTING", 101, null, role.getMenusList().get(0))));
         role.getMenusList().add(menuService.save(new Menu(10, "BACKUP", null, "BACKUP", 102, null, role.getMenusList().get(0))));
         role.getMenusList().add(menuService.save(new Menu(11, "PRODUCT", null, "PRODUCT", 201, null, role.getMenusList().get(1))));
         role.getMenusList().add(menuService.save(new Menu(12, "PRODDUCT_INQIRY", null, "PRODDUCT_INQIRY", 202, null, role.getMenusList().get(1))));
@@ -135,12 +135,15 @@ public class WmsApplication {
         role.getMenusList().add(menuService.save(new Menu(14, "STORE_ITEMS_REPORT", null, "STORE_ITEMS_REPORT", 204, null, role.getMenusList().get(1))));
         role.getMenusList().add(menuService.save(new Menu(15, "STORE_TRANSACTION_REPORT", null, "STORE_TRANSACTION_REPORT", 205, null, role.getMenusList().get(1))));
         role.getMenusList().add(menuService.save(new Menu(16, "PRODUCT_LESS_THAN_MIN", null, "PRODUCT_LESS_THAN_MIN", 206, null, role.getMenusList().get(1))));
-        role.getMenusList().add(menuService.save(new Menu(17, "ADD_USER", "user/add-user.html", "ADD_USER", 103, null, role.getMenusList().get(0))));
+        role.getMenusList().add(menuService.save(new Menu(17, "USER", null, "USER", 8, null, null)));
         role.getMenusList().add(menuService.save(new Menu(18, "ADD_ACCOUNT", "account/add-account.html", "ADD_ACCOUNT", 701, null, role.getMenusList().get(6))));
         role.getMenusList().add(menuService.save(new Menu(19, "SELL_INVOICE", "invoice/sell-invoice.html", "ADD_SELL_INVOICE", 501, null, role.getMenusList().get(4))));
         role.getMenusList().add(menuService.save(new Menu(20, "BUY_INVOICE", "invoice/buy-invoice.html", "ADD_BUY_INVOICE", 502, null, role.getMenusList().get(4))));
         role.getMenusList().add(menuService.save(new Menu(21, "REFUND_SELL_INVOICE", "invoice/refund-sell-invoice.html", "ADD_REFUND_SELL_INVOICE", 503, null, role.getMenusList().get(4))));
         role.getMenusList().add(menuService.save(new Menu(22, "REFUND_BUY_INVOICE", "invoice/refund-buy-invoice.html", "ADD_REFUND_BUY_INVOICE", 504, null, role.getMenusList().get(4))));
+        role.getMenusList().add(menuService.save(new Menu(23, "ADD_USER", "user/add-user.html", "ADD_USER", 171, null, role.getMenusList().get(16))));
+        role.getMenusList().add(menuService.save(new Menu(24, "USERS", "user/users.html", "USERS", 170, null, role.getMenusList().get(16))));
+        role.getMenusList().add(menuService.save(new Menu(25, "ACCOUNTS", "account/accounts.html", "ACCOUNTS", 702, null, role.getMenusList().get(6))));
 
         role = roleService.save(role);
         User user = userService.save(new User("Admin", "admin", "admin", branch, role));

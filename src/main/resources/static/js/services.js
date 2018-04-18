@@ -273,9 +273,11 @@ function validateFactory() {
                 required: true,
                 digits: true,
                 min: 1,
-                max: document.getElementsByName("quantity").value
             },
-            discount:{min:0}
+            discount:{
+                min: 0,
+                max: 100
+            }
         }
 
     }
@@ -298,7 +300,10 @@ function validateFactory() {
                 digits: true,
                 min: 1
             },
-            discount: { min: 0 }
+            discount: {
+                min: 0,
+                max: 100
+            }
         }
 
     }
