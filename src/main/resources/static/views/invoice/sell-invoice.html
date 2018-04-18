@@ -138,7 +138,7 @@
                         <div class="col-sm-3 form-group" ng-show="invoiceItem.storeItem">
                             <label class="col-md-5 control-label" class="">Quantity</label>
                             <div class="col-md-7 input-group-sm">
-                                <input type="number" name="quantity" placeholder="" data-ng-keyup="quantityValidate()" ng-model="invoiceItem.quantity" class="form-control">
+                                <input type="number" name="quantity" placeholder="" ng-focus="availableQuantityAlert(invoiceItem)" data-ng-keyup="quantityValidate(invoiceItem)" ng-model="invoiceItem.quantity" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -403,7 +403,7 @@
                             </td>
                             <th class="text-left">Paied Amount</th>
                             <td class="text-right">
-                                <input type="number" size="6" ng-model="invoice.paiedAmount" >
+                                <input type="number" name="paid" size="6" ng-model="invoice.paiedAmount" ng-keyup="paidAmountValidate()" onkeyup="this.value=this.value.replace(/[^\d]/,'')" >
                             </td>
                             <th class="text-left">Outstanding Amount</th>
                             <td class="text-right">
@@ -453,7 +453,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Quantity</label>
-                                    <input type="number" name="quantity" data-ng-model="editing.quantity" class="form-control" />
+                                    <input type="number" name="quantity" ng-focus="availableQuantityAlert(editing)" ng-keyup="quantityValidate(editing)" data-ng-model="editing.quantity" class="form-control" />
                                 </div>
                                 <button ng-if="item2Form.validate()" type="submit" class="btn btn-default">Save</button>
                                 <button data-dismiss="modal" ng-click="cancelField()" type="button" class="btn btn-default">Cancle</button>

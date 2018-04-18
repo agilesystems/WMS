@@ -300,6 +300,7 @@ function invoiceCtrl(
   localStorageService,
   $interval,
   SweetAlert,
+  $translate
 ) {
 
   console.log($rootScope.currentUser);
@@ -465,6 +466,11 @@ function invoiceCtrl(
             function (isConfirm) {
               if (isConfirm) { // update item
                 $scope.updateObject.quantity += temp.quantity;
+                if ($scope.updateObject.quantity > temp.storeItem.availableQuantity ) {
+                  toastrService.warning('', $translate.instant('QUANTITY_WARNING'));
+                  $scope.updateObject.quantity = temp.storeItem.availableQuantity
+                }
+                
                 $scope.updateObject.unitPrice = temp.unitPrice;
                 $scope.updateObject.discountPercentage = temp.discountPercentage;
                 $scope.updateObject.totalPrice = $scope.updateObject.unitPrice * $scope.updateObject.quantity;
@@ -537,10 +543,24 @@ function invoiceCtrl(
     return total;
   };
 
+  // Show availble quantity on focus
+  $scope.availableQuantityAlert = function (val) {
+    toastrService.info($translate.instant('AVAILABLE_Q') + val.storeItem.availableQuantity, '');
+  }
+
   // Check if quantity more than available quantity
-  $scope.quantityValidate = function () {
-    if ($scope.invoiceItem.quantity > $scope.invoiceItem.storeItem.availableQuantity) {
-      $scope.invoiceItem.quantity = $scope.invoiceItem.storeItem.availableQuantity;
+  $scope.quantityValidate = function (val) {
+    if (val.quantity > val.storeItem.availableQuantity) {
+      val.quantity = val.storeItem.availableQuantity;
+      toastrService.warning('', $translate.instant('QUANTITY_WARNING'));
+    }
+  }
+
+  // Check if paid amount more than grandTotal
+  $scope.paidAmountValidate = function () {
+    if ($scope.invoice.paiedAmount > $scope.calculateGrandTotal()) {
+      $scope.invoice.paiedAmount = $scope.calculateGrandTotal()
+      toastrService.warning('', $translate.instant('PAIDAMOUNT_WARNING'));
     }
   }
 
