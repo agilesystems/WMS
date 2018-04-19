@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
  *
  * @author Muhammad
  */
+@Service
 public interface InvoiceItemService {
 
     /**

@@ -37,6 +37,8 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Autowired
     AccountService accountService;
+    @Autowired
+    InvoiceItemService invoiceItem;
 
     @Override
 //    @Transactional
@@ -50,6 +52,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         List<InvoiceItem> items = new ArrayList<>();
         invoice.getInvoiceItemsList().forEach(i -> {
             i.setInvoice(invoice);
+
             if (items.isEmpty()) {
                 items.add(i);
             } else {
@@ -61,6 +64,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                     }
                 });
             }
+             invoiceItem.save(i);
         });
         invoice.setInvoiceItemsList(items);
         invoiceRepository.save(invoice);

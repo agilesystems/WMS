@@ -29,7 +29,9 @@ public class InvoiceItem implements Serializable {
 
     public InvoiceItem() {
     }
-
+ public InvoiceItem(int id ) {
+     setId(id);
+    }
     public InvoiceItem(StoreItem storeItem, double unitPrice, double discountPercentage, int quantity) {
 
         setStoreItem(storeItem);
