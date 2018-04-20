@@ -397,6 +397,7 @@ function invoiceCtrl(
           console.log(res.data);
         } else {
           toastrService.error('Failed!', 'Invoice not saved!');
+          console.log(res);
         };
       });
     } else { toastrService.error('', 'Some Fields Required!') }
