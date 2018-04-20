@@ -31,11 +31,8 @@ public class StoreItem implements Serializable {
 
     public StoreItem() {
     }
- public StoreItem(int id) {
-     setId(id);
-    }
 
-    public StoreItem( Item item, Store store, double price, double discountPercentage, int availableQuantity, Date expiryDate) {
+    public StoreItem(Item item, Store store, double price, double discountPercentage, int availableQuantity, Date expiryDate) {
         this.id = id;
         this.item = item;
         this.store = store;
