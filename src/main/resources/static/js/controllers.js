@@ -396,7 +396,7 @@ function invoiceCtrl(
           toastrService.success('Success', 'Invoice saved successfully');
           console.log(res.data);
         } else {
-          toastrService.error('Failed! ', 'Invoice not saved!');
+          toastrService.error('Failed!', 'Invoice not saved!');
           console.log(res);
         };
       });
