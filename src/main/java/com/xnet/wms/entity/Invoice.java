@@ -36,7 +36,7 @@ public class Invoice extends BaseEntity implements Serializable {
     private double discount1Amount;
     private double discount2Percentage;
     private double discount2Amount;
-    @OneToMany(mappedBy = "invoice")
+    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL)
     private List<InvoiceItem> invoiceItemsList;
     private double tax1Percentage;
     private double tax1Amount;

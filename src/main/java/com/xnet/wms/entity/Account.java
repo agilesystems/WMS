@@ -5,13 +5,12 @@
  */
 package com.xnet.wms.entity;
 
-import org.hibernate.annotations.Where;
-
+import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import java.io.Serializable;
-import java.util.List;
+import org.hibernate.annotations.Where;
 
 /**
  * @author Ramy Ashour
@@ -34,7 +33,6 @@ public class Account extends BaseEntity implements Serializable {
     private String note;
     @ManyToOne
     private Branch branch;
-
 
     @ManyToOne
     private City city;
@@ -162,6 +160,5 @@ public class Account extends BaseEntity implements Serializable {
     public void setBranch(Branch branch) {
         this.branch = branch;
     }
-
 
 }

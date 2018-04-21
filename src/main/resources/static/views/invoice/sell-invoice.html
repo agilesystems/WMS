@@ -31,7 +31,7 @@
                         <div class="col-sm-6">
 
                             <div class="form-horizontal">
-                                <label class="col-m d-3 control-label">
+                                <label class="col-md-3 control-label">
                                     <h4 translate="ADDINVO.PAYMENTTYPE"></h4>
                                 </label>
                                 <div class="col-md-9 form-group form-group-sm">
@@ -40,7 +40,7 @@
                                             <span ng-bind="$select.selected.name"></span>
                                         </ui-select-match>
                                         <ui-select-choices repeat="payment in (payments | filter: $select.search) track by payment.id">
-                                            <span ng-bind="payment"></span>
+                                            <span ng-bind="payment.name"></span>
                                         </ui-select-choices>
                                     </ui-select>
                                     <input type="hidden" value="{{invoice.paymentType}}" name="paymentTypeInput" class="inputHidden">
@@ -138,7 +138,7 @@
                         <div class="col-sm-3 form-group" ng-show="invoiceItem.storeItem">
                             <label class="col-md-5 control-label" class="">Quantity</label>
                             <div class="col-md-7 input-group-sm">
-                                <input type="number" name="quantity" placeholder="" data-ng-keyup="quantityValidate()" ng-model="invoiceItem.quantity" class="form-control">
+                                <input type="number" name="quantity" placeholder="" ng-focus="availableQuantityAlert(invoiceItem)" data-ng-keyup="quantityValidate(invoiceItem)" ng-model="invoiceItem.quantity" class="form-control">
                             </div>
                         </div>
                     </div>
@@ -214,10 +214,10 @@
                                 <span> {{tempItem.quantity}}</span>
                             </td>
                             <td>
-                                <span>{{tempItem.unitPrice| currency: currencySymbol}}</span>
+                                <span>{{tempItem.unitPrice| currency: "L.E ":2}}</span>
                             </td>
                             <td class="text-left">
-                                <span>{{tempItem.totalNetPrice| currency: currencySymbol}}</span>
+                                <span>{{tempItem.totalNetPrice| currency: "L.E ":2}}</span>
                             </td>
                             <td class="text-left">
                                 <button type="submit" data-ng-click="editRow($index)" data-toggle="modal" type="button" data-target="#updateItem" class="btn btn-default">Edit</button>
@@ -243,15 +243,15 @@
                         <tr class="active">
                             <th class="text-left">Total</th>
                             <td class="text-right">
-                                {{totalInvoiceAmount() | currency: currencySymbol}}
+                                {{totalInvoiceAmount() | currency: "L.E ":2}}
                             </td>
                             <th class="text-left">Sub Total</th>
                             <td class="text-right">
-                                {{subTotal() | currency: currencySymbol}}
+                                {{subTotal() | currency: "L.E ":2}}
                             </td>
                         </tr>
                     </table>
-                    <table ng-if="param === ('sell' || 'refund-sell')" class="table table-responsive pull-right" id="tab_logic_total">
+                    <table class="table table-responsive pull-right" id="tab_logic_total">
                         <tbody>
                             <tr>
                                 <td class="table col-md-6">
@@ -399,15 +399,15 @@
                         <tr class="active">
                             <th class="text-left">Grand Total</th>
                             <td class="text-right">
-                                {{calculateGrandTotal()}}
+                                {{calculateGrandTotal() | currency: "L.E ":2}}
                             </td>
                             <th class="text-left">Paied Amount</th>
                             <td class="text-right">
-                                <input type="number" size="6" ng-model="invoice.paiedAmount" >
+                                <input type="number" name="paid" size="6" ng-model="invoice.paiedAmount" ng-keyup="paidAmountValidate()" onkeyup="this.value=this.value.replace(/[^\d]/,'')" >
                             </td>
                             <th class="text-left">Outstanding Amount</th>
                             <td class="text-right">
-                                {{getinvoiceOutstandingAmount()}}
+                                {{getinvoiceOutstandingAmount() | currency: "L.E ":2}}
                             </td>
 
                         </tr>
@@ -453,9 +453,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Quantity</label>
-                                    <input type="number" name="quantity" data-ng-model="editing.quantity" class="form-control" />
+                                    <input type="number" name="quantity" ng-focus="availableQuantityAlert(editing)" ng-keyup="quantityValidate(editing)" data-ng-model="editing.quantity" class="form-control" />
                                 </div>
-                                <button ng-if="item2Form.validate()" data-dismiss="modal" type="submit" class="btn btn-default">Save</button>
+                                <button ng-if="item2Form.validate()" type="submit" class="btn btn-default">Save</button>
                                 <button data-dismiss="modal" ng-click="cancelField()" type="button" class="btn btn-default">Cancle</button>
                             </form>
                         </div>

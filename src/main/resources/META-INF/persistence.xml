@@ -17,7 +17,6 @@
     <class>com.xnet.wms.entity.Lookup</class>
     <class>com.xnet.wms.entity.InvoiceItem</class>
     <class>com.xnet.wms.entity.Transaction</class>
-    <class>com.xnet.wms.entity.Account</class>
     <class>com.xnet.wms.entity.Invoice</class>
     <class>com.xnet.wms.entity.Item</class>
     <class>com.xnet.wms.entity.StoreItem</class>
@@ -28,6 +27,7 @@
     <class>com.xnet.wms.entity.Menu</class>
     <class>com.xnet.wms.entity.ItemTransfer</class>
     <class>com.xnet.wms.entity.PaymentType</class>
+    <class>com.xnet.wms.entity.Account</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://agile-solutions.co:3306/agile_x-net?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="agile_x-net"/>

@@ -29,7 +29,7 @@ public interface AccountService {
      * @return true or false . if the account saved return true and the account
      * not saved return false .
      */
-    Account addNew(Account account , int cuurentUser);
+    Account addNew(Account account, int cuurentUser);
 
     /**
      * this method to soft delete account , Just update the deleted field with
@@ -39,9 +39,8 @@ public interface AccountService {
      * @return this method must return True if the account Already update the
      * deleted field or False if not update the deleted field
      */
-    boolean delete(int accountId , int currentUser);
+    boolean delete(int accountId, int currentUser);
 
-  
     /**
      * this method to get All Accounts .
      *
@@ -69,9 +68,14 @@ public interface AccountService {
      */
     Account findById(int id);
 
+    List<Account> getAllSuppliersWithKey(String key);
+
     List<Account> getAllSuppliers();
 
+    List<Account> getAllCustomersWithKey(String key);
+
     List<Account> getAllCustomers();
-   Account update (Account account , int currentUserId);
+
+    Account update(Account account, int currentUserId);
 
 }

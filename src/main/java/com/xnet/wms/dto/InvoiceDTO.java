@@ -5,12 +5,10 @@
  */
 package com.xnet.wms.dto;
 
-import com.xnet.wms.entity.Account;
-import com.xnet.wms.entity.Branch;
-import com.xnet.wms.entity.PaymentType;
 import com.xnet.wms.entity.Invoice;
-import com.xnet.wms.entity.InvoiceItem;
 import com.xnet.wms.entity.InvoiceType;
+import com.xnet.wms.entity.PaymentType;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,8 +19,8 @@ import java.util.List;
 public class InvoiceDTO {
 
     private int id;
-    private Branch branch;
-    private Account account;
+    private BranchDTO branchDTO;
+    private AccountDTO accountDTO;
     private Date invoiceDate;
     private InvoiceType invoiceType;
     private PaymentType PaymentType;
@@ -46,7 +44,7 @@ public class InvoiceDTO {
     private double tax4Amount;
     private double tax5Percentage;
     private double tax5Amount;
-    private List<InvoiceItem> invoiceItemsList;
+    private List<InvoiceItemDTO> invoiceItemsListDTO;
 
     public InvoiceDTO() {
     }
@@ -56,13 +54,17 @@ public class InvoiceDTO {
             return;
         }
         setId(invoice.getId());
-        setBranch(invoice.getBranch());
-        setAccount(invoice.getAccount());
+        setBranchDTO(new BranchDTO(invoice.getBranch()));
+        setAccountDTO(new AccountDTO(invoice.getAccount()));
         setInvoiceDate(invoice.getInvoiceDate());
         setPaymentType(invoice.getPaymentType());
 
         setReference(invoice.getReference());
-        setInvoiceItemsList(invoice.getInvoiceItemsList());
+
+        setInvoiceItemsDTOList(new ArrayList<>());
+        invoice.getInvoiceItemsList().forEach(i -> {
+            getInvoiceItemsDTOList().add(new InvoiceItemDTO(i));
+        });
 
         setInvoiceAmount(invoice.getInvoiceAmount());
         setInvoiceAmountAfterDiscount(invoice.getInvoiceAmountAfterDiscount());
@@ -94,20 +96,20 @@ public class InvoiceDTO {
         this.id = id;
     }
 
-    public Branch getBranch() {
-        return branch;
+    public BranchDTO getBranchDTO() {
+        return branchDTO;
     }
 
-    public void setBranch(Branch branch) {
-        this.branch = branch;
+    public void setBranchDTO(BranchDTO branchDTO) {
+        this.branchDTO = branchDTO;
     }
 
-    public Account getAccount() {
-        return account;
+    public AccountDTO getAccountDTO() {
+        return accountDTO;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setAccountDTO(AccountDTO accountDTO) {
+        this.accountDTO = accountDTO;
     }
 
     public Date getInvoiceDate() {
@@ -143,15 +145,15 @@ public class InvoiceDTO {
         this.reference = reference;
     }
 
-    public List<InvoiceItem> getInvoiceItemsList() {
-        return invoiceItemsList;
+    public List<InvoiceItemDTO> getInvoiceItemsDTOList() {
+        return invoiceItemsListDTO;
     }
 
-    public void setInvoiceItemsList(List<InvoiceItem> invoiceItemsList) {
-        if (invoiceItemsList == null) {
+    public void setInvoiceItemsDTOList(List<InvoiceItemDTO> invoiceItemsListDTO) {
+        if (invoiceItemsListDTO == null) {
             return;
         }
-        this.invoiceItemsList = invoiceItemsList;
+        this.invoiceItemsListDTO = invoiceItemsListDTO;
     }
 
     public double getInvoiceAmount() {
