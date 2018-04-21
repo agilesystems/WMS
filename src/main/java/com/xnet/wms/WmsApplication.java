@@ -121,7 +121,7 @@ public class WmsApplication {
         role.setMenusList(new ArrayList<>());
         role.getMenusList().add(menuService.save(new Menu(1, "X_NET", null, "X_NET", 1, null, null)));
         role.getMenusList().add(menuService.save(new Menu(2, "PRODUCT", null, "PRODUCT", 2, null, null)));
-        role.getMenusList().add(menuService.save(new Menu(3, "FIANANCIAL", null, "FIANANCIAL", 3, null, null)));
+        role.getMenusList().add(menuService.save(new Menu(3, "FINANCIAL", null, "FINANCIAL", 3, null, null)));
         role.getMenusList().add(menuService.save(new Menu(4, "CASH", null, "CASH", 4, null, null)));
         role.getMenusList().add(menuService.save(new Menu(5, "INVOICE", null, "INVOICE", 5, null, null)));
         role.getMenusList().add(menuService.save(new Menu(6, "REPORT", null, "REPORT", 6, null, null)));

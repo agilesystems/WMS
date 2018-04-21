@@ -7,10 +7,6 @@ package com.xnet.wms.dto;
 
 import com.xnet.wms.entity.Account;
 import com.xnet.wms.entity.AccountType;
-import com.xnet.wms.entity.Branch;
-import com.xnet.wms.entity.City;
-import com.xnet.wms.entity.Country;
-import com.xnet.wms.entity.State;
 import java.util.Date;
 
 /**
@@ -33,8 +29,8 @@ public class AccountDTO {
     private String mobile3;
     private String phone2;
     private String phone3;
-    private City city;
-    private Branch branch;
+    private CityDTO cityDTO;
+    private BranchDTO branchDTO;
 
     public AccountDTO() {
     }
@@ -57,13 +53,12 @@ public class AccountDTO {
         setMobile3(account.getMobile3());
         setPhone2(account.getPhone2());
         setPhone3(account.getPhone3());
-        
-        setCity( new City(account.getCity().getId(), account.getCity().getName()));
-        
-//       setCity(new City(account.getCity().getName(),
-//                new State(account.getCity().getState().getName(), 
-//                       new Country(account.getCity().getState().getCountry().getName()))));
+        setBranchDTO(new BranchDTO(account.getBranch()));
+        setCityDTO(new CityDTO(account.getCity()));
 
+//       setCity(new City(account.getCity().getName(),
+//                new State(account.getCity().getState().getName(),
+//                       new Country(account.getCity().getState().getCountry().getName()))));
         //setBranch(new Branch(account.getBranch().getName(), account.getBranch().getAddress()));
     }
 
@@ -171,12 +166,12 @@ public class AccountDTO {
         this.phone2 = phone2;
     }
 
-    public City getCity() {
-        return city;
+    public CityDTO getCityDTO() {
+        return cityDTO;
     }
 
-    public void setCity(City city) {
-        this.city = city;
+    public void setCityDTO(CityDTO cityDTO) {
+        this.cityDTO = cityDTO;
     }
 
     public String getPhone3() {
@@ -187,12 +182,12 @@ public class AccountDTO {
         this.phone3 = phone3;
     }
 
-    public Branch getBranch() {
-        return branch;
+    public BranchDTO getBranchDTO() {
+        return branchDTO;
     }
 
-    public void setBranch(Branch branch) {
-        this.branch = branch;
+    public void setBranchDTO(BranchDTO branchDTO) {
+        this.branchDTO = branchDTO;
     }
 
 }

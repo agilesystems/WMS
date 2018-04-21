@@ -22,7 +22,7 @@ public interface AccountService {
 
     /**
      * addNew new or update Current Account with all details This method always
-     * returns immediately true or false
+ returns immediately true or false
      *
      * @param account an argument to determined the account that we need to use
      * it

@@ -10,12 +10,11 @@ import com.xnet.wms.entity.Account;
 import com.xnet.wms.service.AccountService;
 import com.xnet.wms.service.UserService;
 import io.jsonwebtoken.Claims;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author ramy
@@ -58,7 +57,8 @@ public class AccountController {
         });
         return suppliers;
     }
-      @GetMapping("/supplier/all")
+
+    @GetMapping("/supplier/all")
     public Collection<AccountDTO> getAllSuppliers(HttpServletRequest httpServletRequest) {
         Collection<AccountDTO> suppliers = new ArrayList<>();
         accountService.getAllSuppliers().forEach(acc -> {
@@ -72,7 +72,7 @@ public class AccountController {
 //        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
 //        Collection<AccountDTO> customers = new ArrayList<>();
 //        accountService.getAllCustomers().forEach(acc -> {
-//            customers.add(new AccountDTO(acc));
+//            customers.add(new Account(acc));
 //        });
 //        return customers;
 //    }

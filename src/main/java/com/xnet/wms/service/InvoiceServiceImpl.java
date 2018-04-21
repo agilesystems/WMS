@@ -47,21 +47,30 @@ public class InvoiceServiceImpl implements InvoiceService {
             return null;
         }
 
-        List<InvoiceItem> items = new ArrayList<>();
-        invoice.getInvoiceItemsList().forEach(i -> {
+        List<InvoiceItem> items = new ArrayList<InvoiceItem>();
+
+        for (InvoiceItem i : invoice.getInvoiceItemsList()) {
+
             i.setInvoice(invoice);
             if (items.isEmpty()) {
                 items.add(i);
             } else {
-                items.forEach(it -> {
-                    if (it.getId() == i.getId()) {
+
+                InvoiceItem temp = null;
+                for (InvoiceItem it : items) {
+                    if (it.getStoreItem().getId() == i.getStoreItem().getId()) {
                         it.setQuantity(it.getQuantity() + i.getQuantity());
                     } else {
-                        items.add(i);
+                        temp = i;
                     }
-                });
+                }
+                if (temp != null) {
+                    items.add(temp);
+                    temp = null;
+                }
             }
-        });
+        }
+//        });
         invoice.setInvoiceItemsList(items);
         invoiceRepository.save(invoice);
 
@@ -70,7 +79,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         update Store items quantiy after making new invoice
          */
         items.forEach(i -> {
-            StoreItem storeItem = storeItemService.findById(i.getId());
+            StoreItem storeItem = storeItemService.findById(i.getStoreItem().getId());
             if ((storeItem.getAvailableQuantity() - i.getQuantity()) >= 0) {
                 storeItem.setAvailableQuantity(storeItem.getAvailableQuantity() - i.getQuantity());
                 storeItemService.save(storeItem);
