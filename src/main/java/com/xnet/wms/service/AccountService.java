@@ -62,7 +62,6 @@ public interface AccountService {
 
     /**
      * this method to get specified account with id argument
-     *
      * @param id an argument to specify the account
      * @return one Account
      */
