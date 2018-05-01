@@ -243,4 +243,52 @@ public class InvoiceServiceImpl implements InvoiceService {
         return invoice;
     }
 
+    @Override
+    public Invoice addRefundSellInvoice(Invoice invoice) {
+        
+         invoice.setInvoiceType(invoiceTypeService.findByID(Global.INVOICE_TYPE_REFUND_SELL));
+
+        if (!isValidInvoice(invoice)) {
+            return null;
+        }
+
+        List<InvoiceItem> items = new ArrayList<InvoiceItem>();
+
+        for (InvoiceItem i : invoice.getInvoiceItemsList()) {
+            i.setInvoice(invoice);
+            if (items.isEmpty()) {
+                items.add(i);
+            } else {
+                InvoiceItem temp = null;
+                for (InvoiceItem it : items) {
+                    if (it.getStoreItem().getId() == i.getStoreItem().getId()) {
+                        it.setQuantity(it.getQuantity() + i.getQuantity());
+                    } else {
+                        temp = i;
+                    }
+                }
+                if (temp != null) {
+                    items.add(temp);
+                    temp = null;
+                }
+            }
+        }
+
+        invoice.setInvoiceItemsList(items);
+        invoiceRepository.save(invoice);
+        /*
+        update Store items quantiy after making new invoice
+         */
+        items.forEach(i -> {
+            StoreItem storeItem = storeItemService.findById(i.getStoreItem().getId());
+            if ((storeItem.getAvailableQuantity() + i.getQuantity()) >= 0) {
+                storeItem.setAvailableQuantity(storeItem.getAvailableQuantity() + i.getQuantity());
+                storeItemService.save(storeItem);
+            }
+        }
+        );
+
+        return invoice;
+    }
+
 }
