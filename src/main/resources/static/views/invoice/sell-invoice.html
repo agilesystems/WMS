@@ -17,7 +17,7 @@
 </div>
 <div class="row">
     <div class="col-lg-12">
-        <div class="wrapper wrapper-content animated fadeInRight" ng-controller="invoiceCtrl as inv">
+        <div class="wrapper wrapper-content animated fadeInRight" ng-controller="invoiceSellCtrl as inv">
             <!-- ########### invoice informations section start ############################################### -->
             <div class="head-title">
                 <!-- <h5 class="text-title" ng-if="param === 'refund-sell'">مرتجع بيع</h5> -->
@@ -111,7 +111,7 @@
                                     <ui-select-match placeholder="">
                                         <span ng-bind="$select.selected.name"></span>
                                     </ui-select-match>
-                                    <ui-select-choices repeat="invoiceItem in (sellItems | filter: $select.search) track by invoiceItem.itemId" refresh="searchedSellItems($select.search)"
+                                    <ui-select-choices repeat="invoiceItem in (items | filter: $select.search) track by invoiceItem.itemId" refresh="searcheditems($select.search)"
                                                        refresh-delay="0">
                                         <!-- <span ng-bind="invoiceItem.name"></span><br> -->
                                         <h3><span class="font-bold" ng-bind-html="invoiceItem.name | highlight: $select.search"></span></h3><br>

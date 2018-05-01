@@ -139,8 +139,8 @@ public class WmsApplication {
         role.getMenusList().add(menuService.save(new Menu(18, "ADD_ACCOUNT", "account/add-account.html", "ADD_ACCOUNT", 701, null, role.getMenusList().get(6))));
         role.getMenusList().add(menuService.save(new Menu(19, "SELL_INVOICE", "invoice/sell-invoice.html", "ADD_SELL_INVOICE", 501, null, role.getMenusList().get(4))));
         role.getMenusList().add(menuService.save(new Menu(20, "BUY_INVOICE", "invoice/buy-invoice.html", "ADD_BUY_INVOICE", 502, null, role.getMenusList().get(4))));
-        role.getMenusList().add(menuService.save(new Menu(21, "REFUND_SELL_INVOICE", "invoice/refund-sell-invoice.html", "ADD_REFUND_SELL_INVOICE", 503, null, role.getMenusList().get(4))));
-        role.getMenusList().add(menuService.save(new Menu(22, "REFUND_BUY_INVOICE", "invoice/refund-buy-invoice.html", "ADD_REFUND_BUY_INVOICE", 504, null, role.getMenusList().get(4))));
+        role.getMenusList().add(menuService.save(new Menu(21, "REFUND_SELL_INVOICE", "invoice/refund-sell-invoice.html", "ADD_REFUND_BUY_INVOICE", 503, null, role.getMenusList().get(4))));
+        role.getMenusList().add(menuService.save(new Menu(22, "REFUND_BUY_INVOICE", "invoice/refund-buy-invoice.html", "ADD_REFUND_SELL_INVOICE", 504, null, role.getMenusList().get(4))));
         role.getMenusList().add(menuService.save(new Menu(23, "ADD_USER", "user/add-user.html", "ADD_USER", 171, null, role.getMenusList().get(16))));
         role.getMenusList().add(menuService.save(new Menu(24, "USERS", "user/users.html", "USERS", 170, null, role.getMenusList().get(16))));
         role.getMenusList().add(menuService.save(new Menu(25, "ACCOUNTS", "account/accounts.html", "ACCOUNTS", 702, null, role.getMenusList().get(6))));

@@ -81,10 +81,10 @@ public class ItemController {
         return null;
     }
 
-    @GetMapping("/getItem/{itemId}/{storeId}")
-    StoreItem getStoreItem(@PathVariable("itemId") int itemId, @PathVariable("storeId") int storeId, HttpServletRequest httpServletRequest) {
-        return storeItemService.findByItemIdAndStoreId(itemId, storeId);
-    }
+    // @GetMapping("/getItem/{itemId}/{storeId}")
+    // StoreItem getStoreItem(@PathVariable("itemId") int itemId, @PathVariable("storeId") int storeId, HttpServletRequest httpServletRequest) {
+    //     return storeItemService.findByItemIdAndStoreId(itemId, storeId);
+    // }
 
     @PostMapping("/addItem")
     int addItem(@RequestBody Item item, HttpServletRequest httpServletRequest){
