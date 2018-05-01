@@ -57,9 +57,9 @@ public class InvoiceController {
     
     @PostMapping("/refundSell/add")
     public int addRefundSellNew(@RequestBody Invoice invoice, HttpServletRequest httpServletRequest) {
-//        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
-//        invoice.setCreatedBy(currentUser);
-//        invoice.setBranch(currentUser.getBranch());
+        User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
+        invoice.setCreatedBy(currentUser);
+        invoice.setBranch(currentUser.getBranch());
         return invoiceService.addBuyInvoice(invoice).getId();
     }
 
