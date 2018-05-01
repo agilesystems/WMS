@@ -54,7 +54,7 @@ public class InvoiceController {
         invoice.setBranch(currentUser.getBranch());
         return invoiceService.addBuyInvoice(invoice).getId();
     }
-    
+
     @PostMapping("/refundSell/add")
     public int addRefundSellNew(@RequestBody Invoice invoice, HttpServletRequest httpServletRequest) {
         User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
@@ -62,13 +62,15 @@ public class InvoiceController {
         invoice.setBranch(currentUser.getBranch());
         return invoiceService.addRefundSellInvoice(invoice).getId();
     }
-@PostMapping("/refundBuy/add")
+
+    @PostMapping("/refundBuy/add")
     public int addRefundBuyNew(@RequestBody Invoice invoice, HttpServletRequest httpServletRequest) {
         User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
         invoice.setCreatedBy(currentUser);
         invoice.setBranch(currentUser.getBranch());
-        return invoiceService.addBuyInvoice(invoice).getId();
+        return invoiceService.addRefundBuyInvoice(invoice).getId();
     }
+
     @GetMapping("/id/{id}")
     InvoiceDTO getOneById(@PathVariable("id") int id, HttpServletRequest httpServletRequest) {
         return new InvoiceDTO(invoiceService.findById(id));

@@ -19,7 +19,10 @@ public interface InvoiceService {
 
     Invoice addBuyInvoice(Invoice invoice);
 
-     Invoice addRefundSellInvoice(Invoice invoice);
+    Invoice addRefundSellInvoice(Invoice invoice);
+
+    Invoice addRefundBuyInvoice(Invoice invoice);
+
     boolean isValidInvoice(Invoice invoice);
 
     /**
