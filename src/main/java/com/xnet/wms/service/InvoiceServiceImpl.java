@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     AccountService accountService;
 
     @Override
-//    @Transactional
+    @Transactional
     public Invoice addSellInvoice(Invoice invoice) {
         invoice.setInvoiceType(invoiceTypeService.findByID(Global.INVOICE_TYPE_SELL));
 
@@ -50,12 +51,10 @@ public class InvoiceServiceImpl implements InvoiceService {
         List<InvoiceItem> items = new ArrayList<InvoiceItem>();
 
         for (InvoiceItem i : invoice.getInvoiceItemsList()) {
-
             i.setInvoice(invoice);
             if (items.isEmpty()) {
                 items.add(i);
             } else {
-
                 InvoiceItem temp = null;
                 for (InvoiceItem it : items) {
                     if (it.getStoreItem().getId() == i.getStoreItem().getId()) {
@@ -73,8 +72,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 //        });
         invoice.setInvoiceItemsList(items);
         invoiceRepository.save(invoice);
-
-
         /*
         update Store items quantiy after making new invoice
          */
@@ -121,7 +118,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
         if ((invoice.getAccount().getAccountType().getId() == Global.ACCOUNT_TYPE_CUSTOMER
                 && !(invoice.getInvoiceType().getId() == Global.INVOICE_TYPE_SELL
-                || invoice.getInvoiceType().getId() == Global.INVOICE_TYPE_REFUND_SELL)) || (invoice.getAccount().getAccountType().getId() == Global.ACCOUNT_TYPE_SUPPLIER
+                || invoice.getInvoiceType().getId() == Global.INVOICE_TYPE_REFUND_SELL))
+                || (invoice.getAccount().getAccountType().getId() == Global.ACCOUNT_TYPE_SUPPLIER
                 && !(invoice.getInvoiceType().getId() == Global.INVOICE_TYPE_BUY
                 || invoice.getInvoiceType().getId() == Global.INVOICE_TYPE_REFUND_BUY))) {
             return false;
@@ -139,7 +137,8 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     @Override
     public Invoice findById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        return invoiceRepository.findOne(id);
     }
 
     @Override
@@ -195,6 +194,53 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public Collection<Invoice> findAll() {
         return invoiceRepository.findAll();
+    }
+
+    @Override
+    public Invoice addBuyInvoice(Invoice invoice) {
+        invoice.setInvoiceType(invoiceTypeService.findByID(Global.INVOICE_TYPE_BUY));
+
+        if (!isValidInvoice(invoice)) {
+            return null;
+        }
+
+        List<InvoiceItem> items = new ArrayList<InvoiceItem>();
+
+        for (InvoiceItem i : invoice.getInvoiceItemsList()) {
+            i.setInvoice(invoice);
+            if (items.isEmpty()) {
+                items.add(i);
+            } else {
+                InvoiceItem temp = null;
+                for (InvoiceItem it : items) {
+                    if (it.getStoreItem().getId() == i.getStoreItem().getId()) {
+                        it.setQuantity(it.getQuantity() + i.getQuantity());
+                    } else {
+                        temp = i;
+                    }
+                }
+                if (temp != null) {
+                    items.add(temp);
+                    temp = null;
+                }
+            }
+        }
+
+        invoice.setInvoiceItemsList(items);
+        invoiceRepository.save(invoice);
+        /*
+        update Store items quantiy after making new invoice
+         */
+        items.forEach(i -> {
+            StoreItem storeItem = storeItemService.findById(i.getStoreItem().getId());
+            if ((storeItem.getAvailableQuantity() + i.getQuantity()) >= 0) {
+                storeItem.setAvailableQuantity(storeItem.getAvailableQuantity() + i.getQuantity());
+                storeItemService.save(storeItem);
+            }
+        }
+        );
+
+        return invoice;
     }
 
 }

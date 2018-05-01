@@ -17,6 +17,8 @@ public interface InvoiceService {
 
     Invoice addSellInvoice(Invoice invoice);
 
+    Invoice addBuyInvoice(Invoice invoice);
+
     boolean isValidInvoice(Invoice invoice);
 
     /**

@@ -49,13 +49,10 @@ public class InvoiceController {
 
     @PostMapping("/buy/add")
     public int addBuyNew(@RequestBody Invoice invoice, HttpServletRequest httpServletRequest) {
-//        invoice.setCreatedBy((User) ((Claims) httpServletRequest.getAttribute("claims")).get("user"));
-//        invoice.setBranch(invoice.getCreatedBy().getBranch());
-
         User currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString()));
         invoice.setCreatedBy(currentUser);
         invoice.setBranch(currentUser.getBranch());
-        return invoiceService.addSellInvoice(invoice).getId();
+        return invoiceService.addBuyInvoice(invoice).getId();
     }
 
     @GetMapping("/id/{id}")

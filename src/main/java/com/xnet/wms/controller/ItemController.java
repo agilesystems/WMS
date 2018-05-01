@@ -7,6 +7,7 @@ package com.xnet.wms.controller;
 
 import com.xnet.wms.dto.ItemDTO;
 import com.xnet.wms.dto.StoreItemDTO;
+import com.xnet.wms.entity.Item;
 import com.xnet.wms.entity.StoreItem;
 import com.xnet.wms.entity.User;
 import com.xnet.wms.service.ItemService;
@@ -21,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -76,5 +79,16 @@ public class ItemController {
             }
         }
         return null;
+    }
+
+    @GetMapping("/getItem/{itemId}/{storeId}")
+    StoreItem getStoreItem(@PathVariable("itemId") int itemId, @PathVariable("storeId") int storeId, HttpServletRequest httpServletRequest) {
+        return storeItemService.findByItemIdAndStoreId(itemId, storeId);
+    }
+
+    @PostMapping("/addItem")
+    int addItem(@RequestBody Item item, HttpServletRequest httpServletRequest){
+        itemService.save(item);
+        return item.getId();
     }
 }

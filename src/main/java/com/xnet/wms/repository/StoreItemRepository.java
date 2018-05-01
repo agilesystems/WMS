@@ -20,10 +20,14 @@ import org.springframework.stereotype.Repository;
 public interface StoreItemRepository extends JpaRepository<StoreItem, Integer> {
 
     List<StoreItem> findAllByStore_Branch_Id(int branchId);
+
     @Query("select i from store_item i where "
             + "   ( i.store.branch.id=?1 and upper(i.item.name) like concat('%', upper(?2), '%') )"
             + "or ( i.store.branch.id=?1 and upper(i.item.description) like concat('%', upper(?2), '%') ) "
             + "or ( i.store.branch.id=?1 and upper(i.item.globalBarcode) like concat('%', upper(?2), '%') )"
-            + "or ( i.store.branch.id=?1 and upper(i.item.globalId) like concat('%', upper(?2), '%') )")            
-    List<StoreItem> findAllByStore_Branch_IdAndKey(int branchId,String key);
+            + "or ( i.store.branch.id=?1 and upper(i.item.globalId) like concat('%', upper(?2), '%') )")
+    List<StoreItem> findAllByStore_Branch_IdAndKey(int branchId, String key);
+
+   @Query("select i from store_item i where i.item.id=?1 and i.store.id=?2")
+    StoreItem findByItem_IdAndStore_Id(int itemId, int storeId);
 }

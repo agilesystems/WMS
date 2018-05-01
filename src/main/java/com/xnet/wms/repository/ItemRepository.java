@@ -33,7 +33,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
 
     @Query("select i from item i where "
-            + "   upper(i.name) like concat('%', upper(?1), '%') "
+            + "upper(i.name) like concat('%', upper(?1), '%') "
             + "or upper(i.description) like concat('%', upper(?1), '%') )"
             + "or upper(i.globalBarcode) like concat('%', upper(?1), '%') "
             + "or upper(i.globalId) like concat('%', upper(?1), '%') ")
