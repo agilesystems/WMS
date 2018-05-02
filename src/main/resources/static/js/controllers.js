@@ -318,7 +318,7 @@ function invoiceSellCtrl($scope, $rootScope, $http, DataServiceApi, storageServi
 
         // get Customer Accounts from API
         $scope.searchedAccounts = function (account) {
-            DataServiceApi.GetData(server + "account/customer/all/" + account).then(function (response) {
+            DataServiceApi.GetData(server + "account/customer/" + account).then(function (response) {
                 $scope.accounts = response.data;
             });
         }
@@ -1190,7 +1190,7 @@ function invoiceBuyCtrl($scope, $rootScope, $http, DataServiceApi, storageServic
 
         // get Customer Accounts from API
         $scope.searchedAccounts = function (account) {
-            DataServiceApi.GetData(server + "account/supplier/all/" + account).then(function (response) {
+            DataServiceApi.GetData(server + "account/supplier/" + account).then(function (response) {
                 $scope.accounts = response.data;
             });
         }
@@ -1280,7 +1280,7 @@ function invoiceBuyCtrl($scope, $rootScope, $http, DataServiceApi, storageServic
     function mapStoreItem(storItemDTO) {
 
         var storItem = {
-            id: storItemDTO.storeItemId,
+            id: storItemDTO.id,
             discountPercentage: storItemDTO.discountPercentage,
             name: storItemDTO.name,
             barcode: storItemDTO.barcode,
@@ -1291,7 +1291,7 @@ function invoiceBuyCtrl($scope, $rootScope, $http, DataServiceApi, storageServic
             itemId: storItemDTO.itemId,
             price: storItemDTO.price,
             storeId: storItemDTO.storeId,
-            storeItemId: storItemDTO.storeItemId,
+            //storeItemId: storItemDTO.storeItemId,
             storeName: storItemDTO.storeName
         };
         return storItem;
@@ -1359,6 +1359,7 @@ function invoiceBuyCtrl($scope, $rootScope, $http, DataServiceApi, storageServic
                 }
             }
         }
+        console.log($scope.invoiceItems);
     };
 
     $scope.editRow = function (index) {
