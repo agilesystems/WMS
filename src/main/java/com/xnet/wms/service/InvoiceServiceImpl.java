@@ -338,4 +338,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         return invoice;
     }
 
+    @Override
+    public List<Invoice> getAllInvoicesByAccount(int accountId) {
+        return invoiceRepository.findByAccount_Id(accountId);
+    }
 }

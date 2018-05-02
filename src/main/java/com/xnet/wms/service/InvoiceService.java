@@ -8,6 +8,7 @@ package com.xnet.wms.service;
 import com.xnet.wms.entity.Invoice;
 import com.xnet.wms.entity.InvoiceItem;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -25,6 +26,7 @@ public interface InvoiceService {
 
     boolean isValidInvoice(Invoice invoice);
 
+    List<Invoice> getAllInvoicesByAccount(int accountId);
     /**
      * This method for soft deleted the invoice , just update the deleted field
      * with value(1) and update deleted field with value (1) in the invoice
