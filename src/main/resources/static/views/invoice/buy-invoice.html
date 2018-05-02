@@ -253,7 +253,7 @@
                             </td>
                         </tr>
                     </table>
-                    <table ng-if="param === ('sell' || 'refund-sell')" class="table table-responsive pull-right" id="tab_logic_total">
+                    <table class="table table-responsive pull-right" id="tab_logic_total">
                         <tbody>
                             <tr>
                                 <td class="table col-md-6">
@@ -405,7 +405,7 @@
                             </td>
                             <th class="text-left">Paied Amount</th>
                             <td class="text-right">
-                                <input type="number" size="6" ng-model="invoice.paiedAmount">
+                                <input type="number" name="paid" size="6" ng-model="invoice.paiedAmount" ng-keyup="paidAmountValidate()" onkeyup="this.value=this.value.replace(/[^\d]/,'')">                                
                             </td>
                             <th class="text-left">Outstanding Amount</th>
                             <td class="text-right">
