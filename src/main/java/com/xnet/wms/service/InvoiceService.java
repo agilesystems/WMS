@@ -26,7 +26,14 @@ public interface InvoiceService {
 
     boolean isValidInvoice(Invoice invoice);
 
+    /**
+     * This Method th get all invoices that concern the account id
+     *
+     * @param accountId integer parameter to dedicate the invoices by account id
+     * @return A Collection of invoice .
+     */
     List<Invoice> getAllInvoicesByAccount(int accountId);
+
     /**
      * This method for soft deleted the invoice , just update the deleted field
      * with value(1) and update deleted field with value (1) in the invoice
@@ -35,7 +42,7 @@ public interface InvoiceService {
      * @param invoice an argument specify to update invoice
      * @return true if the invoice updated , false if not updated
      */
-    boolean delete(Invoice invoice);
+    boolean deleteSellInvoice(int invoiceId , int currentUser);
 
     /**
      * Returns Invoice Object by the id of invoice
@@ -44,14 +51,6 @@ public interface InvoiceService {
      * @return invoice if find by id of invoice
      */
     Invoice findById(int id);
-
-    /**
-     * This Method th get all invoices that concern the account id
-     *
-     * @param accountid integer parameter to dedicate the invoices by account id
-     * @return A Collection of invoice .
-     */
-    Collection<Invoice> findByAccountId(int accountid);
 
     /**
      * Returns invoice object by reference in the store documents
