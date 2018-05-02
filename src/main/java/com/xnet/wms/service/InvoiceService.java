@@ -43,6 +43,7 @@ public interface InvoiceService {
      * @return true if the invoice updated , false if not updated
      */
     boolean deleteSellInvoice(int invoiceId , int currentUser);
+ boolean deleteBuyInvoice(int invoiceId , int currentUser);
 
     /**
      * Returns Invoice Object by the id of invoice

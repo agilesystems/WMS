@@ -346,4 +346,19 @@ public class InvoiceServiceImpl implements InvoiceService {
     public List<Invoice> getAllInvoicesByAccount(int accountId) {
         return invoiceRepository.findByAccount_Id(accountId);
     }
+
+    @Override
+    public boolean deleteBuyInvoice(int invoiceId, int currentUser) {
+        Invoice invoice = findById(invoiceId);
+        invoice.setIsDeleted(true);
+        invoice.setDeletedDate(new Date());
+        invoice.setDeletedBy(userService.findById(currentUser));
+        for (InvoiceItem item : invoice.getInvoiceItemsList()) {
+            StoreItem storeItem = storeItemService.findById(item.getStoreItem().getId());
+            storeItem.setAvailableQuantity(storeItem.getAvailableQuantity() - item.getQuantity());
+            storeItemService.save(storeItem);
+        }
+        invoiceRepository.save(invoice);
+        return true;
+    }
 }
