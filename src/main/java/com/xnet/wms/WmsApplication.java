@@ -56,9 +56,9 @@ public class WmsApplication {
 
     public static void main(String[] args) throws SQLException {
         System.out.println("Starting");
-    //    createDatabase();
+   //    createDatabase();
         context = SpringApplication.run(WmsApplication.class, args);
-    //    new WmsApplication().insertData();
+        // new WmsApplication().insertData();
 
         System.out.println("Started");
     }

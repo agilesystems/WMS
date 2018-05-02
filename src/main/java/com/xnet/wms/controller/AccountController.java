@@ -29,7 +29,7 @@ public class AccountController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/customer/all/{key}")
+    @GetMapping("/customer/{key}")
     public Collection<AccountDTO> getAllCustomersWithKey(HttpServletRequest httpServletRequest, @PathVariable("key") String key) {
 
         Collection<AccountDTO> customers = new ArrayList<>();
@@ -49,7 +49,7 @@ public class AccountController {
         return customers;
     }
 
-    @GetMapping("/supplier/all/{key}")
+    @GetMapping("/supplier/{key}")
     public Collection<AccountDTO> getAllSuppliersWithKey(HttpServletRequest httpServletRequest, @PathVariable("key") String key) {
         Collection<AccountDTO> suppliers = new ArrayList<>();
         accountService.getAllSuppliersWithKey(key).forEach(acc -> {

@@ -6,7 +6,10 @@
 package com.xnet.wms.service;
 
 import com.xnet.wms.entity.Item;
+import com.xnet.wms.entity.Store;
+import com.xnet.wms.entity.StoreItem;
 import com.xnet.wms.repository.ItemRepository;
+import com.xnet.wms.repository.StoreItemRepository;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -23,15 +26,24 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     ItemRepository itemRepository;
+    @Autowired
+    StoreItemRepository storeItemRepository;
 
     @Override
     public Item save(Item item) {
         if (item == null) {
             return null;
         }
-        return itemRepository.save(item);
+        if (storeItemRepository.findByItem_IdAndStore_Id(item.getId(), 1) != null) {
+            return null;
+        } else {
+            StoreItem storeItem = new StoreItem();
+            storeItem.setItem(item);
+            storeItem.setStore(new Store(1));
+            storeItemRepository.save(storeItem);
+            return itemRepository.save(item);
+        }
     }
-
     @Override
     public boolean delete(Item item) {
 
@@ -83,7 +95,6 @@ public class ItemServiceImpl implements ItemService {
         Collection<Item> item = itemRepository.findByNameContaining(Name);
         if (item != null) {
             return itemRepository.findByNameContaining(Name);
-
         } else {
             return null;
         }
@@ -102,10 +113,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> findAllByKey( String key) {
-        return itemRepository.findAllByKey( key);
+    public List<Item> findAllByKey(String key) {
+        return itemRepository.findAllByKey(key);
     }
-
-  
 
 }

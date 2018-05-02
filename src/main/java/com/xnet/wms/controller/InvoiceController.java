@@ -13,6 +13,7 @@ import com.xnet.wms.service.UserService;
 import io.jsonwebtoken.Claims;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -83,6 +84,16 @@ public class InvoiceController {
         invoiceService.findAll().forEach(i -> {
             invoices.add(new InvoiceDTO(i));
         });
+        return invoices;
+    }
+    
+    @GetMapping("/getAllByAccount/{accountId}")
+    List<InvoiceDTO> getAllByAccount(@PathVariable("accountId") int  accountId, HttpServletRequest httpServletRequest) {
+
+        List<InvoiceDTO> invoices = new ArrayList<>();
+        for (Invoice invoice : invoiceService.getAllInvoicesByAccount(accountId)) {
+            invoices.add(new InvoiceDTO(invoice));
+        }
         return invoices;
     }
 }

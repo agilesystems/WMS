@@ -25,7 +25,9 @@ public class Store implements Serializable {
 
     public Store() {
     }
-
+ public Store(int id) {
+     setId(id);
+    }
     public Store(String name, String note, Branch branch) {
         this.id = id;
         this.name = name;

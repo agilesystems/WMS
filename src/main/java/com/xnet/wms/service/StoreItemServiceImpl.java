@@ -33,8 +33,8 @@ public class StoreItemServiceImpl implements StoreItemService {
     }
 
     @Override
-    public Collection<StoreItem> findByItemIdAndStoreId(int itemId, int storeId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public StoreItem findByItemIdAndStoreId(int itemId, int storeId) {
+        return storeItemRepository.findByItem_IdAndStore_Id(itemId, storeId);
     }
 
     @Override
