@@ -56,7 +56,7 @@
                                         <ui-select-match class="matchr" placeholder="Select Account">
                                             <span ng-bind="$select.selected.name"></span>
                                         </ui-select-match>
-                                        <ui-select-choices repeat="account in (customerAccounts | filter: $select.search) track by account.id">
+                                        <ui-select-choices repeat="account in (accounts | filter: $select.search) track by account.id" refresh="searchedAccounts($select.search)" refresh-delay="0">
                                             <span ng-bind="account.name"></span>
                                         </ui-select-choices>
                                     </ui-select>

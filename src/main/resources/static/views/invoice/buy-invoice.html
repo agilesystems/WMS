@@ -56,7 +56,7 @@
                                         <ui-select-match class="matchr" placeholder="Select Account">
                                             <span ng-bind="$select.selected.name"></span>
                                         </ui-select-match>
-                                        <ui-select-choices repeat="account in (supplierAccounts | filter: $select.search) track by account.id">
+                                        <ui-select-choices repeat="account in (accounts | filter: $select.search) track by account.id" refresh="searchedAccounts($select.search)" refresh-delay="0">
                                             <span ng-bind="account.name"></span>
                                         </ui-select-choices>
                                     </ui-select>
@@ -102,7 +102,7 @@
                 <form name="itemForm" role="form" ng-submit="addRow(itemForm)" class="form-horizontal" ng-validate="validateInvoiceItem"
                     novalidate>
                     <div class="row">
-                        <div class="col-sm-6 form-group form-group-sm">
+                        <div class="col-sm-5 form-group form-group-sm">
                             <div class=" col-sm-1">
                                 <label class="control-label pull-right" for="">Item</label>
                             </div>
@@ -111,7 +111,7 @@
                                     <ui-select-match placeholder="">
                                         <span ng-bind="$select.selected.name"></span>
                                     </ui-select-match>
-                                    <ui-select-choices repeat="invoiceItem in (buyItems | filter: $select.search) track by invoiceItem.id" refresh="searchedBuyItems($select.search)"
+                                    <ui-select-choices repeat="invoiceItem in (items | filter: $select.search) track by invoiceItem.id" refresh="searcheditems($select.search)"
                                         refresh-delay="0">
                                         <!-- <span ng-bind="invoiceItem.name"></span><br> -->
                                         <h3>
@@ -131,38 +131,34 @@
 
                             </div>
                         </div>
-                        <div class=" col-sm-3 form-group">
-                            <label class="col-sm-5 control-label">Discount(%)</label>
-                            <div class="col-md-7">
+                        <div class="col-sm-2 form-group" ng-show="invoiceItem.storeItem">
+                            <label class="col-md-4 control-label" class="">السعر</label>
+                            <div class="col-md-8 input-group-sm">
+                                <input type="number" name="price" ng-model="newPrice" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-2 form-group" ng-show="invoiceItem.storeItem">
+                            <label class="col-md-5 control-label" class="">الكمية</label>
+                            <div class="col-md-7 input-group-sm">
+                                <input type="number" name="quantity" ng-model="invoiceItem.quantity" class="form-control">
+                            </div>
+                        </div>
+                        <div class=" col-sm-3 form-group" ng-show="invoiceItem.storeItem">
+                            <label class="col-sm-5 control-label">الخصم(%)</label>
+                            <div class="col-md-6">
                                 <div class="input-group input-group-sm">
                                     <input type="number" placeholder="" name="discount" class="form-control" ng-model="invoiceItem.discountPercentage">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3 form-group" ng-show="invoiceItem.storeItem">
-                            <label class="col-md-5 control-label" class="">Quantity</label>
-                            <div class="col-md-7 input-group-sm">
-                                <input type="number" name="quantity" placeholder="" data-ng-keyup="quantityValidate()" ng-model="invoiceItem.quantity" class="form-control">
-                            </div>
-                        </div>
                     </div>
                     <div class="row bg-muted">
-
-                        <div class="col-sm-4 form-group">
-                            <div class=" col-md-7">
-                                <label style="font-size: 14px" class="pull-right control-label">سعر الجمهور:</label>
-                            </div>
-                            <div class="col-md-5">
-                                <input type="text" name="publicPrice" ng-value="invoiceItem.unitPrice=invoiceItem.storeItem.price" placeholder="" class="form-control input-sm"
-                                    ng-model="invoiceItem.unitPrice" style="background-color: transparent; border: none" readonly>
-                            </div>
-                        </div>
                         <div class="col-sm-4 form-group">
                             <div class=" col-md-5">
                                 <label style="font-size: 14px" class="pull-right control-label">المبلغ:</label>
                             </div>
                             <div class="col-md-7">
-                                <input type="text" name="netPrice" ng-value="invoiceItem.totalPrice=invoiceItem.unitPrice * invoiceItem.quantity" placeholder=""
+                                <input type="text" name="netPrice" ng-value="invoiceItem.totalPrice=newPrice * invoiceItem.quantity" placeholder=""
                                     class="form-control input-sm" ng-model="invoiceItem.totalPrice" style="background-color: transparent; border: none"
                                     readonly>
                             </div>
@@ -450,7 +446,7 @@
                                         <ui-select-match placeholder="">
                                             <span ng-bind="$select.selected.name"></span>
                                         </ui-select-match>
-                                        <ui-select-choices repeat="editing in (Items | filter: $select.search) track by editing.itemId" refresh="searchedItems($select.search)"
+                                        <ui-select-choices repeat="editing in (items | filter: $select.search) track by editing.itemId" refresh="searchedItems($select.search)"
                                             refresh-delay="0">
                                             <span ng-bind="editing.name"></span>
                                         </ui-select-choices>
@@ -459,7 +455,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Quantity</label>
-                                    <input type="number" name="quantity" data-ng-model="editing.quantity" class="form-control" />
+                                    <input type="number" name="quantity" data-ng-model="editing.quantity"
+                                        class="form-control" />                                    
                                 </div>
                                 <button ng-if="item2Form.validate()" data-dismiss="modal" type="submit" class="btn btn-default">Save</button>
                                 <button data-dismiss="modal" ng-click="cancelField()" type="button" class="btn btn-default">Cancle</button>
