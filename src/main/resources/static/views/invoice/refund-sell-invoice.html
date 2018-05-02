@@ -9,7 +9,7 @@
                 Sell Invoice
             </li>
             <li class="active">
-                <strong>Add New Invoice</strong>
+                <strong>Refund</strong>
             </li>
         </ol>
     </div>
@@ -28,7 +28,59 @@
                 <div class="row">
                     <form name="invoiceForm" id="invoiceForm" role="form" ng-submit="addInvoice(invoiceForm)" class="form-horizontal" ng-validate="validateInvoice"
                         novalidate>
-                        <div class="col-sm-6">
+
+                        
+                        <div class="row">
+                            
+                            <div class="form-group col-sm-4">
+                                <label class="col-md-3 control-label">
+                                    <h4 translate="ADDINVO.ACCOUNT"></h4>
+                                </label>
+                                <div class="col-md-9 form-group form-group-sm">
+                                    <ui-select ng-model="invoice.account" class="ui-select">
+                                        <ui-select-match class="matchr" placeholder="Select Account">
+                                            <span ng-bind="$select.selected.name"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="account in (customerAccounts | filter: $select.search) track by account.id">
+                                            <span ng-bind="account.name"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <input type="hidden" ng-value="invoice.account" name="accountInput" class="inputHidden">
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-5">
+                                <label class="col-md-3 control-label">
+                                    <h4 translate="">رقم الفاتورة</h4>
+                                </label>
+                                <div class="col-md-9 form-group form-group-sm">
+                                    <ui-select ng-model="invoice.account" class="ui-select">
+                                        <ui-select-match class="matchr" placeholder="Select Account">
+                                            <span ng-bind="$select.selected.name"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="account in (customerAccounts | filter: $select.search) track by account.id">
+                                            <span ng-bind="account.name"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <input type="hidden" ng-value="invoice.account" name="accountInput" class="inputHidden">
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-3">
+                                
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="cash" id="input${1/(\w+)/\u\1/g}" value="cash" checked="checked">
+                                        نقدي
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="loan" id="input${1/(\w+)/\u\1/g}" value="loan"> آجل
+                                    </label>
+                                </div>
+                                
+                            </div>                            
+                        </div>
+                        
+
+                        <!-- <div class="col-sm-6">
 
                             <div class="form-horizontal">
                                 <label class="col-md-3 control-label">
@@ -63,9 +115,9 @@
                                     <input type="hidden" ng-value="invoice.account" name="accountInput" class="inputHidden">
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <div class="col-sm-6 text-left">
+                        <!-- <div class="col-sm-6 text-left">
                             <div class=" form-horizontal">
                                 <div class="col-sm-3">
                                     <h4 translate="ADDINVO.REFERENCE"></h4>
@@ -86,7 +138,7 @@
                                     <input class="form-control" placeholder="Select a date" ng-model="invoice.invoiceDate" ng-model-options="{ updateOn: 'blur' }">
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </form>
                 </div>
 
@@ -95,10 +147,10 @@
 
 
             <!-- ###########  Add product row start ############################################### -->
-            <div class="ibox-title b-r-sm">
+            <div ng-hide="true"class="ibox-title b-r-sm">
                 <h5>اضافة منتج جديد للفاتورة</h5>
             </div>
-            <div class="ibox-content">
+            <div ng-hide="true" class="ibox-content">
                 <form name="itemForm" role="form" ng-submit="addRow(itemForm)" class="form-horizontal" ng-validate="validateInvoiceItem"
                     novalidate>
                     <div class="row">
