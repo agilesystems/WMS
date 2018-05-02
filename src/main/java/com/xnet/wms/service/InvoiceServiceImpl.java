@@ -39,6 +39,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Autowired
     AccountService accountService;
 
+    @Autowired  UserService userService;
     @Override
     @Transactional
     public Invoice addSellInvoice(Invoice invoice) {
@@ -128,9 +129,16 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public boolean delete(Invoice invoice) {
+    public boolean deleteSellInvoice(int invoiceId , int currentUser) {
+        Invoice invoice = findById(invoiceId);
         invoice.setIsDeleted(true);
         invoice.setDeletedDate(new Date());
+        invoice.setDeletedBy(userService.findById(currentUser));
+        for (InvoiceItem item : invoice.getInvoiceItemsList()) {
+            StoreItem storeItem = storeItemService.findById(item.getStoreItem().getId());
+            storeItem.setAvailableQuantity(storeItem.getAvailableQuantity() + item.getQuantity());
+            storeItemService.save(storeItem);
+        }
         invoiceRepository.save(invoice);
         return true;
     }
@@ -141,10 +149,6 @@ public class InvoiceServiceImpl implements InvoiceService {
         return invoiceRepository.findOne(id);
     }
 
-    @Override
-    public Collection<Invoice> findByAccountId(int accountid) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public Invoice findByRefrence(String refrence) {

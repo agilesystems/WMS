@@ -96,4 +96,10 @@ public class InvoiceController {
         }
         return invoices;
     }
+    @PostMapping("/deleteSellInvoice/{invoiceId}")
+    boolean deleteSellInvoice(@PathVariable("invoiceId") int invoiceId , HttpServletRequest httpServletRequest){
+        int currentUser = userService.findById(Integer.parseInt(((Claims) httpServletRequest.getAttribute("claims")).get("userId").toString())).getId();
+       return invoiceService.deleteSellInvoice(invoiceId, currentUser);
+        
+    }
 }
