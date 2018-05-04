@@ -743,6 +743,7 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
         $scope.settings = {};
         // Temp List to save searched items.
         $scope.items = [];
+        $scope.customerAccounts = [];
         getRefundSellInvoiceFromLocalStorage();
         // To search specific item in items list.
         $scope.searcheditems = function (itemName) {
@@ -752,10 +753,31 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
             });
         }
 
+        //get invoices by account
+        $scope.getAccountInvoices = function() {
+            if ($scope.invoice.account === undefined) {
+                $scope.invoice.invoNo = null;
+                return;
+            } else {
+                DataServiceApi.GetData(server + "invoice/getAllByAccount/" + $scope.invoice.account.id).then(function (res) {
+                    $scope.accountInvoices = res.data;
+                });
+            }
+        }
+
+        // Assign selected invoice to fields
+        $scope.selectedInvoice = function () {
+            $scope.invoice.paymentType = $scope.invoice.invoNo.paymentType;
+            $scope.invoiceItems = $scope.invoice.invoNo.invoiceItemsDTOList;
+            $scope.paidAmountValidate();
+        }
+
         // get Customer Accounts from API
-        DataServiceApi.GetData(server + "account/customer/all").then(function (response) {
-            $scope.customerAccounts = response.data;
-        });
+        $scope.searchedAccounts = function (account) {
+            DataServiceApi.GetData(server + "account/customer/" + account).then(function (response) {
+                $scope.customerAccounts = response.data;
+            });
+        }
 
         // get Payment Type from API
         DataServiceApi.GetData(server + "payment-type/all").then(function (response) {
@@ -781,21 +803,21 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
     $scope.addInvoice = function (form) {
 
         //  Assign values to invoice object
-        $scope.invoice.discount1Percentage = $scope.settings.discount1Valu;
-        $scope.invoice.discount2Percentage = $scope.settings.discount2Valu;
-        $scope.invoice.discount1Amount = $scope.dis.discount1;
-        $scope.invoice.discount2Amount = $scope.dis.discount2;
-        $scope.invoice.tax1Percentage = $scope.settings.tax1Value;
-        $scope.invoice.tax2Percentage = $scope.settings.tax2Value;
-        $scope.invoice.tax3Percentage = $scope.settings.tax3Value;
-        $scope.invoice.tax4Percentage = $scope.settings.tax4Value;
-        $scope.invoice.tax5Percentage = $scope.settings.tax5Value;
-        $scope.invoice.tax1Amount = $scope.taxes.tax1;
-        $scope.invoice.tax2Amount = $scope.taxes.tax2;
-        $scope.invoice.tax3Amount = $scope.taxes.tax3;
-        $scope.invoice.tax4Amount = $scope.taxes.tax4;
-        $scope.invoice.tax5Amount = $scope.taxes.tax5;
-        $scope.invoice.invoiceItemsList = $scope.invoiceItems;
+        // $scope.invoice.discount1Percentage = $scope.settings.discount1Valu;
+        // $scope.invoice.discount2Percentage = $scope.settings.discount2Valu;
+        // $scope.invoice.discount1Amount = $scope.dis.discount1;
+        // $scope.invoice.discount2Amount = $scope.dis.discount2;
+        // $scope.invoice.tax1Percentage = $scope.settings.tax1Value;
+        // $scope.invoice.tax2Percentage = $scope.settings.tax2Value;
+        // $scope.invoice.tax3Percentage = $scope.settings.tax3Value;
+        // $scope.invoice.tax4Percentage = $scope.settings.tax4Value;
+        // $scope.invoice.tax5Percentage = $scope.settings.tax5Value;
+        // $scope.invoice.tax1Amount = $scope.taxes.tax1;
+        // $scope.invoice.tax2Amount = $scope.taxes.tax2;
+        // $scope.invoice.tax3Amount = $scope.taxes.tax3;
+        // $scope.invoice.tax4Amount = $scope.taxes.tax4;
+        // $scope.invoice.tax5Amount = $scope.taxes.tax5;
+        //$scope.invoice.invoiceItemsList = $scope.invoiceItems;
 
         if (form.validate()) { // Check inputs validation
             if ($scope.invoiceItems === undefined || $scope.invoiceItems.length === 0) { // Check if no items in invoice
@@ -823,7 +845,7 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
     /////////////////////////////////////   Add New Item    /////////////////////////////////////
 
 
-    
+
 
 
     // To make item value the default value to calculate price after discount
@@ -889,7 +911,7 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
     //                     unitPrice: temp.unitPrice,
     //                     totalNetPrice: temp.totalNetPrice
     //                 })
-    //             } else {
+    //             } else {$scope.dis1ckb
     //                 SweetAlert.swal({// Show message to confirm update item or cancel
     //                     title: "The Item Is Exist",
     //                     text: "Are You Sure You Want To Add It ?",
@@ -920,39 +942,37 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
     //     }
     // };
 
-    // $scope.editRow = function (index) {
-    //     $scope.temp = $scope.invoiceItems[index]; // add current item to a temp object to edit it.
-    //     $scope.editing = $scope.temp; // Pass data to edit screen
-    //     $scope.tempQuantity = $scope.editing.quantity; // temp variable to sotre default value
-    //     $scope.tempItem = $scope.editing.storeItem; // temp variable to sotre default value
-    //     console.log($scope.editing);
-    //     console.log($scope.invoiceItems[index]);
-    // };
+    $scope.editRow = function (index) {
+        $scope.temp = $scope.invoiceItems[index]; // add current item to a temp object to edit it.
+        $scope.editing = $scope.temp; // Pass data to edit screen
+        $scope.tempQuantity = $scope.editing.quantity; // temp variable to sotre default value
+        $scope.tempItem = $scope.editing.storeItem; // temp variable to sotre default value
+    };
 
-    // // Save item after editting.
-    // $scope.saveField = function (form) {
-    //     if (form.validate()) {
-    //         // update current object with new values
-    //         $scope.temp.quantity = $scope.editing.quantity;
-    //         $scope.temp.storeItem = $scope.editing.storeItem;
-    //         $scope.temp.unitPrice = $scope.temp.storeItem.price;
-    //         $scope.temp.totalPrice = $scope.temp.quantity * $scope.temp.unitPrice;
-    //         $scope.temp.totalNetPrice = $scope.temp.totalPrice - ($scope.temp.totalPrice / 100 * $scope.temp.discountPercentage);
-    //         $scope.tempQuantity = $scope.temp.quantity; // update quantity with new value after save
-    //         $scope.tempItem = $scope.temp.storeItem; // update temp variable with new value after save
-    //         angular.element('.modal').modal('hide'); // close modal after save
-    //     }
-    // };
+    // Save item after editting.
+    $scope.saveField = function (form) {
+        if (form.validate()) {
+            // update current object with new values
+            $scope.temp.quantity = $scope.editing.quantity;
+            //$scope.temp.storeItem = $scope.editing.storeItem;
+            //$scope.temp.unitPrice = $scope.temp.storeItem.price;
+            $scope.temp.totalPrice = $scope.temp.quantity * $scope.temp.unitPrice;
+            $scope.temp.totalNetPrice = $scope.temp.totalPrice - ($scope.temp.totalPrice / 100 * $scope.temp.discountPercentage);
+            $scope.tempQuantity = $scope.temp.quantity; // update quantity with new value after save
+            $scope.tempItem = $scope.temp.storeItem; // update temp variable with new value after save
+            angular.element('.modal').modal('hide'); // close modal after save
+        }
+    };
 
-    // $scope.cancelField = function () {
-    //     // Return to default value if press cancel without save or last value if press save.
-    //     $scope.temp.quantity = $scope.tempQuantity;
-    //     $scope.temp.storeItem = $scope.tempItem;
-    // }
+    $scope.cancelField = function () {
+        // Return to default value if press cancel without save or last value if press save.
+        $scope.temp.quantity = $scope.tempQuantity;
+        $scope.temp.storeItem = $scope.tempItem;
+    }
 
-    // $scope.deleteRow = function (index) {
-    //     $scope.invoiceItems.splice(index, 1);
-    // };
+    $scope.deleteRow = function (index) {
+        $scope.invoiceItems.splice(index, 1);
+    };
 
     /////////////////////////////////////   Tax And Discount Functions   /////////////////////////////////////
 
@@ -1002,8 +1022,8 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
 
     // Check if paid amount more than grandTotal
     $scope.paidAmountValidate = function () {
-        if ($scope.invoice.paiedAmount > $scope.calculateGrandTotal()) {
-            $scope.invoice.paiedAmount = $scope.calculateGrandTotal()
+        if ($scope.invoice.paiedAmount > $scope.subTotal()) {
+            $scope.invoice.paiedAmount = $scope.subTotal()
             toastrService.warning('', $translate.instant('PAIDAMOUNT_WARNING'));
         }
     }
@@ -1077,7 +1097,7 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
 
     // Return invoice Outstanding Amount
     $scope.getinvoiceOutstandingAmount = function () {
-        return $scope.invoice.invoiceOutstandingAmount = $scope.calculateGrandTotal() - $scope.invoice.paiedAmount;
+        return $scope.invoice.invoiceOutstandingAmount = $scope.subTotal() - $scope.invoice.paiedAmount;
     }
 
     // Return total amount after taxes.
@@ -1297,7 +1317,7 @@ function invoiceBuyCtrl($scope, $rootScope, $http, DataServiceApi, storageServic
         return storItem;
     }
     $scope.addRow = function (form) {
-        $scope.invoiceItem.unitPrice = $scope.newPrice;        
+        $scope.invoiceItem.unitPrice = $scope.newPrice;
         var temp = $scope.invoiceItem;
         console.log(temp);
         console.log(mapStoreItem(temp.storeItem));
