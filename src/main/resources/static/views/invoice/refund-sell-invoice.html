@@ -37,46 +37,50 @@
                                     <h4 translate="ADDINVO.ACCOUNT"></h4>
                                 </label>
                                 <div class="col-md-9 form-group form-group-sm">
-                                    <ui-select ng-model="invoice.account" class="ui-select">
+                                    <ui-select ng-model="invoice.account" class="ui-select" ng-change="getAccountInvoices()">
                                         <ui-select-match class="matchr" placeholder="Select Account">
                                             <span ng-bind="$select.selected.name"></span>
                                         </ui-select-match>
-                                        <ui-select-choices repeat="account in (customerAccounts | filter: $select.search) track by account.id">
+                                        <ui-select-choices repeat="account in (customerAccounts | filter: $select.search) track by account.id" refresh="searchedAccounts($select.search)" refresh-delay="0">
                                             <span ng-bind="account.name"></span>
                                         </ui-select-choices>
                                     </ui-select>
                                     <input type="hidden" ng-value="invoice.account" name="accountInput" class="inputHidden">
                                 </div>
                             </div>
-                            <div class="form-group col-sm-5">
-                                <label class="col-md-3 control-label">
+                            <div class="form-group col-sm-4">
+                                <label class="col-md-4 control-label">
                                     <h4 translate="">رقم الفاتورة</h4>
                                 </label>
-                                <div class="col-md-9 form-group form-group-sm">
-                                    <ui-select ng-model="invoice.account" class="ui-select">
+                                <div class="col-md-8 form-group form-group-sm">
+                                    <ui-select ng-model="invoice.invoNo" class="ui-select" ng-change="selectedInvoice()">
                                         <ui-select-match class="matchr" placeholder="Select Account">
-                                            <span ng-bind="$select.selected.name"></span>
+                                            <span ng-bind="$select.selected.id"></span>
                                         </ui-select-match>
-                                        <ui-select-choices repeat="account in (customerAccounts | filter: $select.search) track by account.id">
-                                            <span ng-bind="account.name"></span>
+                                        <ui-select-choices repeat="invoNo in (accountInvoices | filter: $select.search) track by invoNo.id">
+                                            <span ng-bind="invoNo.id"></span>
                                         </ui-select-choices>
                                     </ui-select>
-                                    <input type="hidden" ng-value="invoice.account" name="accountInput" class="inputHidden">
+                                    <input type="hidden" ng-value="invoice.invoNo" name="invoNoInput" class="inputHidden">
                                 </div>
                             </div>
-                            <div class="form-group col-sm-3">
-                                
-                                <div class="radio">
-                                    <label>
-                                        <input type="radio" name="cash" id="input${1/(\w+)/\u\1/g}" value="cash" checked="checked">
-                                        نقدي
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="loan" id="input${1/(\w+)/\u\1/g}" value="loan"> آجل
-                                    </label>
+                            <div class="form-horizontal col-sm-4">
+                                <label class="col-md-5 control-label">
+                                    <h4 translate="ADDINVO.PAYMENTTYPE"></h4>
+                                </label>
+                                <div class="col-md-7 form-group form-group-sm">
+                                    <ui-select ng-model="invoice.paymentType" class="ui-select">
+                                        <ui-select-match placeholder="Select PaymentType">
+                                            <span ng-bind="$select.selected.name"></span>
+                                        </ui-select-match>
+                                        <ui-select-choices repeat="payment in (payments | filter: $select.search) track by payment.id">
+                                            <span ng-bind="payment.name"></span>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                    <input type="hidden" value="{{invoice.paymentType}}" name="paymentTypeInput" class="inputHidden">
                                 </div>
-                                
-                            </div>                            
+                            
+                            </div>
                         </div>
                         
 
@@ -147,10 +151,10 @@
 
 
             <!-- ###########  Add product row start ############################################### -->
-            <div ng-hide="true"class="ibox-title b-r-sm">
+            <!-- <div ng-hide="true"class="ibox-title b-r-sm">
                 <h5>اضافة منتج جديد للفاتورة</h5>
-            </div>
-            <div ng-hide="true" class="ibox-content">
+            </div> -->
+            <!-- <div ng-hide="true" class="ibox-content">
                 <form name="itemForm" role="form" ng-submit="addRow(itemForm)" class="form-horizontal" ng-validate="validateInvoiceItem"
                     novalidate>
                     <div class="row">
@@ -165,7 +169,6 @@
                                     </ui-select-match>
                                     <ui-select-choices repeat="invoiceItem in (items | filter: $select.search) track by invoiceItem.itemId" refresh="searcheditems($select.search)"
                                         refresh-delay="0">
-                                        <!-- <span ng-bind="invoiceItem.name"></span><br> -->
                                         <h3>
                                             <span class="font-bold" ng-bind-html="invoiceItem.name | highlight: $select.search"></span>
                                         </h3>
@@ -239,7 +242,7 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div> -->
 
 
             <!-- ########### products table section start ############################################### -->
@@ -266,7 +269,7 @@
 
                             <td>{{$index + 1}}</td>
                             <td>
-                                <span>{{tempItem.storeItem.name}}</span>
+                                <span>{{tempItem.itemName}}</span>
 
                             </td>
                             <td>
@@ -304,13 +307,13 @@
                             <td class="text-right">
                                 {{totalInvoiceAmount() | currency: "L.E ":2}}
                             </td>
-                            <th class="text-left">Sub Total</th>
+                            <th class="text-left">Grand Total</th>
                             <td class="text-right">
                                 {{subTotal() | currency: "L.E ":2}}
                             </td>
                         </tr>
                     </table>
-                    <table class="table table-responsive pull-right" id="tab_logic_total">
+                    <!-- <table class="table table-responsive pull-right" id="tab_logic_total">
                         <tbody>
                             <tr>
                                 <td class="table col-md-6">
@@ -451,15 +454,14 @@
                             <tr>
 
                             </tr>
-                            <!-- ###########Total pyament and taxes section end ############################################### -->
                         </tbody>
-                    </table>
+                    </table> -->
                     <table class="table table-responsive">
                         <tr class="active">
-                            <th class="text-left">Grand Total</th>
+                            <!-- <th class="text-left">Grand Total</th>
                             <td class="text-right">
                                 {{calculateGrandTotal() | currency: "L.E ":2}}
-                            </td>
+                            </td> -->
                             <th class="text-left">Paied Amount</th>
                             <td class="text-right">
                                 <input type="number" name="paid" size="6" ng-model="invoice.paiedAmount" ng-keyup="paidAmountValidate()" onkeyup="this.value=this.value.replace(/[^\d]/,'')">
@@ -498,17 +500,17 @@
                             <!-- content goes here -->
                             <form name="item2Form" role="form" ng-submit="saveField(item2Form)" ng-validate="validateInvoiceItem2">
                                 <div class="form-group">
+                                    {{editing}}
                                     <label>Item</label>
-                                    <ui-select ng-model="editing.storeItem" ng-disabled="true" class="ui-select" name="item">
+                                    <ui-select ng-model="editing.itemName" ng-disabled="true" class="ui-select" name="item">
                                         <ui-select-match placeholder="">
-                                            <span ng-bind="$select.selected.name"></span>
+                                            <span ng-bind="$select.selected"></span>
                                         </ui-select-match>
-                                        <ui-select-choices repeat="editing in (Items | filter: $select.search) track by editing.itemId" refresh="searchedItems($select.search)"
-                                            refresh-delay="0">
-                                            <span ng-bind="editing.name"></span>
+                                        <ui-select-choices repeat="editing in (invoiceItems | filter: $select.search) track by editing.id">
+                                            <span ng-bind="editing"></span>
                                         </ui-select-choices>
                                     </ui-select>
-                                    <input type="hidden" value="{{editing.storeItem}}" name="hiddenItem" class="inputHidden">
+                                    <input type="hidden" value="{{editing.itemName}}" name="hiddenItem" class="inputHidden">
                                 </div>
                                 <div class="form-group">
                                     <label>Quantity</label>
