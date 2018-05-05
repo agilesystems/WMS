@@ -320,6 +320,7 @@ function validateFactory() {
         rules: {
             paymentTypeInput: "required",
             accountInput: "required",
+            tempInvoice: "required"
         }
 
     };
