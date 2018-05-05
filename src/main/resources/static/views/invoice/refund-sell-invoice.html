@@ -20,9 +20,7 @@
         <div class="wrapper wrapper-content animated fadeInRight" ng-controller="invoiceRefundSellCtrl as inv">
             <!-- ########### invoice informations section start ############################################### -->
             <div class="head-title">
-                <!-- <h5 class="text-title" ng-if="param === 'refund-sell'">مرتجع بيع</h5> -->
-                <!-- <h5 class="text-title" ng-if="param === 'buy'">فاتورة شراء</h5>
-                <h5 class="text-title" ng-if="param === 'refund-buy'">مرتجع شراء</h5> -->
+
             </div>
             <div class="ibox-content">
                 <div class="row">
@@ -53,15 +51,15 @@
                                     <h4 translate="">رقم الفاتورة</h4>
                                 </label>
                                 <div class="col-md-8 form-group form-group-sm">
-                                    <ui-select ng-model="invoice.invoNo" class="ui-select" ng-change="selectedInvoice()">
-                                        <ui-select-match class="matchr" placeholder="Select Account">
+                                    <ui-select ng-model="invoice.tempInvoice" class="ui-select" ng-change="selectedInvoice()">
+                                        <ui-select-match placeholder="Select Invoice">
                                             <span ng-bind="$select.selected.id"></span>
                                         </ui-select-match>
-                                        <ui-select-choices repeat="invoNo in (accountInvoices | filter: $select.search) track by invoNo.id">
-                                            <span ng-bind="invoNo.id"></span>
+                                        <ui-select-choices repeat="invoiceNo in (accountInvoices | filter: $select.search) track by invoiceNo.id">
+                                            <span ng-bind="invoiceNo.id"></span>
                                         </ui-select-choices>
                                     </ui-select>
-                                    <input type="hidden" ng-value="invoice.invoNo" name="invoNoInput" class="inputHidden">
+                                    <input type="hidden" ng-value="invoice.tempInvoice" name="tempInvoice" class="inputHidden">
                                 </div>
                             </div>
                             <div class="form-horizontal col-sm-4">
@@ -69,7 +67,7 @@
                                     <h4 translate="ADDINVO.PAYMENTTYPE"></h4>
                                 </label>
                                 <div class="col-md-7 form-group form-group-sm">
-                                    <ui-select ng-model="invoice.paymentType" class="ui-select">
+                                    <ui-select ng-model="newInvoice.paymentType" class="ui-select">
                                         <ui-select-match placeholder="Select PaymentType">
                                             <span ng-bind="$select.selected.name"></span>
                                         </ui-select-match>
@@ -77,61 +75,14 @@
                                             <span ng-bind="payment.name"></span>
                                         </ui-select-choices>
                                     </ui-select>
-                                    <input type="hidden" value="{{invoice.paymentType}}" name="paymentTypeInput" class="inputHidden">
+                                    <input type="hidden" value="{{newInvoice.paymentType}}" name="paymentTypeInput" class="inputHidden">
                                 </div>
                             
                             </div>
                         </div>
                         
-
-                        <!-- <div class="col-sm-6">
-
-                            <div class="form-horizontal">
-                                <label class="col-md-3 control-label">
-                                    <h4 translate="ADDINVO.PAYMENTTYPE"></h4>
-                                </label>
-                                <div class="col-md-9 form-group form-group-sm">
-                                    <ui-select ng-model="invoice.paymentType" class="ui-select">
-                                        <ui-select-match placeholder="Select PaymentType">
-                                            <span ng-bind="$select.selected.name"></span>
-                                        </ui-select-match>
-                                        <ui-select-choices repeat="payment in (payments | filter: $select.search) track by payment.id">
-                                            <span ng-bind="payment.name"></span>
-                                        </ui-select-choices>
-                                    </ui-select>
-                                    <input type="hidden" value="{{invoice.paymentType}}" name="paymentTypeInput" class="inputHidden">
-                                </div>
-
-                            </div>
-                            <div class="form-horizontal">
-                                <label class="col-md-3 control-label">
-                                    <h4 translate="ADDINVO.ACCOUNT"></h4>
-                                </label>
-                                <div class="col-md-9 form-group form-group-sm">
-                                    <ui-select ng-model="invoice.account" class="ui-select">
-                                        <ui-select-match class="matchr" placeholder="Select Account">
-                                            <span ng-bind="$select.selected.name"></span>
-                                        </ui-select-match>
-                                        <ui-select-choices repeat="account in (customerAccounts | filter: $select.search) track by account.id">
-                                            <span ng-bind="account.name"></span>
-                                        </ui-select-choices>
-                                    </ui-select>
-                                    <input type="hidden" ng-value="invoice.account" name="accountInput" class="inputHidden">
-                                </div>
-                            </div>
-                        </div> -->
-
-                        <!-- <div class="col-sm-6 text-left">
-                            <div class=" form-horizontal">
-                                <div class="col-sm-3">
-                                    <h4 translate="ADDINVO.REFERENCE"></h4>
-                                </div>
-                                <div class="col-sm-9 form-group form-group-sm">
-                                    <input type="text" name="reference" class="form-control input-sm" ng-model="invoice.reference" />
-                                </div>
-
-                            </div>
-                            <div class="form-group form-group-sm" moment-picker="invoice.invoiceDate" format="YYYY-MM-DD" start-view="month" today="true">
+                        <div class="row">
+                            <div class="form-group form-group-sm col-sm-4" moment-picker="newInvoice.invoiceDate" format="YYYY-MM-DD" start-view="month" today="true">
                                 <div class="col-sm-3">
                                     <h4 translate="ADDINVO.INVODATE"></h4>
                                 </div>
@@ -139,111 +90,15 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </span>
-                                    <input class="form-control" placeholder="Select a date" ng-model="invoice.invoiceDate" ng-model-options="{ updateOn: 'blur' }">
+                                    <input class="form-control" placeholder="Select a date" ng-model="newInvoice.invoiceDate" ng-model-options="{ updateOn: 'blur' }">
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
+                    
                     </form>
                 </div>
 
             </div>
-
-
-
-            <!-- ###########  Add product row start ############################################### -->
-            <!-- <div ng-hide="true"class="ibox-title b-r-sm">
-                <h5>اضافة منتج جديد للفاتورة</h5>
-            </div> -->
-            <!-- <div ng-hide="true" class="ibox-content">
-                <form name="itemForm" role="form" ng-submit="addRow(itemForm)" class="form-horizontal" ng-validate="validateInvoiceItem"
-                    novalidate>
-                    <div class="row">
-                        <div class="col-sm-6 form-group form-group-sm">
-                            <div class=" col-sm-1">
-                                <label class="control-label pull-right" for="">Item</label>
-                            </div>
-                            <div class=" col-md-11">
-                                <ui-select ng-model="invoiceItem.storeItem" class="ui-select" name="item" ng-change="discountUpdate()" required>
-                                    <ui-select-match placeholder="">
-                                        <span ng-bind="$select.selected.name"></span>
-                                    </ui-select-match>
-                                    <ui-select-choices repeat="invoiceItem in (items | filter: $select.search) track by invoiceItem.itemId" refresh="searcheditems($select.search)"
-                                        refresh-delay="0">
-                                        <h3>
-                                            <span class="font-bold" ng-bind-html="invoiceItem.name | highlight: $select.search"></span>
-                                        </h3>
-                                        <br>
-                                        <small style="font-size: 12px">
-                                            <span class=" font-bold">Price: </span>
-                                            <span ng-bind-html="invoiceItem.price | highlight: $select.search"></span>&nbsp;&nbsp;&nbsp;
-                                            <span class="font-bold">expiry Date:</span>
-                                            <span ng-bind-html="invoiceItem.expiryDate | highlight: $select.search"></span>
-                                        </small>
-
-                                    </ui-select-choices>
-                                </ui-select>
-                                <input type="hidden" value="{{invoiceItem.storeItem}}" name="hiddenItem" class="inputHidden">
-
-                            </div>
-                        </div>
-                        <div class=" col-sm-3 form-group">
-                            <label class="col-sm-5 control-label">Discount(%)</label>
-                            <div class="col-md-7">
-                                <div class="input-group input-group-sm">
-                                    <input type="number" placeholder="" name="discount" class="form-control" ng-model="invoiceItem.discountPercentage">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-3 form-group" ng-show="invoiceItem.storeItem">
-                            <label class="col-md-5 control-label" class="">Quantity</label>
-                            <div class="col-md-7 input-group-sm">
-                                <input type="number" name="quantity" placeholder="" ng-focus="availableQuantityAlert(invoiceItem)" data-ng-keyup="quantityValidate(invoiceItem)"
-                                    ng-model="invoiceItem.quantity" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row bg-muted">
-
-                        <div class="col-sm-4 form-group">
-                            <div class=" col-md-7">
-                                <label style="font-size: 14px" class="pull-right control-label">سعر الجمهور:</label>
-                            </div>
-                            <div class="col-md-5">
-                                <input type="text" name="publicPrice" ng-value="invoiceItem.unitPrice=invoiceItem.storeItem.price" placeholder="" class="form-control input-sm"
-                                    ng-model="invoiceItem.unitPrice" style="background-color: transparent; border: none" readonly>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 form-group">
-                            <div class=" col-md-5">
-                                <label style="font-size: 14px" class="pull-right control-label">المبلغ:</label>
-                            </div>
-                            <div class="col-md-7">
-                                <input type="text" name="netPrice" ng-value="invoiceItem.totalPrice=invoiceItem.unitPrice * invoiceItem.quantity" placeholder=""
-                                    class="form-control input-sm" ng-model="invoiceItem.totalPrice" style="background-color: transparent; border: none"
-                                    readonly>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 form-group">
-                            <div class=" col-md-7">
-                                <label style="font-size: 14px" class="pull-right control-label">المبلغ الصافي</label>
-                            </div>
-                            <div class="col-md-5">
-                                <input type="text" ng-bind="invoiceItem.totalNetPrice = priceAfterDiscount(invoiceItem.totalPrice, invoiceItem.discountPercentage)"
-                                    placeholder="" ng-model="invoiceItem.totalNetPrice" class="form-control input-sm" style="background-color: transparent; border: none"
-                                    readonly>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class=" text-left" style="width: 100%">
-                            <button style="width: 100%; font-size: 15px" class="btn btn-success" type="submit">
-                                <b>Add</b>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div> -->
-
 
             <!-- ########### products table section start ############################################### -->
             <div class="ibox-title">
@@ -303,7 +158,7 @@
                 <div class="table">
                     <table class="table table-responsive">
                         <tr class="active">
-                            <th class="text-left">Total</th>
+                            <th class="text-center col-sm-2">Total</th>
                             <td class="text-right">
                                 {{totalInvoiceAmount() | currency: "L.E ":2}}
                             </td>
@@ -313,160 +168,14 @@
                             </td>
                         </tr>
                     </table>
-                    <!-- <table class="table table-responsive pull-right" id="tab_logic_total">
-                        <tbody>
-                            <tr>
-                                <td class="table col-md-6">
-                                    <table class="table table-sm table-hover table-responsive">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center success">Taxes</th>
-                                            </tr>
-                                            <tr>
-                                                <th>Status</th>
-                                                <th>NAME</th>
-                                                <th>PER</th>
-                                                <th>VALUE</th>
-                                                <th>CostWithTax</th>
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-hide="settings.tax1Value == 0">
-                                                <td>
-                                                    <input icheck type="checkbox" ng-model="ckb.tax1">
-                                                </td>
-                                                <td>{{settings.tax1Name}}</td>
-                                                <td>{{settings.tax1Value}}</td>
-                                                <td>{{ckb.tax1 ? taxes.tax1 : 0}}</td>
-                                                <td>{{ckb.tax1 ? taxes.tax1 + subTotal() : 0}}</td>
-                                            </tr>
-
-                                            <tr ng-hide="settings.tax2Value == 0">
-                                                <td>
-                                                    <input icheck type="checkbox" ng-model="ckb.tax2">
-                                                </td>
-                                                <td>{{settings.tax2Name}}</td>
-                                                <td>{{settings.tax2Value}}</td>
-                                                <td>{{ckb.tax2 ? taxes.tax2 : 0}}</td>
-                                                <td>{{ckb.tax2 ? taxes.tax2 + subTotal() : 0}}</td>
-                                            </tr>
-
-                                            <tr ng-hide="settings.tax3Value == 0">
-                                                <td>
-                                                    <input icheck type="checkbox" ng-model="ckb.tax3">
-                                                </td>
-                                                <td>{{settings.tax3Name}}</td>
-                                                <td>{{settings.tax3Value}}</td>
-                                                <td>{{ckb.tax3 ? taxes.tax3 : 0}}</td>
-                                                <td>{{ckb.tax3 ? taxes.tax3 + subTotal() : 0}}</td>
-                                            </tr>
-
-                                            <tr ng-hide="settings.tax4Value == 0">
-                                                <td>
-                                                    <input icheck type="checkbox" ng-model="ckb.tax4">
-                                                </td>
-                                                <td>{{settings.tax4Name}}</td>
-                                                <td>{{settings.tax4Value}}</td>
-                                                <td>{{ckb.tax4 ? taxes.tax4 : 0}}</td>
-                                                <td>{{ckb.tax4 ? taxes.tax4 + subTotal() : 0}}</td>
-                                            </tr>
-
-                                            <tr ng-hide="settings.tax5Value == 0">
-                                                <td>
-                                                    <input icheck type="checkbox" ng-model="ckb.tax5">
-                                                </td>
-                                                <td>{{settings.tax5Name}}</td>
-                                                <td>{{settings.tax5Value}}</td>
-                                                <td>{{ckb.tax5 ? taxes.tax5 : 0}}</td>
-                                                <td>{{ckb.tax5 ? taxes.tax5 + subTotal() : 0}}</td>
-                                            </tr>
-                                            <tr ng-hide="emptyTaxes() == false">
-                                                <td>
-                                                    <input icheck ng-change="checkAllTaxes()" type="checkbox" ng-model="ckbAllTaxes">
-                                                </td>
-                                                <td>Total</td>
-                                                <td>{{getTotalPercentTaxes()}}</td>
-                                                <td>{{getTotalTaxes()}}</td>
-                                                <td>{{getTotalAmountAfterTaxes()}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td class="table col-md-6">
-
-                                    <table class="table table-responsive">
-                                        <thead>
-                                            <tr>
-                                                <th colspan="5" class="text-center success">Discounts</th>
-                                            </tr>
-                                            <tr>
-                                                <th>Status</th>
-                                                <th>NAME</th>
-                                                <th>PER</th>
-                                                <th>VALUE</th>
-                                                <th>CostWithDis</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-hide="settings.discount1Valu == 0">
-                                                <td>
-                                                    <input icheck type="checkbox" ng-model="dis1ckb">
-                                                </td>
-                                                <td>{{settings.discount1Name}}</td>
-                                                <td>{{settings.discount1Valu}}</td>
-                                                <td>{{dis1ckb ? dis.discount1 : 0}}</td>
-                                                <td>{{dis1ckb ? subTotal() - dis.discount1 : 0}}</td>
-                                            </tr>
-                                            <tr ng-hide="settings.discount2Valu == 0">
-                                                <td>
-                                                    <input icheck type="checkbox" ng-model="dis2ckb">
-                                                </td>
-                                                <td>{{settings.discount2Name}}</td>
-                                                <td>{{settings.discount2Valu}}</td>
-                                                <td>{{dis2ckb ? dis.discount2 : 0}}</td>
-                                                <td>{{dis2ckb ? subTotal() - dis.discount2 : 0}}</td>
-                                            </tr>
-                                            <tr ng-hide="emptyDiscounts() == false">
-                                                <td>#</td>
-                                                <td>Total</td>
-                                                <td>{{getTotalPercentDiscount()}}</td>
-                                                <td>{{getTotalPercentDiscount()}}</td>
-                                                <td>{{getTotalAmountAfterDiscount()}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-
-                                </td>
-
-
-
-                            </tr>
-
-                            <tr>
-
-                            </tr>
-
-                            <tr>
-
-                            </tr>
-                            <tr>
-
-                            </tr>
-                        </tbody>
-                    </table> -->
                     <table class="table table-responsive">
                         <tr class="active">
-                            <!-- <th class="text-left">Grand Total</th>
+                            <th class="text-center col-sm-2">Paied Amount</th>
                             <td class="text-right">
-                                {{calculateGrandTotal() | currency: "L.E ":2}}
-                            </td> -->
-                            <th class="text-left">Paied Amount</th>
-                            <td class="text-right">
-                                <input type="number" name="paid" size="6" ng-model="invoice.paiedAmount" ng-keyup="paidAmountValidate()" onkeyup="this.value=this.value.replace(/[^\d]/,'')">
+                                <input type="number" name="paid" size="6" ng-model="newInvoice.paiedAmount" ng-keyup="paidAmountValidate()" onkeyup="this.value=this.value.replace(/[^\d]/,'')">
                             </td>
-                            <th class="text-left">Outstanding Amount</th>
+                            <th class="text-center">Outstanding Amount</th>
                             <td class="text-right">
                                 {{getinvoiceOutstandingAmount() | currency: "L.E ":2}}
                             </td>
@@ -500,7 +209,6 @@
                             <!-- content goes here -->
                             <form name="item2Form" role="form" ng-submit="saveField(item2Form)" ng-validate="validateInvoiceItem2">
                                 <div class="form-group">
-                                    {{editing}}
                                     <label>Item</label>
                                     <ui-select ng-model="editing.itemName" ng-disabled="true" class="ui-select" name="item">
                                         <ui-select-match placeholder="">
@@ -514,7 +222,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Quantity</label>
-                                    <input type="number" name="quantity" ng-focus="availableQuantityAlert(editing)" ng-keyup="quantityValidate(editing)" data-ng-model="editing.quantity"
+                                    <input type="number" name="quantity" ng-keyup="quantityValidate(editing)" ng-focus="oldQuantity(editing)" data-ng-model="editing.quantity"
                                         class="form-control" />
                                 </div>
                                 <button ng-if="item2Form.validate()" type="submit" class="btn btn-default">Save</button>
@@ -528,68 +236,6 @@
                 </div>
             </div>
 
-            <!-- line store modal -->
-            <div class="modal fade" id="addStore" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">
-                                <span aria-hidden="true">×</span>
-                                <span class="sr-only">Close</span>
-                            </button>
-                            <h3 class="modal-title">Add New Store</h3>
-                        </div>
-                        <div class="modal-body">
-
-                            <!-- content goes here -->
-                            <form ng-submit="addStore()">
-                                <div class="form-group">
-                                    <label for="name">Store Name:</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Store Name" ng-model="store.name">
-                                </div>
-                                <div class="form-group">
-                                    <label for="name">Note:</label>
-                                    <textarea name="note" id="note" rows="3" class="form-control" ng-model="store.note"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-default">Save</button>
-                            </form>
-
-                        </div>
-                        <div class="modal-footer">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- line discount modal -->
-            <div class="modal fade" id="addDiscount" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">
-                                <span aria-hidden="true">×</span>
-                                <span class="sr-only">Close</span>
-                            </button>
-                            <h3 class="modal-title">Add New Discount Type</h3>
-                        </div>
-                        <div class="modal-body">
-
-                            <!-- content goes here -->
-                            <form name="discountTypeForm" ng-submit="adddiscountType(discountTypeForm)" ng-validate="validatediscountTypeForm">
-                                <div class="form-group">
-                                    <label for="name">Discount Name:</label>
-                                    <input type="text" class="form-control" name="name" id="name" placeholder="Discount Name" ng-model="discountType.name">
-                                </div>
-                                <button type="submit" class="btn btn-default">Save</button>
-                            </form>
-
-                        </div>
-                        <div class="modal-footer">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
