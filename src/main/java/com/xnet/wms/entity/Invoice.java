@@ -9,11 +9,13 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+import org.hibernate.annotations.Where;
 
 /**
  * @author ramy
  */
 @Entity(name = "invoice")
+@Where(clause = "is_deleted=0")
 public class Invoice extends BaseEntity implements Serializable {
 
     @ManyToOne

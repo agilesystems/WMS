@@ -19,4 +19,5 @@ public class Global {
     public static final  int INVOICE_TYPE_REFUND_BUY=4;
     public static final  boolean STATUS_DELETED=true;
     public static final  boolean STATUS_UNDELETED=false;
+    public static final int STORE_ITEM_MAINSTORE=1;
 }

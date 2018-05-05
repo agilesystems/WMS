@@ -28,6 +28,9 @@ public interface StoreItemRepository extends JpaRepository<StoreItem, Integer> {
             + "or ( i.store.branch.id=?1 and upper(i.item.globalId) like concat('%', upper(?2), '%') )")
     List<StoreItem> findAllByStore_Branch_IdAndKey(int branchId, String key);
 
-   @Query("select i from store_item i where i.item.id=?1 and i.store.id=?2")
+    @Query("select i from store_item i where i.item.id=?1 and i.store.id=?2")
     StoreItem findByItem_IdAndStore_Id(int itemId, int storeId);
+
+    @Query("select i from store_item i where i.item.id=?1 and i.store.branch.id=?2")
+    List<StoreItem> findByItem_IdAndBranchId(int itemId, int branch_Id);
 }
