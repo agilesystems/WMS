@@ -1618,6 +1618,93 @@ function invoiceRefundBuyCtrl($scope, $rootScope, $http, DataServiceApi, storage
 
 }
 
+function invoicesCtrl($scope, $rootScope, $http, DataServiceApi, storageService, validateForms, toaster, toastrService, $stateParams, localStorageService, $interval, SweetAlert, $translate) {
+    (function () {
+        $scope.invoice = {};
+        localInvoices = {};
+        $scope.accountInvoices = [];
+    getInvoicesFromLocalStorage();
+    // Save Invoice in local storage every 5 seconds
+    $interval(saveInvoicesToLocalStorage, 5000);
+    })();
+
+    // Get accounts list by select account type
+    $scope.selectAccountType = function () {
+        if ($scope.acType === '1') {
+            $scope.accounts = [];
+            // get Customer Accounts from API
+            $scope.searchedAccounts = function (account) {
+                DataServiceApi.GetData(server + "account/customer/" + account).then(function (response) {
+                    $scope.accounts = response.data;
+                });
+            }
+        } else if ($scope.acType === '2') {
+            $scope.accounts = [];
+            $scope.searchedAccounts = function (account) {
+                DataServiceApi.GetData(server + "account/supplier/" + account).then(function (response) {
+                    $scope.accounts = response.data;
+                });
+            }
+        } else { $scope.accounts = [] };
+    }
+
+    //get invoices by account
+    $scope.getAccountInvoices = function () {
+        if ($scope.invoice.account === null || $scope.invoice.account === undefined) {
+            $scope.accountInvoices = [];
+        } else {
+            DataServiceApi.GetData(server + "invoice/getAllByAccount/" + $scope.invoice.account.id).then(function (res) {
+                $scope.accountInvoices = res.data;
+            });
+        }
+    }
+
+    // Delete Invoice
+    $scope.deleteInvoice = function (index) {
+        if ($scope.acType === '1') {
+            DataServiceApi.PostData($scope.accountInvoices[index].id, server + "invoice/deleteSellInvoice/" + $scope.accountInvoices[index].id).then(function (res) {
+                if (res.status === 200 && res.data === true) {
+                    toastrService.success("", "invoice deleted successfully");
+                } else {
+                    toastrService.error("", "invoice not deleted!");
+                }
+            });
+        } else {
+            DataServiceApi.PostData($scope.accountInvoices[index].id, server + "invoice/deleteBuyInvoice/" + $scope.accountInvoices[index].id).then(function (res) {
+                if (res.status === 200 && res.data === true) {
+                    toastrService.success("", "invoice deleted successfully");
+                } else {
+                    toastrService.error("", "invoice not deleted!");
+                }
+            });
+        }
+    }
+
+    // Save invoice to local storage every 5 seconds...
+    function saveInvoicesToLocalStorage() {
+        $scope.localInvoices = $scope.invoice;
+        $scope.localInvoices.acType = $scope.acType;
+        $scope.localInvoices.invoices = $scope.accountInvoices;
+        localStorageService.set("accountInvoices", $scope.localInvoices);
+
+    }
+
+    // Get last invoice saved from local storage
+    function getInvoicesFromLocalStorage() {
+        if (localStorageService.get("accountInvoices") === undefined || localStorageService.get("accountInvoices") === null) {
+            return;
+        }
+        
+        $scope.localInvoices = localStorageService.get("accountInvoices");
+        $scope.invoice.account = $scope.localInvoices.account;
+        $scope.acType = $scope.localInvoices.acType;
+        angular.forEach($scope.localInvoices.invoices, function (val) {
+            $scope.accountInvoices.push(val);
+        });
+    }
+
+}
+
 /**
  *
  * Pass all functions into module
@@ -1634,3 +1721,4 @@ app
     .controller("invoiceBuyCtrl", invoiceBuyCtrl)
     .controller("invoiceRefundBuyCtrl", invoiceRefundBuyCtrl)
     .controller("settingsCtrl", settingsCtrl)
+    .controller("invoicesCtrl", invoicesCtrl)
