@@ -365,22 +365,22 @@ function invoiceSellCtrl($scope, $rootScope, $http, DataServiceApi, storageServi
 
         if (form.validate()) { // Check inputs validation
             if ($scope.invoiceItems === undefined || $scope.invoiceItems.length === 0) { // Check if no items in invoice
-                toastrService.error('Failed!', 'Add one Item to invoice at least please');
+                toastrService.error($translate.instant('ERROR'), $translate.instant('EMPTY_ITEMS_LIST_WARNING'));
                 return
             }
             // Save invoice
             DataServiceApi.PostData($scope.invoice, server + "invoice/sell/add").then(function (res) {
                 if (res.status === 200 && res.data > 0) {
-                    toastrService.success('Success', 'Invoice saved successfully');
+                    toastrService.success('', $translate.instant('SAVE_INVOICE_SUCCESSFULLY_MESSAGE'));
                     console.log(res.data);
                 } else {
-                    toastrService.error('Failed!', 'Invoice not saved!');
+                    toastrService.error($translate.instant('ERROR'), $translate.instant('INVOICE_NOT_SAVED'));
                     console.log(res);
                 }
                 ;
             });
         } else {
-            toastrService.error('', 'Some Fields Required!')
+            toastrService.error($translate.instant('ERROR'), $translate.instant('FIELDS_REQUIRED_MESSAGE'));
         }
 
         console.log($scope.invoice);
@@ -436,11 +436,12 @@ function invoiceSellCtrl($scope, $rootScope, $http, DataServiceApi, storageServi
                     totalPrice: temp.totalPrice,
                     totalNetPrice: temp.totalNetPrice
                 })
+                console.log($scope.invoiceItems);
             } else { // if list of items not null
                 var isEqual = false;
                 // Check if item exist to just update it.
                 angular.forEach($scope.invoiceItems, function (val) {
-                    if (temp.storeItem.itemId === val.storeItem.id) {
+                    if (temp.storeItem.itemId === val.storeItem.itemId) {
                         isEqual = true;
                         $scope.updateObject = val;
                     }
@@ -569,7 +570,7 @@ function invoiceSellCtrl($scope, $rootScope, $http, DataServiceApi, storageServi
     $scope.paidAmountValidate = function () {
         if ($scope.invoice.paiedAmount > $scope.calculateGrandTotal()) {
             $scope.invoice.paiedAmount = $scope.calculateGrandTotal()
-            toastrService.warning('', $translate.instant('PAIDAMOUNT_WARNING'));
+            toastrService.warning('', $translate.instant('PAID_AMOUNT_WARNING'));
         }
     }
 
@@ -807,22 +808,22 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
 
         if (form.validate()) { // Check inputs validation
             if ($scope.invoiceItems === undefined || $scope.invoiceItems.length === 0) { // Check if no items in invoice
-                toastrService.error('Failed!', 'Add one Item to invoice at least please');
+                toastrService.error($translate.instant('ERROR'), $translate.instant('EMPTY_ITEMS_LIST_WARNING'));
                 return
             }
             // Save invoice
             DataServiceApi.PostData($scope.newInvoice, server + "invoice/refundSell/add").then(function (res) {
                 if (res.status === 200 && res.data > 0) {
-                    toastrService.success('Success', 'Invoice saved successfully');
+                    toastrService.success('', $translate.instant('SAVE_INVOICE_SUCCESSFULLY_MESSAGE'));
                     console.log(res.data);
                 } else {
-                    toastrService.error('Failed!', 'Invoice not saved!');
+                    toastrService.error($translate.instant('ERROR'), $translate.instant('INVOICE_NOT_SAVED'));
                     console.log(res);
                 }
                 ;
             });
         } else {
-            toastrService.error('', 'Some Fields Required!')
+            toastrService.error($translate.instant('ERROR'), $translate.instant('FIELDS_REQUIRED_MESSAGE'));
         }
 
         console.log($scope.invoice);
@@ -879,7 +880,7 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
     $scope.quantityValidate = function (val) {
         if (val.quantity > $scope.newQval) {
             val.quantity = $scope.newQval;
-            toastrService.warning('', $translate.instant('لا يمكن ارجاع كمية اكثر من الكمية المباعة'));
+            toastrService.warning('', $translate.instant('REFUND_QUANTITY_WARNING'));
         }
     }
 
@@ -1026,22 +1027,22 @@ function invoiceBuyCtrl($scope, $rootScope, $http, DataServiceApi, storageServic
 
         if (form.validate()) { // Check inputs validation
             if ($scope.invoiceItems === undefined || $scope.invoiceItems.length === 0) { // Check if no items in invoice
-                toastrService.error('Failed!', 'Add one Item to invoice at least please');
+                toastrService.error($translate.instant('ERROR'), $translate.instant('EMPTY_ITEMS_LIST_WARNING'));
                 return
             }
             // Save invoice
             DataServiceApi.PostData($scope.invoice, server + "invoice/buy/add").then(function (res) {
                 if (res.status === 200 && res.data > 0) {
-                    toastrService.success('Success', 'Invoice saved successfully');
+                    toastrService.success('', $translate.instant('SAVE_INVOICE_SUCCESSFULLY_MESSAGE'));
                     console.log(res.data);
                 } else {
-                    toastrService.error('Failed!', 'Invoice not saved!');
+                    toastrService.error($translate.instant('ERROR'), $translate.instant('INVOICE_NOT_SAVED'));
                     console.log(res);
                 }
                 ;
             });
         } else {
-            toastrService.error('', 'Some Fields Required!')
+            toastrService.error($translate.instant('ERROR'), $translate.instant('FIELDS_REQUIRED_MESSAGE'));
         }
 
         console.log($scope.invoice);
@@ -1473,22 +1474,22 @@ function invoiceRefundBuyCtrl($scope, $rootScope, $http, DataServiceApi, storage
 
         if (form.validate()) { // Check inputs validation
             if ($scope.invoiceItems === undefined || $scope.invoiceItems.length === 0) { // Check if no items in invoice
-                toastrService.error('Failed!', 'Add one Item to invoice at least please');
+                toastrService.error($translate.instant('ERROR'), $translate.instant('EMPTY_ITEMS_LIST_WARNING'));
                 return
             }
             // Save invoice
             DataServiceApi.PostData($scope.newInvoice, server + "invoice/refundBuy/add").then(function (res) {
                 if (res.status === 200 && res.data > 0) {
-                    toastrService.success('Success', 'Invoice saved successfully');
+                    toastrService.success('', $translate.instant('SAVE_INVOICE_SUCCESSFULLY_MESSAGE'));
                     console.log(res.data);
                 } else {
-                    toastrService.error('Failed!', 'Invoice not saved!');
+                    toastrService.error($translate.instant('ERROR'), $translate.instant('INVOICE_NOT_SAVED'));
                     console.log(res);
                 }
                 ;
             });
         } else {
-            toastrService.error('', 'Some Fields Required!')
+            toastrService.error($translate.instant('ERROR'), $translate.instant('FIELDS_REQUIRED_MESSAGE'));
         }
 
         console.log($scope.invoice);
@@ -1545,7 +1546,7 @@ function invoiceRefundBuyCtrl($scope, $rootScope, $http, DataServiceApi, storage
     $scope.quantityValidate = function (val) {
         if (val.quantity > $scope.newQval) {
             val.quantity = $scope.newQval;
-            toastrService.warning('', $translate.instant('لا يمكن ارجاع كمية اكثر من الكمية المباعة'));
+            toastrService.warning('', $translate.instant('REFUND_QUANTITY_WARNING'));
         }
     }
 
@@ -1664,17 +1665,17 @@ function invoicesCtrl($scope, $rootScope, $http, DataServiceApi, storageService,
         if ($scope.acType === '1') {
             DataServiceApi.PostData($scope.accountInvoices[index].id, server + "invoice/deleteSellInvoice/" + $scope.accountInvoices[index].id).then(function (res) {
                 if (res.status === 200 && res.data === true) {
-                    toastrService.success("", "invoice deleted successfully");
+                    toastrService.success('', $translate.instant('INVOICE_DELETED_MSG') );
                 } else {
-                    toastrService.error("", "invoice not deleted!");
+                    toastrService.error($translate.instant('ERROR'), $translate.instant('INVOICE_NOT_DELETED_MSG'));
                 }
             });
         } else {
             DataServiceApi.PostData($scope.accountInvoices[index].id, server + "invoice/deleteBuyInvoice/" + $scope.accountInvoices[index].id).then(function (res) {
                 if (res.status === 200 && res.data === true) {
-                    toastrService.success("", "invoice deleted successfully");
+                    toastrService.success('', $translate.instant('INVOICE_DELETED_MSG'));
                 } else {
-                    toastrService.error("", "invoice not deleted!");
+                    toastrService.error($translate.instant('ERROR'), $translate.instant('INVOICE_NOT_DELETED_MSG'));
                 }
             });
         }
