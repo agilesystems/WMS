@@ -1,15 +1,15 @@
 <div class="row wrapper animated fadeInLeft border-bottom white-bg pQuantity-heading">
     <div class="col-lg-8">
-        <h2>Invoice</h2>
+        <h2>{{'INVOICE' | translate}}</h2>
         <ol class="breadcrumb">
             <li>
-                <a href="index.html">Home</a>
+                <a href="index.html" translate="HOME"></a>
             </li>
             <li>
-                Sell Invoice
+                 {{'SELL_INVOICE' | translate}}
             </li>
             <li class="active">
-                <strong>Refund</strong>
+                <strong>{{'REFUND' | translate}}</strong>
             </li>
         </ol>
     </div>
@@ -32,7 +32,7 @@
                             
                             <div class="form-group col-sm-4">
                                 <label class="col-md-3 control-label">
-                                    <h4 translate="ADDINVO.ACCOUNT"></h4>
+                                    <h4 translate="ACCOUNT"></h4>
                                 </label>
                                 <div class="col-md-9 form-group form-group-sm">
                                     <ui-select ng-model="invoice.account" class="ui-select" ng-change="getAccountInvoices()">
@@ -48,7 +48,7 @@
                             </div>
                             <div class="form-group col-sm-4">
                                 <label class="col-md-4 control-label">
-                                    <h4 translate="">رقم الفاتورة</h4>
+                                    <h4 translate="INVOICE_NO"></h4>
                                 </label>
                                 <div class="col-md-8 form-group form-group-sm">
                                     <ui-select ng-model="invoice.tempInvoice" class="ui-select" ng-change="selectedInvoice()">
@@ -64,7 +64,7 @@
                             </div>
                             <div class="form-horizontal col-sm-4">
                                 <label class="col-md-5 control-label">
-                                    <h4 translate="ADDINVO.PAYMENTTYPE"></h4>
+                                    <h4 translate="PAYMENT_TYPE"></h4>
                                 </label>
                                 <div class="col-md-7 form-group form-group-sm">
                                     <ui-select ng-model="newInvoice.paymentType" class="ui-select">
@@ -84,7 +84,7 @@
                         <div class="row">
                             <div class="form-group form-group-sm col-sm-4" moment-picker="newInvoice.invoiceDate" format="YYYY-MM-DD" start-view="month" today="true">
                                 <div class="col-sm-3">
-                                    <h4 translate="ADDINVO.INVODATE"></h4>
+                                    <h4 translate="INVOICE_DATE"></h4>
                                 </div>
                                 <div class="col-sm-8 input-group">
                                     <span class="input-group-addon">
@@ -102,7 +102,7 @@
 
             <!-- ########### products table section start ############################################### -->
             <div class="ibox-title">
-                <h5>قائمة المنتجات المضافة</h5>
+                <h5 translate="ADDED_ITEMS_LIST"></h5>
             </div>
             <div class="table-responsive ibox-content">
                 <input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="Search in table">
@@ -111,12 +111,12 @@
                     data-paging="true" data-paging-size="5" data-filter=#filter>
                     <thead>
                         <tr>
-                            <th>No</th>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th class="text-left">Total</th>
-                            <th class="text-left">Edit</th>
+                            <th translate="NO"></th>
+                            <th translate="ITEM"></th>
+                            <th translate="QUANTITY"></th>
+                            <th translate="PRICE"></th>
+                            <th translate="TOTAL" class="text-left"></th>
+                            <th translate="EDIT/DELETE" class="text-left"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -131,14 +131,14 @@
                                 <span> {{tempItem.quantity}}</span>
                             </td>
                             <td>
-                                <span>{{tempItem.unitPrice| currency: "L.E ":2}}</span>
+                                <span>{{tempItem.unitPrice| currency:"":2}}</span> <span>{{'L.E' | translate}}</span>
                             </td>
                             <td class="text-left">
-                                <span>{{tempItem.totalNetPrice| currency: "L.E ":2}}</span>
+                                <span>{{tempItem.totalNetPrice| currency:"":2}}</span> <span>{{'L.E' | translate}}</span>
                             </td>
                             <td class="text-left">
-                                <button type="submit" data-ng-click="editRow($index)" data-toggle="modal" type="button" data-target="#updateItem" class="btn btn-default">Edit</button>
-                                <button type="submit" data-ng-click="deleteRow($index)" class="btn btn-default">Delete</button>
+                                <button type="submit" data-ng-click="editRow($index)" data-toggle="modal" type="button" data-target="#updateItem" class="btn btn-default" translate="EDIT"></button>
+                                <button type="submit" data-ng-click="deleteRow($index)" class="btn btn-default" translate="DELETE"></button>
                             </td>
                         </tr>
                         <tr>
@@ -158,34 +158,34 @@
                 <div class="table">
                     <table class="table table-responsive">
                         <tr class="active">
-                            <th class="text-center col-sm-2">Total</th>
+                            <th class="text-left" translate="TOTAL"></th>
                             <td class="text-right">
-                                {{totalInvoiceAmount() | currency: "L.E ":2}}
+                                 {{totalInvoiceAmount() | currency:"":2}} <span>{{'L.E' | translate}}</span>
                             </td>
-                            <th class="text-left">Grand Total</th>
+                            <th class="text-left" translate="GRAND_TOTAL"></th>
                             <td class="text-right">
-                                {{subTotal() | currency: "L.E ":2}}
+                                 {{subTotal() | currency:"":2}} <span>{{'L.E' | translate}}</span>
                             </td>
                         </tr>
                     </table>
 
                     <table class="table table-responsive">
                         <tr class="active">
-                            <th class="text-center col-sm-2">Paied Amount</th>
+                            <th class="text-center col-sm-2" translate="PAID_AMOUNT"></th>
                             <td class="text-right">
                                 <input type="number" name="paid" size="6" ng-model="newInvoice.paiedAmount" ng-keyup="paidAmountValidate()" onkeyup="this.value=this.value.replace(/[^\d]/,'')">
                             </td>
-                            <th class="text-center">Outstanding Amount</th>
+                            <th class="text-left" translate="OUTSTANDING_AMOUNT"></th>
                             <td class="text-right">
-                                {{getinvoiceOutstandingAmount() | currency: "L.E ":2}}
+                                 {{getinvoiceOutstandingAmount() | currency:"":2}} <span>{{'L.E' | translate}}</span>
                             </td>
 
                         </tr>
                     </table>
                 </div>
                 <div class="">
-                    <button class="btn btn-success" ng-click="addInvoice(invoiceForm)" translate="ADDINVO.SAVE"></button>
-                    <button class="btn btn-success" ng-click="resetInvoice()" translate="ADDINVO.NEW"></button>
+                    <button class="btn btn-success" ng-click="addInvoice(invoiceForm)" translate="SAVE_INVOICE"></button>
+                    <button class="btn btn-success" ng-click="resetInvoice()" translate="NEW_INVOICE"></button>
                 </div>
             </div>
 
@@ -202,14 +202,14 @@
                                 <span aria-hidden="true">×</span>
                                 <span class="sr-only">Close</span>
                             </button>
-                            <h3 class="modal-title">Update Item</h3>
+                            <h3 class="modal-title" translate="UPDATE_ITEM"></h3>
                         </div>
                         <div class="modal-body">
 
                             <!-- content goes here -->
                             <form name="item2Form" role="form" ng-submit="saveField(item2Form)" ng-validate="validateInvoiceItem2">
                                 <div class="form-group">
-                                    <label>Item</label>
+                                    <label translate="IETM"></label>
                                     <ui-select ng-model="editing.itemName" ng-disabled="true" class="ui-select" name="item">
                                         <ui-select-match placeholder="">
                                             <span ng-bind="$select.selected"></span>
@@ -221,12 +221,12 @@
                                     <input type="hidden" value="{{editing.itemName}}" name="hiddenItem" class="inputHidden">
                                 </div>
                                 <div class="form-group">
-                                    <label>Quantity</label>
+                                    <label translate="QUANTITY"></label>
                                     <input type="number" name="quantity" ng-keyup="quantityValidate(editing)" ng-focus="oldQuantity(editing)" data-ng-model="editing.quantity"
                                         class="form-control" />
                                 </div>
-                                <button ng-if="item2Form.validate()" type="submit" class="btn btn-default">Save</button>
-                                <button data-dismiss="modal" ng-click="cancelField()" type="button" class="btn btn-default">Cancle</button>
+                                <button ng-if="item2Form.validate()" type="submit" class="btn btn-default" translate="SAVE"></button>
+                                <button data-dismiss="modal" ng-click="cancelField()" type="button" class="btn btn-default" translate="CANCEL"></button>
                             </form>
                         </div>
                         <div class="modal-footer">
