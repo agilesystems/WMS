@@ -91,4 +91,9 @@ public class ItemController {
         itemService.save(item);
         return item.getId();
     }
+
+    @GetMapping("/getStoreItem/{storeItemId}")
+    StoreItem getByStoreItemId(@PathVariable("storeItemId") int storeItemId , HttpServletRequest httpServletRequest){
+        return storeItemService.findById(storeItemId);
+    }
 }

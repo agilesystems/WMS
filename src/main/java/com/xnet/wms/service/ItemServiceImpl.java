@@ -35,17 +35,17 @@ public class ItemServiceImpl implements ItemService {
             return null;
         }
         if (storeItemRepository.findByItem_IdAndStore_Id(item.getId(), 1) != null) {
-            return null;
+            return itemRepository.save(item);
         } else {
-           Item i =  itemRepository.save(item);
+            itemRepository.save(item);
             StoreItem storeItem = new StoreItem();
             storeItem.setAvailableQuantity(0);
             storeItem.setDiscountPercentage(0);
             storeItem.setPrice(0);
             storeItem.setItem(item);
-            storeItem.setStore(new Store(1));
+            storeItem.setStore(null);
             storeItemRepository.save(storeItem);
-            return i;
+            return item;
         }
     }
 

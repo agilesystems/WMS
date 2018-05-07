@@ -44,7 +44,7 @@ public class StoreItemServiceImpl implements StoreItemService {
 
     @Override
     public Collection<StoreItem> findByItemIdAndBranchId(int itemId, int branchId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return storeItemRepository.findByItem_IdAndBranchId(itemId, branchId);
     }
 
     @Override
