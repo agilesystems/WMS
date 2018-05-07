@@ -1219,19 +1219,6 @@ function invoiceBuyCtrl($scope, $rootScope, $http, DataServiceApi, storageServic
         return total;
     };
 
-    // Show availble quantity on focus
-    // $scope.availableQuantityAlert = function (val) {
-    //     toastrService.info($translate.instant('AVAILABLE_Q') + val.storeItem.availableQuantity, '');
-    // }
-
-    // Check if quantity more than available quantity
-    // $scope.quantityValidate = function (val) {
-    //     if (val.quantity > val.storeItem.availableQuantity) {
-    //         val.quantity = val.storeItem.availableQuantity;
-    //         toastrService.warning('', $translate.instant('QUANTITY_WARNING'));
-    //     }
-    // }
-
     // Check if paid amount more than grandTotal
     $scope.paidAmountValidate = function () {
         if ($scope.invoice.paiedAmount > $scope.calculateGrandTotal()) {
