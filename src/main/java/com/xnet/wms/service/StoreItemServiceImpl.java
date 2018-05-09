@@ -39,7 +39,7 @@ public class StoreItemServiceImpl implements StoreItemService {
 
     @Override
     public Collection<StoreItem> findByStoreId(int storeId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return storeItemRepository.findByStore_Id(storeId);
     }
 
     @Override

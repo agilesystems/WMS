@@ -10,25 +10,29 @@ import com.xnet.wms.entity.Store;
 import com.xnet.wms.entity.StoreItem;
 import com.xnet.wms.repository.ItemRepository;
 import com.xnet.wms.repository.StoreItemRepository;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 /**
- *
  * @author mhdsy
  */
 @Service
 public class ItemServiceImpl implements ItemService {
-    
+
     @Autowired
     ItemRepository itemRepository;
     @Autowired
     StoreItemRepository storeItemRepository;
-    
+    @Autowired
+    StoreItemService storeItemService;
+
     @Override
     public Item save(Item item) {
         if (item == null) {
@@ -51,11 +55,11 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public boolean delete(Item item) {
-        
+
         itemRepository.delete(item);
         return true;
     }
-    
+
     @Override
     public List<Item> findAll() {
         if (!itemRepository.findAll().isEmpty()) {
@@ -64,7 +68,7 @@ public class ItemServiceImpl implements ItemService {
             return null;
         }
     }
-    
+
     @Override
     public List<Item> findByGroupid(int groupid) {
 //        if (!itemRepository.findByGroupid(groupid).isEmpty()) {
@@ -74,12 +78,12 @@ public class ItemServiceImpl implements ItemService {
 //        }
         return null;
     }
-    
+
     @Override
     public List<Item> findLowestquantity(Item item) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public Item findByBarcode(String barcode) {
         Item item = itemRepository.findByGlobalBarcode(barcode);
@@ -89,12 +93,12 @@ public class ItemServiceImpl implements ItemService {
             return null;
         }
     }
-    
+
     @Override
     public List<Item> getItemExbiredate(Date from, Date to) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public List<Item> getByName(String Name) {
         Collection<Item> item = itemRepository.findByNameContaining(Name);
@@ -104,7 +108,7 @@ public class ItemServiceImpl implements ItemService {
             return null;
         }
     }
-    
+
     @Override
     public Item findByExbiredate(Date date) {
 
@@ -114,12 +118,22 @@ public class ItemServiceImpl implements ItemService {
 //            return null;
 //        }
         return null;
-        
+
     }
-    
+
     @Override
     public List<Item> findAllByKey(String key) {
         return itemRepository.findAllByKey(key);
     }
-    
+
+    @Override
+    public List<Item> findByStore(int storeId) {
+        List<Item> i = new ArrayList<>();
+
+        for (StoreItem storeItem : storeItemService.findByStoreId(storeId)) {
+            i.add(storeItem.getItem());
+        }
+        return i;
+    }
+
 }

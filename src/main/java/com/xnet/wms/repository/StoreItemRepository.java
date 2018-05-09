@@ -33,4 +33,6 @@ public interface StoreItemRepository extends JpaRepository<StoreItem, Integer> {
 
     @Query("select i from store_item i where i.item.id=?1 and i.store.branch.id=?2")
     List<StoreItem> findByItem_IdAndBranchId(int itemId, int branch_Id);
+
+    List<StoreItem> findByStore_Id(int storeId);
 }

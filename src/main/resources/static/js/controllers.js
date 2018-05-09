@@ -815,7 +815,7 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
             angular.forEach($scope.invoiceItems, function (val) {
                 // get StoreItem from API
                 DataServiceApi.GetData(server + "item/getStoreItem/" + val.storeItemID).then(function (response) {
-                    //val.storeItem = response.data;
+                val.storeItem = response.data;
                 }); 
             })
             console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");

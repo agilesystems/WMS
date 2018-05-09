@@ -29,7 +29,7 @@ public interface ItemService {
      * This method for soft deleted the items , just update the deleted field
      * with value(1
      *
-     * @param id an Object parameter to update item
+     * @param item an Object parameter to update item
      * @return true if the item updated with deleted field or false if not
      * updated
      */
@@ -95,5 +95,6 @@ public interface ItemService {
     Item findByExbiredate(Date date);
 
     List<Item> findAllByKey(String key);
+    List<Item> findByStore(int storeId);
 
 }

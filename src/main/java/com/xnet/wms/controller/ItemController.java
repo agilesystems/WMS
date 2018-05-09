@@ -14,10 +14,12 @@ import com.xnet.wms.service.ItemService;
 import com.xnet.wms.service.StoreItemService;
 import com.xnet.wms.service.UserService;
 import io.jsonwebtoken.Claims;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- *
  * @author ramy
  */
 @CrossOrigin
@@ -87,13 +88,19 @@ public class ItemController {
     // }
 
     @PostMapping("/addItem")
-    int addItem(@RequestBody Item item, HttpServletRequest httpServletRequest){
+    int addItem(@RequestBody Item item, HttpServletRequest httpServletRequest) {
         itemService.save(item);
         return item.getId();
     }
 
     @GetMapping("/getStoreItem/{storeItemId}")
-    StoreItem getByStoreItemId(@PathVariable("storeItemId") int storeItemId , HttpServletRequest httpServletRequest){
+    StoreItem getByStoreItemId(@PathVariable("storeItemId") int storeItemId, HttpServletRequest httpServletRequest) {
         return storeItemService.findById(storeItemId);
     }
+
+    @GetMapping("/getByStore/{storeId}")
+    List<Item> findByStore(@PathVariable("storeId") int storeId, HttpServletRequest httpServletRequest) {
+        return itemService.findByStore(storeId);
+    }
+
 }
