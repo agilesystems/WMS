@@ -112,7 +112,7 @@
                                     <ui-select-match placeholder="">
                                         <span ng-bind="$select.selected.name"></span>
                                     </ui-select-match>
-                                    <ui-select-choices repeat="invoiceItem in (items | filter: $select.search) track by invoiceItem.itemId" refresh="searcheditems($select.search)"
+                                    <ui-select-choices repeat="invoiceItem in (items | filter: $select.search) track by invoiceItem.storeItemID" refresh="searcheditems($select.search)"
                                         refresh-delay="0">
                                         <!-- <span ng-bind="invoiceItem.name"></span><br> -->
                                         <h3>

@@ -811,6 +811,16 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
                 toastrService.error($translate.instant('ERROR'), $translate.instant('EMPTY_ITEMS_LIST_WARNING'));
                 return
             }
+
+            angular.forEach($scope.invoiceItems, function (val) {
+                // get StoreItem from API
+                DataServiceApi.GetData(server + "item/getStoreItem/" + val.storeItemID).then(function (response) {
+                    //val.storeItem = response.data;
+                }); 
+            })
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            console.log($scope.invoiceItems);
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");            
             // Save invoice
             DataServiceApi.PostData($scope.newInvoice, server + "invoice/refundSell/add").then(function (res) {
                 if (res.status === 200 && res.data > 0) {
@@ -826,7 +836,7 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
             toastrService.error($translate.instant('ERROR'), $translate.instant('FIELDS_REQUIRED_MESSAGE'));
         }
 
-        console.log($scope.invoice);
+        console.log($scope.newInvoice);
     };
 
     $scope.editRow = function (index) {
