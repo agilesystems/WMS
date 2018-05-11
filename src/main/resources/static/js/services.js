@@ -255,6 +255,27 @@ function validateFactory() {
         }
     }
 
+    vm.itemForm = {
+        ignore: ":hidden:not(.inputHidden)",
+        onkeyup: function (element) {
+            this.element(element);  // <- "eager validation"
+        },
+        onfocusout: function (element) {
+            this.element(element);  // <- "eager validation"
+        },
+
+        rules: {
+            categoryInput: "required",
+            itemName: "required",
+            globalId: {
+                required: true,
+            },
+            globalBarcode: {
+                required: true,
+            }
+        }
+    }
+
     vm.invoiceItemForm = {
         ignore: ":hidden:not(.inputHidden)",
         onkeyup: function (element) {

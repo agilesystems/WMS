@@ -1,0 +1,145 @@
+<div class="row wrapper animated fadeInLeft border-bottom white-bg pQuantity-heading">
+    <div class="col-lg-8">
+        <h2>{{'ITEM' | translate}}</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html" translate="HOME"></a>
+            </li>
+            <li>
+                {{'ITEMS' | translate}}
+            </li>
+            <li class="active">
+                <strong>{{'ITEMS_LIST' | translate}}</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="table-responsive ibox-content" ng-controller="itemCtrl">
+    <div>
+        <div class="form-group">
+            <div class="col-sm-1 form-group">
+                <label for="accountType" class=" control-label">{{'STORE' | translate}}</label>
+            </div>
+            <div class="col-sm-11 form-group">
+                <select name="store" class="form-control" ng-model="store" ng-change="selectStore()" ng-init="selectStore()" ng-options="store as store.name for store in stores track by store.id">
+                    <option value="">ALL</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+    <input type="text" class="form-control input-sm m-b-xs" id="filter" placeholder="Search in table">
+
+    <table class="table table-hover table-striped footable" data-paging-container="#paging-ui-container" data-paging-count-format="{CP} of {TP}"
+        data-paging="true" data-paging-size="5" data-filter=#filter>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{{'NAME' | translate}}</th>
+                <th>{{'CATEGORY' | translate}}</th>
+                <th>{{'GLOBAL_ID' | translate}}</th>
+                <th>{{'GLOBAL_BARCODE' | translate}}</th>
+                <th class="text-left">{{'EDIT' | translate}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="storeItem in storeItems track by $index">
+
+                <td>{{$index+1}}</td>
+                <td>{{storeItem.name}}</td>
+                <td>{{storeItem.category.name}}</td>
+                <td>{{storeItem.globalId}}</td>
+                <td>{{storeItem.globalBarcode}}</td>
+                <td class="text-left">
+                    <button data-ng-click="editItem(storeItem)" data-toggle="modal" type="button" data-target="#updateItem" class="btn btn-success"
+                        translate="EDIT"></button>
+                    <button type="submit" data-ng-click="deleteItem($index)" class="btn btn-danger" translate="DELETE"></button>
+                </td>
+            </tr>
+            <tr>
+
+            </tr>
+        </tbody>
+    </table>
+    <div id="paging-ui-container"></div>
+
+    <!-- line User modal -->
+    <div class="modal fade" id="updateItem" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h3 class="modal-title">{{'UPDATE_ITEM' | translate}}</h3>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <!-- content goes here -->
+                        <form name="itemForm" role="form" ng-submit="updateItem(itemForm)" ng-validate="validateItem" novalidate>
+                            <div class="col-sm-6 form-group">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        <h4 translate="NAME"></h4>
+                                    </label>
+                                    <div class="form-group form-group-sm">
+                                        <input type="text" name="itemName" class="form-control input-sm" ng-model="editing.name" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        <h4 translate="CATEGORY"></h4>
+                                    </label>
+                                    <div class="form-group form-group-sm">
+                                        <ui-select ng-model="editing.category" class="ui-select">
+                                            <ui-select-match placeholder="">
+                                                <span ng-bind="$select.selected.name"></span>
+                                            </ui-select-match>
+                                            <ui-select-choices repeat="category in (categories | filter: $select.search) track by category.id">
+                                                <span ng-bind="category.name"></span>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                        <input type="hidden" value="{{editing.category}}" name="categoryInput" class="inputHidden">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            <h4 translate="GLOBAL_ID"></h4>
+                                        </label>
+                                        <div class="form-group form-group-sm">
+                                            <input type="text" name="globalId" class="form-control input-sm" ng-model="editing.globalId" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            <h4 translate="GLOBAL_BARCODE"></h4>
+                                        </label>
+                                        <div class="form-group form-group-sm">
+                                            <input type="text" name="globalBarcode" class="form-control input-sm" ng-model="editing.globalBarcode" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                <div class="form-group">
+                                    <label>
+                                        <h4 translate="DESCRIPTION"></h4>
+                                    </label>
+                                    <div class="form-group form-group-sm">
+                                        <textarea id="" class="form-control" rows="10" ng-model="editing.description"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary col-sm-2" style="margin:14px">{{'SAVE' | translate}}</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

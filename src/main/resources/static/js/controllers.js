@@ -815,12 +815,12 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
             angular.forEach($scope.invoiceItems, function (val) {
                 // get StoreItem from API
                 DataServiceApi.GetData(server + "item/getStoreItem/" + val.storeItemID).then(function (response) {
-                val.storeItem = response.data;
-                }); 
+                    val.storeItem = response.data;
+                });
             })
             console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             console.log($scope.invoiceItems);
-            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");            
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             // Save invoice
             DataServiceApi.PostData($scope.newInvoice, server + "invoice/refundSell/add").then(function (res) {
                 if (res.status === 200 && res.data > 0) {
@@ -1621,9 +1621,9 @@ function invoicesCtrl($scope, $rootScope, $http, DataServiceApi, storageService,
         $scope.invoice = {};
         localInvoices = {};
         $scope.accountInvoices = [];
-    getInvoicesFromLocalStorage();
-    // Save Invoice in local storage every 5 seconds
-    $interval(saveInvoicesToLocalStorage, 5000);
+        getInvoicesFromLocalStorage();
+        // Save Invoice in local storage every 5 seconds
+        $interval(saveInvoicesToLocalStorage, 5000);
     })();
 
     // Get accounts list by select account type
@@ -1662,7 +1662,7 @@ function invoicesCtrl($scope, $rootScope, $http, DataServiceApi, storageService,
         if ($scope.acType === '1') {
             DataServiceApi.PostData($scope.accountInvoices[index].id, server + "invoice/deleteSellInvoice/" + $scope.accountInvoices[index].id).then(function (res) {
                 if (res.status === 200 && res.data === true) {
-                    toastrService.success('', $translate.instant('INVOICE_DELETED_MSG') );
+                    toastrService.success('', $translate.instant('INVOICE_DELETED_MSG'));
                 } else {
                     toastrService.error($translate.instant('ERROR'), $translate.instant('INVOICE_NOT_DELETED_MSG'));
                 }
@@ -1692,7 +1692,7 @@ function invoicesCtrl($scope, $rootScope, $http, DataServiceApi, storageService,
         if (localStorageService.get("accountInvoices") === undefined || localStorageService.get("accountInvoices") === null) {
             return;
         }
-        
+
         $scope.localInvoices = localStorageService.get("accountInvoices");
         $scope.invoice.account = $scope.localInvoices.account;
         $scope.acType = $scope.localInvoices.acType;
@@ -1700,6 +1700,66 @@ function invoicesCtrl($scope, $rootScope, $http, DataServiceApi, storageService,
             $scope.accountInvoices.push(val);
         });
     }
+
+}
+
+function itemCtrl($scope, $rootScope, $http, DataServiceApi, storageService, validateForms, toaster, toastrService, localStorageService, $interval, SweetAlert, $translate) {
+    $scope.item = {};
+    $scope.categories = [];
+    $scope.validateItem = validateForms.itemForm;
+
+    // Get All categories from API
+    DataServiceApi.GetData(server + "category/all").then(function (res) {
+        $scope.categories = res.data;
+    });
+
+    // Get All stores from API
+    DataServiceApi.GetData(server + "store/all").then(function (res) {
+        $scope.stores = res.data;
+    });
+
+    // Add new Item 
+    $scope.addItem = function (form) {
+        if (form.validate()) {
+            DataServiceApi.PostData($scope.item, server + "item/addItem").then(function (res) {
+                if (res.status === 200 && res.data > 0) {
+                    toastrService.success('', $translate.instant('ITEM_ADDED_MSG'));
+                } else { toastrService.error($translate.instant('ERROR'), $translate.instant('ITEM_NOT_ADDED_MSG')); }
+            });
+        }
+    }
+
+    $scope.selectStore = function () {
+        if ($scope.store === undefined || $scope.store === '' || $scope.store === null) {
+            // Get All item from API
+            DataServiceApi.GetData(server + "item/all").then(function (res) {
+                $scope.storeItems = res.data;
+            });
+        } else {
+            // Get All item by store from API
+            DataServiceApi.GetData(server + "item/getByStore/" + $scope.store.id).then(function (res) {
+                $scope.storeItems = res.data;
+            });
+        }
+    }
+
+    $scope.editItem = function (item) {
+        $scope.editing = angular.copy(item);
+    };
+
+    // Save item after editting.
+    $scope.updateItem = function (form) {
+        if (form.validate()) {
+            DataServiceApi.PostData($scope.editing, server + "item/addItem").then(function (res) {
+                if (res.status === 200 && res.data > 0) {
+                    toastrService.success('', $translate.instant('ITEM_ADDED_MSG'));
+                } else {
+                    toastrService.error($translate.instant('ERROR'), $translate.instant('ITEM_NOT_ADDED_MSG'));
+                }
+            });
+        }
+        angular.element('.modal').modal('hide'); // close modal after save
+    };
 
 }
 
@@ -1720,3 +1780,4 @@ app
     .controller("invoiceRefundBuyCtrl", invoiceRefundBuyCtrl)
     .controller("settingsCtrl", settingsCtrl)
     .controller("invoicesCtrl", invoicesCtrl)
+    .controller("itemCtrl", itemCtrl)
