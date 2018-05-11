@@ -6,14 +6,15 @@
 package com.xnet.wms.repository;
 
 import com.xnet.wms.entity.StoreItem;
+
 import java.util.List;
+
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
- *
  * @author Muhammad
  */
 @Repository
@@ -29,7 +30,7 @@ public interface StoreItemRepository extends JpaRepository<StoreItem, Integer> {
     List<StoreItem> findAllByStore_Branch_IdAndKey(int branchId, String key);
 
     @Query("select i from store_item i where i.item.id=?1")
-    StoreItem findByItem_IdAndStore_Id(int itemId);
+    StoreItem findByItem_Id(int itemId);
 
     @Query("select i from store_item i where i.item.id=?1 and i.store.branch.id=?2")
     List<StoreItem> findByItem_IdAndBranchId(int itemId, int branch_Id);

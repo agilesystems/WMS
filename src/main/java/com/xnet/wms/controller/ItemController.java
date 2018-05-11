@@ -21,13 +21,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author ramy
@@ -99,8 +93,17 @@ public class ItemController {
     }
 
     @GetMapping("/getByStore/{storeId}")
-    List<Item> findByStore(@PathVariable("storeId") int storeId, HttpServletRequest httpServletRequest) {
-        return itemService.findByStore(storeId);
+    List<ItemDTO> findByStore(@PathVariable("storeId") int storeId, HttpServletRequest httpServletRequest) {
+        List<ItemDTO> i = new ArrayList<>();
+        for (Item item : itemService.findByStore(storeId)) {
+            i.add(new ItemDTO(item));
+        }
+        return i;
+    }
+
+    @DeleteMapping("/delete")
+    boolean delete(@RequestBody Item item, HttpServletRequest httpServletRequest) {
+        return itemService.delete(item);
     }
 
 }

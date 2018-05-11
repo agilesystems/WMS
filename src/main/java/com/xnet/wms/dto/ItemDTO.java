@@ -5,10 +5,10 @@
  */
 package com.xnet.wms.dto;
 
+import com.xnet.wms.entity.Category;
 import com.xnet.wms.entity.Item;
 
 /**
- *
  * @author ramy
  */
 public class ItemDTO {
@@ -16,6 +16,9 @@ public class ItemDTO {
     private int id;
     private String barcode;
     private String name;
+    private String globalId;
+    private String description;
+    private Category category;
 
     public ItemDTO() {
     }
@@ -27,6 +30,10 @@ public class ItemDTO {
         setBarcode(item.getGlobalBarcode());
         setId(item.getId());
         setName(item.getName());
+        setGlobalId(item.getGlobalId());
+        setDescription(item.getDescription());
+        setCategory(item.getCategory());
+
     }
 
     public int getId() {
@@ -53,4 +60,27 @@ public class ItemDTO {
         this.name = name;
     }
 
+    public String getGlobalId() {
+        return globalId;
+    }
+
+    public void setGlobalId(String globalId) {
+        this.globalId = globalId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 }

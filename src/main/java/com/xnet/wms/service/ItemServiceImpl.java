@@ -38,8 +38,8 @@ public class ItemServiceImpl implements ItemService {
         if (item == null) {
             return null;
         }
-        if (storeItemRepository.findByItem_IdAndStore_Id(item.getId()) != null) {
-            //update the cuurent item if exist
+        if (storeItemRepository.findByItem_Id(item.getId()) != null) {
+            //update the current item if exist
             return itemRepository.save(item);
         } else {
             // add item and add store item  withe default data
@@ -49,7 +49,7 @@ public class ItemServiceImpl implements ItemService {
             storeItem.setDiscountPercentage(0);
             storeItem.setPrice(0);
             storeItem.setItem(item);
-            storeItem.setStore(null);
+//            storeItem.setStore(null);
             storeItemRepository.save(storeItem);
             return item;
         }
@@ -57,9 +57,13 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public boolean delete(Item item) {
+        if (storeItemService.findById(item.getId()).getAvailableQuantity() > 0) {
+            return false;
+        } else {
+            itemRepository.delete(item);
+            return true;
+        }
 
-        itemRepository.delete(item);
-        return true;
     }
 
     @Override

@@ -33,8 +33,8 @@ public class StoreItemServiceImpl implements StoreItemService {
     }
 
     @Override
-    public StoreItem findByItemIdAndStoreId(int itemId, int storeId) {
-        return storeItemRepository.findByItem_IdAndStore_Id(itemId, storeId);
+    public StoreItem findByItemId(int itemId) {
+        return storeItemRepository.findByItem_Id(itemId);
     }
 
     @Override

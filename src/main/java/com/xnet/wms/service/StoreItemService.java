@@ -42,7 +42,7 @@ public interface StoreItemService {
      * @param storeId an integer parameter to get the item by storeId And itemId
      * @return a collection of store items
      */
-     StoreItem  findByItemIdAndStoreId(int itemId, int storeId);
+     StoreItem  findByItemId(int itemId);
 
     /**
      * Returns the collection of store items by store id
