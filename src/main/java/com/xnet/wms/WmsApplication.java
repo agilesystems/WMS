@@ -128,7 +128,7 @@ public class WmsApplication {
         role.getMenusList().add(menuService.save(new Menu(7, "ACCOUNT", null, "ACCOUNT", 7, null, null)));
         role.getMenusList().add(menuService.save(new Menu(8, "HELP", null, "HELP", 9, null, null)));
         role.getMenusList().add(menuService.save(new Menu(9, "SETTING", "xnet/settings.html", "SETTING", 101, null, role.getMenusList().get(0))));
-        role.getMenusList().add(menuService.save(new Menu(10, "BACKUP", null, "BACKUP", 102, null, role.getMenusList().get(0))));
+        role.getMenusList().add(menuService.save(new Menu(10, "BACKUP", "item/items.html", "BACKUP", 102, null, role.getMenusList().get(0))));
         role.getMenusList().add(menuService.save(new Menu(11, "PRODUCT", null, "PRODUCT", 201, null, role.getMenusList().get(1))));
         role.getMenusList().add(menuService.save(new Menu(12, "PRODDUCT_INQIRY", null, "PRODDUCT_INQIRY", 202, null, role.getMenusList().get(1))));
         role.getMenusList().add(menuService.save(new Menu(13, "PRODUCT_TRANSACTION_REPORT", null, "PRODUCT_TRANSACTION_REPORT", 203, null, role.getMenusList().get(1))));
@@ -144,7 +144,8 @@ public class WmsApplication {
         role.getMenusList().add(menuService.save(new Menu(23, "ADD_USER", "user/add-user.html", "ADD_USER", 171, null, role.getMenusList().get(16))));
         role.getMenusList().add(menuService.save(new Menu(24, "USERS", "user/users.html", "USERS", 170, null, role.getMenusList().get(16))));
         role.getMenusList().add(menuService.save(new Menu(25, "ACCOUNTS", "account/accounts.html", "ACCOUNTS", 702, null, role.getMenusList().get(6))));
-        role.getMenusList().add(menuService.save(new Menu(26, "INVOICES", "invoice/invoices.html", "INVOICES", 505, null, role.getMenusList().get(4))));        
+        role.getMenusList().add(menuService.save(new Menu(26, "INVOICES", "invoice/invoices.html", "INVOICES", 505, null, role.getMenusList().get(4))));
+        role.getMenusList().add(menuService.save(new Menu(27, "ADD_NEW_ITEM", "item/add_item.html", "ADD_NEW_ITEM", 207, null, role.getMenusList().get(1))));        
 
         role = roleService.save(role);
         User user = userService.save(new User("Admin", "admin", "admin", branch, role));
