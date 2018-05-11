@@ -20,14 +20,14 @@ public interface ItemService {
      * This Method to add new Or update Current item
      *
      * @param item An object of item parameter to addNew the item data
-     * @return true if the item saves successfully Or false if not saved
+     * @return true if the item saved successfully Or false if not saved
      * successfully .
      */
     Item save(Item item);
 
     /**
      * This method for soft deleted the items , just update the deleted field
-     * with value(1
+     * with value(1)
      *
      * @param item an Object parameter to update item
      * @return true if the item updated with deleted field or false if not

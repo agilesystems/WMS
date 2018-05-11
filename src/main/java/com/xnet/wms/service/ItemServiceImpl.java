@@ -38,9 +38,11 @@ public class ItemServiceImpl implements ItemService {
         if (item == null) {
             return null;
         }
-        if (storeItemRepository.findByItem_IdAndStore_Id(item.getId(), 1) != null) {
+        if (storeItemRepository.findByItem_IdAndStore_Id(item.getId()) != null) {
+            //update the cuurent item if exist
             return itemRepository.save(item);
         } else {
+            // add item and add store item  withe default data
             itemRepository.save(item);
             StoreItem storeItem = new StoreItem();
             storeItem.setAvailableQuantity(0);
