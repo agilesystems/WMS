@@ -1761,6 +1761,25 @@ function itemCtrl($scope, $rootScope, $http, DataServiceApi, storageService, val
         angular.element('.modal').modal('hide'); // close modal after save
     };
 
+    // Delete Ietm
+    $scope.deleteItem = function (index) {
+        DataServiceApi.PostData($scope.storeItems[index], server + "item/delete").then(function (res) {
+            if (res.status === 200 && res.data === true) {
+                toastrService.success('', $translate.instant('ITEM_DELETED_MSG'));
+            } else {
+                toastrService.error($translate.instant('ERROR'), $translate.instant('ITEM_NOT_DELETED_MSG'));
+            }
+        });
+    }
+
+    // Enable search and pager in products table.
+    $(".footable").footable({
+        paging: {
+            enabled: true,
+            size: 5,
+        }
+    });
+
 }
 
 /**

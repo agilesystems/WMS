@@ -128,8 +128,8 @@ public class WmsApplication {
         role.getMenusList().add(menuService.save(new Menu(7, "ACCOUNT", null, "ACCOUNT", 7, null, null)));
         role.getMenusList().add(menuService.save(new Menu(8, "HELP", null, "HELP", 9, null, null)));
         role.getMenusList().add(menuService.save(new Menu(9, "SETTING", "xnet/settings.html", "SETTING", 101, null, role.getMenusList().get(0))));
-        role.getMenusList().add(menuService.save(new Menu(10, "BACKUP", "item/items.html", "BACKUP", 102, null, role.getMenusList().get(0))));
-        role.getMenusList().add(menuService.save(new Menu(11, "PRODUCT", null, "PRODUCT", 201, null, role.getMenusList().get(1))));
+        role.getMenusList().add(menuService.save(new Menu(10, "BACKUP", null, "BACKUP", 102, null, role.getMenusList().get(0))));
+        role.getMenusList().add(menuService.save(new Menu(11, "PRODUCT", "item/items.html", "PRODUCT", 201, null, role.getMenusList().get(1))));
         role.getMenusList().add(menuService.save(new Menu(12, "PRODDUCT_INQIRY", null, "PRODDUCT_INQIRY", 202, null, role.getMenusList().get(1))));
         role.getMenusList().add(menuService.save(new Menu(13, "PRODUCT_TRANSACTION_REPORT", null, "PRODUCT_TRANSACTION_REPORT", 203, null, role.getMenusList().get(1))));
         role.getMenusList().add(menuService.save(new Menu(14, "STORE_ITEMS_REPORT", null, "STORE_ITEMS_REPORT", 204, null, role.getMenusList().get(1))));

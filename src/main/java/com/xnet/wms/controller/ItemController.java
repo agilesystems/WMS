@@ -101,7 +101,7 @@ public class ItemController {
         return i;
     }
 
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     boolean delete(@RequestBody Item item, HttpServletRequest httpServletRequest) {
         return itemService.delete(item);
     }
