@@ -1,66 +1,94 @@
-<div class="col-lg-12">
-    <div class="wrapper wrapper-content" ng-controller="userCtrl">
-        <div class="ibox-content">
-            <div class="card-header">
-                <H3 translate="ADDUSER.ADDNEWUSER"></H3>
+<div class="wrapper wrapper-content" ng-controller="userCtrl">
+    <div class="ibox-title row">
+        <H3 translate="ADDUSER.ADDNEWUSER"></H3>
+    </div>
+    <div class="ibox-content row">
+        <form name="AddUserForm" ng-submit="addUser(AddUserForm)" novalidate ng-validate="validateUser">
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="fname" translate="ADDUSER.FNAME"></label>
+                    <input class="form-control" name="firstName" type="text" placeholder="Enter your first name" ng-model="user.firstName">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="lname" translate="ADDUSER.LNAME"></label>
+                    <input class="form-control" type="text" name="lastName" placeholder="Last Name" ng-model="user.lastName">
+                </div>
             </div>
-            <div class="card-body">
-                <form name="AddUserForm" ng-submit="addUser(AddUserForm)" novalidate ng-validate="validateUser">
-                    <div class="form-group">
-                        <div class="form-row">
-                        </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="phone" translate="ADDUSER.PHONE_NO"></label>
+                    <input class="form-control" type="text" placeholder="Phone" ng-model="user.phone">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="mobile" translate="ADDUSER.MOBILE_NO"></label>
+                    <input class="form-control" type="text" placeholder="Mobile" ng-model="user.mobile">
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label for="address" translate="ADDUSER.ADDRS"></label>
+                    <input class="form-control" type="text" placeholder="Address" ng-model="user.address">
+                </div>
+            </div>
+            <!-- <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="uname" translate="ADDUSER.USERN"></label>
+                        <input class="form-control" id="uname" name="uname" ng-model="user.username" type="text" placeholder="" readonly>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="fname" translate="ADDUSER.FNAME"></label>
-                            <input class="form-control" type="text" placeholder="Enter your first name" ng-model="user.firstName">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="lname" translate="ADDUSER.LNAME"></label>
-                            <input class="form-control" type="text" placeholder="Last Name" ng-model="user.lastName">
-                        </div>
+                    <div class="form-group col-md-6">
+                        <label for="password" translate="ADDUSER.PASS"></label>
+                        <input class="form-control" id="password" name="password" ng-model="user.password" type="text" placeholder="" readonly>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="phone" translate="ADDUSER.PHONE_NO"></label>
-                            <input class="form-control" type="text" placeholder="Phone" ng-model="user.phone">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="mobile" translate="ADDUSER.MOBILE_NO"></label>
-                            <input class="form-control" type="text" placeholder="Mobile" ng-model="user.mobile">
-                        </div>
-                    </div>
-                     <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="address" translate="ADDUSER.ADDRS"></label>
-                            <input class="form-control" type="text" placeholder="Address" ng-model="user.address">
-                        </div>
-                    </div>
+                </div> -->
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label for="rolemenu" translate="ADDUSER.SELECTEROLE"></label>
+                    <select class="custom-select form-control m-b" name="updateRoleMenu" id="rolemenu" ng-model="user.role" ng-options="option as option.name for option in roles">
+                        <option value="">Select Role...</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-primary col-sm-2" type="submit" translate="ADD"></button>
+        </form>
 
+        <div class="modal fade" id="userDataModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" translate="LOGIN_DATA"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="">
+                            <h3>
+                                <strong translate="USER_NAME"></strong> {{user.username}}</h3>
+                            <br>
+                            <h3>
+                                <strong translate="PASSWORD"></strong> {{user.password}}
+                                <a href="" ng-click="toggleMode()" translate="EDIT"></a>
+                            </h3>
+                            <br>
+                            <h3>
+                                <div class="input-group row">
 
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="uname" translate="ADDUSER.USERN"></label>
-                            <input class="form-control" id="uname" name="uname" ng-model="user.username" type="text" placeholder="" readonly>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="password" translate="ADDUSER.PASS"></label>
-                            <input class="form-control" id="password" name="password" ng-model="user.password" type="text" placeholder="" readonly>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="rolemenu" translate="ADDUSER.SELECTEROLE"></label>
-                            <select class="custom-select form-control m-b" name="updateRoleMenu" id="rolemenu" ng-model="user.role" ng-options="option as option.name for option in roles">
-                                <option value="">Select Role...</option>                                
-                            </select>
+                                    <div class="form-group" ng-if="editMode">
+                                        <label for="" class="col-sm-5 control-label" translate="NEW_PASSWORD"></label>
+                                        <div class="col-sm-7">
+                                            <input type="text" name="newPassword" ng-model="user.newPassword" id="" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+                            </h3>
                         </div>
                     </div>
-                    <div class="form-group ibox-footer">
-                        <button class="btn btn-primary col-sm-2" type="submit" ng-disabled="userForm.$invalid" translate="ADDUSER.SAVE"></button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" translate="CLOSE"></button>
+                        <button type="button" class="btn btn-primary" translate="SAVE_CHANGES" ng-click="changePassword()"></button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
+
     </div>
 </div>

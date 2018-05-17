@@ -112,24 +112,22 @@
                                     <ui-select-match placeholder="">
                                         <span ng-bind="$select.selected.name"></span>
                                     </ui-select-match>
-                                    <ui-select-choices repeat="invoiceItem in (items | filter: $select.search) track by invoiceItem.storeItemID" refresh="searcheditems($select.search)"
+                                    <ui-select-choices repeat="Item in (items | filter: $select.search) track by Item.storeItemId" refresh="searcheditems($select.search)"
                                         refresh-delay="0">
                                         <!-- <span ng-bind="invoiceItem.name"></span><br> -->
                                         <h3>
-                                            <span class="font-bold" ng-bind-html="invoiceItem.name | highlight: $select.search"></span>
+                                            <span class="font-bold" ng-bind-html="Item.name | highlight: $select.search"></span>
                                         </h3>
                                         <br>
                                         <small style="font-size: 12px">
                                             <span class=" font-bold">Price: </span>
-                                            <span ng-bind-html="invoiceItem.price | highlight: $select.search"></span>&nbsp;&nbsp;&nbsp;
+                                            <span ng-bind-html="Item.price | highlight: $select.search"></span>&nbsp;&nbsp;&nbsp;
                                             <span class="font-bold">expiry Date:</span>
-                                            <span ng-bind-html="invoiceItem.expiryDate | highlight: $select.search"></span>
+                                            <span ng-bind-html="Item.expiryDate | highlight: $select.search"></span>
                                         </small>
-
                                     </ui-select-choices>
                                 </ui-select>
                                 <input type="hidden" value="{{invoiceItem.storeItem}}" name="hiddenItem" class="inputHidden">
-
                             </div>
                         </div>
                         <div class=" col-sm-3 form-group" ng-show="invoiceItem.storeItem">

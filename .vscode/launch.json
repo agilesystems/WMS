@@ -10,7 +10,7 @@
     "name": "Chrome",
     "url": "http://localhost:5500/src/main/resources/static/#/logins",
     "webRoot": "${workspaceFolder}",
-    "runtimeExecutable": "/bin/chromium"
+    "runtimeExecutable": "/bin/google-chrome-stable"
 },
         {
             "type": "java",
