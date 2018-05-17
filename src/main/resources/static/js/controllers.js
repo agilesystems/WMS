@@ -29,16 +29,21 @@ function MainCtrl() {
 }
 ;
 
-function settingsCtrl($scope, $http, storageService, DataServiceApi, toastrService) {
+function settingsCtrl($scope, $http, storageService, toastrService) {
 
     (function init() {
-        DataServiceApi.GetData(server + "setting").then(function (response) {
+        $http.get(server + "setting").then(function (response) {
             $scope.settings = response.data;
         })
     })();
 
     $scope.saveSettings = function () {
-        DataServiceApi.PostData($scope.settings, server + "setting").then(function (res) {
+        $http({
+            method: "POST",
+            url: server + "setting",
+            data: $scope.settings,
+            headers: "content-Type : application/json"
+        }).then(function (res) {
             if (res.status !== 200 && res.data.id !== 1) {
                 toastrService.error('Error', '');
                 return
@@ -103,16 +108,17 @@ function loginCtrl($http, $scope, $rootScope, $state) {
     };
 }
 
-function accountCtrl($http, $scope, DataServiceApi, validateForms, toastrService) {
+function accountCtrl($http, $scope, validateForms, toastrService, $translate) {
+    $scope.account = {};
     $scope.acType = '1';
 
     // Get All Acounts Type From API
-    DataServiceApi.GetData(server + "account-type/all").then(function (response) {
+    $http.get(server + "account-type/all").then(function (response) {
         $scope.accountsType = response.data;
     });
 
     // Get Cities From API
-    DataServiceApi.GetData(server + "city/all").then(function (response) {
+    $http.get(server + "city/all").then(function (response) {
         $scope.cities = response.data;
     });
     // Validate select input
@@ -126,12 +132,12 @@ function accountCtrl($http, $scope, DataServiceApi, validateForms, toastrService
     $scope.selectAccountType = function () {
         if ($scope.acType === '1') {
             // Get All Customer Acounts From API.
-            DataServiceApi.GetData(server + "account/customer/all").then(function (res) {
+            $http.get(server + "account/customer/all").then(function (res) {
                 $scope.accounts = res.data;
             })
         } else {
             // Get All Supplier Acounts From API.
-            DataServiceApi.GetData(server + "account/supplier/all").then(function (res) {
+            $http.get(server + "account/supplier/all").then(function (res) {
                 $scope.accounts = res.data;
             })
         }
@@ -141,7 +147,19 @@ function accountCtrl($http, $scope, DataServiceApi, validateForms, toastrService
     // Add new account
     $scope.addAccount = function (form) {
         if (form.validate()) {
-            DataServiceApi.PostData($scope.account, server + "account/add");
+            $http({
+                method: "POST",
+                url: server + "account/add",
+                data: $scope.account,
+                headers: "content-Type : application/json"
+            }).then(function (res) {
+                if (res.status === 200 && res.data !== null && res.data.id > 0) {
+                    toastrService.success('', $translate.instant('ACCOUNT_SAVED_MSG'));
+                } else {
+                    console.log(res);
+                    toastrService.error('ERROR', $translate.instant('ACCOUNT_NOT_SAVED_MSG'));
+                }
+            });
         }
     };
 
@@ -153,11 +171,16 @@ function accountCtrl($http, $scope, DataServiceApi, validateForms, toastrService
     // Save Edited Account
     $scope.saveAccount = function (form) {
         if (form.validate()) {
-            DataServiceApi.PostData($scope.editableAccount, server + 'account/update').then(function (res) {
+            $http({
+                method: "POST",
+                url: server + 'account/update',
+                data: $scope.editableAccount,
+                headers: "content-Type : application/json"
+            }).then(function (res) {
                 if (res.status === 200 && res.data.id > 0) {
-                    toastrService.success('Done', 'Account Updated Successfully');
+                    toastrService.success('', $translate.instant('ACCOUNT_UPDATED_MSG'));
                 } else {
-                    toastrService.error('Failed', 'Account Not Updated!');
+                    toastrService.error('ERROR', $translate.instant('ACCOUNT_NOT_UPDATED_MSG'));
                 }
                 console.log($scope.editableAccount);
                 console.log(res.data);
@@ -170,11 +193,16 @@ function accountCtrl($http, $scope, DataServiceApi, validateForms, toastrService
     // Delete An Account From Accounts Table
     $scope.deleteAccount = function (index) {
 
-        DataServiceApi.PostData($scope.accounts[index].id, server + 'account/delete/' + 0).then(function (res) {
+        $http({
+            method: "POST",
+            url: server + 'account/delete',
+            data: $scope.accounts[index].id,
+            headers: "content-Type : application/json"
+        }).then(function (res) {
             if (res.data === true) {
-                toastrService.success('Done', 'Account Deleted Successfully');
+                toastrService.success('', $translate.instant('ACCOUNT_DELETED_MSG'));
             } else {
-                toastrService.error('Failed', 'Account Not Deleted!');
+                toastrService.error('ERROR', $translate.instant('ACCOUNT_NOT_DELETED_MSG'));
             }
         })
     };
@@ -197,60 +225,76 @@ function navbarCtrl($scope) {
     };
 }
 
-function userCtrl($scope, $http, DataServiceApi, validateForms, toastrService) {
+function userCtrl($scope, $http, validateForms, toastrService, $translate) {
 
+    $scope.users = [];
+    $scope.editMode = false;
+    getUsers();
     // Validate Form
     $scope.validateUser = validateForms.userForm;
 
     // Get All Users From API.
-    DataServiceApi.GetData(server + "user/all").then(function (res) {
-        $scope.users = res.data;
-    })
+    function getUsers() {
+        $http.get(server + "user/all").then(function (res) {
+            $scope.users = res.data;
+        });
+    }
 
-    $http({
-        method: "GET",
-        url: server + "role/all"
-    }).then(function (response) {
-
-
-        if (response.status === 200 && response.data !== null) {
-            $scope.roles = response.data;
-        }
-
+    // Get roles from API
+    $http.get(server + "role/all").then(function (response) {
+        $scope.roles = response.data;
     }).catch(function (response) {
         console.error('Gists error', response.status, response.data);
     }).finally(function () {
         console.log("finally finished gists");
-    });
-
-    //    DataServiceApi.GetData(server + "role/all").then(function (response) {
-    //        $scope.roles = response.data;
-    //    });
+    });;
 
     $scope.addUser = function (isValid) {
 
-        if (isValid) {
+        if (isValid.validate()) {
             $scope.user.username = null;
             $scope.user.password = null;
             $http({
                 method: "POST",
                 url: server + "user/add",
-                data: $scope.user
+                data: $scope.user,
+                headers: "content-Type : application/json"
             }).then(function (response) {
                 console.log('Post success ', response.status, response.data);
-
                 if (response.status === 200 && response.data !== null && response.data.id > 0) {
                     $scope.user = response.data;
+                    //$('.alert').show();
+                    angular.element('.modal').modal('show');
+                    toastrService.success('', $translate.instant('USER_SAVED_MSG'));
                 }
-
             }).catch(function (response) {
                 console.error('Gists error', response.status, response.data);
+                toastrService.error($translate.instant('ERROR'), $translate.instant('USER_NOT_SAVED_MSG'));
             }).finally(function () {
                 console.log("finally finished gists");
             });
-
         }
     };
+    // Show new password field to edit it
+    $scope.toggleMode = function () {
+        $scope.editMode = !$scope.editMode;
+    }
+
+    // Save user after update password
+    $scope.changePassword = function () {
+        $scope.user.password = $scope.user.newPassword;
+        $http({
+            method: "POST",
+            url: server + "user/update",
+            data: $scope.user,
+            headers: "content-Type : application/json"
+        }).then(function (res) {
+            if (res.status === 200 && res.data !== null && res.data.id > 0) {            
+            toastrService.success('', $translate.instant('USER_UPDATED_MSG'));            
+            }
+        })
+
+    }
 
     // Edit User in users table
     $scope.editUser = function (user) {
@@ -260,21 +304,40 @@ function userCtrl($scope, $http, DataServiceApi, validateForms, toastrService) {
     // Save Edited User
     $scope.saveUser = function (form) {
         if (form.validate()) {
-            DataServiceApi.PostData($scope.editableUser, server + 'user/update').then(function (res) {
-                // Get All Users From API.
-                DataServiceApi.GetData(server + "user/all").then(function (res) {
-                    $scope.users = res.data;
-                })
+            $http({
+                method: "POST",
+                url: server + 'user/update',
+                data: $scope.editableUser,
+                headers: "content-Type : application/json"
+            }).then(function (res) {
+                if (res.status === 200 && res.data !== null && res.data.id > 0) {
+                    angular.forEach($scope.users, function (val) {
+                        if ($scope.editableUser.id === val.id) {
+                            angular.copy($scope.editableUser, val);
+                        }
+                    });
+                    toastrService.success('', $translate.instant('USER_UPDATED_MSG'));
+                }
             })
-
         }
-
+        angular.element('.modal').modal('hide'); // close modal after save              
     }
 
     $scope.deleteUser = function (index) {
 
-        DataServiceApi.PostData($scope.users[index].id, server + 'user/delete/' + 0).then(function (res) {
-            if (res.data === true) {
+        $http({
+            method: "POST",
+            url: server + 'user/delete/' + 0,
+            data: $scope.users[index].id,
+            headers: "content-Type : application/json"
+        }).then(function (res) {
+            /**
+             * ( || res.data.id === id ) temporarily code 
+             * cause this method return object after update any user
+             */
+            if (res.status === 200 && res.data === true || res.data.id === id) {
+
+                $scope.users.splice(index, 1);
                 toastrService.success('Done', 'User Deleted Successfully');
             } else {
                 toastrService.error('Failed', 'User Not Deleted!');
@@ -291,7 +354,7 @@ function userCtrl($scope, $http, DataServiceApi, validateForms, toastrService) {
     });
 }
 
-function invoiceSellCtrl($scope, $rootScope, $http, DataServiceApi, storageService, validateForms, toaster, toastrService, $stateParams, localStorageService, $interval, SweetAlert, $translate) {
+function invoiceSellCtrl($scope, $rootScope, $http, storageService, validateForms, toaster, toastrService, $stateParams, localStorageService, $interval, SweetAlert, $translate) {
 
     (function init() {
         // Init values
@@ -311,25 +374,26 @@ function invoiceSellCtrl($scope, $rootScope, $http, DataServiceApi, storageServi
         // To search specific item in items list.
         $scope.searcheditems = function (itemName) {
             // get items from API
-            return DataServiceApi.GetData(server + "item/sell/" + itemName).then(function (response) {
+            return $http.get(server + "item/sell/" + itemName).then(function (response) {
                 $scope.items = response.data;
+                console.log($scope.invoiceItem);                
             });
         }
 
         // get Customer Accounts from API
         $scope.searchedAccounts = function (account) {
-            DataServiceApi.GetData(server + "account/customer/" + account).then(function (response) {
+            $http.get(server + "account/customer/" + account).then(function (response) {
                 $scope.accounts = response.data;
             });
         }
 
         // get Payment Type from API
-        DataServiceApi.GetData(server + "payment-type/all").then(function (response) {
+        $http.get(server + "payment-type/all").then(function (response) {
             $scope.payments = response.data;
         });
 
         // get taxes and discount from settings.
-        DataServiceApi.GetData(server + "setting").then(function (response) {
+        $http.get(server + "setting").then(function (response) {
             $scope.settings = response.data;
         });
 
@@ -369,7 +433,12 @@ function invoiceSellCtrl($scope, $rootScope, $http, DataServiceApi, storageServi
                 return
             }
             // Save invoice
-            DataServiceApi.PostData($scope.invoice, server + "invoice/sell/add").then(function (res) {
+            $http({
+                method: "POST",
+                url: server + 'invoice/sell/add',
+                data: $scope.invoice,
+                headers: "content-Type : application/json"
+            }).then(function (res) {
                 if (res.status === 200 && res.data > 0) {
                     toastrService.success('', $translate.instant('SAVE_INVOICE_SUCCESSFULLY_MESSAGE'));
                     console.log(res.data);
@@ -385,10 +454,6 @@ function invoiceSellCtrl($scope, $rootScope, $http, DataServiceApi, storageServi
 
         console.log($scope.invoice);
     };
-    //save store
-    // $scope.addStore = function () {
-    //   DataServiceApi.PostData($scope.store, server + "sotre/add")
-    // }
 
     /////////////////////////////////////   Add New Item    /////////////////////////////////////
 
@@ -729,7 +794,7 @@ function invoiceSellCtrl($scope, $rootScope, $http, DataServiceApi, storageServi
 
 }
 
-function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storageService, validateForms, toaster, toastrService, $stateParams, localStorageService, $interval, SweetAlert, $translate) {
+function invoiceRefundSellCtrl($scope, $rootScope, $http, storageService, validateForms, toaster, toastrService, $stateParams, localStorageService, $interval, SweetAlert, $translate) {
 
     (function init() {
         // Init values
@@ -751,7 +816,7 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
         // To search specific item in items list.
         $scope.searcheditems = function (itemName) {
             // get items from API
-            return DataServiceApi.GetData(server + "item/sell/" + itemName).then(function (response) {
+            return $http.get(server + "item/sell/" + itemName).then(function (response) {
                 $scope.items = response.data;
             });
         }
@@ -761,7 +826,7 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
             if ($scope.invoice.account === undefined) {
                 return;
             } else {
-                DataServiceApi.GetData(server + "invoice/getAllByAccount/" + $scope.invoice.account.id).then(function (res) {
+                $http.get(server + "invoice/getAllByAccount/" + $scope.invoice.account.id).then(function (res) {
                     $scope.accountInvoices = res.data;
                 });
             }
@@ -784,13 +849,13 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
 
         // get Customer Accounts from API
         $scope.searchedAccounts = function (account) {
-            DataServiceApi.GetData(server + "account/customer/" + account).then(function (response) {
+            $http.get(server + "account/customer/" + account).then(function (response) {
                 $scope.customerAccounts = response.data;
             });
         }
 
         // get Payment Type from API
-        DataServiceApi.GetData(server + "payment-type/all").then(function (response) {
+        $http.get(server + "payment-type/all").then(function (response) {
             $scope.payments = response.data;
         });
 
@@ -814,7 +879,7 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
 
             angular.forEach($scope.invoiceItems, function (val) {
                 // get StoreItem from API
-                DataServiceApi.GetData(server + "item/getStoreItem/" + val.storeItemID).then(function (response) {
+                $http.get(server + "item/getStoreItem/" + val.storeItemID).then(function (response) {
                     val.storeItem = response.data;
                 });
             })
@@ -822,7 +887,12 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
             console.log($scope.invoiceItems);
             console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             // Save invoice
-            DataServiceApi.PostData($scope.newInvoice, server + "invoice/refundSell/add").then(function (res) {
+            $http({
+                method: "POST",
+                url: server + 'invoice/refundSell/add',
+                data: $scope.newInvoice,
+                headers: "content-Type : application/json"
+            }).then(function (res) {
                 if (res.status === 200 && res.data > 0) {
                     toastrService.success('', $translate.instant('SAVE_INVOICE_SUCCESSFULLY_MESSAGE'));
                     console.log(res.data);
@@ -963,7 +1033,7 @@ function invoiceRefundSellCtrl($scope, $rootScope, $http, DataServiceApi, storag
 
 }
 
-function invoiceBuyCtrl($scope, $rootScope, $http, DataServiceApi, storageService, validateForms, toaster, toastrService, $stateParams, localStorageService, $interval, SweetAlert, $translate) {
+function invoiceBuyCtrl($scope, $rootScope, $http, storageService, validateForms, toaster, toastrService, $stateParams, localStorageService, $interval, SweetAlert, $translate) {
 
     (function init() {
         // Init values
@@ -983,25 +1053,25 @@ function invoiceBuyCtrl($scope, $rootScope, $http, DataServiceApi, storageServic
         // To search specific item in items list.
         $scope.searcheditems = function (itemName) {
             // get items from API
-            return DataServiceApi.GetData(server + "item/buy/" + itemName).then(function (response) {
+            return $http.get(server + "item/buy/" + itemName).then(function (response) {
                 $scope.items = response.data;
             });
         }
 
         // get Customer Accounts from API
         $scope.searchedAccounts = function (account) {
-            DataServiceApi.GetData(server + "account/supplier/" + account).then(function (response) {
+            $http.get(server + "account/supplier/" + account).then(function (response) {
                 $scope.accounts = response.data;
             });
         }
 
         // get Payment Type from API
-        DataServiceApi.GetData(server + "payment-type/all").then(function (response) {
+        $http.get(server + "payment-type/all").then(function (response) {
             $scope.payments = response.data;
         });
 
         // get taxes and discount from settings.
-        DataServiceApi.GetData(server + "setting").then(function (response) {
+        $http.get(server + "setting").then(function (response) {
             $scope.settings = response.data;
         });
 
@@ -1041,7 +1111,12 @@ function invoiceBuyCtrl($scope, $rootScope, $http, DataServiceApi, storageServic
                 return
             }
             // Save invoice
-            DataServiceApi.PostData($scope.invoice, server + "invoice/buy/add").then(function (res) {
+            $http({
+                method: "POST",
+                url: server + 'invoice/buy/add',
+                data: $scope.invoice,
+                headers: "content-Type : application/json"
+            }).then(function (res) {
                 if (res.status === 200 && res.data > 0) {
                     toastrService.success('', $translate.instant('SAVE_INVOICE_SUCCESSFULLY_MESSAGE'));
                     console.log(res.data);
@@ -1057,10 +1132,6 @@ function invoiceBuyCtrl($scope, $rootScope, $http, DataServiceApi, storageServic
 
         console.log($scope.invoice);
     };
-    //save store
-    // $scope.addStore = function () {
-    //   DataServiceApi.PostData($scope.store, server + "sotre/add")
-    // }
 
     /////////////////////////////////////   Add New Item    /////////////////////////////////////
 
@@ -1394,7 +1465,7 @@ function invoiceBuyCtrl($scope, $rootScope, $http, DataServiceApi, storageServic
 }
 
 
-function invoiceRefundBuyCtrl($scope, $rootScope, $http, DataServiceApi, storageService, validateForms, toaster, toastrService, $stateParams, localStorageService, $interval, SweetAlert, $translate) {
+function invoiceRefundBuyCtrl($scope, $rootScope, $http, storageService, validateForms, toaster, toastrService, $stateParams, localStorageService, $interval, SweetAlert, $translate) {
 
     (function init() {
         // Init values
@@ -1414,7 +1485,7 @@ function invoiceRefundBuyCtrl($scope, $rootScope, $http, DataServiceApi, storage
         // To search specific item in items list.
         $scope.searcheditems = function (itemName) {
             // get items from API
-            return DataServiceApi.GetData(server + "item/buy/" + itemName).then(function (response) {
+            return $http.get(server + "item/buy/" + itemName).then(function (response) {
                 $scope.items = response.data;
             });
         }
@@ -1424,7 +1495,7 @@ function invoiceRefundBuyCtrl($scope, $rootScope, $http, DataServiceApi, storage
             if ($scope.invoice.account === undefined) {
                 return;
             } else {
-                DataServiceApi.GetData(server + "invoice/getAllByAccount/" + $scope.invoice.account.id).then(function (res) {
+                $http.get(server + "invoice/getAllByAccount/" + $scope.invoice.account.id).then(function (res) {
                     $scope.accountInvoices = res.data;
                 });
             }
@@ -1447,13 +1518,13 @@ function invoiceRefundBuyCtrl($scope, $rootScope, $http, DataServiceApi, storage
 
         // get Customer Accounts from API
         $scope.searchedAccounts = function (account) {
-            DataServiceApi.GetData(server + "account/supplier/" + account).then(function (response) {
+            $http.get(server + "account/supplier/" + account).then(function (response) {
                 $scope.supplierAccounts = response.data;
             });
         }
 
         // get Payment Type from API
-        DataServiceApi.GetData(server + "payment-type/all").then(function (response) {
+        $http.get(server + "payment-type/all").then(function (response) {
             $scope.payments = response.data;
         });
 
@@ -1475,7 +1546,12 @@ function invoiceRefundBuyCtrl($scope, $rootScope, $http, DataServiceApi, storage
                 return
             }
             // Save invoice
-            DataServiceApi.PostData($scope.newInvoice, server + "invoice/refundBuy/add").then(function (res) {
+            $http({
+                method: "POST",
+                url: server + 'invoice/refundBuy/add',
+                data: $scope.newInvoice,
+                headers: "content-Type : application/json"
+            }).then(function (res) {
                 if (res.status === 200 && res.data > 0) {
                     toastrService.success('', $translate.instant('SAVE_INVOICE_SUCCESSFULLY_MESSAGE'));
                     console.log(res.data);
@@ -1616,7 +1692,7 @@ function invoiceRefundBuyCtrl($scope, $rootScope, $http, DataServiceApi, storage
 
 }
 
-function invoicesCtrl($scope, $rootScope, $http, DataServiceApi, storageService, validateForms, toaster, toastrService, $stateParams, localStorageService, $interval, SweetAlert, $translate) {
+function invoicesCtrl($scope, $rootScope, $http, storageService, validateForms, toaster, toastrService, $stateParams, localStorageService, $interval, SweetAlert, $translate) {
     (function () {
         $scope.invoice = {};
         localInvoices = {};
@@ -1632,14 +1708,14 @@ function invoicesCtrl($scope, $rootScope, $http, DataServiceApi, storageService,
             $scope.accounts = [];
             // get Customer Accounts from API
             $scope.searchedAccounts = function (account) {
-                DataServiceApi.GetData(server + "account/customer/" + account).then(function (response) {
+                $http.get(server + "account/customer/" + account).then(function (response) {
                     $scope.accounts = response.data;
                 });
             }
         } else if ($scope.acType === '2') {
             $scope.accounts = [];
             $scope.searchedAccounts = function (account) {
-                DataServiceApi.GetData(server + "account/supplier/" + account).then(function (response) {
+                $http.get(server + "account/supplier/" + account).then(function (response) {
                     $scope.accounts = response.data;
                 });
             }
@@ -1651,7 +1727,7 @@ function invoicesCtrl($scope, $rootScope, $http, DataServiceApi, storageService,
         if ($scope.invoice.account === null || $scope.invoice.account === undefined) {
             $scope.accountInvoices = [];
         } else {
-            DataServiceApi.GetData(server + "invoice/getAllByAccount/" + $scope.invoice.account.id).then(function (res) {
+            $http.get(server + "invoice/getAllByAccount/" + $scope.invoice.account.id).then(function (res) {
                 $scope.accountInvoices = res.data;
             });
         }
@@ -1660,7 +1736,12 @@ function invoicesCtrl($scope, $rootScope, $http, DataServiceApi, storageService,
     // Delete Invoice
     $scope.deleteInvoice = function (index) {
         if ($scope.acType === '1') {
-            DataServiceApi.PostData($scope.accountInvoices[index].id, server + "invoice/deleteSellInvoice/" + $scope.accountInvoices[index].id).then(function (res) {
+            $http({
+                method: "POST",
+                url: server + "invoice/deleteSellInvoice/" + $scope.accountInvoices[index].id,
+                data: $scope.accountInvoices[index].id,
+                headers: "content-Type : application/json"
+            }).then(function (res) {
                 if (res.status === 200 && res.data === true) {
                     toastrService.success('', $translate.instant('INVOICE_DELETED_MSG'));
                 } else {
@@ -1668,7 +1749,12 @@ function invoicesCtrl($scope, $rootScope, $http, DataServiceApi, storageService,
                 }
             });
         } else {
-            DataServiceApi.PostData($scope.accountInvoices[index].id, server + "invoice/deleteBuyInvoice/" + $scope.accountInvoices[index].id).then(function (res) {
+            $http({
+                method: "POST",
+                url: server + "invoice/deleteBuyInvoice/" + $scope.accountInvoices[index].id,
+                data: $scope.accountInvoices[index].id,
+                headers: "content-Type : application/json"
+            }).then(function (res) {
                 if (res.status === 200 && res.data === true) {
                     toastrService.success('', $translate.instant('INVOICE_DELETED_MSG'));
                 } else {
@@ -1703,25 +1789,30 @@ function invoicesCtrl($scope, $rootScope, $http, DataServiceApi, storageService,
 
 }
 
-function itemCtrl($scope, $rootScope, $http, DataServiceApi, storageService, validateForms, toaster, toastrService, localStorageService, $interval, SweetAlert, $translate) {
+function itemCtrl($scope, $rootScope, $http, storageService, validateForms, toaster, toastrService, localStorageService, $interval, SweetAlert, $translate) {
     $scope.item = {};
     $scope.categories = [];
     $scope.validateItem = validateForms.itemForm;
 
     // Get All categories from API
-    DataServiceApi.GetData(server + "category/all").then(function (res) {
+    $http.get(server + "category/all").then(function (res) {
         $scope.categories = res.data;
     });
 
     // Get All stores from API
-    DataServiceApi.GetData(server + "store/all").then(function (res) {
+    $http.get(server + "store/all").then(function (res) {
         $scope.stores = res.data;
     });
 
     // Add new Item 
     $scope.addItem = function (form) {
         if (form.validate()) {
-            DataServiceApi.PostData($scope.item, server + "item/addItem").then(function (res) {
+            $http({
+                method: "POST",
+                url: server + "item/addItem",
+                data: $scope.item,
+                headers: "content-Type : application/json"
+            }).then(function (res) {
                 if (res.status === 200 && res.data > 0) {
                     toastrService.success('', $translate.instant('ITEM_ADDED_MSG'));
                 } else { toastrService.error($translate.instant('ERROR'), $translate.instant('ITEM_NOT_ADDED_MSG')); }
@@ -1732,17 +1823,17 @@ function itemCtrl($scope, $rootScope, $http, DataServiceApi, storageService, val
     $scope.selectStore = function () {
         if ($scope.store === undefined || $scope.store === '' || $scope.store === null) {
             // Get All item from API
-            DataServiceApi.GetData(server + "item/all").then(function (res) {
+            $http.get(server + "item/all").then(function (res) {
                 $scope.storeItems = res.data;
             });
         } else {
             // Get All item by store from API
-            DataServiceApi.GetData(server + "item/getByStore/" + $scope.store.id).then(function (res) {
+            $http.get(server + "item/getByStore/" + $scope.store.id).then(function (res) {
                 $scope.storeItems = res.data;
             });
         }
+        return $scope.storeItems;
     }
-
     $scope.editItem = function (item) {
         $scope.editing = angular.copy(item);
     };
@@ -1750,24 +1841,58 @@ function itemCtrl($scope, $rootScope, $http, DataServiceApi, storageService, val
     // Save item after editting.
     $scope.updateItem = function (form) {
         if (form.validate()) {
-            DataServiceApi.PostData($scope.editing, server + "item/addItem").then(function (res) {
+            $scope.editing.globalBarcode = $scope.editing.barcode;
+
+
+            $http({
+                method: "POST",
+                url: server + "item/addItem",
+                data: $scope.editing,
+                headers: "content-Type : application/json"
+            }).then(function (res) {
                 if (res.status === 200 && res.data > 0) {
-                    toastrService.success('', $translate.instant('ITEM_ADDED_MSG'));
+                    angular.forEach($scope.storeItems, function (val) {
+                        if ($scope.editing.id === val.id) {
+                            angular.copy($scope.editing, val);
+                        }
+                    });
+                    toastrService.success('', $translate.instant('ITEM_UPDATED_MSG'));
                 } else {
-                    toastrService.error($translate.instant('ERROR'), $translate.instant('ITEM_NOT_ADDED_MSG'));
+                    toastrService.error($translate.instant('ERROR'), $translate.instant('ITEM_NOT_UPDATED_MSG'));
+                    console.log(res);
                 }
             });
+
+
+
+            // httpPost($scope.editing, server + "item/addItem").then(function (res) {
+            //     if (res.status === 200 && res.data > 0) {
+            //         console.log(res);
+            //         res = null;
+            //         toastrService.success('', $translate.instant('ITEM_UPDATED_MSG'));
+            //     } else {
+            //         toastrService.error($translate.instant('ERROR'), $translate.instant('ITEM_NOT_UPDATED_MSG'));
+            //         console.log(res);
+            //     }
+            // });
         }
         angular.element('.modal').modal('hide'); // close modal after save
     };
 
     // Delete Ietm
     $scope.deleteItem = function (index) {
-        DataServiceApi.PostData($scope.storeItems[index], server + "item/delete").then(function (res) {
+        $http({
+            method: "POST",
+            url: server + "item/delete",
+            data: $scope.storeItems[index],
+            headers: "content-Type : application/json"
+        }).then(function (res) {
             if (res.status === 200 && res.data === true) {
+                $scope.storeItems.splice(index, 1);                
                 toastrService.success('', $translate.instant('ITEM_DELETED_MSG'));
             } else {
                 toastrService.error($translate.instant('ERROR'), $translate.instant('ITEM_NOT_DELETED_MSG'));
+                console.log(res);
             }
         });
     }

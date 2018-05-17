@@ -87,7 +87,7 @@
                     <div class="row form-group">
                         <div class="col-sm-4">
                             <label for="type" translate="ADDAC.CITY"></label>
-                            <ui-select ng-model="city.name" class="ui-select" name="city" ng-keydown="onKeyUpSelect()">
+                            <ui-select ng-model="account.city" class="ui-select" name="city" ng-keydown="onKeyUpSelect()">
                                 <ui-select-match placeholder="">
                                     <span ng-bind="$select.selected.name"></span>
                                 </ui-select-match>
@@ -95,7 +95,7 @@
                                     <span ng-bind="city.name"></span>
                                 </ui-select-choices>
                             </ui-select>
-                            <input type="hidden" value="{{city.name}}" name="inputItem2" class="inputHidden">
+                            <input type="hidden" value="{{account.city}}" name="inputItem2" class="inputHidden">
                         </div>
                         <div class="col-sm-8">
                             <label for="account.address" class="control-label" translate="ADDAC.ADDRS"></label>

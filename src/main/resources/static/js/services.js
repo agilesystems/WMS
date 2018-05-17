@@ -6,7 +6,7 @@ app
     .factory('validateForms', validateFactory)
     .config(['localStorageServiceProvider', localStorageConfig])
     .factory("storageService", ['localStorageService', localStorageFactory])
-    .factory('DataServiceApi', ['$http', '$q', dataFromRest])
+    // .factory('DataServiceApi', ['$http', '$q', dataFromRest])
 
 //=================== Validate config function===================
 function validateConfig($validatorProvider) {
@@ -136,45 +136,45 @@ function localStorageFactory(localStorageService) {
 
 
 // Data setter and getter
-function dataFromRest($http, $q) {
+// function dataFromRest($http, $q) {
 
-    var deferred = $q.defer();
-    var vm = {};
+//     var deferred = $q.defer();
+//     var vm = {};
 
-    vm.PostData = PostData;
-    vm.GetData = GetData;
+//     vm.PostData = PostData;
+//     vm.GetData = GetData;
 
-    return vm;
+//     return vm;
 
-    function PostData(objectData, url) {
-        $http({
-            method: "POST",
-            url: url,
-            data: objectData,
-            headers: "content-Type : application/json"
-        }).then(function (response) {
+//     function PostData(objectData, url) {
+//         $http({
+//             method: "POST",
+//             url: url,
+//             data: objectData,
+//             headers: "content-Type : application/json"
+//         }).then(function (response) {
 
-            var res = response;
-            deferred.resolve(res);
+//             var res = response;
+//             deferred.resolve(res);
 
-        }, function (response) {
-            var res = response;
-            deferred.resolve(res);
-        });
+//         }, function (response) {
+//             var res = response;
+//             deferred.resolve(res);
+//         });
 
-        return deferred.promise;
-    }
+//         return deferred.promise;
+//     }
 
-    function GetData(url) {
-        return $http({
-            method: "GET",
-            url: url,
-            headers: {},
-        }).then(function (response) {
-            return response;
-        })
-    }
-};
+//     function GetData(url) {
+//         return $http({
+//             method: "GET",
+//             url: url,
+//             headers: {},
+//         }).then(function (response) {
+//             return response;
+//         })
+//     }
+// };
 
 // Translate Config
 function translateConfig($translateProvider) {
@@ -219,6 +219,9 @@ function validateFactory() {
         },
 
         rules: {
+            updateRoleMenu : "required",
+            firstName : "required",
+            lastName : "required",
         }
     }
 
