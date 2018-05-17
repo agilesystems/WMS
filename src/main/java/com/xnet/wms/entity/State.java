@@ -27,7 +27,11 @@ public class State implements Serializable {
 
     public State() {
     }
-
+    public State(int id, String name , Country country) {
+        setId(id);
+        setName(name);
+        setCountry(country);
+    }
 
     public State(String name, Country country) {
         setName(name);

@@ -6,6 +6,7 @@
 package com.xnet.wms.service;
 
 import com.xnet.wms.entity.Account;
+import com.xnet.wms.entity.State;
 import com.xnet.wms.entity.User;
 import com.xnet.wms.helper.Global;
 import com.xnet.wms.repository.AccountRepository;
@@ -27,6 +28,7 @@ public class AccountServiceImp implements AccountService {
     @Autowired
     UserService userService;
 
+    @Autowired StateService stateService;
     @Override
     public Account addNew(Account account, int currentUserId) {
 
@@ -34,6 +36,8 @@ public class AccountServiceImp implements AccountService {
             User currentUser = userService.findById(currentUserId);
             account.setCreatedBy(currentUser);
             account.setBranch(currentUser.getBranch());
+            State state =  stateService.findById(account.getCity().getState().getId());
+            account.getCity().setState_(state);
             return accountRepository.save(account);
         } else {
             return null;

@@ -19,7 +19,7 @@ public class City implements Serializable {
     private int id;
     @Column(nullable = false)
     private String name;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
     private State state;
     
     public City() {

@@ -19,7 +19,6 @@ public class ItemDTO {
     private String globalId;
     private String description;
     private Category category;
-
     public ItemDTO() {
     }
 

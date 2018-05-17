@@ -146,6 +146,9 @@ function accountCtrl($http, $scope, validateForms, toastrService, $translate) {
 
     // Add new account
     $scope.addAccount = function (form) {
+    var stateId = $scope.account.city.stateId;
+            $scope.account.city.state = { id: stateId};
+            console.log($scope.account);
         if (form.validate()) {
             $http({
                 method: "POST",

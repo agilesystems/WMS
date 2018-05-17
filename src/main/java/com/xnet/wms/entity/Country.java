@@ -30,7 +30,10 @@ public class Country {
     public Country() {
     }
 
-
+    public Country(int id , String name) {
+        setId(id);
+        setName(name);
+    }
     public int getId() {
         return id;
     }
