@@ -42,7 +42,7 @@ public class ItemServiceImpl implements ItemService {
             //update the current item if exist
             return itemRepository.save(item);
         } else {
-            // add item and add store item  withe default data
+            // add item and add store item  with default data
             itemRepository.save(item);
             StoreItem storeItem = new StoreItem();
             storeItem.setAvailableQuantity(0);
@@ -57,7 +57,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public boolean delete(Item item) {
-        if (storeItemService.findById(item.getId()).getAvailableQuantity() > 0) {
+        if (storeItemService.findByItemId(item.getId()).getAvailableQuantity() > 0) {
             return false;
         } else {
             itemRepository.delete(item);
